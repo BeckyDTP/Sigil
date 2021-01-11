@@ -56,6 +56,9 @@
 #include "sigil_constants.h"
 #include "sigil_exception.h"
 
+
+#define DBG if(0)
+
 static const QString SETTINGS_GROUP = "bookbrowser";
 static const QString OPF_NCX_EDIT_WARNING_KEY = SETTINGS_GROUP + "-opfncx-warning";
 static const int COLUMN_INDENTATION = 10;
@@ -262,12 +265,21 @@ void BookBrowser::RenumberTOC()
 
 Resource *BookBrowser::GetUrlResource(const QUrl &url)
 {
+    DBG qDebug() << "In BookBrowser::GetUrlResource with url: " << url;
     QString bookpath;
     if (url.scheme() == "book") {
         // handle our own internal links (strip root / from absolute path to make it relative)
         bookpath = url.path().remove(0,1);
     } else if (url.scheme() == "file") {
         QString fullfilepath = url.toLocalFile();
+        QString main_folder_path = m_Book->GetFolderKeeper()->GetFullPathToMainFolder();
+        // Note main_folder_path *never* ends with a path separator - see Misc/TempFolder.cpp
+        bookpath = fullfilepath.right(fullfilepath.length() - main_folder_path.length() - 1);
+    } else if (url.scheme() == "sigil") {
+        QUrl newurl(url);
+        newurl.setScheme("file");
+        DBG qDebug() << "what? " << newurl <<  newurl.path();
+        QString fullfilepath = newurl.toLocalFile();
         QString main_folder_path = m_Book->GetFolderKeeper()->GetFullPathToMainFolder();
         // Note main_folder_path *never* ends with a path separator - see Misc/TempFolder.cpp
         bookpath = fullfilepath.right(fullfilepath.length() - main_folder_path.length() - 1);
@@ -745,6 +757,7 @@ QStringList BookBrowser::AddExisting(bool only_multimedia, bool only_images)
             bool extract_metadata = false;
             html_import.GetBook(extract_metadata);
 	    QStringList importedbookpaths = html_import.GetAddedBookPaths();
+            DBG qDebug() << "In BookBrowser Add Existing adding bookpaths: " << importedbookpaths;
             Resource *added_resource = m_Book->GetFolderKeeper()->GetResourceByBookPath(importedbookpaths.at(0));
             HTMLResource *added_html_resource = qobject_cast<HTMLResource *>(added_resource);
 	    added_book_paths.append(importedbookpaths);

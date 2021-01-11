@@ -196,9 +196,10 @@ QSharedPointer<Book> ImportEPUB::GetBook(bool extract_metadata)
         QApplication::restoreOverrideCursor();
         if (QMessageBox::Yes == QMessageBox::warning(QApplication::activeWindow(),
                 tr("Sigil"),
-                tr("This EPUB has HTML files that are not well formed. "
-                   "Sigil can attempt to automatically fix these files, although this "
-                   "may result in minor data loss in extreme circumstances.\n\n"
+                tr("This EPUB has HTML files that are not well formed or are "
+                   "missing a DOCTYPE, html, head or body elements. "
+                   "Sigil can automatically fix these files, although "
+                   "this may result in minor data loss in extreme circumstances.\n\n"
                    "Do you want to automatically fix the files?"),
                 QMessageBox::Yes|QMessageBox::No)) 
         {
@@ -294,6 +295,9 @@ QHash<QString, QString> ImportEPUB::ParseEncryptionXml()
             } else if (encryption.name() == "CipherReference") {
                 // Note: fragments are not part of the CipherReference specs so this is okay
                 uri = Utility::URLDecodePath(encryption.attributes().value("", "URI").toString());
+                // hack to handle non-spec encryption file url relative to META-INF instead
+                // of being absolute from epub root as the spec calls for
+                if (uri.startsWith("../")) uri = uri.mid(3,-1);
                 encrypted_files[ uri ] = encryption_algo;
             }
         }
@@ -752,7 +756,7 @@ void ImportEPUB::ReadManifestItemElement(QXmlStreamReader *opf_reader)
 	apath = Utility::URLDecodePath(href);
     }
     // for hrefs pointing outside the epub, apath will be empty
-    qDebug() << "ImportEpub with Manifest item: " << href << apath;
+    // qDebug() << "ImportEpub with Manifest item: " << href << apath;
     QString extension = QFileInfo(apath).suffix().toLower();
 
     // validate the media type if we can, and warn otherwise

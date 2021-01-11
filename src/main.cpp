@@ -42,6 +42,12 @@
 #include <QFontMetrics>
 #include <QtWebEngineWidgets/QWebEngineProfile>
 
+#define TEST_GUMBO_QUERY 0
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+#include <QWebEngineUrlScheme>
+#endif
+
 #include "Misc/PluginDB.h"
 #include "Misc/UILanguage.h"
 #include "MainUI/MainApplication.h"
@@ -53,9 +59,15 @@
 #include "Misc/UpdateChecker.h"
 #include "Misc/Utility.h"
 #include "Misc/URLInterceptor.h"
+#include "Misc/URLSchemeHandler.h"
 #include "sigil_constants.h"
 #include "sigil_exception.h"
 
+#if TEST_GUMBO_QUERY
+#include "Misc/GumboInterface.h"
+#include "Query/CSelection.h"
+#include "Query/CNode.h"
+#endif
 
 #ifdef Q_OS_WIN32
 #include <QtWidgets/QPlainTextEdit>
@@ -147,11 +159,12 @@ static QIcon GetApplicationIcon()
     QIcon app_icon;
     // This 16x16 one looks wrong for some reason
     //app_icon.addFile( ":/icon/app_icon_16.png", QSize( 16, 16 ) );
-    app_icon.addFile(":/icon/app_icon_32.png",  QSize(32, 32));
-    app_icon.addFile(":/icon/app_icon_48.png",  QSize(48, 48));
-    app_icon.addFile(":/icon/app_icon_128.png", QSize(128, 128));
-    app_icon.addFile(":/icon/app_icon_256.png", QSize(256, 256));
-    app_icon.addFile(":/icon/app_icon_512.png", QSize(512, 512));
+    app_icon.addFile(":/app_icons/app_icon_32.png",  QSize(32, 32));
+    app_icon.addFile(":/app_icons/app_icon_48.png",  QSize(48, 48));
+    app_icon.addFile(":/app_icons/app_icon_64.png",  QSize(64, 64));
+    app_icon.addFile(":/app_icons/app_icon_128.png", QSize(128, 128));
+    app_icon.addFile(":/app_icons/app_icon_256.png", QSize(256, 256));
+    app_icon.addFile(":/app_icons/app_icon_512.png", QSize(512, 512));
     return app_icon;
 }
 #endif
@@ -307,6 +320,7 @@ int main(int argc, char *argv[])
 }
 #endif
 
+
 #ifndef QT_DEBUG
     qInstallMessageHandler(MessageHandler);
 #endif
@@ -317,10 +331,22 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("sigil");
     QCoreApplication::setApplicationVersion(SIGIL_VERSION);
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+    // register the our own url scheme (this is required since Qt 5.12)
+    QWebEngineUrlScheme sigilScheme("sigil");
+    sigilScheme.setFlags(QWebEngineUrlScheme::SecureScheme |
+                         QWebEngineUrlScheme::LocalScheme |
+                         QWebEngineUrlScheme::LocalAccessAllowed |
+                         QWebEngineUrlScheme::ContentSecurityPolicyIgnored);
+    // sigilScheme.setSyntax(QWebEngineUrlScheme::Syntax::Host);
+    sigilScheme.setSyntax(QWebEngineUrlScheme::Syntax::Path);
+    QWebEngineUrlScheme::registerScheme(sigilScheme);
+#endif
+
 #ifndef Q_OS_MAC
     setupHighDPI();
-    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 #endif
+    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 
     // many qtbugs related to mixing 32 and 64 bit qt apps when shader disk cache is used
     // Only use if using Qt5.9.0 or higher
@@ -513,6 +539,10 @@ int main(int argc, char *argv[])
 #endif
 #endif
 
+        // Install our own URLSchemeHandler for QtWebEngine to bypass 2mb url limit
+        URLSchemeHandler handlescheme; 
+        QWebEngineProfile::defaultProfile()->installUrlSchemeHandler("sigil", &handlescheme);
+
         // Install our own URLInterceptor for QtWebEngine to protect
         // against bad file:: urls
         URLInterceptor* urlint = new URLInterceptor();
@@ -558,7 +588,7 @@ int main(int argc, char *argv[])
 		settings.setUIIconTheme("main");
 	    }
 	}
-        qDebug() << RCCResourcePath;
+        // qDebug() << RCCResourcePath;
         QResource::registerResource(RCCResourcePath + "/" + icon_theme + ".rcc");
 
         QStringList arguments = QCoreApplication::arguments();
@@ -656,6 +686,46 @@ int main(int argc, char *argv[])
             file_menu->addAction(quit_action);
 
             mac_bar->addMenu(file_menu);
+#endif
+
+#if TEST_GUMBO_QUERY
+            if (1) {
+                QString page = "<h1><a>wrong link</a><a class=\"special\"\\>some link</a></h1>";
+                GumboInterface gi = GumboInterface(page, "any_version");
+                CSelection c = gi.find("h1 a.special");
+                CNode node = c.nodeAt(0);
+                std::cout << node.text() << std::endl;
+            };
+            if (1) {
+                QString page = "<html><div><span>1\n</span>2\n</div></html>";
+                GumboInterface gi = GumboInterface(page, "any_version");
+                CNode pNode = gi.find("div").nodeAt(0);
+                std::cout << pNode.text() << std::endl;
+            }
+            if (1) {
+                QString page = "<html><div><span id=\"that's\">1\n</span>2\n</div></html>";
+                GumboInterface gi = GumboInterface(page, "any_version");
+                CNode pNode = gi.find("span[id=\"that's\"]").nodeAt(0);
+                std::cout << pNode.text() << std::endl;
+            }
+            if (1) {
+                QString page = "<h1><a>some link</a></h1>";
+                GumboInterface gi = GumboInterface(page, "any_version");
+                CSelection c = gi.find("h1 a");
+                std::cout << c.nodeAt(0).text() << std::endl; // some link
+            }
+            if (1) {
+                QString page = "<html><div class=\"chapter\"><p class=\"flush\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p><p>second child</p></div></html>";
+                GumboInterface gi = GumboInterface(page, "any_version");
+                CNode pNode = gi.find(".chapter > p:first-child:first-of-type").nodeAt(0);
+                std::cout << pNode.text() << std::endl; // some link
+            }
+            if (1) {
+                QString page = "<html><div class=\"chapter\"><p class=\"flush\" lang=\"it\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p><p>second child</p></div></html>";
+                GumboInterface gi = GumboInterface(page, "any_version");
+                CNode pNode = gi.find("p.flsuh:lang(it)").nodeAt(0);
+                std::cout << pNode.text() << std::endl;
+            }
 #endif
 
             VerifyPlugins();

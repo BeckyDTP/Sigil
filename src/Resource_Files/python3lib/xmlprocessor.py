@@ -11,13 +11,8 @@ from lxml import etree
 from io import BytesIO
 from opf_newparser import Opf_Parser
 from hrefutils import startingDir, buildBookPath, buildRelativePath
+from hrefutils import urldecodepart, urlencodepart
 from collections import OrderedDict
-
-ASCII_CHARS   = set(chr(x) for x in range(128))
-URL_SAFE      = set('ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-                    'abcdefghijklmnopqrstuvwxyz'
-                    '0123456789' '_.-/~')
-IRI_UNSAFE = ASCII_CHARS - URL_SAFE
 
 TEXT_FOLDER_NAME = "Text"
 ebook_xml_empty_tags = ["meta", "item", "itemref", "reference", "content"]
@@ -36,22 +31,6 @@ def get_void_tags(mtype):
         voidtags = ebook_xml_empty_tags
     return voidtags
 
-def urlencodepart(part):
-    if isinstance(part,bytes):
-        parts = part.decode('utf-8')
-    result = []
-    for char in part:
-        if char in IRI_UNSAFE:
-            char = "%%%02x" % ord(char)
-        result.append(char)
-    return ''.join(result)
-
-def urldecodepart(part):
-    if isinstance(part,bytes):
-        part = part.decode('utf-8')
-    part = unquote(part)
-    return part
-
 def _remove_xml_header(data):
     newdata = data
     return re.sub(r'<\s*\?xml\s*[^\?>]*\?*>\s*','',newdata, count=1,flags=re.I)
@@ -62,7 +41,7 @@ def _well_formed(data):
     if isinstance(newdata, str):
         newdata = newdata.encode('utf-8')
     try:
-        parser = etree.XMLParser(encoding='utf-8', recover=False, resolve_entities=False)
+        parser = etree.XMLParser(encoding='utf-8', recover=False, resolve_entities=True)
         tree = etree.parse(BytesIO(newdata), parser)
     except Exception:
         result = False
@@ -74,7 +53,7 @@ def _reformat(data):
     if isinstance(newdata, str):
         newdata = newdata.encode('utf-8')
     parser = etree.XMLParser(encoding='utf-8', recover=True, ns_clean=True,
-                             remove_comments=True, remove_pis=True, strip_cdata=True, resolve_entities=False)
+                             remove_comments=True, remove_pis=True, strip_cdata=True, resolve_entities=True)
     tree = etree.parse(BytesIO(newdata), parser)
     newdata = etree.tostring(tree.getroot(),encoding='UTF-8', xml_declaration=False)
     return newdata 
@@ -146,7 +125,7 @@ def WellFormedXMLErrorCheck(data, mtype=""):
     column = "-1"
     message = "well-formed"
     try:
-        parser = etree.XMLParser(encoding='utf-8', recover=False, resolve_entities=False)
+        parser = etree.XMLParser(encoding='utf-8', recover=False, resolve_entities=True)
         tree = etree.parse(BytesIO(newdata), parser)
     except Exception:
         line = "0"
@@ -174,15 +153,14 @@ def IsWellFormedXML(data, mtype=""):
 # note: bs4 with lxml for xml strips whitespace so always prettyprint xml
 def repairXML(data, mtype="", indent_chars="  "):
     newdata = _remove_xml_header(data)
-    # if well-formed - don't mess with it
-    if _well_formed(newdata):
-        return data
-    newdata = _make_it_sane(newdata)
+    okay = _well_formed(newdata)
+    if okay:
+        if not mtype == "application/oebps-package+xml":
+            return data
+    if not okay:
+        newdata = _make_it_sane(newdata)
     if not _well_formed(newdata):
         newdata = _reformat(newdata)
-        if mtype == "application/oebps-package+xml":
-            newdata = newdata.decode('utf-8')
-            newdata = Opf_Parser(newdata).rebuild_opfxml()
     # lxml requires utf-8 on Mac, won't work with unicode
     if isinstance(newdata, str):
         newdata = newdata.encode('utf-8')
@@ -190,6 +168,10 @@ def repairXML(data, mtype="", indent_chars="  "):
     xmlbuilder = LXMLTreeBuilderForXML(parser=None, empty_element_tags=voidtags)
     soup = BeautifulSoup(newdata, features=None, from_encoding="utf-8", builder=xmlbuilder)
     newdata = soup.decodexml(indent_level=0, formatter='minimal', indent_chars=indent_chars)
+    if mtype == "application/oebps-package+xml":
+        if isinstance(newdata, bytes):
+            newdata = newdata.decode('utf-8')
+        newdata = Opf_Parser(newdata).rebuild_opfxml()
     return newdata
 
 

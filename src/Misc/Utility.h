@@ -158,6 +158,7 @@ public:
      * @param path The path to encode.
      * @return The encoded path string.
      */
+    static bool NeedToPercentEncode(uint cp);
     static QString URLEncodePath(const QString &path);
 
     /**
@@ -233,6 +234,9 @@ public:
     
     // return the qbrushes for ValidationResultsView
     static QBrush ValidationResultBrush(const Val_Msg_Type &valres);
+
+    // parse a line of data from a csv file into a list of string values
+    static QStringList parseCSVLine(const QString &data);
 };
 #endif // UTILITY_H
 

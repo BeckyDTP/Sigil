@@ -28,9 +28,9 @@
 #include "BookManipulation/Book.h"
 #include "MainUI/MainWindow.h"
 #include "BookManipulation/FolderKeeper.h"
-#include "URLInterceptor.h"
+#include "Misc/URLInterceptor.h"
 
-#define INTERCEPTDEBUG 0
+#define DBG if(0)
 
 URLInterceptor::URLInterceptor(QObject *parent)
     : QWebEngineUrlRequestInterceptor(parent)
@@ -39,17 +39,14 @@ URLInterceptor::URLInterceptor(QObject *parent)
 
 void URLInterceptor::interceptRequest(QWebEngineUrlRequestInfo &info)
 {
-
-#if INTERCEPTDEBUG
     // Debug:  output all requests
-    qDebug() << "-----";
-    qDebug() << "method: " << info.requestMethod();
-    qDebug() << "party: " << info.firstPartyUrl();
-    qDebug() << "request" << info.requestUrl();
-    qDebug() << "navtype: " << info.navigationType();
-    qDebug() << "restype: " << info.resourceType();
-    qDebug() << "ActiveWindow: " <<  qApp->activeWindow();
-#endif
+    DBG qDebug() << "-----";
+    DBG qDebug() << "method: " << info.requestMethod();
+    DBG qDebug() << "party: " << info.firstPartyUrl();
+    DBG qDebug() << "request" << info.requestUrl();
+    DBG qDebug() << "navtype: " << info.navigationType();
+    DBG qDebug() << "restype: " << info.resourceType();
+    DBG qDebug() << "ActiveWindow: " <<  qApp->activeWindow();
 
     if (info.requestMethod() != "GET") {
         info.block(true);
@@ -58,32 +55,52 @@ void URLInterceptor::interceptRequest(QWebEngineUrlRequestInfo &info)
     }
     
     QUrl destination(info.requestUrl());
+    QUrl sourceurl(info.firstPartyUrl());
 
-    // verify all url file schemes before allowing
+    // note: need to handle our "sigil" scheme but toLocalFile will NOT work on a "sigil" scheme url
+    // so temporarily remap them to local file scheme for the purposes of this routine
+    if (destination.scheme() == "sigil") {
+        destination.setScheme("file");
+        destination.setQuery(QString());
+    }
+    if (sourceurl.scheme() == "sigil") {
+        sourceurl.setScheme("file");
+        sourceurl.setQuery(QString());
+    }
+ 
+    // Finally let the navigation type determine what to verify against:
+    // Use firstPartyURL when NavigationTypeLink or NavigationTypeOther (ie. a true source url)
+    // Otherwise if we Typed it in it is from our own PreviewUpdate page
+    if (info.navigationType() == QWebEngineUrlRequestInfo::NavigationTypeTyped) {
+        sourceurl = destination;
+    }
+
+    // verify all url file and sigil schemes before allowing
+    // if ((destination.scheme() == "file") || (destination.scheme() == "sigil")) {
     if (destination.scheme() == "file") {
         // find the relavent MainWindow
 	QString bookfolder;
         QString mathjaxfolder;
         QString usercssfolder = Utility::DefinePrefsDir() + "/";
-	QString sourcefolder = info.firstPartyUrl().toLocalFile();
+	QString sourcefolder = sourceurl.toLocalFile();
+        DBG qDebug() << "sourcefolder: " << sourcefolder;
 	const QWidgetList topwidgets = qApp->topLevelWidgets();
 	foreach(QWidget* widget, topwidgets) {
 	    MainWindow * mw = qobject_cast<MainWindow *>(widget);
 	    if (mw) {
 		QSharedPointer<Book> book = mw->GetCurrentBook();
 		QString path_to_book = book->GetFolderKeeper()->GetFullPathToMainFolder() + "/";
+                DBG qDebug() << "path_to_book: " << path_to_book;
 		QString path_to_mathjax = mw->GetMathJaxFolder();
 		if (sourcefolder.startsWith(path_to_book)) {
 		    bookfolder = path_to_book;
 		    mathjaxfolder = path_to_mathjax;
-#if INTERCEPTDEBUG
-                    qDebug() << "mainwin: " <<  mw;
-                    qDebug() << "book: " << bookfolder;
-                    qDebug() << "mathjax: " << mathjaxfolder;
-                    qDebug() << "usercss: " << usercssfolder;
-		    qDebug() << "party: " << info.firstPartyUrl();
-		    qDebug() << "source: " << sourcefolder;
-#endif
+                    DBG qDebug() << "mainwin: " <<  mw;
+                    DBG qDebug() << "book: " << bookfolder;
+                    DBG qDebug() << "mathjax: " << mathjaxfolder;
+                    DBG qDebug() << "usercss: " << usercssfolder;
+		    DBG qDebug() << "party: " << info.firstPartyUrl();
+		    DBG qDebug() << "source: " << sourcefolder;
 		    break;
 		}
 	    }
@@ -91,7 +108,7 @@ void URLInterceptor::interceptRequest(QWebEngineUrlRequestInfo &info)
         // if can not determine book folder block it
         if (bookfolder.isEmpty()) {
             info.block(true);
-            qDebug() << "Error: URLInterceptor can not determine book folder so all file: requests blocked";
+            qDebug() << "Error: URLInterceptor can not determine book folder so all file requests blocked";
             return;
         }
         // path must be inside of bookfolder, Note it is legal for it not to exist
@@ -110,7 +127,7 @@ void URLInterceptor::interceptRequest(QWebEngineUrlRequestInfo &info)
             info.block(false);
             return;
         }
-        // otherwise block it to prevent access to any user file path
+        // otherwise block it to prevent access to any outside Sigil user file path
         info.block(true);
         qDebug() << "Warning: URLInterceptor blocking access to url " << destination;
         qDebug() << "    from " << info.firstPartyUrl();

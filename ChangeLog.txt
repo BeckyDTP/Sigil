@@ -1,3 +1,76 @@
+pre-1.5.0
+    Bug Fixes:
+      - fix issue with custom ncx names in non-standard empty epub layouts
+      - Fix Import TXT to properly add ncx if missing for epub2
+
+    New Features:
+      - Use "sigil" url scheme and schemehandler to break 2mb limit on single xhtml file size
+      - Highlight matched open close tag pairs while editing in CodeView
+      - Extend Split on Sigil Split Marker capabilities to work better with nested tags
+
+Sigil-1.4.3
+    Bug Fixes:
+      - fix multiple mismatched wait cursor setting and restoring in MainWindow
+      - fix crashes if no dictionaries or preferred dictionary does not exist on start-up
+      - fix link breakage when runing split on a file with bare internal links
+      - fix bug which caused split to lose fragments from some link targets
+      - fix double # chars in fragment ids during merge
+      - fix hang on load with bad encryption.xml font uris
+      - quiet uneeded debug output
+      - fix opf cleanup bug when identical xmlns values are used with two different prefixes
+      - properly update the language code to dictionary mappings when a user changes Primary/Secondary dictionaries
+
+Sigil-1.4.2
+    Bug Fixes:
+      - fix bug in "Add Existing" files when file names would require percent encoding
+      - fix bug in multiple language spellchecking dialog word lookup 
+            when no language attributes used
+      - update de, nl, sv, ko, ru translations that missed the Sigil 1.4.0 initial release
+      - fix bug in OPF metadata attributes that use named entities
+
+Sigil-1.4.1
+    Bug Fixes:
+      - critical bug fix for *over* xml encoding html used inside metadata in the opf
+      - return use of ctrl-f to its long standing functionality
+
+Sigil-1.4.0
+    New Features:
+      - Two different types of Multiple Language Spellchecking support added:
+          - A user can now specify a Primary and a Secondary Language dictionary 
+               for real-time spellchecking (red squiggley underline).
+          - The Spellcheck Dialog will now support spell checking as determined by
+               xml:lang and lang attributes in any languages with dictionaries
+      - Main UI icons now use scalable svg files to better serve higher res displays.
+        All provided by BeckyEbook (ala BeckyDTP).  A huge Thank You! to BeckyEbook
+      - New brighter Sigil Application Icon is now being used.
+      - Alternate Sigil main Application Icon now available as a build-time option
+      - Sigil now provides 3 different Icon Themes for the user: Main, Fluent, and Material
+           Again all thanks goes to BeckyEbook for creating/collecting all of the icon themes!
+      - Sigil will now support a custom user-determined Icon theme via a custom .rcc file.
+          - pre-made icon themes for Legacy and Material themes in different base colors 
+            are now available with more user-contributed theme files to hopefully come.
+            Again Thank BeckyEbook!
+      - New main toolbar icons are now available and improved icon groupings have
+          been made to provide the user with a greater degree of toolbar customization.
+          Users may need to drag and drop icon grouping and modfy their selections of Toolbars
+          to see some of these new options.
+      - Improved support for IRI (international) hrefs.  OPF newly added file manifest ids 
+          now converted to plain ascii to prevent issues with older readers
+
+    Bug Fixes:
+      - Fix bugs in Marking for Index
+      - Perform major URL en/decode refactoring to properly handle '#' 
+            (and other reserved chars) in file names
+      - Translate "Table of Contents" using book language not ui langauge
+      - Fix handling of links when using Add Existing on xhtml files with links
+            to other xhtml files
+      - Fix split code to better handle duplicate target ids that reside in different files
+      - Bug fixes for the plugin interface from wrCisco (Thank you!)
+      - Bug fixes for the plugin interface setguide from BeckyDTP (Thank you!)
+      - Fix bug in OPF parsing when valid but non-traditional namespace prefixes are used
+      - Fix rare off by one condition in clip number to clip enditor model conversion
+
+
 Sigil-1.3.0
     New Features:
       - Added FontTab to show a specific font by double-clicking in BookBrowser
@@ -95,7 +168,7 @@ Sigil-1.1.0
 Sigil-1.0.0
     Bug Fixes:
       - All bugs reported in alpha release have been fixed. 
-        Special thanks to Vroni, BeckEBook, Doitsu, Odamizu, 
+        Special thanks to Vroni, BeckyEBook, Doitsu, Odamizu, 
         Un_Pogaz, snarkophilus, and many others who ran tests and reported bugs.
       - Fix for crash on macOS opening Preferences following New MainWindow
       - Workaround Qt bug in restoreState after maximize with Find and Replace open
@@ -123,7 +196,7 @@ Sigil-1.0.0
 Sigil-0.9.991 (pre1.0 Alpha Release)
     Bug Fixes:
       - handle javascript location.href style in Preview 
-      - use CaseInsensitive sort in Plugins menu (Thank you BeckDTP)
+      - use CaseInsensitive sort in Plugins menu (Thank you BeckyDTP)
       - use Locale aware sort routines for AddMetadata, and MetaData Names (Thankyou Doitsu)
       - recognize x-font-otf style media types
       - recognize vnd.adobe.page-template+xml media type
@@ -221,7 +294,7 @@ Sigil-0.9.15 - A Beta Release of Sigil ported to QtWebEngine to replace QtWebKit
      - adds action to launch one preferred external xhtml editor via shortcut or icon
            (can be used to fast launch PageEdit app or any other xhtml open-with editor)
      - adds 5 more plugin quicklaunch buttons to main menu for a total of 10
-           (with all new icons! Thanks so much Becky!)
+           (with all new icons! Thanks so much BeckyEbook!)
 
 It also includes all of the fixes and updates from Sigil-0.9.14.
 

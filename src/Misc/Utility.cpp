@@ -59,6 +59,7 @@
 #include <QFileInfo>
 #include <QCollator>
 #include <QMenu>
+#include <QVector>
 #include <QDebug>
 
 #include "sigil_constants.h"
@@ -67,6 +68,8 @@
 #include "Misc/SettingsStore.h"
 #include "Misc/SleepFunctions.h"
 #include "MainUI/MainApplication.h"
+
+static const QString URL_SAFE = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.-/~";
 
 static const QString DARK_STYLE =
     "<style>:root { background-color: %1; color: %2; } ::-webkit-scrollbar { display: none; }</style>"
@@ -580,30 +583,82 @@ QString Utility::DecodeXML(const QString &text)
 
 QString Utility::EncodeXML(const QString &text)
 {
-    QString newtext(text);
+    QString newtext = Utility::DecodeXML(text);
     return newtext.toHtmlEscaped();
 }
 
 
-// this is meant to work on paths, not paths and fragments
-// thereofre do not leave # chars unencoded
+
+// From the IRI spec rfc3987
+// iunreserved    = ALPHA / DIGIT / "-" / "." / "_" / "~" / ucschar
+// 
+//    ucschar        = %xA0-D7FF / %xF900-FDCF / %xFDF0-FFEF
+//                   / %x10000-1FFFD / %x20000-2FFFD / %x30000-3FFFD
+//                   / %x40000-4FFFD / %x50000-5FFFD / %x60000-6FFFD
+//                   / %x70000-7FFFD / %x80000-8FFFD / %x90000-9FFFD
+//                   / %xA0000-AFFFD / %xB0000-BFFFD / %xC0000-CFFFD
+//                   / %xD0000-DFFFD / %xE1000-EFFFD
+// But currently nothing *after* the 0x30000 plane is even defined
+
+bool Utility::NeedToPercentEncode(uint32_t cp)
+{
+    // sequence matters for both correctness and speed
+    if (cp < 128) {
+        if (URL_SAFE.contains(QChar(cp))) return false;
+        return true;
+    }
+    if (cp < 0xA0) return true;
+    if (cp <= 0xD7FF) return false;
+    if (cp < 0xF900) return true;
+    if (cp <= 0xFDCF) return false;
+    if (cp < 0xFDF0) return true;
+    if (cp <= 0xFFEF) return false;
+    if (cp < 0x10000) return true;
+    if (cp <= 0x1FFFD) return false;
+    if (cp < 0x20000) return true;
+    if (cp <= 0x2FFFD) return false;
+    if (cp < 0x30000) return true;
+    if (cp <= 0x3FFFD) return false;
+    return true;
+}
+
+// this is meant to work on paths, not paths and fragments and schemes
+// therefore do not leave # chars unencoded
 QString Utility::URLEncodePath(const QString &path)
 {
-    QString newpath = URLDecodePath(path);
-    QUrl href = QUrl(newpath);
-    QString scheme = href.scheme();
-    if (!scheme.isEmpty()) {
-        scheme = scheme + "://";
-        newpath.remove(0, scheme.length());
-    }
-
     // some very poorly written software uses xml escaping of the 
     // "&" instead of url encoding when building hrefs
     // So run xmldecode first to convert them to normal characters before 
     // url encoding them
-    newpath = DecodeXML(newpath);
-    QByteArray encoded_url = QUrl::toPercentEncoding(newpath, QByteArray("/"), QByteArray("#"));
-    return scheme + QString::fromUtf8(encoded_url.constData(), encoded_url.count());
+    QString newpath = DecodeXML(path);
+
+    // then undo any existing url encoding
+    newpath = URLDecodePath(newpath);
+
+    QString result = "";
+    QVector<uint32_t> codepoints = newpath.toUcs4();
+    for (int i = 0; i < codepoints.size(); i++) {
+        uint32_t cp = codepoints.at(i);
+        QString s = QString::fromUcs4(&cp, 1);
+        if (NeedToPercentEncode(cp)) {
+            QByteArray b = s.toUtf8();
+            for (int j = 0; j < b.size(); j++) {
+                uint8_t bval = b.at(j);
+                QString val = QString::number(bval,16);
+                val = val.toUpper();
+                if (val.size() == 1) val.prepend("0");
+                val.prepend("%");
+                result.append(val);
+            }
+        } else {
+            result.append(s);
+        }
+    }
+    // qDebug() << "In Utility URLEncodePath: " << result;
+    // Previously was:
+    // encoded_url = QUrl::toPercentEncoding(newpath, QByteArray("/"), QByteArray("#"));
+    // encoded_path = scheme + QString::fromUtf8(encoded_url.constData(), encoded_url.count());
+    return result;
 }
 
 
@@ -1152,20 +1207,21 @@ std::pair<QString, QString> Utility::parseRelativeHREF(const QString &relative_h
 }
 
 // return a url encoded string for given decoded path and fragment (if any)
-// any fragment will start with a "#", Use Qurl to handle building and Percent Encoding
+// Note: Any fragment will start with a "#" ! to allow links to root as just "#"
 QString Utility::buildRelativeHREF(const QString &apath, const QString &afrag)
 {
-    QUrl href;
-    href.setScheme("");
-    href.setPath(apath);
-    QString id(afrag);
-    bool add_empty_fragment = id == QString("#");
-    if (id.startsWith("#")) {
-        id = id.mid(1, -1);
+    QString newhref = URLEncodePath(apath);
+    QString id = afrag;
+    if (!id.isEmpty()) {
+        if (id.startsWith("#")) {
+            id = id.mid(1, -1);
+        } else {
+	    qDebug() << "Warning: buildRelativeHREF has fragment that does not start with #" << afrag;
+        }
+	// technically fragments should be percent encoded if needed
+	id = URLEncodePath(id);
+	newhref = newhref + "#" + id;
     }
-    href.setFragment(id);
-    QString newhref = QString::fromUtf8(href.toEncoded());
-    if (add_empty_fragment) newhref = newhref + "#";  
     return newhref;
 }
 
@@ -1275,3 +1331,44 @@ QBrush Utility::ValidationResultBrush(const Val_Msg_Type &valres)
         }
     }
 }
+
+QStringList Utility::parseCSVLine(const QString &data)
+{
+    auto unquote_val = [](const QString &av) {
+        QString nv(av);
+        if (nv.startsWith('"')) nv = nv.mid(1);
+        if (nv.endsWith('"')) nv = nv.mid(0, nv.length()-1);
+        return nv;
+    };
+    
+    bool in_quote = false;
+    QStringList vals;
+    QString v;
+    int n = data.size();
+    int i = 0;
+    while(i < n) {
+        QChar c = data.at(i);
+        if (!in_quote) {
+            if (c == ',') {
+                vals.append(unquote_val(v.trimmed()));
+                v = "";
+            } else  {
+                v.append(c);
+                if (c == '"') in_quote = true;
+            }
+        } else {
+            v.append(c);
+            if (c == '"') {
+                if ((i+1 < n) && (data.at(i+1) == '"')) { 
+                    i++;
+                } else {
+                    in_quote = false;
+                }
+            }
+        }
+        i++;
+    }
+    if (!v.isEmpty()) vals.append(unquote_val(v.trimmed()));
+    return vals;
+}
+

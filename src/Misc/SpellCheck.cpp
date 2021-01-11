@@ -79,50 +79,52 @@ SpellCheck::SpellCheck()
     }
 
     // Load the dictionary the user has selected if one was saved.
-    SettingsStore settings;
-
-    qDebug() << "settings primary dictionary: " << settings.dictionary();
-    qDebug() << "settings secondary dictionary: " << settings.secondary_dictionary();
-
     QApplication::restoreOverrideCursor();
-    foreach(QString key, m_dictionaries.keys()) {
-        qDebug() << "    " << key << " -> " << m_dictionaries[key];
-    }
 
-    // create langauge code to dictionary name mapping
+    UpdateLangCodeToDictMapping();
+
+    // now open primary and secondary dictionaries
+    SettingsStore settings;
+    loadDictionary(settings.dictionary());
+    if (!settings.secondary_dictionary().isEmpty()) {
+        loadDictionary(settings.secondary_dictionary());
+    }
+}
+
+void SpellCheck::UpdateLangCodeToDictMapping()
+{
+    m_langcode2dict.clear();
+
+    // create language code to dictionary name mapping
     foreach(QString dname, m_dictionaries.keys()) {
         QString lc = dname;
         lc.replace("_","-");
         m_langcode2dict[lc] = dname;
-        if (lc.length() > 2) {
+        if (lc.length() > 3) {
             lc = lc.mid(0,2);
-            qDebug() << "huh " << lc << dname;
             m_langcode2dict[lc] = dname;
         }
     }
+#if 0
     qDebug() << "langcode2dict";
     foreach(QString lc, m_langcode2dict.keys()) {
         qDebug() << lc << " -> " << m_langcode2dict[lc];
     }
+#endif
 
     // make sure 2 letter mapping equivalent is properly set
     // for primary and secondary dictionaries
     // Note: must be done last to overwrite any earlier values
+    SettingsStore settings;
     QString cd = settings.secondary_dictionary();
     cd.replace("_","-");
-    if (!cd.isEmpty() && (cd.length() > 2)) {
+    if (!cd.isEmpty() && (cd.length() > 3)) {
         m_langcode2dict[cd.mid(0,2)] = settings.secondary_dictionary();
     }
     cd = settings.dictionary();
     cd.replace("_","-");
-    if (!cd.isEmpty() && (cd.length() > 2)) {
+    if (!cd.isEmpty() && (cd.length() > 3)) {
         m_langcode2dict[cd.mid(0,2)] = settings.dictionary();
-    }
-
-    // now open primary and secondary dictionaries
-    loadDictionary(settings.dictionary());
-    if (!settings.secondary_dictionary().isEmpty()) {
-        loadDictionary(settings.secondary_dictionary());
     }
 }
 
@@ -190,6 +192,7 @@ bool SpellCheck::spell(const QString &word)
     if (!m_opendicts.contains(dname)) {
         loadDictionary(dname);
     }
+    if (!m_opendicts.contains(dname)) return true;
     HDictionary hdic = m_opendicts[dname];
     Q_ASSERT(hdic.codec != nullptr);
     Q_ASSERT(hdic.handle != nullptr);
@@ -204,12 +207,16 @@ bool SpellCheck::spellPS(const QString &word)
 {
     SettingsStore settings;
     QString dname = settings.dictionary();
+    // if primary dictionary does not exist simply return true (no error)
+    if (!m_opendicts.contains(dname)) {
+        return true;
+    }
     HDictionary hdic = m_opendicts[dname];
     bool res = hdic.handle->spell(hdic.codec->fromUnicode(Utility::getSpellingSafeText(word)).constData()) != 0;
     res = res || isIgnored(word);
     if (res) return res;
     dname = settings.secondary_dictionary();
-    if (dname.isEmpty()) return res;
+    if (dname.isEmpty() || !m_opendicts.contains(dname)) return res;
     hdic = m_opendicts[dname];
     Q_ASSERT(hdic.codec != nullptr);
     Q_ASSERT(hdic.handle != nullptr);
@@ -246,6 +253,7 @@ QStringList SpellCheck::suggestPS(const QString &word)
     char **suggestedWords;
     char **suggestedWords2;
     QString dname = settings.dictionary();
+    if (!m_opendicts.contains(dname)) return suggestions;
     HDictionary hdic = m_opendicts[dname];
     Q_ASSERT(hdic.codec != nullptr);
     Q_ASSERT(hdic.handle != nullptr);
@@ -304,7 +312,7 @@ void SpellCheck::loadDictionary(const QString &dname)
     QMutexLocker locker(&mutex);
     // If we don't have a dictionary we cannot continue.
     if (dname.isEmpty() || !m_dictionaries.contains(dname)) {
-        qDebug() << "attempted to load a non-exsitant dictionary: " << dname;
+        qDebug() << "attempted to load a non-existent dictionary: " << dname;
         return;
     }
 
@@ -313,8 +321,8 @@ void SpellCheck::loadDictionary(const QString &dname)
     QString dic = QString("%1%2.dic").arg(m_dictionaries.value(dname)).arg(dname);
     QString dic_delta = QString("%1/%2.dic_delta").arg(dictionaryDirectory()).arg(dname);
     QString alt_dic_delta = QString("%1%2.dic_delta").arg(m_dictionaries.value(dname)).arg(dname);
-    qDebug() << dic_delta;
-    qDebug() << alt_dic_delta;
+    // qDebug() << dic_delta;
+    // qDebug() << alt_dic_delta;
 
     // Create a new hunspell object.
     HDictionary hdic;
@@ -322,6 +330,7 @@ void SpellCheck::loadDictionary(const QString &dname)
     hdic.handle = new Hunspell(aff.toLocal8Bit().constData(), dic.toLocal8Bit().constData());
     if (!hdic.handle) {
         qDebug() << "failed to load new Hunspell dictionary " << dname;
+        return;
     }
 
     // Get the encoding for the text in the dictionary.
@@ -331,6 +340,7 @@ void SpellCheck::loadDictionary(const QString &dname)
     }
     if (!hdic.codec) {
         qDebug() << "failed to load codec " << dname;
+        return;
     }
 
     // Get the extra wordchars used for tokenization
@@ -393,6 +403,7 @@ QString SpellCheck::getWordChars(const QString &lang)
     if (!m_opendicts.contains(dname)) {
         loadDictionary(dname);
     }
+    if (!m_opendicts.contains(dname)) return "";
     HDictionary hdic = m_opendicts[dname];
     Q_ASSERT(hdic.codec != nullptr);
     Q_ASSERT(hdic.handle != nullptr);
