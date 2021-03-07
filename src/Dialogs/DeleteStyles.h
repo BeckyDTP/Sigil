@@ -25,7 +25,7 @@
 
 #include <QtWidgets/QDialog>
 #include <QtGui/QStandardItemModel>
-#include "Misc/CSSInfo.h"
+#include "Parsers/CSSInfo.h"
 
 #include "ui_DeleteStyles.h"
 
@@ -47,7 +47,7 @@ public:
     QHash<QString, QList<CSSInfo::CSSSelector *>> GetStylesToDelete();
 
 signals:
-    void OpenFileRequest(QString, int);
+    void OpenFileRequest(QString, int, int);
 
 private slots:
     void SaveStylesToDelete();

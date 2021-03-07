@@ -31,7 +31,7 @@
 #include "Misc/Utility.h"
 #include "Query/CSelection.h"
 #include "Query/CNode.h"
-#include "Misc/GumboInterface.h"
+#include "Parsers/GumboInterface.h"
 #include "string_buffer.h"
 #include "error.h"
 
@@ -115,31 +115,31 @@ static const char * attribute_nsprefixes[4] = { "", "xlink:", "xml:", "xmlns:" }
 // have properly destroyed the gumbo output tree
 
 GumboInterface::GumboInterface(const QString &source, const QString &version)
-        : m_source(source),
-          m_output(NULL),
-          m_utf8src(""),
-          m_sourceupdates(EmptyHash),
-          m_newcsslinks(""),
-          m_currentbkpath(""),
-          m_currentdir(""),
-          m_newbody(""),
-          m_version(version),
-          m_newbookpath("")
+    : m_source(source),
+      m_output(NULL),
+      m_utf8src(""),
+      m_sourceupdates(EmptyHash),
+      m_newcsslinks(""),
+      m_currentbkpath(""),
+      m_currentdir(""),
+      m_newbody(""),
+      m_version(version),
+      m_newbookpath("")
 {
 }
 
 
 GumboInterface::GumboInterface(const QString &source, const QString &version, const QHash<QString,QString> & source_updates)
-        : m_source(source),
-          m_output(NULL),
-          m_utf8src(""),
-          m_sourceupdates(source_updates),
-          m_newcsslinks(""),
-          m_currentbkpath(""),
-          m_currentdir(""),
-          m_newbody(""),
-          m_version(version),
-          m_newbookpath("")
+    : m_source(source),
+      m_output(NULL),
+      m_utf8src(""),
+      m_sourceupdates(source_updates),
+      m_newcsslinks(""),
+      m_currentbkpath(""),
+      m_currentdir(""),
+      m_newbody(""),
+      m_version(version),
+      m_newbookpath("")
 {
 }
 
@@ -206,7 +206,6 @@ void GumboInterface::parse_fragment()
         m_utf8src = m_source.toStdString();
         m_output = gumbo_parse_fragment(&myoptions, m_utf8src.data(), m_utf8src.length(),
                                         GUMBO_TAG_BODY, GUMBO_NAMESPACE_HTML);
-
         m_output = gumbo_parse_with_options(&myoptions, m_utf8src.data(), m_utf8src.length());
     }
 }
@@ -266,7 +265,7 @@ QList<GumboNode *> GumboInterface::findnodes(const QString &aSelector)
         std::string as = aSelector.toStdString();
         CSelection sel(m_output->root);
         CSelection res = sel.find(as);
-        for (int i=0; i < res.nodeNum(); i++) {
+        for (unsigned int i=0; i < res.nodeNum(); i++) {
             nodes << res.nodeAt(i).raw();
         }
     }
@@ -548,13 +547,13 @@ GumboNode* GumboInterface::get_node_from_qwebpath(QString webpath)
 
 QList<unsigned int> GumboInterface::get_path_to_node(GumboNode* node) 
 {
-  QList<unsigned int> apath = QList<unsigned int>();
-  GumboNode* anode = node;
-  while (anode && !((anode->type == GUMBO_NODE_ELEMENT) && (anode->v.element.tag == GUMBO_TAG_HTML))) {
-      apath.prepend(anode->index_within_parent);
-      anode = anode->parent;
-  }
-  return apath;
+    QList<unsigned int> apath = QList<unsigned int>();
+    GumboNode* anode = node;
+    while (anode && !((anode->type == GUMBO_NODE_ELEMENT) && (anode->v.element.tag == GUMBO_TAG_HTML))) {
+        apath.prepend(anode->index_within_parent);
+        anode = anode->parent;
+    }
+    return apath;
 }
 
 
@@ -567,7 +566,7 @@ GumboNode* GumboInterface::get_node_from_path(QList<unsigned int> & apath)
            if (childnum < children->length) {
                dest = static_cast<GumboNode*>(children->data[childnum]);
            } else {
-             break;
+               break;
            }
        } else {
            break;
@@ -677,7 +676,6 @@ QList<GumboWellFormedError> GumboInterface::fragment_error_check()
     myoptions.max_errors = -1;
 
     if (!m_source.isEmpty() && (m_output == NULL)) {
-
         m_utf8src = m_source.toStdString();
         m_output = gumbo_parse_fragment(&myoptions, m_utf8src.data(), m_utf8src.length(),
                                         GUMBO_TAG_BODY, GUMBO_NAMESPACE_HTML);
@@ -860,38 +858,38 @@ QList<GumboNode*> GumboInterface::get_all_nodes_with_tag(GumboTag tag)
 
 QList<GumboNode*> GumboInterface::get_all_nodes_with_tags(const QList<GumboTag> & tags )
 {
-  QList<GumboNode*> nodes;
-  if (!m_source.isEmpty()) {
-    if (m_output == NULL) {
-      parse();
+    QList<GumboNode*> nodes;
+    if (!m_source.isEmpty()) {
+        if (m_output == NULL) {
+            parse();
+        }
+        nodes = get_nodes_with_tags(m_output->root, tags); 
     }
-    nodes = get_nodes_with_tags(m_output->root, tags); 
-  }
-  return nodes;
+    return nodes;
 }
 
 
 QList<GumboNode*>  GumboInterface::get_nodes_with_tags(GumboNode* node, const QList<GumboTag> & tags) 
 {
-  if (node->type != GUMBO_NODE_ELEMENT) {
-    return QList<GumboNode*>();
-  }
-  QList<GumboNode*> nodes;
-  GumboTag tag = node ->v.element.tag;
-  if (tags.contains(tag)) {
-    nodes.append(node);
-  }
-  GumboVector* children = &node->v.element.children;
-  for (unsigned int i = 0; i < children->length; ++i) {
-    nodes.append(get_nodes_with_tags(static_cast<GumboNode*>(children->data[i]), tags));
-  }
-  return nodes;
+    if (node->type != GUMBO_NODE_ELEMENT) {
+        return QList<GumboNode*>();
+    }
+    QList<GumboNode*> nodes;
+    GumboTag tag = node ->v.element.tag;
+    if (tags.contains(tag)) {
+        nodes.append(node);
+    }
+    GumboVector* children = &node->v.element.children;
+    for (unsigned int i = 0; i < children->length; ++i) {
+        nodes.append(get_nodes_with_tags(static_cast<GumboNode*>(children->data[i]), tags));
+    }
+    return nodes;
 }
 
 
 bool GumboInterface::in_set(std::unordered_set<std::string> &s, std::string &key)
 {
-  return s.find(key) != s.end();
+    return s.find(key) != s.end();
 }
 
 
@@ -1368,6 +1366,7 @@ std::string GumboInterface::prettyprint_contents(GumboNode* node, int lvl, const
     bool keep_whitespace        = in_set(preserve_whitespace, tagname);
     bool is_inline              = in_set(nonbreaking_inline, tagname);
     bool is_structural          = in_set(structural_tags, tagname);
+    // bool is_other               = in_set(other_text_holders, tagname);
     char c                      = indent_chars.at(0);
     int  n                      = indent_chars.length(); 
     std::string indent_space    = std::string((lvl-1)*n,c);
@@ -1397,7 +1396,8 @@ std::string GumboInterface::prettyprint_contents(GumboNode* node, int lvl, const
                 contents.append(indent_space);
                 ltrim(val);
             }
-            if (!keep_whitespace && !is_structural) {
+            if (!keep_whitespace) {
+                // this includes structural, inline, and other text holders 
                 // okay to condense whitespace
                 condense_whitespace(val);
             }
@@ -1566,78 +1566,3 @@ std::string GumboInterface::prettyprint(GumboNode* node, int lvl, const std::str
     }
     return results;
 }
-
-
-
-
-// The below are hopefully obsolete now but keep them since
-// they are a real pain to recreate and may be needed again
-// if other corner cases in gumbo xhtml support are found
-#if 0
-
-// handle a few special cases that are hard to deal with insides of gumbo
-static QStringList allowed_void_tags = QStringList() << "area"    << "base"     << "basefont" 
-                                                     << "bgsound" << "br"       << "col" 
-                                                     << "command" << "embed"    << "event-source" 
-                                                     << "frame"   << "hr"       << "image" 
-                                                     << "img"     << "input"    << "keygen" 
-                                                     << "link"    << "menuitem" << "meta" 
-                                                     << "param"   << "source"   << "spacer" 
-                                                     << "track"   << "wbr";
-
-// Handle the general case
-QString GumboInterface::fix_self_closing_tags(const QString &source)
-{
-    QString newsource = source;
-    QRegularExpression selfclosed("<\\s*([a-zA-Z]+)(\\s*[^>/]*)/\\s*>");
-    QRegularExpressionMatch match = selfclosed.match(newsource, 0);
-    while (match.hasMatch()) {
-        if (match.capturedStart() == -1) {
-            break;
-        }
-        QString tag = match.captured(0);
-        int sp = match.capturedStart(0);
-        int n = match.capturedLength(0);
-        QString name = match.captured(1);
-        QString atts = match.captured(2);;
-        atts = atts.trimmed();
-        if (!atts.isEmpty()) {
-            atts = " " + atts;
-        }
-        int nsp = sp + n;
-        if (!allowed_void_tags.contains(name)) {
-            QString newtag = "<" + name + atts + "></" + name + ">";
-            newsource = newsource.replace(sp,n,newtag);
-            nsp = sp + newtag.length();
-        }
-        match = selfclosed.match(newsource, nsp);
-    }
-    return newsource;
-}
-
-// Handle the specific problem of iframe being self-closed
-QString GumboInterface::fix_self_closing_tags(const QString &source)
-{
-    QString newsource = source;
-    QRegularExpression selfclosed("<\\s*iframe(\\s*[^>/]*)/\\s*>");
-    QRegularExpressionMatch match = selfclosed.match(newsource, 0);
-    while (match.hasMatch()) {
-        if (match.capturedStart() == -1) {
-            break;
-        }
-        QString tag = match.captured(0);
-        int sp = match.capturedStart(0);
-        int n = match.capturedLength(0);
-        QString atts = match.captured(1);;
-        atts = atts.trimmed();
-        if (!atts.isEmpty()) {
-            atts = " " + atts;
-        }
-        QString newtag = "<iframe" + atts + "></iframe>";
-        newsource = newsource.replace(sp,n,newtag);
-        int nsp = sp + newtag.length();
-        match = selfclosed.match(newsource, nsp);
-    }
-    return newsource;
-}
-#endif

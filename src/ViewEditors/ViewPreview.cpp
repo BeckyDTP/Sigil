@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2019-2020 Kevin B. Hendricks, Stratford Ontario Canada
+**  Copyright (C) 2019-2021 Kevin B. Hendricks, Stratford Ontario Canada
 **  Copyright (C) 2019-2020 Doug Massay
 **
 **  This file is part of Sigil.
@@ -57,38 +57,6 @@ const QString SET_PREVIEW_COLORS =
     "document.body.style.backgroundColor=\"%1\"; "
     "document.body.style.color=\"%2\";";
 
-#if 0
-    "var bodyStyle = window.getComputedStyle(document.body, null);"
-    "var bg = bodyStyle.backgroundColor;"
-    "var fg = bodyStyle.color;"
-    "console.log('bg', bg);"
-    "console.log('fg', fg);"
-    "var isRGB = bg.indexOf('rgb') == 0;"
-    "var isHEX = bg.indexOf('#') == 0;"
-    "console.log('isRGB', isRGB);"
-    "console.log('isHEX', isHEX);"
-     "if (isRGB) {"
-    "    var m = bg.match(/(\\d+){3}/g);"
-    "    if (m) var r = m[0], g = m[1], b = m[2];"
-    "    console.log('rgb', r, g, b);"
-    "}"
-    "if (isHEX) {"
-        "var c = bg.replace('#', '');"
-        "var r = parseInt(c.substr(0,2), 16);"
-        "var g = parseInt(c.substr(2,2), 16);"
-        "var b = parseInt(c.substr(4,2), 16);"
-    "    console.log('rgb', r, g, b);"
-    "}"
-    "if (typeof r != 'undefined') {"
-    "    if ((r*0.299 + g*0.587 + b*0.114) > 186) {"
-    "        document.body.style.color = '#000000';"
-    "        console.log('bg is light');" 
-    "    } else {"
-    "        document.body.style.color = '#FFFFFF';"
-    "        console.log('bg is dark');" 
-    "    }"
-    "}";
-#endif
 
 struct JSResult {
   QVariant res;
@@ -181,10 +149,10 @@ void ViewPreview::CustomSetDocument(const QString &path, const QString &html)
         // This next line really causes problems as it happens to interfere with later loading
         // StoreCurrentCaretLocation();
  
-	// keep memory footprint small clear any caches when a new page loads
-	if (url().toLocalFile() != path) {
-	    page()->profile()->clearHttpCache();
-	} 
+        // keep memory footprint small clear any caches when a new page loads
+        if (url().toLocalFile() != path) {
+            page()->profile()->clearHttpCache();
+        } 
     }
 
     m_isLoadFinished = false;
@@ -314,11 +282,11 @@ void ViewPreview::LoadingStarted()
 // and set it to finished when progress hits 100
 void ViewPreview::LoadingProgress(int progress)
 {
-  DBG qDebug() << "Loading progress " << progress;
-  if (progress >= 100 && !m_CustomSetDocumentInProgress) {
-      m_isLoadFinished = true;
-      m_LoadOkay = true;
-  }
+    DBG qDebug() << "Loading progress " << progress;
+    if (progress >= 100 && !m_CustomSetDocumentInProgress) {
+        m_isLoadFinished = true;
+        m_LoadOkay = true;
+    }
 }
 
 void ViewPreview::UpdateFinishedState(bool okay)
@@ -356,7 +324,7 @@ QVariant ViewPreview::EvaluateJavascript(const QString &javascript)
         delete pres;
     } else {
         qDebug() << "Error: VP EvaluateJavascript timed out";
-	qDebug() << "   ... intentionally leaking the JSResult structure";
+        qDebug() << "   ... intentionally leaking the JSResult structure";
     }
     return res;
 }
@@ -403,7 +371,7 @@ void ViewPreview::WebPageJavascriptOnLoad()
         } else {
             executeCaretUpdateInternal();
         }
-	m_CustomSetDocumentInProgress = false;
+        m_CustomSetDocumentInProgress = false;
     }
 }
 
@@ -506,15 +474,6 @@ QString ViewPreview::GetElementSelectingJS_WithTextNode(const QList<ElementIndex
 
 bool ViewPreview::ExecuteCaretUpdate()
 {
-    // The following is no longer needed as we disable javascripts from running until load finished
-    // happens, otherwise this will be ignored.
-#if 0
-    // Currently certain actions in Sigil result in a document being loaded multiple times
-    // in response to the signals. Only proceed with moving the caret if all loads are finished.
-    if (m_pendingLoadCount > 0) {
-        return false;
-    }
-#endif
 
     // If there is no caret location update pending...
     if (m_CaretLocationUpdate.isEmpty()) {
@@ -550,69 +509,3 @@ void ViewPreview::ConnectSignalsToSlots()
     connect(page(), SIGNAL(loadProgress(int)), this, SLOT(LoadingProgress(int)));
     connect(page(), SIGNAL(linkHovered(const QString &)), this, SLOT(LinkHovered(const QString &)));
 }
-
-
-// some pieces to keep for the future just in case
-#if 0
-
-void ViewPreview::InspectElement()
-{
-    page()->triggerAction(QWebEnginePage::InspectElement);
-    connect(m_InspectElement,    SIGNAL(triggered()),  this, SLOT(InspectElement()));
-}
-
-struct HTMLResult {
-  QString res;
-  bool finished;
-  HTMLResult() : res(QString("")), finished(false) {}
-  HTMLResult(HTMLResult * pRes) : res(pRes->res),  finished(pRes->finished) {}
-  bool isFinished() { return finished; }
-};
-
-struct SetToHTMLResultFunctor {
-    HTMLResult * pres;
-    SetToHTMLResultFunctor(HTMLResult * pres) : pres(pres) {}
-    void operator()(const QString &result) {
-        pres->res = result;
-        pres->finished = true;
-    }
-};
-
-QString ViewPreview::GetHTML() const 
-{
-    HTMLResult * pres = new HTMLResult();
-    page()->toHtml(SetToHTMLResultFunctor(pres));
-    while(!pres->isFinished()) {
-        qApp->processEvents(QEventLoop::ExcludeUserInputEvents | QEventLoop::ExcludeSocketNotifiers, 100);
-    }
-    QString res = pres->res;
-    delete pres;
-    return res;
-}
-
-    //for inside of the ViewPreview destructor
-    if (m_InspectElement) {
-        delete m_InspectElement;
-        m_InspectElement = 0;
-    }
-
-QString ViewPreview::GetSelectedText()
-{
-    QString javascript = "window.getSelection().toString();";
-    return EvaluateJavascript(javascript).toString();
-}
-
-void ViewPreview::HighlightPosition()
-{
-    page()->runJavaScript("document/documentElement.contentEditable = true", QWebEngineScript::ApplicationWorld);
-    page()->triggerAction(QWebEnginePage::SelectEndOfBlock);
-    page()->runJavaScript("document/documentElement.contentEditable = false", QWebEngineScript::ApplicationWorld);
-}
-
-void ViewPreview::copy()
-{
-    page()->triggerAction(QWebEnginePage::Copy);
-}
-
-#endif
-

@@ -1,6 +1,6 @@
 /************************************************************************
  **
- **  Copyright (C) 2019 Kevin B. Hendricks Stratford, ON, Canada 
+ **  Copyright (C) 2019-2021 Kevin B. Hendricks Stratford, ON, Canada 
  **
  **  This file is part of Sigil.
  **
@@ -22,11 +22,11 @@
 #include <QChar>
 #include <QTextCursor>
 
-#include "Misc/TextDocument.h"
+#include "Widgets/TextDocument.h"
 
 TextDocument::TextDocument(QObject *parent)
- :
-  QTextDocument(parent)
+    :
+    QTextDocument(parent)
 {
 }
 
@@ -49,14 +49,11 @@ int TextDocument::textLength()
 QString TextDocument::toText()
 {
     QString txt;
+    if (isEmpty()) return txt;
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5,9,0))
-    if (isEmpty()) return txt;
     txt = toRawText();
 #else
-    // is the TextDocument itself is empty just return an empty string
-    if (isEmpty()) return txt;
-
     // Use text cursors to get the TextDocument's contents
     QTextCursor cursor(this);
     cursor.select(QTextCursor::Document);
@@ -72,10 +69,10 @@ QString TextDocument::toText()
             case 0xfdd1: // QTextEndOfFrame                                                          
             case QChar::ParagraphSeparator:
             case QChar::LineSeparator:
-	        *uc = QLatin1Char('\n');
-	        break;
+                *uc = QLatin1Char('\n');
+            break;
             default:
-	    ;
+        ;
         }
     }
 

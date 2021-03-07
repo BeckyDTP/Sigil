@@ -1,7 +1,7 @@
 /************************************************************************
 **
-**  Copyright (C) 2018-2020  Kevin B. Hendricks, Stratford Ontario Canada
-**  Copyright (C) 2019-2020  Doug Massay
+**  Copyright (C) 2018-2021  Kevin B. Hendricks, Stratford Ontario Canada
+**  Copyright (C) 2019-2021  Doug Massay
 **  Copyright (C) 2009-2011  Strahinja Markovic  <strahinja.markovic@gmail.com>
 **
 **  This file is part of Sigil.
@@ -21,7 +21,7 @@
 **
 *************************************************************************/
 
-#include "Misc/EmbeddedPython.h"
+#include "EmbedPython/EmbeddedPython.h"
 #include <iostream>
 
 #include <QtCore/QCoreApplication>
@@ -42,8 +42,6 @@
 #include <QFontMetrics>
 #include <QtWebEngineWidgets/QWebEngineProfile>
 
-#define TEST_GUMBO_QUERY 0
-
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
 #include <QWebEngineUrlScheme>
 #endif
@@ -62,12 +60,6 @@
 #include "Misc/URLSchemeHandler.h"
 #include "sigil_constants.h"
 #include "sigil_exception.h"
-
-#if TEST_GUMBO_QUERY
-#include "Misc/GumboInterface.h"
-#include "Query/CSelection.h"
-#include "Query/CNode.h"
-#endif
 
 #ifdef Q_OS_WIN32
 #include <QtWidgets/QPlainTextEdit>
@@ -257,7 +249,7 @@ void MessageHandler(QtMsgType type, const QMessageLogContext &context, const QSt
         ts << qt_debug_message << Qt::endl;
 #else
         ts << qt_debug_message << endl;
-#endif	
+#endif  
     }
 }
 
@@ -293,7 +285,7 @@ void setupHighDPI()
         QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, false);
         foreach(QString v, env_vars) {
             bool irrel = qunsetenv(v.toUtf8().constData());
-	    Q_UNUSED(irrel);
+        Q_UNUSED(irrel);
         }
     }
 }
@@ -315,9 +307,9 @@ int main(int argc, char *argv[])
         QStringList env_vars = {"QT_QPA_PLATFORMTHEME", "QT_STYLE_OVERRIDE"};
         foreach(QString v, env_vars) {
             bool irrel = qunsetenv(v.toUtf8().constData());
-	    Q_UNUSED(irrel);
+        Q_UNUSED(irrel);
         }
-}
+    }
 #endif
 
 
@@ -360,12 +352,10 @@ int main(int argc, char *argv[])
 #endif
 
     // On recent processors with multiple cores this leads to over 40 threads at times
-#if 0   
     // We prevent Qt from constantly creating and deleting threads.
     // Using a negative number forces the threads to stay around;
     // that way, we always have a steady number of threads ready to do work.
-    QThreadPool::globalInstance()->setExpiryTimeout(-1);
-#endif
+    // QThreadPool::globalInstance()->setExpiryTimeout(-1);
 
     // QtWebEngine may need this
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
@@ -471,8 +461,7 @@ int main(int argc, char *argv[])
         settings.setOriginalUIFont(f.toString());
         if (!settings.uiFont().isEmpty()) {
             QFont font;
-            if (font.fromString(settings.uiFont()))
-                QApplication::setFont(font);
+            if (font.fromString(settings.uiFont())) QApplication::setFont(font);
         }
 #ifndef Q_OS_MAC
         // redo on a timer to ensure in all cases
@@ -573,21 +562,21 @@ int main(int argc, char *argv[])
             RCCResourcePath = sigil_share_root + "/iconthemes";
         }
 #endif
-	QString icon_theme = settings.uiIconTheme();
+        QString icon_theme = settings.uiIconTheme();
         // First check if user wants the Custom Icon Theme
-	if (icon_theme == "custom") {
-	    // it must exist and be loadable
-	    QString CustomRCCPath = Utility::DefinePrefsDir() + "/" + CUSTOM_ICON_THEME_FILENAME;
+        if (icon_theme == "custom") {
+            // it must exist and be loadable
+            QString CustomRCCPath = Utility::DefinePrefsDir() + "/" + CUSTOM_ICON_THEME_FILENAME;
             bool loaded = false;
-	    if (QFileInfo(CustomRCCPath).exists()) {
-		loaded = QResource::registerResource(Utility::DefinePrefsDir() + "/" + CUSTOM_ICON_THEME_FILENAME);
-	    }
-	    if (!loaded) {
-		// revert to using main
-		icon_theme = "main";
-		settings.setUIIconTheme("main");
-	    }
-	}
+            if (QFileInfo(CustomRCCPath).exists()) {
+                loaded = QResource::registerResource(Utility::DefinePrefsDir() + "/" + CUSTOM_ICON_THEME_FILENAME);
+            }
+            if (!loaded) {
+                // revert to using main
+                icon_theme = "main";
+                settings.setUIIconTheme("main");
+            }
+        }
         // qDebug() << RCCResourcePath;
         QResource::registerResource(RCCResourcePath + "/" + icon_theme + ".rcc");
 
@@ -627,7 +616,6 @@ int main(int argc, char *argv[])
 
             // Create the Application Menu
             QMenu *app_menu = new QMenu("Sigil");
-
             QIcon icon;
 
             // Quit
@@ -686,46 +674,6 @@ int main(int argc, char *argv[])
             file_menu->addAction(quit_action);
 
             mac_bar->addMenu(file_menu);
-#endif
-
-#if TEST_GUMBO_QUERY
-            if (1) {
-                QString page = "<h1><a>wrong link</a><a class=\"special\"\\>some link</a></h1>";
-                GumboInterface gi = GumboInterface(page, "any_version");
-                CSelection c = gi.find("h1 a.special");
-                CNode node = c.nodeAt(0);
-                std::cout << node.text() << std::endl;
-            };
-            if (1) {
-                QString page = "<html><div><span>1\n</span>2\n</div></html>";
-                GumboInterface gi = GumboInterface(page, "any_version");
-                CNode pNode = gi.find("div").nodeAt(0);
-                std::cout << pNode.text() << std::endl;
-            }
-            if (1) {
-                QString page = "<html><div><span id=\"that's\">1\n</span>2\n</div></html>";
-                GumboInterface gi = GumboInterface(page, "any_version");
-                CNode pNode = gi.find("span[id=\"that's\"]").nodeAt(0);
-                std::cout << pNode.text() << std::endl;
-            }
-            if (1) {
-                QString page = "<h1><a>some link</a></h1>";
-                GumboInterface gi = GumboInterface(page, "any_version");
-                CSelection c = gi.find("h1 a");
-                std::cout << c.nodeAt(0).text() << std::endl; // some link
-            }
-            if (1) {
-                QString page = "<html><div class=\"chapter\"><p class=\"flush\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p><p>second child</p></div></html>";
-                GumboInterface gi = GumboInterface(page, "any_version");
-                CNode pNode = gi.find(".chapter > p:first-child:first-of-type").nodeAt(0);
-                std::cout << pNode.text() << std::endl; // some link
-            }
-            if (1) {
-                QString page = "<html><div class=\"chapter\"><p class=\"flush\" lang=\"it\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p><p>second child</p></div></html>";
-                GumboInterface gi = GumboInterface(page, "any_version");
-                CNode pNode = gi.find("p.flsuh:lang(it)").nodeAt(0);
-                std::cout << pNode.text() << std::endl;
-            }
 #endif
 
             VerifyPlugins();

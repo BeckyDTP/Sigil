@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2015-2019 Kevin B. Hendricks, Stratford, Ontario
+**  Copyright (C) 2015-2021 Kevin B. Hendricks, Stratford, Ontario
 **  Copyright (C) 2012      John Schember <john@nachtimwald.com>
 **  Copyright (C) 2012-2013 Dave Heiland
 **
@@ -98,7 +98,7 @@ void AllFilesWidget::SetupTable(int sort_column, Qt::SortOrder sort_order)
         // Filename
         item = new QStandardItem();
         item->setText(file_spname);
-	item->setData(filepath);
+        item->setData(filepath);
         item->setToolTip(filepath);
         rowItems << item;
         // File Size
@@ -107,6 +107,7 @@ void AllFilesWidget::SetupTable(int sort_column, Qt::SortOrder sort_order)
         QString fsize = QString::number(ffsize, 'f', 2);
         NumericItem *size_item = new NumericItem();
         size_item->setText(fsize);
+        size_item->setTextAlignment(Qt::AlignRight);
         rowItems << size_item;
         // Type
         item = new QStandardItem();
@@ -151,6 +152,7 @@ void AllFilesWidget::SetupTable(int sort_column, Qt::SortOrder sort_order)
     // File size
     nitem = new NumericItem();
     nitem->setText(QLocale().toString(total_size, 'f', 2));
+    nitem->setTextAlignment(Qt::AlignRight);
     rowItems << nitem;
 
     QFont font;
@@ -208,7 +210,7 @@ void AllFilesWidget::DoubleClick()
 
     if (index.row() != m_ItemModel->rowCount() - 1) {
         QString filepath = m_ItemModel->itemFromIndex(index)->data().toString();
-        emit OpenFileRequest(filepath, 1);
+        emit OpenFileRequest(filepath, 1, -1);
     }
 }
 
@@ -267,9 +269,8 @@ void AllFilesWidget::Save()
                           tr("Save Report As Comma Separated File"),
                           save_path,
                           filter_string,
-			  &default_filter,
-                          options
-                                                      );
+                          &default_filter,
+                          options);
 
     if (destination.isEmpty()) {
         return;

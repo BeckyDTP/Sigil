@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2015-2019 Kevin B. Hendricks, Stratford, Ontario, Canada
+**  Copyright (C) 2015-2021 Kevin B. Hendricks, Stratford, Ontario, Canada
 **  Copyright (C) 2012      Dave Heiland
 **  Copyright (C) 2011      John Schember <john@nachtimwald.com>
 **
@@ -26,7 +26,7 @@
 
 #include "Dialogs/Reports.h"
 #include "Misc/SettingsStore.h"
-#include "Misc/CSSInfo.h"
+#include "Parsers/CSSInfo.h"
 #include "ReportsWidgets/AllFilesWidget.h"
 #include "ReportsWidgets/HTMLFilesWidget.h"
 #include "ReportsWidgets/LinksWidget.h"
@@ -37,13 +37,13 @@
 #include "ReportsWidgets/CharactersInHTMLFilesWidget.h"
 
 static const QStringList REPORT_TYPES = QStringList() << "AllFiles"
-						      << "HTMLFiles" 
-						      << "Links"
-						      << "ImageFiles"
-						      << "CSSFiles"
-						      << "ClassesInHTMLFiles"
-						      << "StylesInCSSFiles"
-						      << "CharactersInHTMLFiles";
+                                                      << "HTMLFiles" 
+                                                      << "Links"
+                                                      << "ImageFiles"
+                                                      << "CSSFiles"
+                                                      << "ClassesInHTMLFiles"
+                                                      << "StylesInCSSFiles"
+                                                      << "CharactersInHTMLFiles";
 
 static const QString SETTINGS_GROUP = "reports_dialog";
 
@@ -217,7 +217,7 @@ void Reports::appendReportsWidget(ReportsWidget *widget)
 {
     // Add the ReportsWidget to the stack view area.
     ui.pWidget->addWidget(widget);
-    connect(widget, SIGNAL(OpenFileRequest(QString, int)), this, SIGNAL(OpenFileRequest(QString, int)));
+    connect(widget, SIGNAL(OpenFileRequest(QString, int, int)), this, SIGNAL(OpenFileRequest(QString, int, int)));
     connect(widget, SIGNAL(CloseDialog()), this, SLOT(accept()));
     // Add an entry to the list of available reports widgets.
     ui.availableWidgets->addItem(widget->windowTitle());

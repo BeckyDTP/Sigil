@@ -240,6 +240,7 @@
     <addaction name="actionTextDirectionDefault"/>
     <addaction name="separator"/>
     <addaction name="actionRemoveFormatting"/>
+    <addaction name="actionRemoveTagPair"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -506,6 +507,7 @@
    <addaction name="actionCut"/>
    <addaction name="actionCopy"/>
    <addaction name="actionPaste"/>
+   <addaction name="actionRemoveTagPair"/>
   </widget>
   
   <widget class="QToolBar" name="toolBarXEditor">
@@ -1573,6 +1575,20 @@
     <string>Ctrl+Space</string>
    </property>
   </action>
+  <action name="actionRemoveTagPair">
+   <property name="icon">
+    <iconset resource="../Resource_Files/main/main.qrc">
+     <normaloff>:/main/tag-pair-remove.svg</normaloff>:/main/tag-pair-remove.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Remove Tag Pair</string>
+   </property>
+   <property name="toolTip">
+    <string>
+     &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Remove Open and Close Tag Pair.&lt;/p&gt;
+    </string>
+   </property>
+  </action>
   <action name="actionCasingLowercase">
    <property name="icon">
     <iconset resource="../Resource_Files/main/main.qrc">
@@ -1827,7 +1843,7 @@
   </action>
   <action name="actionDeleteUnusedStyles">
    <property name="text">
-    <string>Delete &amp;Unused Stylesheet Classes...</string>
+    <string>Delete &amp;Unused Stylesheet Selectors...</string>
    </property>
   </action>
   <action name="actionReports">
@@ -2810,7 +2826,7 @@
      <normaloff>:/main/git-checkout.svg</normaloff>:/main/git-checkout.svg</iconset>
    </property>
    <property name="text">
-    <string>Create Epub from previous Checkpoint</string>
+    <string>Restore Epub from previous Checkpoint</string>
    </property>
   </action>
   <action name="actionDiff">
@@ -2819,7 +2835,7 @@
      <normaloff>:/main/git-diff.svg</normaloff>:/main/git-diff.svg</iconset>
    </property>
    <property name="text">
-    <string>Compare Epub against Checkpoint</string>
+    <string>Compare Epub against Previous Checkpoint</string>
    </property>
   </action>
   <action name="actionManageRepo">

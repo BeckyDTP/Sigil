@@ -1,5 +1,5 @@
 /***************************************************************************
-**  Copyright (C) 2015-2019 Kevin B. Hendricks Stratford, ON, Canada 
+**  Copyright (C) 2015-2021 Kevin B. Hendricks Stratford, ON, Canada 
 **  Copyright (C) 2012      John Schember <john@nachtimwald.com>
 **  Copyright (C) 2012      Dave Heiland
 **  Copyright (C) 2009-2011 Strahinja Markovic  <strahinja.markovic@gmail.com>
@@ -342,57 +342,6 @@ bool XhtmlDoc::IsDataWellFormed(const QString &data, QString version)
     return error.line == -1;
 }
 
-#if 0
-// Accepts a string with HTML and returns the text
-// in that HTML fragment. For instance:
-//   <h1>Hello <b>Qt</b>&nbsp;this is great</h1>
-// returns
-//   Hello Qt this is great
-QString XhtmlDoc::GetTextInHtml(const QString &source)
-{
-    QWebPage page;
-    page.mainFrame()->setHtml(source);
-    return page.mainFrame()->toPlainText();
-}
-
-// Resolves HTML entities in the provided string.
-// For instance:
-//    Bonnie &amp; Clyde
-// returns
-//    Bonnie & Clyde
-QString XhtmlDoc::ResolveHTMLEntities(const QString &text)
-{
-    // Faking some HTML... this is the easiest way to do it
-    QString newsource = "<div>" + text + "</div>";
-    return GetTextInHtml(newsource);
-}
-#endif
-
-#if 0 
-//this should no longer be needed without BookView
-
-// A tree node class without a children() function...
-// appallingly stupid, isn't it?
-QList<QWebElement> XhtmlDoc::QWebElementChildren(const QWebElement &element)
-{
-    QList<QWebElement> children;
-    const QWebElement &first_child = element.firstChild();
-
-    if (!first_child.isNull()) {
-        children.append(first_child);
-    }
-
-    QWebElement next_sibling = first_child.nextSibling();
-
-    while (!next_sibling.isNull()) {
-        children.append(next_sibling);
-        next_sibling = next_sibling.nextSibling();
-    }
-
-    return children;
-}
-#endif
-
 QStringList XhtmlDoc::GetSGFSectionSplits(const QString &source,
         const QString &custom_header)
 {
@@ -597,10 +546,10 @@ QStringList XhtmlDoc::GetHrefSrcPaths(const QString &source)
     QStringList destination_paths;
     GumboInterface gi = GumboInterface(source, "any_version");
     foreach(QString apath, gi.get_all_values_for_attribute("src")) {
-	destination_paths << apath;
+        destination_paths << apath;
     }
     foreach(QString apath, gi.get_all_values_for_attribute("href")) {
-	destination_paths << apath;
+        destination_paths << apath;
     }
     destination_paths.removeDuplicates();
     return destination_paths;

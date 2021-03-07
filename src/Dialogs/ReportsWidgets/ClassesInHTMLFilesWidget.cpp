@@ -1,8 +1,8 @@
 /************************************************************************
 **
-**  Copyright (C) 2015-2019 Kevin B. Hendricks, Stratford, Ontario, Canada
-**  Copyright (C) 2012 John Schember <john@nachtimwald.com>
-**  Copyright (C) 2012 Dave Heiland
+**  Copyright (C) 2015-2021 Kevin B. Hendricks, Stratford, Ontario, Canada
+**  Copyright (C) 2012      John Schember <john@nachtimwald.com>
+**  Copyright (C) 2012      Dave Heiland
 **
 **  This file is part of Sigil.
 **
@@ -32,7 +32,7 @@
 #include "sigil_exception.h"
 #include "BookManipulation/FolderKeeper.h"
 #include "Dialogs/ReportsWidgets/ClassesInHTMLFilesWidget.h"
-#include "Misc/CSSInfo.h"
+#include "Parsers/CSSInfo.h"
 #include "Misc/NumericItem.h"
 #include "Misc/SettingsStore.h"
 #include "Misc/Utility.h"
@@ -110,15 +110,15 @@ void ClassesInHTMLFilesWidget::AddTableData(const QList<BookReports::StyleData *
         QList<QStandardItem *> rowItems;
         // File name
         QStandardItem *filename_item = new QStandardItem();
-	QString bookpath = class_usage->html_filename;
+        QString bookpath = class_usage->html_filename;
         QString shortname = bookpath.split('/').last();
-	try {
-	    Resource * res = m_Book->GetFolderKeeper()->GetResourceByBookPath(bookpath);
-	    shortname = res->ShortPathName();
-	} catch (ResourceDoesNotExist&) {
-	} 
+        try {
+            Resource * res = m_Book->GetFolderKeeper()->GetResourceByBookPath(bookpath);
+            shortname = res->ShortPathName();
+        } catch (ResourceDoesNotExist&) {
+        } 
         filename_item->setText(shortname);
-	filename_item->setData(bookpath);
+        filename_item->setData(bookpath);
         rowItems << filename_item;
         // Element name
         QStandardItem *element_name_item = new QStandardItem();
@@ -184,7 +184,7 @@ void ClassesInHTMLFilesWidget::DoubleClick()
 {
     QModelIndex index = ui.fileTree->selectionModel()->selectedRows(0).first();
     QString bookpath = m_ItemModel->itemFromIndex(index)->data().toString();
-    emit OpenFileRequest(bookpath, 1);
+    emit OpenFileRequest(bookpath, 1, -1);
 }
 
 void ClassesInHTMLFilesWidget::Save()
@@ -242,9 +242,8 @@ void ClassesInHTMLFilesWidget::Save()
                           tr("Save Report As Comma Separated File"),
                           save_path,
                           filter_string,
-			  &default_filter,
-                          options
-                                                      );
+                          &default_filter,
+                          options);
 
     if (destination.isEmpty()) {
         return;

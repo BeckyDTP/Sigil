@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2019 Kevin B. Hendricks, Stratford, ON, Canada
+**  Copyright (C) 2016-2021 Kevin B. Hendricks, Stratford, ON, Canada
 **  Copyright (C) 2012 John Schember <john@nachtimwald.com>
 **  Copyright (C) 2012 Dave Heiland
 **  Copyright (C) 2012 Grant Drake
@@ -26,8 +26,9 @@
 #ifndef CSSINFO_H
 #define CSSINFO_H
 
-#include <QtCore/QObject>
-#include <QtCore/QStringList>
+#include <QObject>
+#include <QStringList>
+#include "Parsers/qCSSParser.h"
 
 class QStringList;
 
@@ -37,33 +38,24 @@ class CSSInfo : public QObject
 
 public:
     /**
-     * Parse the supplied text to identify all named CSS styles.
-     * The supplied text can be a CSS file or html containing inline styles.
+     * Parse the supplied css text
      */
-    CSSInfo(const QString &text, bool isCSSFile = true);
+    CSSInfo(const QString &text, int offset = 0);
 
     ~CSSInfo();
 
     struct CSSSelector {
-        QString originalText;       /* The original text of the complete selector                  */
-        bool isGroup;               /* Whether selector was declared in a comma separated group    */
-        QString groupText;          /* The text of the selector for this group (same as originalText if not a group) */
-        QStringList classNames;     /* The classname(s) (stripped of periods) if a class selector  */
-        QStringList elementNames;   /* The element names if any (stripped of any ids/attributes)   */
-        int line;                   /* For convenience of navigation, the line# selector is on     */
-        int position;               /* The position in the file of the full selector name          */
-        int openingBracePos;        /* Location of the opening brace which contains properties     */
-        int closingBracePos;        /* Location of the closing brace which contains properties     */
+        int pos;                    /* The position in the file of the full selector name          */
+        QString text;               /* The text of this selector                  */
+        QString className;          /* The classname(s) (stripped of periods) if a class selector  */
+        QString elementName;        /* The element names if any (stripped of any ids/attributes)   */
 
         bool operator<(const CSSSelector &rhs) const {
-            return line < rhs.line;
+            return pos < rhs.pos;
         }
     };
 
-    struct CSSProperty {
-        QString name;
-        QString value;
-    };
+    QList<CSSSelector*> getAllSelectors();
 
     /**
      * Return selectors subset for only class based CSS declarations.
@@ -71,7 +63,7 @@ public:
     QList<CSSSelector *> getClassSelectors(const QString filterClassName = "");
 
     /**
-     * Search for a line position for a tag element name and an optional
+     * Search for a matching class selector  given an element name and an optional
      * class name for the style.
      * Looks in order of: elementName.style, .style
      */
@@ -97,24 +89,23 @@ public:
     QString getReformattedCSSText(bool multipleLineFormat);
 
     /**
-     * Search for a CSSSelector with the same definition of original group text and line as this,
-     * and if found remove from the document text, returning the new text.
+     * Search for a CSSSelector with the same definition of original group text and pos as this,
+     * and if found remove from the document text
      * If not found returns a null string.
      * Note the caller must intialise a new CSSInfo object to re-parse the updated text for another remove.
      */
     QString removeMatchingSelectors(QList<CSSSelector *> cssSelectors);
 
-    static QList<CSSProperty *> getCSSProperties(const QString &text, const int &styleTextStartPos, const int &styleTextEndPos);
-    static QString formatCSSProperties(QList<CSSProperty *> new_properties, bool multipleLineFormat, const int &selectorIndent = 0);
 
 private:
-    bool findInlineStyleBlock(const QString &text, const int &offset, int &styleStart, int &styleEnd);
-    void parseCSSSelectors(const QString &text, const int &offsetLines, const int &offsetPos);
-    QString replaceBlockComments(const QString &text);
+    void parseStyles(const QString &text, int offsetPos);
+    void generateSelectorsList();
 
     QList<CSSSelector *> m_CSSSelectors;
-    QString m_OriginalText;
-    bool m_IsCSSFile;
+    QVector<CSSParser::token> m_csstokens;
+
+    QString m_source;
+    int m_posoffset;
 };
 
 template<class T>

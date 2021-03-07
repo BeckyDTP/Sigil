@@ -1,7 +1,7 @@
 /************************************************************************
 **
-**  Copyright (C) 2015-2019 Kevin B. Hendricks Stratford, ON, Canada 
-**  Copyright (C) 2009, 2010, 2011  Strahinja Markovic  <strahinja.markovic@gmail.com>
+**  Copyright (C) 2015-2021 Kevin B. Hendricks Stratford, ON, Canada 
+**  Copyright (C) 2009-2011 Strahinja Markovic  <strahinja.markovic@gmail.com>
 **
 **  This file is part of Sigil.
 **
@@ -20,7 +20,7 @@
 **
 *************************************************************************/
 
-#include "Misc/EmbeddedPython.h"
+#include "EmbedPython/EmbeddedPython.h"
 
 #include <QtCore/QString>
 #include <QtCore/QStringList>
@@ -32,7 +32,7 @@
 
 #include "BookManipulation/CleanSource.h"
 #include "BookManipulation/XhtmlDoc.h"
-#include "Misc/GumboInterface.h"
+#include "Parsers/GumboInterface.h"
 #include "Misc/SettingsStore.h"
 #include "sigil_constants.h"
 #include "sigil_exception.h"
@@ -51,27 +51,6 @@ QString CleanSource::Mend(const QString &source, const QString &version)
 {
     SettingsStore settings;
     QString newsource = PreprocessSpecialCases(source);
-
-    // This hack should not be needed anymore as the epub version is known
-    // so missing doctypes should be properly recreated by gumbo
-#if 0
-    // This is a real hackjob just to test the impact of doctype on gumbo repair functioning
-    // Better code here would handle the case of the xml declaration if present
-    // Instead of blindly prepending a doctype if none can be found 
-    const int SAFE_LENGTH = 200;
-    QRegularExpression doctype_present("<!DOCTYPE\\s*html", QRegularExpression::CaseInsensitiveOption);
-    int index = newsource.indexOf(doctype_present);
-    if (!(index > 0 && index < SAFE_LENGTH)) {
-        QString doctype;
-        if (version == "2.0") {
-            doctype = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\"\n  \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">\n";
-        } else {
-            doctype = "<!DOCTYPE html>\n";
-        }
-        newsource = doctype + newsource;
-    }
-#endif
-
     GumboInterface gp = GumboInterface(newsource, version);
     newsource = gp.repair();
     newsource = CharToEntity(newsource, version);
@@ -286,7 +265,7 @@ QString CleanSource::CharToEntity(const QString &source, const QString &version)
     foreach(epair, codenames) {
         QString codename = epair.second.toLower();
         if (NUMERIC_NBSP.contains(codename)) {
-	    has_numeric_nbsp = true;
+            has_numeric_nbsp = true;
         } 
     }
     // now intelligently handle the replacements
@@ -294,14 +273,14 @@ QString CleanSource::CharToEntity(const QString &source, const QString &version)
         QString codename = epair.second.toLower();
         if (version.startsWith("2")) {
             new_source.replace(QChar(epair.first), codename);
-	} else if (version.startsWith("3")) {
-	    // only use numeric entities in epub3
-	    if (codename.startsWith("&#")) { 
+        } else if (version.startsWith("3")) {
+            // only use numeric entities in epub3
+            if (codename.startsWith("&#")) { 
                 new_source.replace(QChar(epair.first), codename);
-	    } else if ((codename == "&nbsp;") && !has_numeric_nbsp) {
+            } else if ((codename == "&nbsp;") && !has_numeric_nbsp) {
                 new_source.replace(QChar(epair.first), "&#160;");
-	    }
-	}
+            }
+        }
     }
     return new_source;
 }

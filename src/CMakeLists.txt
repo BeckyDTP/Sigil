@@ -191,6 +191,8 @@ set( DIALOG_FILES
     Dialogs/TreeItem.h
     Dialogs/TreeModel.cpp
     Dialogs/TreeModel.h
+    Dialogs/MetaEditorItemDelegate.cpp
+    Dialogs/MetaEditorItemDelegate.h
     Dialogs/HeadingSelector.cpp
     Dialogs/HeadingSelector.h
     Dialogs/PluginRunner.cpp
@@ -264,6 +266,8 @@ set( WIDGET_FILES
     Widgets/Navigator2.h
     Widgets/TextView.cpp
     Widgets/TextView.h
+    Widgets/TextDocument.h
+    Widgets/TextDocument.cpp
     Widgets/TVLineNumberArea.cpp
     Widgets/TVLineNumberArea.h
     )
@@ -311,6 +315,36 @@ set ( QUERY_FILES
     )
 
 
+set( PARSERS_FILES
+    Parsers/CSSInfo.cpp
+    Parsers/CSSInfo.h
+    Parsers/HTMLStyleInfo.cpp
+    Parsers/HTMLStyleInfo.h
+    Parsers/qCSSParser.cpp
+    Parsers/qCSSParser.h
+    Parsers/qCSSUtils.cpp
+    Parsers/qCSSUtils.h
+    Parsers/qCSSProperties.cpp
+    Parsers/qCSSProperties.h
+    Parsers/GumboInterface.h
+    Parsers/GumboInterface.cpp
+    Parsers/TagAtts.cpp
+    Parsers/TagAtts.h
+    Parsers/QuickParser.cpp
+    Parsers/QuickParser.h
+    Parsers/TagLister.cpp
+    Parsers/TagLister.h
+   )
+
+set( EMBEDPYTHON_FILES
+    EmbedPython/DiffRec.h
+    EmbedPython/PyObjectPtr.h
+    EmbedPython/PyObjectPtr.cpp
+    EmbedPython/EmbeddedPython.h
+    EmbedPython/EmbeddedPython.cpp
+    EmbedPython/PythonRoutines.h
+    EmbedPython/PythonRoutines.cpp
+    )
 
 set( MISC_FILES
     Misc/AppEventFilter.cpp
@@ -334,15 +368,6 @@ set( MISC_FILES
     Misc/XHTMLHighlighter.h
     Misc/CSSHighlighter.cpp
     Misc/CSSHighlighter.h
-    Misc/CSSInfo.cpp
-    Misc/CSSInfo.h
-    Misc/CSSParser.cpp
-    Misc/CSSParser.h
-    Misc/CSSUtils.cpp
-    Misc/CSSUtils.h
-    Misc/CSSProperties.cpp
-    Misc/CSSProperties.h
-    Misc/DiffRec.h
     Misc/HTMLEncodingResolver.cpp
     Misc/HTMLEncodingResolver.h
     Misc/HTMLSpellCheck.cpp
@@ -399,24 +424,8 @@ set( MISC_FILES
     Misc/WrapIndicator.h
     Misc/XMLEntities.cpp
     Misc/XMLEntities.h
-    Misc/PyObjectPtr.h
-    Misc/PyObjectPtr.cpp
-    Misc/EmbeddedPython.h
-    Misc/EmbeddedPython.cpp
-    Misc/GumboInterface.h
-    Misc/GumboInterface.cpp
-    Misc/PythonRoutines.h
-    Misc/PythonRoutines.cpp
-    Misc/TextDocument.h
-    Misc/TextDocument.cpp
     Misc/MediaTypes.cpp
     Misc/MediaTypes.h
-    Misc/TagAtts.cpp
-    Misc/TagAtts.h
-    Misc/QuickParser.cpp
-    Misc/QuickParser.h
-    Misc/TagLister.cpp
-    Misc/TagLister.h
     )
 
 set( MISC_EDITORS_FILES
@@ -676,7 +685,7 @@ if ( NOT DEFINED INSTALL_BUNDLED_DICTS )
     set ( INSTALL_BUNDLED_DICTS 1 )
 endif()
 
-set( RAW_SOURCES ${MAIN_FILES} ${TAB_FILES} ${SOURCEUPDATE_FILES} ${BOOK_MANIPULATION_FILES} ${RESOURCE_OBJECT_FILES} ${DIALOG_FILES} ${WIDGET_FILES} ${EXPORTER_FILES} ${IMPORTER_FILES} ${MISC_FILES} ${MISC_EDITORS_FILES} ${QUERY_FILES} ${SPCRE_FILES} ${VIEW_EDITOR_FILES} ${MAINUI_FILES} )
+set( RAW_SOURCES ${MAIN_FILES} ${TAB_FILES} ${SOURCEUPDATE_FILES} ${BOOK_MANIPULATION_FILES} ${RESOURCE_OBJECT_FILES} ${DIALOG_FILES} ${WIDGET_FILES} ${EXPORTER_FILES} ${IMPORTER_FILES} ${MISC_FILES} ${MISC_EDITORS_FILES} ${QUERY_FILES} ${PARSERS_FILES} ${EMBEDPYTHON_FILES} ${SPCRE_FILES} ${VIEW_EDITOR_FILES} ${MAINUI_FILES} )
 
 #############################################################################
 
@@ -713,10 +722,12 @@ source_group( "Resource Objects"  FILES ${RESOURCE_OBJECT_FILES} )
 source_group( "Dialogs"           FILES ${DIALOG_FILES} )
 source_group( "Widgets"           FILES ${WIDGET_FILES} )
 source_group( "Exporters"         FILES ${EXPORTER_FILES} )
+source_group( "EmbedPython"       FILES ${EMBEDPYTHON_FILES} )
 source_group( "Importers"         FILES ${IMPORTER_FILES} )
 source_group( "Misc"              FILES ${MISC_FILES} )
 source_group( "MiscEditors"       FILES ${MISC_EDITORS_FILES} )
 source_group( "Query"             FILES ${QUERY_FILES} )
+source_group( "Parsers"           FILES ${PARSERS_FILES} )
 source_group( "SPCRE"             FILES ${SPCRE_FILES} )
 source_group( "View Editors"      FILES ${VIEW_EDITOR_FILES} )
 source_group( "Tabs"              FILES ${TAB_FILES} )
@@ -1164,10 +1175,6 @@ if( UNIX AND NOT APPLE )
 
     # Configure Linux launch script
     configure_file( ${LINUX_LAUNCH_INSTALL_SCRIPT} ${LINUX_LAUNCH_INSTALL_SCRIPT_CONFIGURED} )
-
-    # Experimental linux installer creation -- removed 1/28/2017.
-    # All experimental stand-alone Sigil linux packaging is now taking place entirely externally
-    # (via docker containers/images) at https://github.com/dougmassay/pkg-sigil
 
     if ( CMAKE_BUILD_TYPE STREQUAL "Debug")
         set( HUNSPELL_NAME ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libhunspelld.so )

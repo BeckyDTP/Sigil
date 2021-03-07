@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2016-2020  Kevin B Hendricks, Stratford, Ontario, Canada
+**  Copyright (C) 2016-2021  Kevin B Hendricks, Stratford, Ontario, Canada
 **  Copyright (C) 2012       John Schember <john@nachtimwald.com>
 **  Copyright (C) 2012       Dave Heiland
 **  Copyright (C) 2012       Grant Drake
@@ -106,7 +106,7 @@ FlowTab::~FlowTab()
 
     if (!GetResourceWasDeleted()) {
         // was: disconnect(m_HTMLResource, SIGNAL(Modified()), this, SLOT(ResourceModified()));
-	disconnect(m_HTMLResource, 0, this , 0);
+        disconnect(m_HTMLResource, 0, this , 0);
     }
 
     m_WellFormedCheckComponent->deleteLater();
@@ -405,6 +405,14 @@ bool FlowTab::RemoveFormattingEnabled()
 {
     if (m_wCodeView) {
         return m_wCodeView->IsCutCodeTagsAllowed();
+    }
+    return false;
+}
+
+bool FlowTab::RemoveTagPairEnabled()
+{
+    if (m_wCodeView) {
+        return m_wCodeView->IsCutTagPairAllowed();
     }
     return false;
 }
@@ -996,6 +1004,13 @@ void FlowTab::RemoveFormatting()
 {
     if (m_wCodeView) {
         m_wCodeView->CutCodeTags();
+    }
+}
+
+void FlowTab::RemoveTagPair()
+{
+    if (m_wCodeView) {
+        m_wCodeView->CutTagPair();
     }
 }
 

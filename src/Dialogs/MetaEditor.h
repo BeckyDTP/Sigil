@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2016 Kevin B. Hendricks, Stratford, ON Canada
+** Copyright (C) 2016-2021 Kevin B. Hendricks, Stratford, ON Canada
 **
 **  This file is part of Sigil.
 **
@@ -27,14 +27,14 @@
 #include <QModelIndex>
 #include <QHash>
 #include "Misc/DescriptiveInfo.h"
-#include "Misc/Language.h"
-#include "Misc/MarcRelators.h"
 
 #include "ui_MetaEditor.h"
 
 class QShortcut;
 class MainWindow;
 class Book;
+class MetaEditorItemDelegate;
+
 
 class MetaEditor : public QDialog, private Ui::MetaEditor
 {
@@ -44,6 +44,18 @@ public:
     MetaEditor(QWidget *parent = 0);
     ~MetaEditor();
 
+    //Quick Utility Conversion from Code to Name
+    const QString EName  (const QString& code); // meta elements
+    const QString PName  (const QString& code); // element properties
+    const QString LName  (const QString& code); // languages
+    const QString RName  (const QString& code); // marc relator roles
+
+    //Quick Utility Conversion from Name to Code
+    const QString ECode  (const QString& name);
+    const QString PCode  (const QString& name);
+    const QString LCode  (const QString& name);
+    const QString RCode  (const QString& name);
+
 public slots:
     void updateActions();
 
@@ -51,8 +63,8 @@ protected slots:
     void reject();
 
 private slots:
-    void insertChild(QString code, QString contents="");
-    void insertRow(QString code, QString contents="");
+    void insertChild(const QString& code, const QString& tip, const QString& contents="", const QString& vtip="");
+    void insertRow(const QString& code, const QString& tip, const QString& contents="", const QString& vtip="");
     void removeRow();
     void moveRowUp();
     void moveRowDown();
@@ -68,39 +80,42 @@ private slots:
  private:
     void loadMetadataElements();
     void loadMetadataProperties();
-
+    void loadMetadataXProperties();
+    void loadChoices();
+    
     void loadE2MetadataElements();
     void loadE2MetadataProperties();
-
+    void loadE2MetadataXProperties();
+    void loadE2Choices();
+    
+    QStringList buildChoices(const QStringList& opts);
+    
     void ReadSettings();
 
     QString GetOPFMetadata();
     QString SetNewOPFMetadata(QString& data);
-
-    const QHash<QString, DescriptiveInfo> & GetElementMap();
-    const QHash<QString, DescriptiveInfo> & GetPropertyMap();
 
     QHash<QString, DescriptiveInfo> m_ElementInfo;
     QHash<QString, QString> m_ElementCode;
 
     QHash<QString, DescriptiveInfo> m_PropertyInfo;
     QHash<QString, QString> m_PropertyCode;
-    
-    QHash<QString, DescriptiveInfo> m_E2ElementInfo;
-    QHash<QString, QString> m_E2ElementCode;
 
-    QHash<QString, DescriptiveInfo> m_E2PropertyInfo;
-    QHash<QString, QString> m_E2PropertyCode;
-    
+    QHash<QString, DescriptiveInfo> m_XPropertyInfo;
+    QHash<QString, QString> m_XPropertyCode;
+
+    QHash<QString, QStringList> m_Choices;
+
     MainWindow * m_mainWindow;
-    MarcRelators * m_Relator;
     QShortcut * m_RemoveRow;
+    MetaEditorItemDelegate * m_cbDelegate;
     QSharedPointer<Book> m_book;
     QString m_version;
     QString m_opfdata;
     QString m_otherxml;
     QString m_metatag;
     QStringList m_idlist;
+    
 };
 
 #endif // METAEDITOR_H

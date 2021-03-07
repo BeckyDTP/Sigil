@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2015-2020 Kevin B. Hendricks, Stratford Ontario Canada
+**  Copyright (C) 2015-2021 Kevin B. Hendricks, Stratford Ontario Canada
 **  Copyright (C) 2009-2011  Strahinja Markovic  <strahinja.markovic@gmail.com>
 **
 **  This file is part of Sigil.
@@ -54,26 +54,12 @@ TabManager::TabManager(QWidget *parent)
     setTabBar(tab_bar);
     connect(tab_bar, SIGNAL(TabBarClicked()),            this, SLOT(SetFocusInTab()));
     connect(tab_bar, SIGNAL(CloseOtherTabsRequest(int)), this, SLOT(CloseOtherTabs(int)));
-    connect(this, SIGNAL(currentChanged(int)),         this, SLOT(EmitTabChanged(int)));
-    connect(this, SIGNAL(tabCloseRequested(int)),      this, SLOT(CloseTab(int)));
+    connect(this, SIGNAL(currentChanged(int)),           this, SLOT(EmitTabChanged(int)));
+    connect(this, SIGNAL(tabCloseRequested(int)),        this, SLOT(CloseTab(int)));
     setDocumentMode(true);
 
     // re-enable tab drag and drop as a test to see if last commit helped
-#if 0    
-    // QTabBar has a bug when a user "presses and flicks" on a non current tab it will cause it 
-    // to setCurrentIndex() but during EmitTabChanged(int) it then may allows the resulting mouseMoveEvent
-    // be processed on the same index that is being set in setCurrentIndex which causes a crash.
-    // This bug makes it dangerous to enable dragging and dropping to move tabs in the QTabBar
-    // So default to non-movable but let a environment variable override this decision
-    if (qEnvironmentVariableIsSet("SIGIL_ALLOW_TAB_MOVEMENT")) {
-        setMovable(true);
-    } else {
-        setMovable(false);
-    }
-#else
     setMovable(true);
-#endif
-
     setTabsClosable(true);
     // setElideMode(Qt::ElideRight); this is the default after qt-5.6
     setUsesScrollButtons(true);
@@ -177,11 +163,6 @@ void TabManager::ReopenTabs()
         CloseTabForResource(resource, true);
         OpenResource(resource, -1, -1, QString());
     }
-#if 0
-    foreach(Resource *resource, resources) {
-        OpenResource(resource, -1, -1, QString());
-    }
-#endif
     OpenResource(currentTab->GetLoadedResource(), -1, -1, QString());
 }
 
@@ -216,22 +197,22 @@ void TabManager::LinkClicked(const QUrl &url)
         if (url.hasFragment()) {
             fragment = url.fragment();
         }
-	QString dest_bookpath;
-	if (attpath.isEmpty()) {
-	    dest_bookpath = tab->GetLoadedResource()->GetRelativePath();
-	} else {
-	    QString startdir = tab->GetLoadedResource()->GetFolder();
-	    dest_bookpath = Utility::buildBookPath(attpath, startdir);
-	}
+        QString dest_bookpath;
+        if (attpath.isEmpty()) {
+            dest_bookpath = tab->GetLoadedResource()->GetRelativePath();
+        } else {
+            QString startdir = tab->GetLoadedResource()->GetFolder();
+            dest_bookpath = Utility::buildBookPath(attpath, startdir);
+        }
         url_string = "book:///" + Utility::buildRelativeHREF(dest_bookpath, fragment);
-	// QUrl will take care of encoding the url path
+    // QUrl will take care of encoding the url path
     } else {
         // we have a scheme and are absolute
         if (url.scheme() == "file") {
             if (url_string.contains("/#")) {
                 url_string.insert(url_string.indexOf("/#") + 1, tab->GetFilename());
             }
-	}
+        }
     }
 
     emit OpenUrlRequest(QUrl(url_string));
@@ -435,7 +416,7 @@ void TabManager::DeleteTab(ContentTab *tab_to_delete)
 
 
     while(!m_TabsToDelete.isEmpty()) {
-	ContentTab *tab = m_TabsToDelete.takeLast();
+    ContentTab *tab = m_TabsToDelete.takeLast();
 
         Q_ASSERT(tab);
 
@@ -556,7 +537,7 @@ bool TabManager::SwitchedToExistingTab(const Resource *resource,
 
 
             // manually update the Preview Location
-	    // flow_tab->EmitScrollPreviewImmediately();
+            // flow_tab->EmitScrollPreviewImmediately();
 
             return true;
         }

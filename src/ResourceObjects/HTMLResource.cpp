@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2015-2020 Kevin B. Hendricks Stratford, ON, Canada 
+**  Copyright (C) 2015-2021 Kevin B. Hendricks Stratford, ON, Canada 
 **  Copyright (C) 2009-2011 Strahinja Markovic  <strahinja.markovic@gmail.com>
 **
 **  This file is part of Sigil.
@@ -29,7 +29,8 @@
 #include "BookManipulation/CleanSource.h"
 #include "BookManipulation/XhtmlDoc.h"
 #include "Misc/Utility.h"
-#include "Misc/GumboInterface.h"
+#include "Parsers/GumboInterface.h"
+#include "Parsers/HTMLStyleInfo.h"
 #include "ResourceObjects/HTMLResource.h"
 #include "sigil_exception.h"
 
@@ -172,22 +173,22 @@ QStringList HTMLResource::GetPathsToLinkedResources()
         }
         GumboAttribute* attr = gumbo_get_attribute(&node->v.element.attributes, "href");
         if (attr) {
-	    QString href = QString::fromUtf8(attr->value);
-	    if (href.indexOf(":") == -1) {
+            QString href = QString::fromUtf8(attr->value);
+            if (href.indexOf(":") == -1) {
                 QUrl target_url(href);
                 QString attpath = target_url.path();
-	        linked_resources.append(Utility::buildBookPath(attpath,GetFolder()));
-	    }
+                linked_resources.append(Utility::buildBookPath(attpath,GetFolder()));
+            }
             continue;
         }
         attr = gumbo_get_attribute(&node->v.element.attributes, "src");
         if (attr) {
-	    QString href = QString::fromUtf8(attr->value);
-	    if (href.indexOf(":") == -1) {
+            QString href = QString::fromUtf8(attr->value);
+            if (href.indexOf(":") == -1) {
                 QUrl target_url(href);
                 QString attpath = target_url.path();
-	        linked_resources.append(Utility::buildBookPath(attpath,GetFolder()));
-	    }
+                linked_resources.append(Utility::buildBookPath(attpath,GetFolder()));
+            }
         }
     }
     return linked_resources;
@@ -310,9 +311,9 @@ void HTMLResource::TrackNewResources(const QStringList &filepaths)
 
 bool HTMLResource::DeleteCSStyles(QList<CSSInfo::CSSSelector *> css_selectors)
 {
-    CSSInfo css_info(GetText(), false);
+    HTMLStyleInfo htmlcss_info(GetText());
     // Search for selectors with the same definition and line and remove from text
-    const QString &new_resource_text = css_info.removeMatchingSelectors(css_selectors);
+    const QString &new_resource_text = htmlcss_info.removeMatchingSelectors(css_selectors);
 
     if (!new_resource_text.isNull()) {
         // At least one of the selector(s) was removed.

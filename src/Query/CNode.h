@@ -1,36 +1,38 @@
-/************************************************************************
+/**********************************************************************************
  **
- **  Copyright (C) 2021 Kevin B. Hendricks, Stratford, ON, Canada
+ **  SigilQuery for Gumbo
  **
- **  This file is part of Sigil.
+ **  A C++ library that provides jQuery-like selectors for Google's Gumbo-Parser.
+ **  Selector engine is an implementation based on cascadia.
  **
- **  Sigil is free software: you can redistribute it and/or modify
- **  it under the terms of the GNU General Public License as published by
- **  the Free Software Foundation, either version 3 of the License, or
- **  (at your option) any later version.
+ **  Based on: "gumbo-query" https://github.com/lazytiger/gumbo-query
+ **  With bug fixes, extensions and improvements
  **
- **  Sigil is distributed in the hope that it will be useful,
- **  but WITHOUT ANY WARRANTY; without even the implied warranty of
- **  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- **  GNU General Public License for more details.
- **
- **  You should have received a copy of the GNU General Public License
- **  along with Sigil.  If not, see <http://www.gnu.org/licenses/>.
+ **  The MIT License (MIT)
+ **  Copyright (c) 2021 Kevin B. Hendricks, Stratford, Ontario Canada
+ **  Copyright (c) 2015 baimashi.com. 
+ **  Copyright (c) 2011 Andy Balholm. All rights reserved.
  **
  **
- ** Taken from:
- ** 
- ** gumbo-query
- ** https://github.com/lazytiger/gumbo-query
+ **  Permission is hereby granted, free of charge, to any person obtaining a copy
+ **  of this software and associated documentation files (the "Software"), to deal
+ **  in the Software without restriction, including without limitation the rights
+ **  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ **  copies of the Software, and to permit persons to whom the Software is
+ **  furnished to do so, subject to the following conditions:
  **
- ** A C++ library that provides jQuery-like selectors for Google's Gumbo-Parser.
- ** Selector engine is an implementation based on cascadia.
+ **  The above copyright notice and this permission notice shall be included in
+ **  all copies or substantial portions of the Software.
  **
- ** Available under the MIT License  
- ** See ORIGINAL_LICENSE file in the source code 
- ** hoping@baimashi.com, Copyright (C) 2016
+ **  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ **  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ **  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ **  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ **  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ **  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ **  THE SOFTWARE.
  **
- *************************************************************************/
+ **********************************************************************************/
 
 #ifndef CNODE_H_
 #define CNODE_H_
@@ -39,56 +41,60 @@
 #include "gumbo_edit.h"
 
 #include <string>
+#include <unordered_set>
 
 class CSelection;
 
 class CNode
 {
-	public:
 
-		CNode(GumboNode* apNode = NULL);
+ public:
 
-		virtual ~CNode();
+    CNode(GumboNode* apNode = NULL);
 
-	public:
+    virtual ~CNode();
 
-		bool valid();
+ public:
 
-		CNode parent();
+    bool valid();
 
-		CNode nextSibling();
+    CNode parent();
 
-		CNode prevSibling();
+    CNode nextSibling();
 
-		unsigned int childNum();
+    CNode prevSibling();
 
-		CNode childAt(size_t i);
+    unsigned int childNum();
 
-		std::string attribute(std::string key);
+    CNode childAt(size_t i);
 
-		std::string text();
+    std::string attribute(std::string key);
 
-		std::string ownText();
+    std::string text();
 
-		size_t startPos();
+    std::string ownText();
 
-		size_t endPos();
+    size_t startPos();
 
-		size_t startPosOuter();
+    size_t endPos();
 
-		size_t endPosOuter();
+    size_t startPosOuter();
 
-		std::string tag();
+    size_t endPosOuter();
 
-                GumboNode* raw();
+    std::string tag();
 
-		CSelection find(std::string aSelector);
+    GumboNode* raw();
 
-	private:
+    CSelection find(std::string aSelector);
 
-		GumboNode* mpNode;
+ private:
+
+    static bool in_set(std::unordered_set<std::string> &s, std::string key);
+
+    void replace_all(std::string &s, const char * s1, const char * s2);
+    
+    GumboNode* mpNode;
 };
 
 #endif /* CNODE_H_ */
-
-/* vim: set ts=4 sw=4 sts=4 tw=100 noet: */

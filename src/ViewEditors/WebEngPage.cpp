@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2019-2020 Kevin B. Hendricks, Stratford Ontario Canada
+**  Copyright (C) 2019-2021 Kevin B. Hendricks, Stratford Ontario Canada
 **
 **  This file is part of Sigil.
 **
@@ -51,11 +51,15 @@ WebEngPage::WebEngPage(QObject *parent)
 
 bool WebEngPage::acceptNavigationRequest(const QUrl & url, QWebEnginePage::NavigationType type, bool isMainFrame)
 {
-  if ((type == QWebEnginePage::NavigationTypeLinkClicked) || (type == QWebEnginePage::NavigationTypeOther)) {
-        DBG qDebug() << "acceptNavigationRequest " << url.toString() << " , " << type << " , " << isMainFrame;
-        m_url = url;
-	QTimer::singleShot(20,this,SLOT(EmitLinkClicked()));
-        return false;
+    DBG qDebug() << "acceptNavigationRequest " << url.toString() << " , " << type << " , " << isMainFrame;
+    if ((type == QWebEnginePage::NavigationTypeLinkClicked) || (type == QWebEnginePage::NavigationTypeOther)) {
+        if (isMainFrame) {
+            m_url = url;
+            QTimer::singleShot(20,this,SLOT(EmitLinkClicked()));
+            return false;
+        }
+        // allow secondary frames such as iframes to be loaded automatically
+        return true;
     }
     if (type == QWebEnginePage::NavigationTypeTyped) {
         DBG qDebug() << "acceptNavigationRequest from scheme handler load" << url.toString();
@@ -71,9 +75,8 @@ void WebEngPage::EmitLinkClicked()
 }
 
 void WebEngPage::javaScriptConsoleMessage(QWebEnginePage::JavaScriptConsoleMessageLevel level, 
-				  const QString & message, int lineNumber, const QString & sourceID)
+                  const QString & message, int lineNumber, const QString & sourceID)
 {
     const QString logEntry = message + " on line:" % QString::number(lineNumber) % " Source:" + sourceID;
     qDebug() << "Javascript error: " << level << logEntry;
 }
-

@@ -59,7 +59,11 @@ _recognized_meta = [
     "belongs-to-collection",
     "dcterms:issued",
     "dcterms:created",
-    # "dcterms:modified",
+    "dcterms:modified",
+    "schema:accessibilitySummary",
+    "schema:accessMode",
+    "schema:accessModeSufficient",
+    "schema:accessibilityFeature",
     # "rendition:flow",
     # "rendition:layout",
     # "rendition:orientation",
@@ -270,6 +274,7 @@ def set_new_metadata(data, other, idlst, metatag, opfdata):
                 if name == "id":
                     id = valid_id(value, idlst)
                     mattr["id"] = id
+                    idlst.append(id)
                 else:
                     mattr[name] = value
             else: 
@@ -284,6 +289,7 @@ def set_new_metadata(data, other, idlst, metatag, opfdata):
                 root = _rec2root.get(mname, "num")
                 id = valid_id(root, idlst)
                 mattr["id"] = id
+                idlst.append(id)
 
         # add in the metadata element itself
         newmd.append((mname, mcontent, mattr))

@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2015-2019 Kevin B. Hendricks, Stratford Ontario Canada
+**  Copyright (C) 2015-2021 Kevin B. Hendricks, Stratford Ontario Canada
 **  Copyright (C) 2012      Dave Heiland
 **
 **  This file is part of Sigil.
@@ -40,7 +40,7 @@ DeleteStyles::DeleteStyles(QHash<QString, QList<CSSInfo::CSSSelector *>> css_sty
 
     while (stylesheets.hasNext()) {
         stylesheets.next();
-	// css_filename has been converted to a book path
+        // css_filename has been converted to a book path
         QString css_filename = stylesheets.key();
         foreach(CSSInfo::CSSSelector * s, stylesheets.value()) {
             QList<QStandardItem *> rowItems;
@@ -52,11 +52,11 @@ DeleteStyles::DeleteStyles(QHash<QString, QList<CSSInfo::CSSSelector *>> css_sty
             // Filename
             QStandardItem *file_item = new QStandardItem();
             file_item->setText(css_filename);
-            file_item->setData(QString::number(s->line));
+            file_item->setData(QString::number(s->pos));
             rowItems << file_item;
             // Class
             QStandardItem *class_item = new QStandardItem();
-            class_item->setText(s->groupText);
+            class_item->setText(s->text);
             rowItems << class_item;
 
             for (int i = 0; i < rowItems.count(); i++) {
@@ -101,11 +101,11 @@ void DeleteStyles::SaveStylesToDelete()
 
         if (checked) {
             QString filename  = m_Model.item(row, 1)->text();
-            int style_line = m_Model.item(row, 1)->data().toInt();
+            int style_pos = m_Model.item(row, 1)->data().toInt();
             QString style_name = m_Model.item(row, 2)->text();
             CSSInfo::CSSSelector *selector = new CSSInfo::CSSSelector();
-            selector->groupText = style_name;
-            selector->line = style_line;
+            selector->text = style_name;
+            selector->pos = style_pos;
             m_CSSStylesToDelete[filename].append(selector);
         }
     }
@@ -143,8 +143,8 @@ void DeleteStyles::WriteSettings()
 void DeleteStyles::DoubleClick(const QModelIndex index)
 {
     QString filename = m_Model.item(index.row(), 1)->text();
-    int line = m_Model.item(index.row(), 1)->data().toInt();
-    emit OpenFileRequest(filename, line);
+    int position = m_Model.item(index.row(), 1)->data().toInt();
+    emit OpenFileRequest(filename, -1, position);
 }
 
 void DeleteStyles::ConnectSignals()

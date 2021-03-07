@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2020 Kevin B. Hendricks Stratford, ON, Canada 
+**  Copyright (C) 2020-2021 Kevin B. Hendricks Stratford, ON, Canada 
 **
 **  This file is part of Sigil.
 **
@@ -22,7 +22,7 @@
 #ifndef QUICK_PARSER
 #define QUICK_PARSER
 
-#include "Misc/TagAtts.h"
+#include "Parsers/TagAtts.h"
 
 class TagAtts;
 class QString;
@@ -34,8 +34,8 @@ class QuickParser
 public:
 
     struct MarkupInfo {
-	int     pos;
-	QString text;
+        int     pos;
+        QString text;
         QString lang;
         QString tpath;
         QString tname;

@@ -45,6 +45,7 @@
 #include "Dialogs/TreeItem.h"
 #include "Dialogs/TreeModel.h"
 
+const QString _GS = QString(QChar(29));
 const QString _RS = QString(QChar(30));
 const QString _US = QString(QChar(31));
 const QString _IN = QString("  ");
@@ -78,19 +79,25 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    if (role != Qt::DisplayRole && role != Qt::EditRole)
+    if (role != Qt::DisplayRole && role != Qt::EditRole && role != Qt::ToolTipRole)
         return QVariant();
 
     TreeItem *item = getItem(index);
-
+    if (role == Qt::ToolTipRole) {
+        return item->tip(index.column());
+    }
     return item->data(index.column());
 }
 
+// Note only column 1 values are user editable, column 0 is not
 Qt::ItemFlags TreeModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
       return Qt::ItemFlags();
 
+    if (index.column() == 0) {
+        return QAbstractItemModel::flags(index);
+    }
     return Qt::ItemIsEditable | QAbstractItemModel::flags(index);
 }
 
@@ -210,12 +217,17 @@ int TreeModel::rowCount(const QModelIndex &parent) const
 
 bool TreeModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if (role != Qt::EditRole)
+    if ((role != Qt::EditRole) && (role !=Qt::ToolTipRole))
         return false;
 
     TreeItem *item = getItem(index);
-    bool result = item->setData(index.column(), value);
 
+    bool result;
+    if (role == Qt::ToolTipRole) {
+        result = item->setTips(index.column(), value);
+    } else {    
+        result = item->setData(index.column(), value);
+    }
     if (result)
         emit dataChanged(index, index);
 
@@ -259,9 +271,12 @@ void TreeModel::setupModelData(const QStringList &lines, TreeItem *parent)
             // Read the column data from the rest of the line.
             QStringList columnStrings = lineData.split(_US, QString::SkipEmptyParts);
             QVector<QVariant> columnData;
-            for (int column = 0; column < columnStrings.count(); ++column)
-                columnData << columnStrings[column];
-
+            QVector<QVariant> tipData;
+            for (int column = 0; column < columnStrings.count(); ++column) {
+                QStringList parts = columnStrings[column].split(_GS, QString::KeepEmptyParts);
+                columnData << parts.at(0);
+                tipData << parts.at(1);
+            }
             if (position > indentations.last()) {
                 // The last child of the current parent is now the new parent
                 // unless the current parent has no children.
@@ -280,8 +295,10 @@ void TreeModel::setupModelData(const QStringList &lines, TreeItem *parent)
             // Append a new item to the current parent's list of children.
             TreeItem *parent = parents.last();
             parent->insertChildren(parent->childCount(), 1, rootItem->columnCount());
-            for (int column = 0; column < columnData.size(); ++column)
+            for (int column = 0; column < columnData.size(); ++column) {
                 parent->child(parent->childCount() - 1)->setData(column, columnData[column]);
+                parent->child(parent->childCount() - 1)->setTips(column, tipData[column]);
+            }
         }
 
         ++number;

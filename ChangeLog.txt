@@ -1,12 +1,24 @@
-pre-1.5.0
+Sigil-1.5.0
     Bug Fixes:
       - fix issue with custom ncx names in non-standard empty epub layouts
-      - Fix Import TXT to properly add ncx if missing for epub2
+      - fix Import Text to properly add ncx if missing for epub2
+      - fix issue with "Delete Unused Styles" not properly detecting all used selectors
+      - fix issues with repeated use of Mend and Prettify on bare text in structural tags
 
     New Features:
-      - Use "sigil" url scheme and schemehandler to break 2mb limit on single xhtml file size
-      - Highlight matched open close tag pairs while editing in CodeView
-      - Extend Split on Sigil Split Marker capabilities to work better with nested tags
+      - added "sigil" url scheme and schemehandler to break 2mb limit on single xhtml file size
+      - highlight matched open close tag pairs while editing in CodeView
+      - added capability to delete highlighted open close tag pairs
+      - added default selection of text for basic CodeView formatting including bold, italic, etc
+      - extended split on Sigil Split Marker capabilities to work better with nested tags
+      - added a CSS Parser and Query engine that works with Sigil's version of Gumbo
+      - the reports tool for "CSS Selectors" now lists all CSS selectors not just classes
+      - the "Delete Unused Styles" tool now handles all unused CSS Selectors not just classes
+      - the reports for "CSS Selectors" and "Delete Unused Selectors" now handle selectors in XHTML Style tags
+      - added ability to load text and csv files to Group Saved Searches to automate lists of replacements
+      - reworked the Metadata Editor to be much more Human Readable with tooltips to show xml tags
+      - added semantic code to the descriptive field in Add Semantics as a learning aid (Thank You BeckyEbook!)
+
 
 Sigil-1.4.3
     Bug Fixes:
