@@ -1,7 +1,7 @@
 /************************************************************************
 **
-**  Copyright (C) 2019 Kevin B. Hendricks Stratford, Ontario, Canada
-**  Copyright (C) 2019 Doug Massay
+**  Copyright (C) 2019-2021 Kevin B. Hendricks Stratford, Ontario, Canada
+**  Copyright (C) 2021 Doug Massay
 **
 **  This file is part of Sigil.
 **
@@ -30,6 +30,7 @@
 #include "ViewEditors/Viewer.h"
 
 class QSize;
+class LoadingOverlay;
 
 class ViewPreview : public QWebEngineView, public Viewer
 {
@@ -109,6 +110,9 @@ public:
 
 public slots:
 
+    void ShowOverlay();
+    void HideOverlay();
+
 
 signals:
     /**
@@ -126,6 +130,8 @@ signals:
 
     void GoToPreviewLocationRequest();
 
+    void ViewProgress(int);
+    
 protected:
     /**
      * Evaluates the provided javascript source code
@@ -232,6 +238,8 @@ private:
     // QAction *m_InspectElement;
 
     QString m_hoverUrl;
+
+    LoadingOverlay* m_overlay;
 };
 
 #endif // VIEWPREVIEW_H

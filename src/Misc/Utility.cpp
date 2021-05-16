@@ -59,6 +59,7 @@
 #include <QFileInfo>
 #include <QCollator>
 #include <QMenu>
+#include <QSet>
 #include <QVector>
 #include <QDebug>
 
@@ -729,7 +730,7 @@ void Utility::DisplayStdWarningDialog(const QString &warning_message, const QStr
     if (!detailed_text.isEmpty()) {
         message_box.setDetailedText(detailed_text);
     }
-    message_box.setStandardButtons(QMessageBox::Close);
+    message_box.setStandardButtons(QMessageBox::Ok);
     message_box.exec();
 }
 
@@ -1274,6 +1275,25 @@ QBrush Utility::ValidationResultBrush(const Val_Msg_Type &valres)
     }
 }
 
+
+QString Utility::createCSVLine(const QStringList &data)
+{
+    QStringList csvline;
+    foreach(QString val, data) {
+        bool need_quotes = val.contains(',');
+        QString cval = "";
+        if (need_quotes) cval.append('"');
+        foreach(QChar c, val) {
+            if (c == '"') cval.append('"');
+            cval.append(c);
+        }
+        if (need_quotes) cval.append('"');
+        csvline.append(cval);
+    }
+    return csvline.join(',');
+}
+
+
 QStringList Utility::parseCSVLine(const QString &data)
 {
     auto unquote_val = [](const QString &av) {
@@ -1314,3 +1334,14 @@ QStringList Utility::parseCSVLine(const QString &data)
     return vals;
 }
 
+
+QString Utility::GenerateUniqueId(const QString &id, const QSet<QString>& Used)
+{
+    int cnt = 1;
+    QString new_id = id + "_" + QString::number(cnt);
+    while (Used.contains(new_id)) {
+        cnt++;
+        new_id = id + "_" + QString::number(cnt);
+    }
+    return new_id;
+}

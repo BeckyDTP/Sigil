@@ -168,7 +168,7 @@ void FlowTab::DelayedInitialization()
     DelayedConnectSignalsToSlots();
 
     // sync Preview to where CodeView is now
-    // emit ScrollPreviewImmediately();
+    emit ScrollPreviewImmediately();
 
     // Cursor set in constructor
     QApplication::restoreOverrideCursor();
@@ -176,7 +176,7 @@ void FlowTab::DelayedInitialization()
 
 bool FlowTab::IsLoadingFinished()
 {
-    bool is_finished = true;
+    bool is_finished = false;
 
     if (m_wCodeView) {
         is_finished = m_wCodeView->IsLoadingFinished();
@@ -244,8 +244,10 @@ void FlowTab::ResourceModified()
         m_LastPosition = -1;
     }
 
-    DBG qDebug() << "FlowTab emitting UpdatePreview from ResourceModified";
-    EmitUpdatePreview();
+    if (IsLoadingFinished()) {
+        DBG qDebug() << "FlowTab in ResourceModified";
+        EmitUpdatePreview();
+    }
 }
 
 void FlowTab::HandleViewImage(const QUrl &url) 
@@ -332,8 +334,10 @@ void FlowTab::EmitContentChanged()
 
 void FlowTab::EmitUpdatePreview()
 {
-    DBG qDebug() << "FlowTab emiting UpdatePreview from EmitUpdatePreview";
-    emit UpdatePreview();
+    if (IsLoadingFinished()) {
+        DBG qDebug() << "FlowTab emiting UpdatePreviewRequest from EmitUpdatePreview";
+        emit UpdatePreview();
+    }
 }
 
 void FlowTab::EmitUpdatePreviewImmediately()

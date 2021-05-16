@@ -146,6 +146,10 @@ public:
      * @return List of valid selected HTML resources
      */
     QList <Resource *> GetValidSelectedHTMLResources();
+    QList <Resource *> GetValidSelectedCSSResources();
+
+    QList <Resource *> GetTabbedHTMLResources();
+    QList <Resource *> GetTabbedCSSResources();
 
     /**
      * Returns a list of all HTML resources in book browser order
@@ -153,7 +157,10 @@ public:
      * @return List of all HTML resources in book browser order
      */
     QList <Resource *> GetAllHTMLResources();
+    QList <Resource *> GetAllCSSResources();
 
+    QList <Resource *> GetOPFResource();
+    QList <Resource *> GetNCXResource();
 
     /**
      * Select resources in the Book Browser
@@ -1027,6 +1034,8 @@ private:
     QActionGroup *m_headingActionGroup;
 
     QString m_mathjaxfolder;
+
+    bool m_FRVisible;
 
     /**
      * Holds all the widgets Qt Designer created for us.

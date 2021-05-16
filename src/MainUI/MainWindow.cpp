@@ -1,7 +1,7 @@
 /************************************************************************
 **
 **  Copyright (C) 2015-2021 Kevin B. Hendricks, Stratford Ontario Canada
-**  Copyright (C) 2015-2020 Doug Massay
+**  Copyright (C) 2015-2021 Doug Massay
 **  Copyright (C) 2012-2015 John Schember <john@nachtimwald.com>
 **  Copyright (C) 2012-2013 Dave Heiland
 **  Copyright (C) 2009-2011 Strahinja Markovic  <strahinja.markovic@gmail.com>
@@ -115,6 +115,7 @@
 #include "sigil_exception.h"
 #include "SourceUpdates/LinkUpdates.h"
 #include "SourceUpdates/WordUpdates.h"
+#include "SourceUpdates/FragmentUpdates.h"
 #include "Tabs/FlowTab.h"
 #include "Tabs/CSSTab.h"
 #include "Tabs/OPFTab.h"
@@ -850,22 +851,18 @@ void MainWindow::RepoManage()
 
 void MainWindow::launchExternalXEditor()
 {
+    // For simplicity for new users always launch the external xhtml
+    // editor with the opf so that all xhtml files are findable and editable
+
     // Launch external xhtml editor for current tab resource
     // ONLY if the current tab resource is a HTMLResource and
     // ONLY if an external editor path is set and still exists
 
     HTMLResource *html_resource = NULL;
-    OPFResource * opf_resource = NULL;
 
     ContentTab *tab = GetCurrentContentTab();
-    if (tab != NULL) {
+    if (tab) {
         html_resource = qobject_cast<HTMLResource *>(tab->GetLoadedResource());
-        opf_resource = qobject_cast<OPFResource *>(tab->GetLoadedResource());
-    }
-
-    if (!html_resource && !opf_resource) {
-        ShowMessageOnStatusBar(tr("External XHtml Editor works only on Html Resources or OPF Resources!"));
-        return;
     }
 
     SettingsStore ss;
@@ -882,45 +879,38 @@ void MainWindow::launchExternalXEditor()
         return;
     }
 
-    Resource * resource;
+    Resource * resource = m_Book->GetOPF();
 
-    if (opf_resource) {
+    // an OPF Resource could be used to access every xhtml file in the spine
+    // so save all of these resources to disk and set a fswatcher on them
+    QList<Resource *> all_resources = m_Book->GetFolderKeeper()->GetResourceList();
+    QList<Resource*> spine_resources = m_Book->GetOPF()->GetSpineOrderResources(all_resources);
 
-        resource = qobject_cast<Resource *>(opf_resource);
-
-        // an OPF Resource could be used to access every xhtml file in the spine
-        // so save all of these resources to disk and set a fswatcher on them
-        QList<Resource *> all_resources = m_Book->GetFolderKeeper()->GetResourceList();
-        QList<Resource*> spine_resources = m_Book->GetOPF()->GetSpineOrderResources(all_resources);
-
-        // first suspend file watching and then save all of these to disk
-        m_Book->GetFolderKeeper()->SuspendWatchingResources();
-        resource->SaveToDisk();
-        foreach(Resource * spineres, spine_resources) {
-            HTMLResource* xhtmlres = qobject_cast<HTMLResource *>(spineres);
-            if (xhtmlres) {
-                spineres->SaveToDisk();
-            }
+    int spinenum = 0;
+    
+    // first suspend file watching and then save all of these to disk
+    // AND while doing so record where in the spine any current html tab might be
+    m_Book->GetFolderKeeper()->SuspendWatchingResources();
+    resource->SaveToDisk();
+    int i = 0;
+    foreach(Resource * spineres, spine_resources) {
+        HTMLResource* xhtmlres = qobject_cast<HTMLResource *>(spineres);
+        if (xhtmlres) {
+            spineres->SaveToDisk();
         }
-        m_Book->GetFolderKeeper()->ResumeWatchingResources();
-        // after re-enabling file watching, add all of these to list of files to be watched
-        foreach(Resource * spineres, spine_resources) {
-            HTMLResource* xhtmlres = qobject_cast<HTMLResource *>(spineres);
-            if (xhtmlres) {
-                m_Book->GetFolderKeeper()->WatchResourceFile(spineres);
-            }
-        }
-
-    } else {
-
-        // single xhtml resource
-        resource = qobject_cast<Resource *>(html_resource);
-        m_Book->GetFolderKeeper()->SuspendWatchingResources();
-        resource->SaveToDisk();
-        m_Book->GetFolderKeeper()->ResumeWatchingResources();
+        if (html_resource && (html_resource == xhtmlres)) spinenum = i;
+        i++;
     }
-
-    if (OpenExternally::openFile(resource->GetFullPath(), XEditorPath)) {
+    m_Book->GetFolderKeeper()->ResumeWatchingResources();
+    // after re-enabling file watching, add all of these to list of files to be watched
+    foreach(Resource * spineres, spine_resources) {
+        HTMLResource* xhtmlres = qobject_cast<HTMLResource *>(spineres);
+        if (xhtmlres) {
+            m_Book->GetFolderKeeper()->WatchResourceFile(spineres);
+        }
+    }
+    
+    if (OpenExternally::openFileWithXEditor(resource->GetFullPath(), XEditorPath, spinenum)) {
         m_Book->GetFolderKeeper()->WatchResourceFile(resource);
         ShowMessageOnStatusBar(tr("Executing External Xhtml Editor"));
         return;
@@ -960,9 +950,52 @@ QList <Resource *> MainWindow::GetValidSelectedHTMLResources()
 }
 
 
+QList <Resource *> MainWindow::GetValidSelectedCSSResources()
+{
+    return m_BookBrowser->ValidSelectedCSSResources();
+}
+
+
+QList <Resource*> MainWindow::GetTabbedHTMLResources()
+{
+    return m_TabManager->GetTabResourcesOfType(Resource::HTMLResourceType);
+}
+
+
+QList <Resource*> MainWindow::GetTabbedCSSResources()
+{
+    return m_TabManager->GetTabResourcesOfType(Resource::CSSResourceType);
+}
+
+
 QList <Resource *> MainWindow::GetAllHTMLResources()
 {
     return m_BookBrowser->AllHTMLResources();
+}
+
+
+QList <Resource *> MainWindow::GetAllCSSResources()
+{
+    return m_BookBrowser->AllCSSResources();
+}
+
+
+QList <Resource *> MainWindow::GetOPFResource()
+{
+    QList<Resource *> resources;
+    Resource * resource = m_Book->GetOPF(); 
+    resources << resource;
+    return resources;
+}
+
+
+QList <Resource *> MainWindow::GetNCXResource()
+{
+    QList<Resource *> resources;
+    Resource * resource = m_Book->GetNCX();
+    /* need not exist */
+    if (resource) resources << resource;
+    return resources;
 }
 
 
@@ -1209,6 +1242,7 @@ void MainWindow::DebugCurrentWidgetSizes()
 
         r = m_FindReplace->geometry();
         qDebug() << "find replace: " << r.x() << r.y() << r.width() << r.height();
+        qDebug() << "find replace visible: " << m_FindReplace->isVisible();
     }
 }
 
@@ -2822,27 +2856,58 @@ void MainWindow::MergeResources(QList <Resource *> resources)
     }
 
     // Check if data is well formed
-    foreach (Resource *r, resources) {
-        HTMLResource *h = qobject_cast<HTMLResource *>(r);
-        if (!h) {
-            continue;
-        }
-        if (!h->FileIsWellFormed()) {
-            QMessageBox::warning(this, tr("Sigil"), tr("Merge cancelled: %1, XML not well formed.").arg(h->ShortPathName()));
+    QList<HTMLResource*> html_resources;
+    foreach(Resource* resource, resources) {
+        HTMLResource* htmlresource = qobject_cast<HTMLResource*>(resource);
+        if (htmlresource) html_resources << htmlresource;
+    }
+    if (!m_Book->CheckHTMLFilesForWellFormedness(html_resources)) {
+        QMessageBox::warning(this, tr("Sigil"), tr("Merge cancelled: XHTML files involved in merge are not well formed."));
             return;
-        }
-    }
-    if (!m_TabManager->IsAllTabDataWellFormed()) {
-        QMessageBox::warning(this, tr("Sigil"), tr("Merge cancelled due to XML not well formed."));
-        return;
-    }
-
-    // Handle warning the user about undefined url fragments.
-    if (!ProceedWithUndefinedUrlFragments()) {
-        return;
     }
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
+
+    // we need to check for duplicate ids being used in any of the files to be merged
+    // and fix them here first before proceeding
+    QHash<QString,QStringList> BookPathIds = m_Book->GetIdsInHTMLFiles();
+    QSet<QString> Duplicates;
+    QSet<QString> UsedIds;
+    QHash<QString, QStringList> IdBookPaths;
+    // for the set of files involved, invert BookPathIds to identify duplicates
+    foreach(Resource * resource, resources) {
+        QString bookpath = resource->GetRelativePath();
+        QStringList ids=BookPathIds.value(bookpath, QStringList());
+        foreach(QString id, ids) {
+            QStringList bpaths = IdBookPaths.value(id, QStringList());
+            bpaths << bookpath;
+            if (bpaths.size() >= 2) Duplicates.insert(id);
+            IdBookPaths[id] = bpaths;
+            UsedIds.insert(id);
+        }
+    }
+    QStringList Dups = Duplicates.toList();
+    if (!Dups.isEmpty()) {
+        // if duplicates exist, run the SourceUpdates/FragmentUpdates
+        QHash<QString, QString> Updates;
+        foreach(QString id, Dups) {
+            // qDebug() << "Id duplicated: " << id << " in " << IdBookPaths[id];
+            QStringList bpaths = IdBookPaths[id];
+            for (int i=1; i < bpaths.size(); i++) {
+                QString newid = Utility::GenerateUniqueId(id, UsedIds);
+                Updates[bpaths.at(i) + "#" + id] = newid;
+                UsedIds.insert(newid);
+            }
+
+        }
+        QList<HTMLResource *> AllHTMLResources= m_Book->GetHTMLResources();
+        FragmentUpdates::UpdateFragments(AllHTMLResources, Updates);
+        QString version = m_Book->GetOPF()->GetEpubVersion();
+        if (version.startsWith("2")) {
+            m_Book->GetOPF()->UpdateGuideFragments(Updates);
+        }
+    }
+
     // Close all tabs being updated to prevent BV overwriting the new data
     foreach(Resource *resource, resources) {
         m_TabManager->CloseTabForResource(resource);
@@ -2851,7 +2916,6 @@ void MainWindow::MergeResources(QList <Resource *> resources)
     // Close the OPF tab
     bool opf_was_open = m_TabManager->CloseOPFTabIfOpen();
 
-    // Display progress dialog
     Resource *resource_to_open = resources.first();
     Resource *failed_resource = m_Book->MergeResources(resources);
 
@@ -3862,10 +3926,12 @@ void MainWindow::SetupPreviewTimer()
     m_PreviewTimer.setSingleShot(true);
     m_PreviewTimer.setInterval(1000);
     connect(&m_PreviewTimer, SIGNAL(timeout()), this, SLOT(UpdatePreview()));
+    m_PreviewTimer.stop();
 }
 
 void MainWindow::UpdatePreviewRequest()
 {
+    DBG qDebug() << "UpdatePreviewRequest has started its timer";
     if (m_PreviewTimer.isActive()) {
         m_PreviewTimer.stop();
     }
@@ -3947,6 +4013,7 @@ void MainWindow::UpdatePreview()
                 // signals are sent that it has changed which requests Preview to update
                 // so these need to be ignored.  Once the document is loaded it signals again.
                 if (!flow_tab->IsLoadingFinished()) {
+                    DBG qDebug() << "Flow Tab Is Loading Finished returned false";
                     return;
                 }
                 text = flow_tab->GetText();
@@ -4246,6 +4313,11 @@ void MainWindow::ReadSettings()
     // So delay restore until the first time the widget is made active
     m_LastState = settings.value("toolbars",QByteArray()).toByteArray();
 
+#ifdef Q_OS_MAC
+    // Work around saved state restore bug with Find and Replace on macOS
+    m_FRVisible = settings.value("frvisible", false).toBool();
+#endif
+
     // The last folder used for saving and opening files
     m_LastFolderOpen  = settings.value("lastfolderopen", QDir::homePath()).toString();
     // The list of recent files
@@ -4314,7 +4386,7 @@ void MainWindow::ReadSettings()
     execdir.cdUp();
     mathjaxurl = execdir.absolutePath() + "/polyfills/MJ/";
 #elif defined(Q_OS_WIN32)
-    mathjaxurl = "/" + QCoreApplication::applicationDirPath() + "/polyfills/MJ/";
+    mathjaxurl = QCoreApplication::applicationDirPath() + "/polyfills/MJ/";
 #else
     // all flavours of linux / unix
     // First check if system MathJax was configured to be used at compile time
@@ -4332,7 +4404,7 @@ void MainWindow::ReadSettings()
 #endif
     m_mathjaxfolder = mathjaxurl;
     mathjaxurl = mathjaxurl + "MathJax.js";
-    mathjaxurl = "file://" + Utility::URLEncodePath(mathjaxurl);
+    mathjaxurl = QUrl::fromLocalFile(mathjaxurl).toString();
     mathjaxurl = mathjaxurl + "?config=local/SIGIL_EBOOK_MML_SVG";
     m_PreviewWindow->setMathJaxURL(mathjaxurl);
 }
@@ -4355,6 +4427,15 @@ void MainWindow::WriteSettings()
     // https://bugreports.qt-project.org/browse/QTBUG-21371
     settings.setValue("maximized", isMaximized());
     settings.setValue("fullscreen",isFullScreen());
+
+#ifdef Q_OS_MAC
+    // work around Find Replace saved state restore bug on macOS
+    settings.setValue("frvisible",m_FindReplace->isVisible());
+    if (m_FindReplace->isVisible()) {
+        // can not use just hide() and FR keeps its own internal state
+        m_FindReplace->HideFindReplace();
+    }
+#endif
 
     DBG DebugCurrentWidgetSizes();
 
@@ -5140,7 +5221,7 @@ void MainWindow::ExtendUI()
     QLayout *layout = new QVBoxLayout(frame);
     frame->setLayout(layout);
     m_TabManager->setObjectName(TAB_MANAGER_NAME);
-    m_FindReplace->setObjectName("FIND_REPLACE_NAME");
+    m_FindReplace->setObjectName(FIND_REPLACE_NAME);
     layout->addWidget(m_TabManager);
     layout->addWidget(m_FindReplace);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -5530,6 +5611,12 @@ void MainWindow::changeEvent(QEvent *e)
             if (m_FirstTime) {
                 if (!m_LastState.isEmpty()) {
                     restoreState(m_LastState);
+#ifdef Q_OS_MAC
+                    // work around for macOS specific bug saved state restore with Find & Replace
+                    if (m_FRVisible) {
+                         QTimer::singleShot(0, this, SLOT(Find()));
+                    }
+#endif
                 }
 
                 DWINGEO {
@@ -5558,7 +5645,7 @@ void MainWindow::changeEvent(QEvent *e)
                 QTimer::singleShot(0, this, SLOT(ShowLastOpenFileWarnings()));
             }
 
-            DWINGEO DebugCurrentWidgetSizes();
+            DBG DebugCurrentWidgetSizes();
 
             m_SaveLastEnabled = true;
             m_PendingLastSizeUpdate = true;
@@ -5705,7 +5792,7 @@ void MainWindow::ConnectSignalsToSlots()
             this,                   SLOT(UpdateUIWhenTabsSwitch()));
     connect(m_TabManager,          SIGNAL(TabChanged(ContentTab *, ContentTab *)),
             this,                    SLOT(UpdateBrowserSelectionToTab()));
-    connect(m_TabManager,          SIGNAL(TabChanged(ContentTab *, ContentTab *)),
+    connect(m_TabManager,          SIGNAL(UpdatePreviewAfterExistingTabSwitch()),
             this,                    SLOT(UpdatePreview()));
     connect(m_BookBrowser,          SIGNAL(UpdateBrowserSelection()),
             this,                    SLOT(UpdateBrowserSelectionToTab()));
@@ -5872,7 +5959,6 @@ void MainWindow::MakeTabConnections(ContentTab *tab)
         connect(tab,   SIGNAL(ClipboardRestoreRequest()),  m_ClipboardHistorySelector,  SLOT(RestoreClipboardState()));
         connect(tab,   SIGNAL(SpellingHighlightRefreshRequest()), this,  SLOT(RefreshSpellingHighlighting()));
         connect(tab,   SIGNAL(InsertFileRequest()), this,  SLOT(InsertFileDialog()));
-
         connect(tab,   SIGNAL(UpdatePreview()), this, SLOT(UpdatePreviewRequest()));
         connect(tab,   SIGNAL(UpdatePreviewImmediately()), this, SLOT(UpdatePreview()));
         connect(tab,   SIGNAL(ScrollPreviewImmediately()), this, SLOT(ScrollPreview()));

@@ -13,7 +13,6 @@ on:
     - 'version.xml'
     - '.retired_travis.yml'
     - '**/**.md'
-    - '**/reset-**-caches.txt'
   pull_request:
     branches: [ master ]
     tags-ignore:
@@ -26,7 +25,6 @@ on:
     - 'version.xml'
     - '.retired_travis.yml'
     - '**/**.md'
-    - '**/reset-**-caches.txt'
 env:
   GDRIVE_REFRESH_TOKEN: ${{ secrets.GDRIVE_REFRESH_TOKEN }}
   GDRIVE_DIR: ${{ secrets.SIGIL_MAC_GDRIVE_DIR }}
@@ -35,6 +33,7 @@ env:
   MACOSX_DEPLOYMENT_TARGET: 10.12
   DOWNLOADQT: https://github.com/kevinhendricks/BuildSigilOnMac/releases/download/for_sigil_1.0.0/Qt5129.tar.xz
   DOWNLOADPY: https://github.com/kevinhendricks/BuildSigilOnMac/releases/download/for_sigil_1.0.0/Python.framework.tar.xz
+  DOWNLOADGDRIVE: https://github.com/dougmassay/win-qtwebkit-5.212/releases/download/v5.212-1/gdrive-darwin-amd64
   PY_VER: 3.8
   QT: Qt5129
 
@@ -62,7 +61,6 @@ jobs:
       shell: bash
       working-directory: ${{runner.workspace}}
       run: |
-        brew install gdrive
         brew install wget
         pwd
         if [[ ! -d ${{runner.workspace}}/${{env.QT}} ]]; \
@@ -79,6 +77,10 @@ jobs:
         if [[ ! -d ${{runner.workspace}}/Frameworks ]]; \
         then mkdir Frameworks && cd ${{runner.workspace}}/Frameworks && \
         wget ${DOWNLOADPY} && tar xzf Python.framework.tar.xz; fi
+
+        curl -L -o gdrive ${DOWNLOADGDRIVE}
+        chmod a+x ./gdrive
+        echo ${{runner.workspace}} >> $GITHUB_PATH
 
         export MYDEST=${{runner.workspace}}/Frameworks
         echo ${MYDEST}/Python.framework/Versions/${PY_VER}/bin >> $GITHUB_PATH
@@ -122,6 +124,7 @@ jobs:
       shell: bash
       if: "contains(github.event.head_commit.message, '[deploy]') && github.event_name != 'pull_request'"
       run: |
+        gdrive version
         python3 $GITHUB_WORKSPACE/ci_scripts/newgddeploy.py
 
     - uses: actions/upload-artifact@v2

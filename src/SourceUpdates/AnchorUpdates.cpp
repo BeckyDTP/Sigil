@@ -57,14 +57,20 @@ void AnchorUpdates::UpdateExternalAnchors(const QList<HTMLResource *> &html_reso
 }
 
 
-// used to update after merge of html_resources into new_file
-void AnchorUpdates::UpdateAllAnchors(const QList<HTMLResource *> &html_resources, const QStringList &originating_bookpaths, HTMLResource *sink_res)
+// used for merge to fix all anchors outside the merge to point to the sink
+void AnchorUpdates::UpdateAllAnchors(const QList<HTMLResource *> &html_resources,
+                                     const QStringList &originating_bookpaths,
+                                     HTMLResource *sink_res,
+                                     const QHash<QString,QString> &section_id_map)
 {
     QList<HTMLResource *> new_files;
     new_files.append(sink_res);
-    const QHash<QString, QString> &ID_locations = GetIDLocations(new_files);
     QString sink_bookpath = sink_res->GetRelativePath();
-    QtConcurrent::blockingMap(html_resources, std::bind(UpdateAllAnchorsInOneFile, std::placeholders::_1, originating_bookpaths, ID_locations, sink_bookpath));
+    QtConcurrent::blockingMap(html_resources, std::bind(UpdateAllAnchorsInOneFile, 
+                                                        std::placeholders::_1,
+                                                        originating_bookpaths,
+                                                        sink_bookpath,
+                                                        section_id_map));
 }
 
 
@@ -224,13 +230,14 @@ void AnchorUpdates::UpdateExternalAnchorsInOneFile(HTMLResource *html_resource, 
 }
 
 
+// Used for merge not splits
 // walk all links in html_resource and look for any that end with a bookpath in
 // originating_bookpaths and change it to be in the sink resource which is a 
 // product of the merge
 void AnchorUpdates::UpdateAllAnchorsInOneFile(HTMLResource *html_resource,
-        const QList<QString> &originating_bookpaths,
-        const QHash<QString, QString> ID_locations,
-        const QString & sink_bookpath)
+                                              const QList<QString> &originating_bookpaths,
+                                              const QString &sink_bookpath,
+                                              const QHash<QString, QString> &section_id_map)
 {
     Q_ASSERT(html_resource);
     QWriteLocker locker(&html_resource->GetLock());
@@ -254,6 +261,13 @@ void AnchorUpdates::UpdateAllAnchorsInOneFile(HTMLResource *html_resource,
                 // Does this href point to a bookpath in the originating_bookpaths
                 QString target_bookpath = Utility::buildBookPath(parts.first, startdir);
                 if (originating_bookpaths.contains(target_bookpath)) {
+                    if (parts.second.isEmpty()) {
+                        // this href went to the top of a merged file, so use the injected section links
+                        // to update it
+                        if (section_id_map.contains(target_bookpath)) {
+                            parts.second = "#" + section_id_map[target_bookpath];
+                        }
+                    }
                     QString attpath = Utility::buildRelativePath(html_resource->GetRelativePath(), sink_bookpath);
                     QString attribute_value = Utility::buildRelativeHREF(attpath, parts.second);
                     gumbo_attribute_set_value(attr, attribute_value.toUtf8().constData());

@@ -1,8 +1,9 @@
 /************************************************************************
 **
-**  Copyright (C) 2012 John Schember <john@nachtimwald.com>
-**  Copyright (C) 2012 Dave Heiland
-**  Copyright (C) 2012 Grant Drake
+**  Copyright (C) 2015-2021 Kevin B. Hendricks, Stratford Ontario Canada
+**  Copyright (C) 2012      John Schember <john@nachtimwald.com>
+**  Copyright (C) 2012      Dave Heiland
+**  Copyright (C) 2012      Grant Drake
 **
 **  This file is part of Sigil.
 **
@@ -47,6 +48,7 @@ public:
         QString name;
         QString find;
         QString replace;
+        QString controls;
     };
 
     bool IsDataModified();
@@ -61,9 +63,17 @@ public:
 
     void AddFullNameEntry(SearchEditorModel::searchEntry *entry = NULL, QStandardItem *parent_item = NULL, int row = -1);
 
+    void FillControls(const QList<QStandardItem*> &items);
+    
+    QString BuildControlsToolTip(const QString& controls);
+
     QStandardItem *AddEntryToModel(SearchEditorModel::searchEntry *entry, bool is_group = false, QStandardItem *parent_item = NULL, int row = -1);
 
-    QString SaveData(QList<SearchEditorModel::searchEntry *> entries = QList<SearchEditorModel::searchEntry *>(), const QString &filename = QString());
+    QString SaveData(QList<SearchEditorModel::searchEntry *> entries = QList<SearchEditorModel::searchEntry *>(),
+                     const QString &filename = QString());
+
+    QString SaveTextData(QList<SearchEditorModel::searchEntry *> entries = QList<SearchEditorModel::searchEntry *>(),
+                         const QString &filename = QString(), const QChar& cep = QChar(9));
 
     QList<SearchEditorModel::searchEntry *> GetEntries(QList<QStandardItem *> items);
     SearchEditorModel::searchEntry *GetEntry(QStandardItem *item);

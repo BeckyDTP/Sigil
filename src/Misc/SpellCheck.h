@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2015-2020 Kevin B. Hendricks, Stratford Ontario Canada
+**  Copyright (C) 2015-2021 Kevin B. Hendricks, Stratford Ontario Canada
 **  Copyright (C) 2011      John Schember <john@nachtimwald.com>
 **
 **  This file is part of Sigil.
@@ -96,8 +96,10 @@ private:
     QHash<QString, QString> m_langcode2dict;
     mutable QMutex mutex;
     QHash<QString, struct HDictionary> m_opendicts;
-    QHash<QString, int> m_ignoredWords;
-
+    QSet<QString> m_ignoredWords;
+    struct HDictionary m_primary;
+    struct HDictionary m_secondary;
+    
     static SpellCheck *m_instance;
 };
 

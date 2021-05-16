@@ -15,6 +15,7 @@ on:
     - '.retired_travis.yml'
     - '**.md'
     - '**/reset-**-caches.txt'
+
   pull_request:
     branches: [ master ]
     tags-ignore:
@@ -41,6 +42,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.6'
+
     - name: Cache Qt
       id: cache-qt
       uses: actions/cache@v2
@@ -61,6 +66,7 @@ jobs:
 
     - name: Install dependencies
       run: |
+        sudo apt install mesa-common-dev libglu1-mesa-dev
         mkdir ${{runner.workspace}}/build
         cmake --version
         ninja --version

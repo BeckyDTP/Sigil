@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2015-2019 Kevin B. Hendricks, Stratford, Ontario, Canada
+**  Copyright (C) 2015-2021 Kevin B. Hendricks, Stratford, Ontario, Canada
 **  Copyright (C) 2011-2012 John Schember <john@nachtimwald.com>
 **  Copyright (C) 2012      Dave Heiland
 **  Copyright (C) 2009-2011 Strahinja Markovic  <strahinja.markovic@gmail.com>
@@ -28,10 +28,13 @@
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QCompleter>
 #include <QRegularExpression>
+#include <QDebug>
 
 #include "MainUI/FindReplace.h"
 #include "Misc/SettingsStore.h"
 #include "Misc/FindReplaceQLineEdit.h"
+
+#define DBG if(0)
 
 static const QString SETTINGS_GROUP = "find_replace";
 static const QString REGEX_OPTION_UCP = "(*UCP)";
@@ -40,6 +43,13 @@ static const QString REGEX_OPTION_DOT_ALL = "(?s)";
 static const QString REGEX_OPTION_MINIMAL_MATCH = "(?U)";
 
 static const int SHOW_FIND_RESULTS_MESSAGE_DELAY_MS = 20000;
+
+// mappings from LookWhere, Search, and Direction enums to Controls code
+// Must be kept in sync with those enums
+static const QStringList TGTS = QStringList() << "CF" << "AH" << "SH" << "TH" << "AC" << "SC" << "TC" << "OP" << "NX";
+static const QStringList MDS = QStringList() << "NL" << "CS" << "RX";
+static const QStringList DRS = QStringList() << "DN" << "UP";
+
 
 FindReplace::FindReplace(MainWindow *main_window)
     : QWidget(main_window),
@@ -118,6 +128,58 @@ bool FindReplace::HasFocus()
 }
 
 
+QString FindReplace::GetControls()
+{
+    QStringList  controls;
+    controls << MDS.at(GetSearchMode());
+    if (m_RegexOptionDotAll) controls << "DA";
+    if (m_RegexOptionMinimalMatch) controls << "MM";
+    if (m_RegexOptionAutoTokenise) controls << "AT";
+    if (m_OptionWrap) controls << "WR";
+    controls << DRS.at(GetSearchDirection());
+    controls << TGTS.at(GetLookWhere());
+    return controls.join(' ');
+}
+
+
+bool FindReplace::isWhereHTML()
+{
+    if ((GetLookWhere() == FindReplace::LookWhere_AllHTMLFiles) ||
+        (GetLookWhere() == FindReplace::LookWhere_SelectedHTMLFiles) ||
+        (GetLookWhere() == FindReplace::LookWhere_TabbedHTMLFiles)) return true;
+    return false;
+}
+
+
+bool FindReplace::isWhereCSS()
+{
+    if ((GetLookWhere() == FindReplace::LookWhere_AllCSSFiles) ||
+        (GetLookWhere() == FindReplace::LookWhere_SelectedCSSFiles) ||
+        (GetLookWhere() == FindReplace::LookWhere_TabbedCSSFiles)) return true;
+    return false;
+}
+
+
+bool FindReplace::isWhereSelected()
+{
+    if ((GetLookWhere() == FindReplace::LookWhere_SelectedHTMLFiles) ||
+        (GetLookWhere() == FindReplace::LookWhere_TabbedHTMLFiles) ||
+        (GetLookWhere() == FindReplace::LookWhere_SelectedCSSFiles) ||
+        (GetLookWhere() == FindReplace::LookWhere_TabbedCSSFiles) ||
+        (GetLookWhere() == FindReplace::LookWhere_OPFFile) ||
+        (GetLookWhere() == FindReplace::LookWhere_NCXFile)) return true;
+    return false;
+}
+
+
+bool FindReplace::isWhereAll()
+{
+    if ((GetLookWhere() == FindReplace::LookWhere_AllHTMLFiles) ||
+        (GetLookWhere() == FindReplace::LookWhere_AllCSSFiles)) return true;
+    return false;
+}
+
+
 void FindReplace::close()
 {
     WriteSettingsVisible(false);
@@ -175,7 +237,7 @@ void FindReplace::ShowMessage(const QString &message)
 {
     QString new_message = message;
 
-    if (m_LookWhereCurrentFile && GetLookWhere() != FindReplace::LookWhere_CurrentFile) {
+    if (m_LookWhereCurrentFile && !isWhereCF()) {
         new_message.append(" (" % tr("Current File") % ")");
     }
 
@@ -197,6 +259,7 @@ void FindReplace::ResetKeyModifiers()
 
 void FindReplace::FindClicked()
 {
+    DBG qDebug() << "FindClicked";
     SetKeyModifiers();
     Find();
     ResetKeyModifiers();
@@ -271,6 +334,7 @@ void FindReplace::FindAnyTextInTags(QString text)
 
 bool FindReplace::Find()
 {
+    DBG qDebug() << "Find";
     bool found = false;
 
     if (GetSearchDirection() == FindReplace::SearchDirection_Up) {
@@ -285,12 +349,14 @@ bool FindReplace::Find()
 
 bool FindReplace::FindNext()
 {
+    DBG qDebug() << "FindNext";
     return FindText(Searchable::Direction_Down);
 }
 
 
 bool FindReplace::FindPrevious()
 {
+    DBG qDebug() << "FindPrevious";
     return FindText(Searchable::Direction_Up);
 }
 
@@ -308,7 +374,7 @@ int FindReplace::Count()
     SetCodeViewIfNeeded(true);
     int count = 0;
 
-    if (GetLookWhere() == FindReplace::LookWhere_CurrentFile || m_LookWhereCurrentFile || IsMarkedText()) {
+    if (isWhereCF() || m_LookWhereCurrentFile || IsMarkedText()) {
         Searchable *searchable = GetAvailableSearchable();
 
         if (!searchable) {
@@ -394,7 +460,7 @@ int FindReplace::ReplaceAll()
     SetCodeViewIfNeeded(true);
     int count = 0;
 
-    if (GetLookWhere() == FindReplace::LookWhere_CurrentFile || m_LookWhereCurrentFile || IsMarkedText()) {
+    if (isWhereCF() || m_LookWhereCurrentFile || IsMarkedText()) {
         Searchable *searchable = GetAvailableSearchable();
 
         if (!searchable) {
@@ -515,6 +581,7 @@ bool FindReplace::FindMisspelledWord()
 // Starts the search for the user's term.
 bool FindReplace::FindText(Searchable::Direction direction)
 {
+    DBG qDebug() << "FindText";
     bool found = false;
     clearMessage();
 
@@ -524,7 +591,7 @@ bool FindReplace::FindText(Searchable::Direction direction)
 
     SetCodeViewIfNeeded();
 
-    if (GetLookWhere() == FindReplace::LookWhere_CurrentFile || m_LookWhereCurrentFile || IsMarkedText()) {
+    if (isWhereCF() || m_LookWhereCurrentFile || IsMarkedText()) {
         Searchable *searchable = GetAvailableSearchable();
 
         if (!searchable) {
@@ -587,12 +654,15 @@ bool FindReplace::ReplaceText(Searchable::Direction direction, bool replace_curr
     return found;
 }
 
-
 void FindReplace::SetCodeViewIfNeeded(bool force)
 {
-    // We never need to switch to CodeView if only working within scope of a non-html file.
-    if (m_LookWhereCurrentFile || GetLookWhere() == FindReplace::LookWhere_CurrentFile || IsMarkedText()) {
-        if (GetCurrentResource()->Type() != Resource::HTMLResourceType) {
+    // We never need to switch to CodeView if only working within the specified scope
+    if (m_LookWhereCurrentFile || isWhereCF() || IsMarkedText()) {
+        if (!((GetCurrentResource()->Type() == Resource::HTMLResourceType) ||
+              (GetCurrentResource()->Type() == Resource::CSSResourceType) ||
+              (GetCurrentResource()->Type() == Resource::OPFResourceType) ||
+              (GetCurrentResource()->Type() == Resource::NCXResourceType))) 
+        {
             return;
         }
     }
@@ -600,15 +670,13 @@ void FindReplace::SetCodeViewIfNeeded(bool force)
     bool has_focus = HasFocus();
 
     if (force ||
-        (!m_LookWhereCurrentFile &&
-         (GetLookWhere() == FindReplace::LookWhere_AllHTMLFiles ||
-          GetLookWhere() == FindReplace::LookWhere_SelectedHTMLFiles))) {
+        (!m_LookWhereCurrentFile && (isWhereHTML() || isWhereCSS() || isWhereOPF() || isWhereNCX())))
+    {
         if (has_focus) {
             SetFocus();
         }
     }
 }
-
 
 // Displays a message to the user informing him
 // that his last search term could not be found.
@@ -662,16 +730,17 @@ QString FindReplace::PrependRegexOptionToSearch(const QString &option, const QSt
     return option % search;
 }
 
-bool FindReplace::IsCurrentFileInHTMLSelection()
-{
-    bool found = false;
-    QList <Resource *> resources = GetHTMLFiles();
-    Resource *current_resource = GetCurrentResource();
-    HTMLResource *current_html_resource = qobject_cast<HTMLResource *>(current_resource);
 
-    if (current_html_resource) {
+bool FindReplace::IsCurrentFileInSelection()
+{
+    DBG qDebug() << "IsCurrentFileInSection";
+    bool found = false;
+    QList <Resource *> resources = GetFilesToSearch();
+    Resource *current_resource = GetCurrentResource();
+
+    if (current_resource) {
         foreach(Resource * resource, resources) {
-            if (resource->GetRelativePath() == current_html_resource->GetRelativePath()) {
+            if (resource && resource->GetRelativePath() == current_resource->GetRelativePath()) {
                 found = true;
                 break;
             }
@@ -681,21 +750,39 @@ bool FindReplace::IsCurrentFileInHTMLSelection()
     return found;
 }
 
-// Returns all html resources or only those selected in Book Browser
-QList <Resource *> FindReplace::GetHTMLFiles()
+
+// Returns all resources according to LookWhere setting
+QList <Resource *> FindReplace::GetFilesToSearch()
 {
-    // For now, this must hold
-    Q_ASSERT(GetLookWhere() == FindReplace::LookWhere_AllHTMLFiles || GetLookWhere() == FindReplace::LookWhere_SelectedHTMLFiles);
     QList <Resource *> all_resources;
     QList <Resource *> resources;
 
     if (GetLookWhere() == FindReplace::LookWhere_AllHTMLFiles) {
         all_resources = m_MainWindow->GetAllHTMLResources();
-    } else {
+
+    } else if (GetLookWhere() == FindReplace::LookWhere_SelectedHTMLFiles) {
         all_resources = m_MainWindow->GetValidSelectedHTMLResources();
+
+    } else if (GetLookWhere() == FindReplace::LookWhere_TabbedHTMLFiles) {
+        all_resources = m_MainWindow->GetTabbedHTMLResources();
+
+    } else if (GetLookWhere() == FindReplace::LookWhere_AllCSSFiles) {
+        all_resources = m_MainWindow->GetAllCSSResources();
+
+    } else if (GetLookWhere() == FindReplace::LookWhere_SelectedCSSFiles) {
+        all_resources = m_MainWindow->GetValidSelectedCSSResources();
+
+    } else if (GetLookWhere() == FindReplace::LookWhere_TabbedCSSFiles) {
+        all_resources = m_MainWindow->GetTabbedCSSResources();
+
+    } else if (GetLookWhere() == FindReplace::LookWhere_OPFFile) {
+        all_resources = m_MainWindow->GetOPFResource();
+
+    } else if (GetLookWhere() == FindReplace::LookWhere_NCXFile) {
+        all_resources = m_MainWindow->GetNCXResource();
     }
 
-    // If wrapping, or the current resource is not in the HTML files to search
+    // If wrapping, or the current resource is not in the files to search
     // (meaning there is no before/after for wrap to use) then just return all files
     Resource *current_resource = GetCurrentResource();
     if (m_OptionWrap || !all_resources.contains(current_resource)) {
@@ -725,49 +812,47 @@ QList <Resource *> FindReplace::GetHTMLFiles()
     return resources;
 }
 
+
 int FindReplace::CountInFiles()
 {
-    // For now, this must hold
-    Q_ASSERT(GetLookWhere() == FindReplace::LookWhere_AllHTMLFiles || GetLookWhere() == FindReplace::LookWhere_SelectedHTMLFiles);
     m_MainWindow->GetCurrentContentTab()->SaveTabContent();
 
     // When not wrapping remove the current resource as it's counted separately
-    QList<Resource *>html_files = GetHTMLFiles();
+    QList<Resource *>search_files = GetFilesToSearch();
     if (!m_OptionWrap) {
-        html_files.removeOne(GetCurrentResource());
+        search_files.removeOne(GetCurrentResource());
     }
     return SearchOperations::CountInFiles(
                GetSearchRegex(),
-               html_files,
-               SearchOperations::CodeViewSearch);
+               search_files);
 }
 
 
 int FindReplace::ReplaceInAllFiles()
 {
-    // For now, this must hold
-    Q_ASSERT(GetLookWhere() == FindReplace::LookWhere_AllHTMLFiles || GetLookWhere() == FindReplace::LookWhere_SelectedHTMLFiles);
     m_MainWindow->GetCurrentContentTab()->SaveTabContent();
     // When not wrapping remove the current resource as it's replace separately
-    QList<Resource *>html_files = GetHTMLFiles();
+    QList<Resource *>search_files = GetFilesToSearch();
     if (!m_OptionWrap) {
-        html_files.removeOne(GetCurrentResource());
+        search_files.removeOne(GetCurrentResource());
     }
     int count = SearchOperations::ReplaceInAllFIles(
                     GetSearchRegex(),
                     ui.cbReplace->lineEdit()->text(),
-                    html_files,
-                    SearchOperations::CodeViewSearch);
+                    search_files);
     return count;
 }
 
 
 bool FindReplace::FindInAllFiles(Searchable::Direction direction)
 {
+    DBG qDebug() << "FindInAllFiles";
+
     Searchable *searchable = 0;
     bool found = false;
 
-    if (IsCurrentFileInHTMLSelection()) {
+    if (IsCurrentFileInSelection()) {
+        DBG qDebug() << " .. FindInAllFiles said IsCurrentFileInSelection true";
         searchable = GetAvailableSearchable();
 
         if (searchable) {
@@ -776,18 +861,21 @@ bool FindReplace::FindInAllFiles(Searchable::Direction direction)
     }
 
     if (!found) {
-        Resource *containing_resource = GetNextContainingHTMLResource(direction);
+        DBG qDebug() << " .. FindInAllFiles GetNextContainingResource";
+        Resource *containing_resource = GetNextContainingResource(direction);
+
+        DBG qDebug() << " huh .." << containing_resource;
 
         if (containing_resource) {
             // Save if editor or F&R has focus
             bool has_focus = HasFocus();
             // Save selected resources since opening tabs changes selection
-            QList<Resource *>selected_resources = GetHTMLFiles();
+            QList<Resource *>selected_resources = GetFilesToSearch();
 
             m_MainWindow->OpenResourceAndWaitUntilLoaded(containing_resource);
 
             // Restore selection since opening tabs changes selection
-            if (GetLookWhere() == FindReplace::LookWhere_SelectedHTMLFiles && !m_SpellCheck) {
+            if (isWhereSelected() && !m_SpellCheck) {
                 m_MainWindow->SelectResources(selected_resources);
             }
 
@@ -812,68 +900,108 @@ bool FindReplace::FindInAllFiles(Searchable::Direction direction)
     return found;
 }
 
-HTMLResource *FindReplace::GetNextContainingHTMLResource(Searchable::Direction direction)
-{
-    Resource *current_resource = GetCurrentResource();
-    HTMLResource *starting_html_resource = qobject_cast<HTMLResource *> (current_resource);
 
-    QList<Resource *> resources = GetHTMLFiles();
+Resource *FindReplace::GetNextContainingResource(Searchable::Direction direction)
+{
+    DBG qDebug() << "GetNextContainingResource";
+    Resource *current_resource = GetCurrentResource();
+    Resource *starting_resource = NULL;
+
+    // if CurrentFile is the same type as LookWhere, set it as the starting resource
+    if (isWhereHTML() && (current_resource->Type() == Resource::HTMLResourceType)) {
+        starting_resource = current_resource;
+    } else if (isWhereCSS() && (current_resource->Type() == Resource::CSSResourceType)) {
+        starting_resource = current_resource;
+    } else if (isWhereOPF() && (current_resource->Type() == Resource::OPFResourceType)) {
+        starting_resource = current_resource;
+    } else if (isWhereNCX() && (current_resource->Type() == Resource::NCXResourceType)) {
+        starting_resource = current_resource;
+    }
+
+    QList<Resource *> resources = GetFilesToSearch();
 
     if (resources.isEmpty()) {
         return NULL;
     }
 
-    if (!starting_html_resource || (GetLookWhere() == FindReplace::LookWhere_SelectedHTMLFiles && !IsCurrentFileInHTMLSelection())) {
+    DBG qDebug() << "  starting resource .. " << starting_resource;
+    if (!starting_resource || (isWhereSelected() && !IsCurrentFileInSelection())) {
         if (direction == Searchable::Direction_Up) {
-            starting_html_resource = qobject_cast<HTMLResource *>(resources.first());
+            starting_resource = resources.first();
         } else {
-            starting_html_resource = qobject_cast<HTMLResource *>(resources.last());
+            starting_resource = resources.last();
         }
     }
 
-    HTMLResource *next_html_resource = starting_html_resource;
-    bool passed_starting_html_resource = false;
+    Resource *next_resource = starting_resource;
 
-    while (!passed_starting_html_resource || (next_html_resource != starting_html_resource)) {
-        next_html_resource = GetNextHTMLResource(next_html_resource, direction);
+    // handle a list of size one as a special case as long as Wrap is not set
+    // if the current file matches our single resource then
+    // we have already processed it in earlier code, leave
+    // otherwise we need to process it if it contains
+    // the current regex and then stop
+    if ((resources.size() == 1) && !m_OptionWrap) {
+        if (IsCurrentFileInSelection()) return NULL;
+        if (next_resource) {
+            if (ResourceContainsCurrentRegex(next_resource)) {
+                return next_resource;
+            }
+        }
+        return NULL;
+    }
 
-        if (next_html_resource == starting_html_resource) {
+    // this will only work if the resource list has at least 2 elements
+    // as it relies on list order to know if done or not
+    // since it keeps no state itself
+    bool passed_starting_resource = false;
+
+    while (!passed_starting_resource || (next_resource != starting_resource)) {
+        next_resource = GetNextResource(next_resource, direction);
+        DBG qDebug() << "   GetNextResource returns" << next_resource;
+
+        if (next_resource == starting_resource) {
             if (!m_OptionWrap) {
                 return NULL;
             }
-            passed_starting_html_resource = true ;
+            passed_starting_resource = true ;
         }
 
-        if (next_html_resource) {
-            if (ResourceContainsCurrentRegex(next_html_resource)) {
-                return next_html_resource;
+        if (next_resource) {
+            if (ResourceContainsCurrentRegex(next_resource)) {
+                return next_resource;
             }
 
-            // else continue
+        // else continue
         } else {
             return NULL;
         }
+
     }
 
     return NULL;
 }
 
 
-HTMLResource *FindReplace::GetNextHTMLResource(HTMLResource *current_resource, Searchable::Direction direction)
+Resource *FindReplace::GetNextResource(Resource *current_resource, Searchable::Direction direction)
 {
-    QList <Resource *> resources = GetHTMLFiles();
+    DBG qDebug() << "GetNextResource";
+    QList <Resource *> resources = GetFilesToSearch();
     int max_reading_order       = resources.count() - 1;
     int current_reading_order   = 0;
     int next_reading_order      = 0;
-    // Find the current resource in the selected/all html entries
+    // Find the current resource in the tabbed/selected/all resource entries
     int i = 0;
-    foreach(Resource * resource, resources) {
-        if (resource->GetRelativePath() == current_resource->GetRelativePath()) {
-            current_reading_order = i;
-            break;
-        }
+    if (current_resource) {
+        foreach(Resource * resource, resources) {
+            DBG qDebug() << "resource: " << resource;
+            DBG qDebug() << " current resource: " << current_resource;
+            if (resource && (resource->GetRelativePath() == current_resource->GetRelativePath())) {
+                current_reading_order = i;
+                break;
+            }
 
-        i++;
+            i++;
+        }
     }
 
     // We wrap back (if needed)
@@ -886,8 +1014,8 @@ HTMLResource *FindReplace::GetNextHTMLResource(HTMLResource *current_resource, S
     if (next_reading_order > max_reading_order || next_reading_order < 0) {
         return NULL;
     } else {
-        HTMLResource &html_resource = *qobject_cast<HTMLResource *>(resources[ next_reading_order ]);
-        return &html_resource;
+        Resource* nextres = resources[ next_reading_order ];
+        return nextres;
     }
 }
 
@@ -969,6 +1097,57 @@ void FindReplace::UpdatePreviousReplaceStrings(const QString &text)
     ui.cbReplace->setCurrentIndex(0);
 }
 
+
+void FindReplace::UpdateSearchControls(const QString &text)
+{
+    if (text.isEmpty()) return;
+
+    // Search Mode
+    if (text.contains("NL")) {
+        SetSearchMode(FindReplace::SearchMode_Normal);
+    } else if (text.contains("RX")) {
+        SetSearchMode(FindReplace::SearchMode_Regex);
+    } else if (text.contains("CS")) {
+        SetSearchMode(FindReplace::SearchMode_Case_Sensitive);
+    }
+
+    // Search LookWhere
+    if (text.contains("CF")) {
+        SetLookWhere(FindReplace::LookWhere_CurrentFile);
+    } else if (text.contains("AH")) {
+        SetLookWhere(FindReplace::LookWhere_AllHTMLFiles);
+    } else if (text.contains("SH")) {
+        SetLookWhere(FindReplace::LookWhere_SelectedHTMLFiles);
+    } else if (text.contains("TH")) {
+        SetLookWhere(FindReplace::LookWhere_TabbedHTMLFiles);
+    } else if (text.contains("AC")) {
+        SetLookWhere(FindReplace::LookWhere_AllCSSFiles);
+    } else if (text.contains("SC")) {
+        SetLookWhere(FindReplace::LookWhere_SelectedCSSFiles);
+    } else if (text.contains("TC")) {
+        SetLookWhere(FindReplace::LookWhere_TabbedCSSFiles);
+    } else if (text.contains("OP")) {
+        SetLookWhere(FindReplace::LookWhere_OPFFile);
+    } else if (text.contains("NX")) {
+        SetLookWhere(FindReplace::LookWhere_NCXFile);
+    }
+
+    // Search Direction
+    if (text.contains("UP")) {
+        SetSearchDirection(FindReplace::SearchDirection_Up);
+    } else if (text.contains("DN")) {
+        SetSearchDirection(FindReplace::SearchDirection_Down);
+    }
+
+    // Search Flags
+    SetOptionWrap(text.contains("WR"));
+    SetRegexOptionDotAll(text.contains("DA"));
+    SetRegexOptionMinimalMatch(text.contains("MM"));
+    SetRegexOptionAutoTokenise(text.contains("AT"));
+}
+
+
+
 FindReplace::SearchMode FindReplace::GetSearchMode()
 {
     int mode = ui.cbSearchMode->itemData(ui.cbSearchMode->currentIndex()).toInt();
@@ -993,10 +1172,13 @@ FindReplace::LookWhere FindReplace::GetLookWhere()
 
     switch (look) {
         case FindReplace::LookWhere_AllHTMLFiles:
-            return static_cast<FindReplace::LookWhere>(look);
-            break;
-
         case FindReplace::LookWhere_SelectedHTMLFiles:
+        case FindReplace::LookWhere_TabbedHTMLFiles:
+        case FindReplace::LookWhere_AllCSSFiles:
+        case FindReplace::LookWhere_SelectedCSSFiles:
+        case FindReplace::LookWhere_TabbedCSSFiles:
+        case FindReplace::LookWhere_OPFFile:
+        case FindReplace::LookWhere_NCXFile:
             return static_cast<FindReplace::LookWhere>(look);
             break;
 
@@ -1141,10 +1323,12 @@ void FindReplace::SaveSearchAction()
     SearchEditorModel::searchEntry *search_entry = new SearchEditorModel::searchEntry();
     search_entry->name = "Unnamed Search";
     search_entry->is_group = false;
-    search_entry->find = ui.cbFind->lineEdit()->text(),
-                  search_entry->replace = ui.cbReplace->lineEdit()->text(),
-                                emit OpenSearchEditorRequest(search_entry);
+    search_entry->find = ui.cbFind->lineEdit()->text();
+    search_entry->replace = ui.cbReplace->lineEdit()->text();
+    search_entry->controls = GetControls();
+    emit OpenSearchEditorRequest(search_entry);
 }
+
 
 void FindReplace::LoadSearchByName(const QString &name)
 {
@@ -1160,6 +1344,8 @@ void FindReplace::LoadSearch(SearchEditorModel::searchEntry *search_entry)
 
     UpdatePreviousFindStrings(search_entry->find);
     UpdatePreviousReplaceStrings(search_entry->replace);
+    UpdateSearchControls(search_entry->controls);
+
     // Show a message containing the name that was loaded
     QString message(tr("Unnamed search loaded"));
 
@@ -1418,22 +1604,48 @@ void FindReplace::ExtendUI()
     ui.cbSearchMode->clear();
     ui.cbLookWhere->clear();
     ui.cbSearchDirection->clear();
+
     QString mode_tooltip = "<p>" + tr("What to search for") + ":</p><dl>";
     ui.cbSearchMode->addItem(tr("Normal"), FindReplace::SearchMode_Normal);
     mode_tooltip += "<dt><b>" + tr("Normal") + "</b><dd>" + tr("Case in-sensitive search of exactly what you type.") + "</dd>";
+
     ui.cbSearchMode->addItem(tr("Case Sensitive"), FindReplace::SearchMode_Case_Sensitive);
     mode_tooltip += "<dt><b>" + tr("Case Sensitive") + "</b><dd>" + tr("Case sensitive search of exactly what you type.") + "</dd>";
+
     ui.cbSearchMode->addItem(tr("Regex"), FindReplace::SearchMode_Regex);
     mode_tooltip += "<dt><b>" + tr("Regex") + "</b><dd>" + tr("Search for a pattern using Regular Expression syntax.") + "</dd>";
+
     ui.cbSearchMode->setToolTip(mode_tooltip);
 
     QString look_tooltip = "<p>" + tr("Where to search") + ":</p><dl>";
+
     ui.cbLookWhere->addItem(tr("Current File"), FindReplace::LookWhere_CurrentFile);
     look_tooltip += "<dt><b>" + tr("Current File") + "</b><dd>" + tr("Restrict the find or replace to the opened file.  Hold the Ctrl key down while clicking any search buttons to temporarily restrict the search to the Current File.") + "</dd>";
+
     ui.cbLookWhere->addItem(tr("All HTML Files"), FindReplace::LookWhere_AllHTMLFiles);
     look_tooltip += "<dt><b>" + tr("All HTML Files") + "</b><dd>" + tr("Find or replace in all HTML files in Code View.") + "</dd>";
+
     ui.cbLookWhere->addItem(tr("Selected HTML Files"), FindReplace::LookWhere_SelectedHTMLFiles);
     look_tooltip += "<dt><b>" + tr("Selected HTML Files") + "</b><dd>" + tr("Restrict the find or replace to the HTML files selected in the Book Browser in Code View.") + "</dd>";
+
+    ui.cbLookWhere->addItem(tr("Tabbed HTML Files"), FindReplace::LookWhere_TabbedHTMLFiles);
+    look_tooltip += "<dt><b>" + tr("Current File") + "</b><dd>" + tr("Restrict the find or replace to the HTML files open in Tabs.") + "</dd>";
+
+    ui.cbLookWhere->addItem(tr("All CSS Files"), FindReplace::LookWhere_AllCSSFiles);
+    look_tooltip += "<dt><b>" + tr("All CSS Files") + "</b><dd>" + tr("Find or replace in all CSS files in Code View.") + "</dd>";
+
+    ui.cbLookWhere->addItem(tr("Selected CSS Files"), FindReplace::LookWhere_SelectedCSSFiles);
+    look_tooltip += "<dt><b>" + tr("Selected CSS Files") + "</b><dd>" + tr("Restrict the find or replace to the CSS files selected in the Book Browser in Code View.") + "</dd>";
+
+    ui.cbLookWhere->addItem(tr("Tabbed CSS Files"), FindReplace::LookWhere_TabbedCSSFiles);
+    look_tooltip += "<dt><b>" + tr("Tabbed CSS Files") + "</b><dd>" + tr("Restrict the find or replace to the CSS files open in Tabs.") + "</dd>";
+
+    ui.cbLookWhere->addItem(tr("OPF File"), FindReplace::LookWhere_OPFFile);
+    look_tooltip += "<dt><b>" + tr("OPF File") + "</b><dd>" + tr("Restrict the find or replace to the OPF file.") + "</dd>";
+
+    ui.cbLookWhere->addItem(tr("NCX File"), FindReplace::LookWhere_NCXFile);
+    look_tooltip += "<dt><b>" + tr("NCX File") + "</b><dd>" + tr("Restrict the find or replace to the NCX file.") + "</dd>";
+
     look_tooltip += "</dl>";
     look_tooltip += "<p>" + tr("To restrict search to selected text, use Search&rarr;Mark Selected Text.") + "</p>";
     ui.cbLookWhere->setToolTip(look_tooltip);

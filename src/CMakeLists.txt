@@ -239,6 +239,10 @@ set( DIALOG_FILES
     Dialogs/LinkStylesheets.h
     Dialogs/SearchEditor.cpp
     Dialogs/SearchEditor.h
+    Dialogs/Controls.cpp
+    Dialogs/Controls.h
+    Dialogs/SearchEditorItemDelegate.cpp
+    Dialogs/SearchEditorItemDelegate.h
     Dialogs/ClipEditor.cpp
     Dialogs/ClipEditor.h
     Dialogs/IndexEditor.cpp
@@ -366,6 +370,8 @@ set( MISC_FILES
     Misc/FilenameDelegate.h
     Misc/XHTMLHighlighter.cpp
     Misc/XHTMLHighlighter.h
+    Misc/XHTMLHighlighter2.cpp
+    Misc/XHTMLHighlighter2.h
     Misc/CSSHighlighter.cpp
     Misc/CSSHighlighter.h
     Misc/HTMLEncodingResolver.cpp
@@ -473,6 +479,7 @@ set( VIEW_EDITOR_FILES
     ViewEditors/ElementIndex.h
     ViewEditors/ViewEditor.h
     ViewEditors/Viewer.h
+    ViewEditors/Overlay.h
      )
 
 set( MAINUI_FILES
@@ -582,6 +589,7 @@ set( UI_FILES
     Form_Files/IndexEditor.ui
     Form_Files/SpellcheckEditor.ui
     Form_Files/PluginRunner.ui
+    Form_Files/Controls.ui
     )
 
 set( SOURCEUPDATE_FILES
@@ -597,6 +605,8 @@ set( SOURCEUPDATE_FILES
     SourceUpdates/PerformXMLUpdates.h
     SourceUpdates/AnchorUpdates.cpp
     SourceUpdates/AnchorUpdates.h
+    SourceUpdates/FragmentUpdates.cpp
+    SourceUpdates/FragmentUpdates.h
     SourceUpdates/LinkUpdates.cpp
     SourceUpdates/LinkUpdates.h
     SourceUpdates/WordUpdates.cpp
@@ -683,6 +693,13 @@ endif()
 # will need to specified at run time with the environment variable SIGIL_DICTIONARIES
 if ( NOT DEFINED INSTALL_BUNDLED_DICTS )
     set ( INSTALL_BUNDLED_DICTS 1 )
+endif()
+
+# use -DDISABLE_UPDATECHECK=1 to disable the builtin update check.
+# Mainly for use by *nix distros whose Sigil packages can't make use of the 
+# new release downloads anyway. 
+if ( NOT DEFINED DISABLE_UPDATE_CHECK )
+    set ( DISABLE_UPDATE_CHECK 0 )
 endif()
 
 set( RAW_SOURCES ${MAIN_FILES} ${TAB_FILES} ${SOURCEUPDATE_FILES} ${BOOK_MANIPULATION_FILES} ${RESOURCE_OBJECT_FILES} ${DIALOG_FILES} ${WIDGET_FILES} ${EXPORTER_FILES} ${IMPORTER_FILES} ${MISC_FILES} ${MISC_EDITORS_FILES} ${QUERY_FILES} ${PARSERS_FILES} ${EMBEDPYTHON_FILES} ${SPCRE_FILES} ${VIEW_EDITOR_FILES} ${MAINUI_FILES} )
@@ -840,10 +857,16 @@ else()
 endif()
 
 # No need to explicity link Qt5::WinMain or to use the qt5_use_modules macro since CMAKE 2.8.11. We require CMAKE 3.0.0
-set( LIBS_TO_LINK ${HUNSPELL_LIBRARIES} ${PCRE_LIBRARIES} ${GUMBO_LIBRARIES} 
-                  ${MINIZIP_LIBRARIES} ${PYTHON_LIBRARIES}
+set( LIBS_TO_LINK ${HUNSPELL_LIBRARIES} ${PCRE_LIBRARIES} ${GUMBO_LIBRARIES} ${MINIZIP_LIBRARIES}
                   Qt5::Widgets  Qt5::Xml  Qt5::PrintSupport  Qt5::WebEngine  
                   Qt5::WebEngineWidgets  Qt5::Network  Qt5::Concurrent )
+if (${USE_NEWER_FINDPYTHON3})
+    message(STATUS "Using newer Python3::Python target to link to Python")
+    list( APPEND LIBS_TO_LINK Python3::Python )
+else()
+    message(STATUS "Using older PYTHON_LIBRARIES CMAKE variable to link to Python")
+    list( APPEND LIBS_TO_LINK ${PYTHON_LIBRARIES} )
+endif()
 if ( WIN32 )
     list( APPEND LIBS_TO_LINK Qt5::WinExtras )
 endif()
@@ -890,6 +913,13 @@ endfunction(QUERY_QMAKE)
 if( APPLE )
     query_qmake(QT_INSTALL_TRANSLATIONS QT_TRANSLATIONS_DIR)
 
+    # Set a define that sigil_constants.cpp can then access
+    set_property (
+        SOURCE sigil_constants.cpp
+        PROPERTY COMPILE_DEFINITIONS
+        DONT_CHECK_UPDATES=${DISABLE_UPDATE_CHECK}
+    )
+
     if(CMAKE_GENERATOR STREQUAL Xcode)
         set( WORK_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release" )
     else()
@@ -929,8 +959,15 @@ if( APPLE )
     add_custom_command( TARGET ${PROJECT_NAME} POST_BUILD COMMAND cp ${CMAKE_SOURCE_DIR}/src/Resource_Files/dictionaries/* ${WORK_DIR}/Sigil.app/Contents/hunspell_dictionaries )
     add_custom_command( TARGET ${PROJECT_NAME} POST_BUILD COMMAND cp -r ${CMAKE_SOURCE_DIR}/src/Resource_Files/plugin_launchers/python/* ${WORK_DIR}/Sigil.app/Contents/plugin_launchers/python )
     add_custom_command( TARGET ${PROJECT_NAME} POST_BUILD COMMAND cp -r ${CMAKE_SOURCE_DIR}/src/Resource_Files/python3lib/* ${WORK_DIR}/Sigil.app/Contents/python3lib )
+
     if ( PKG_SYSTEM_PYTHON )
-        add_custom_command( TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${PYTHON_EXECUTABLE} ARGS ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/osx_add_python_framework.py )
+        if ( ${USE_NEWER_FINDPYTHON3} )
+            set( PY_INTERP ${Python3_EXECUTABLE} )
+        else()
+            set( PY_INTERP ${PYTHON_EXECUTABLE} )
+        endif()
+        add_custom_command( TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${PY_INTERP} ARGS ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/osx_add_python_framework.py )
+        message(STATUS "Using ${PY_INTERP} to bundle python")
     endif()
     add_custom_command( TARGET ${PROJECT_NAME} POST_BUILD COMMAND cp ${PROJECT_BINARY_DIR}/*.rcc ${WORK_DIR}/Sigil.app/Contents/Resources/ )
     add_custom_command( TARGET ${PROJECT_NAME} POST_BUILD COMMAND cp ${CMAKE_SOURCE_DIR}/src/Resource_Files/examples/* ${WORK_DIR}/Sigil.app/Contents/examples )
@@ -944,6 +981,13 @@ elseif (MSVC)
     query_qmake(QT_INSTALL_BINS QT_INSTALL_BINS)
     query_qmake(QT_INSTALL_PLUGINS QT_PLUGINS_DIR)
     query_qmake(QT_INSTALL_TRANSLATIONS QT_TRANSLATIONS_DIR)
+
+    # Set a define that sigil_constants.cpp can then access
+    set_property (
+        SOURCE sigil_constants.cpp
+        PROPERTY COMPILE_DEFINITIONS
+        DONT_CHECK_UPDATES=${DISABLE_UPDATE_CHECK}
+    )
 
     set( TEMP_PACKAGE_DIR ${CMAKE_BINARY_DIR}/temp_folder )
     set( MAIN_PACKAGE_DIR ${TEMP_PACKAGE_DIR}/Sigil )
@@ -1052,8 +1096,14 @@ elseif (MSVC)
 
     # Create python virtual environment
     if ( PKG_SYSTEM_PYTHON )
+        if ( ${USE_NEWER_FINDPYTHON3} )
+            set( PY_INTERP ${Python3_EXECUTABLE} )
+        else()
+            set( PY_INTERP ${PYTHON_EXECUTABLE} )
+        endif()
+        message(STATUS "Using ${PY_INTERP} to bundle python")
         add_custom_command( TARGET ${TARGET_FOR_COPY} POST_BUILD
-                        COMMAND ${PYTHON_EXECUTABLE} ARGS ${CMAKE_BINARY_DIR}/windows_python_gather.py )
+                            COMMAND ${PY_INTERP} ARGS ${CMAKE_BINARY_DIR}/windows_python_gather.py )
     endif()
 
     # Add external binary resource files
@@ -1155,6 +1205,7 @@ if( UNIX AND NOT APPLE )
         PROPERTY COMPILE_DEFINITIONS
         SIGIL_SHARE_ROOT="${SIGIL_SHARE_ROOT}" DICTS_ARE_BUNDLED=${INSTALL_BUNDLED_DICTS}
         EXTRA_DICT_DIRS="${EXTRA_DICT_DIRS}" MATHJAX_DIR="${MATHJAX_DIR}"
+        DONT_CHECK_UPDATES=${DISABLE_UPDATE_CHECK}
     )
 
     # Launch script for sigil

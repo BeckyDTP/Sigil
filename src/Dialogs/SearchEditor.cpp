@@ -28,6 +28,7 @@
 #include <QtGui/QContextMenuEvent>
 #include <QRegularExpression>
 
+#include "Dialogs/SearchEditorItemDelegate.h"
 #include "Dialogs/SearchEditor.h"
 #include "Misc/Utility.h"
 
@@ -38,7 +39,8 @@ SearchEditor::SearchEditor(QWidget *parent)
     :
     QDialog(parent),
     m_LastFolderOpen(QString()),
-    m_ContextMenu(new QMenu(this))
+    m_ContextMenu(new QMenu(this)),
+    m_CntrlDelegate(new SearchEditorItemDelegate())
 {
     ui.setupUi(this);
     ui.FilterText->installEventFilter(this);
@@ -58,16 +60,41 @@ void SearchEditor::SetupSearchEditorTree()
     ui.SearchEditorTree->setWordWrap(true);
     ui.SearchEditorTree->setAlternatingRowColors(true);
     ui.SearchEditorTree->installEventFilter(this);
-    ui.SearchEditorTree->header()->setToolTip(
-        "<p>" + tr("All searches default to Regex, All HTML Files, Down.") + "</p>" +
-        "<p>" + tr("Hold Ctrl down while clicking Find, Replace, etc. to temporarily search only the Current File.") + "</p>" +
-        "<p>" + tr("Right click on an entry to see a context menu of actions.") + "</p>" +
+    QString nametooltip = "<p>" + tr("Right click on an entry to see a context menu of actions.") + "</p>" +
         "<p>" + tr("You can also right click on the Find text box in the Find & Replace window to select an entry.") + "</p>" +
         "<dl>" +
-        "<dt><b>" + tr("Name") + "</b><dd>" + tr("Name of your entry or group.") + "</dd>" +
-        "<dt><b>" + tr("Find") + "</b><dd>" + tr("The text to put into the Find box.") + "</dd>" +
-        "<dt><b>" + tr("Replace") + "</b><dd>" + tr("The text to put into the Replace box.") + "</dd>" +
-        "</dl>");
+        "<dt><b>" + tr("Name") + "</b><dd>" + tr("Name of your entry or group.") + "</dd></dl>";
+    QString findtooltip = "<dl><dt><b>" + tr("Find") + "</b><dd>" + tr("The text to put into the Find box.")+"</dd></dl>";
+    QString replacetooltip = "<dl><b>" + tr("Replace") + "</b><dd>" + tr("The text to put into the Replace box.")+"</dd></dl>";;
+    QString controlstooltip = "<dl><b>" + tr("Controls") + "</b><dd>" + tr("Two character codes to control the search Mode, Direction, Target and Options.  Codes can be in any order comma or space separated.") + "</dd></dl>" + "<dl>" + 
+        "<dd>NL - " + tr("Mode: Normal") + "</dd>" +
+        "<dd>RX - " + tr("Mode: Regular Expression") + "</dd>" +
+        "<dd>CS - " + tr("Mode: Case Sensitive") + "</dd>" +
+        "<dd>&nbsp;</dd>" +
+        "<dd>UP - " + tr("Direction: Up") + "</dd>" +
+        "<dd>DN - " + tr("Direction: Down") + "</dd>" +
+        "<dd>&nbsp;</dd>" +
+        "<dd>CF - " + tr("Target: Current File") + "</dd>" +
+        "<dd>AH - " + tr("Target: All HTML Files") + "</dd>" +
+        "<dd>SH - " + tr("Target: Selected HTML Files") + "</dd>" +
+        "<dd>TH - " + tr("Target: Tabbed HTML Files") + "</dd>" +
+        "<dd>AC - " + tr("Target: All CSS Files") + "</dd>" +
+        "<dd>SC - " + tr("Target: Selected CSS Files") + "</dd>" +
+        "<dd>TC - " + tr("Target: Tabbed CSS Files") + "</dd>" +
+        "<dd>OP - " + tr("Target: OPF File") + "</dd>" +
+        "<dd>NX - " + tr("Target: NCX File") + "</dd>" +
+        "<dd>&nbsp;</dd>" +
+        "<dd>DA - " + tr("Option: DotAll") + "</dd>" +
+        "<dd>MM - " + tr("Option: Minimal Match") + "</dd>" +
+        "<dd>AT - " + tr("Option: Auto Tokenise") + "</dd>" +
+        "<dd>WR - " + tr("Option: Wrap") + "</dd>" + "</dl>";
+
+    ui.SearchEditorTree->model()->setHeaderData(0,Qt::Horizontal,nametooltip,Qt::ToolTipRole);
+    ui.SearchEditorTree->model()->setHeaderData(1,Qt::Horizontal,findtooltip,Qt::ToolTipRole);
+    ui.SearchEditorTree->model()->setHeaderData(2,Qt::Horizontal,replacetooltip,Qt::ToolTipRole);
+    ui.SearchEditorTree->model()->setHeaderData(3,Qt::Horizontal,controlstooltip,Qt::ToolTipRole);
+
+    ui.SearchEditorTree->setItemDelegateForColumn(3, m_CntrlDelegate);
     ui.buttonBox->setToolTip(QString() +
                              "<dl>" +
                              "<dt><b>" + tr("Save") + "</b><dd>" + tr("Save your changes.") + "<br/><br/>" + tr("If any other instances of Sigil are running they will be automatically updated with your changes.") + "</dd>" +
@@ -85,6 +112,17 @@ void SearchEditor::ShowMessage(const QString &message)
 bool SearchEditor::SaveData(QList<SearchEditorModel::searchEntry *> entries, QString filename)
 {
     QString message = m_SearchEditorModel->SaveData(entries, filename);
+
+    if (!message.isEmpty()) {
+        Utility::DisplayStdErrorDialog(tr("Cannot save entries.") + "\n\n" + message);
+    }
+
+    return message.isEmpty();
+}
+
+bool SearchEditor::SaveTextData(QList<SearchEditorModel::searchEntry *> entries, QString filename, QChar sep)
+{
+    QString message = m_SearchEditorModel->SaveTextData(entries, filename, sep);
 
     if (!message.isEmpty()) {
         Utility::DisplayStdErrorDialog(tr("Cannot save entries.") + "\n\n" + message);
@@ -350,6 +388,7 @@ bool SearchEditor::Copy()
         save_entry->name = entry->name;
         save_entry->find = entry->find;
         save_entry->replace = entry->replace;
+        save_entry->controls = entry->controls;
         m_SavedSearchEntries.append(save_entry);
     }
     return true;
@@ -521,8 +560,17 @@ void SearchEditor::ExportItems(QList<QStandardItem *> items)
         }
     }
     // Get the filename to use
-    QString filter_string = "*." % FILE_EXTENSION;
-    QString default_filter = "*";
+    QMap<QString,QString> file_filters;
+    file_filters[ "ini" ] = tr("Sigil INI files (*.ini)");
+    file_filters[ "csv" ] = tr("CSV files (*.csv)");
+    file_filters[ "txt" ] = tr("Text files (*.txt)");
+    QStringList filters = file_filters.values();
+    QString filter_string = "";
+    foreach(QString filter, filters) {
+        filter_string += filter + ";;";
+    }
+    QString default_filter = file_filters.value("ini");
+
     QFileDialog::Options options = QFileDialog::Options();
 #ifdef Q_OS_MAC
     options = options | QFileDialog::DontUseNativeDialog;
@@ -539,16 +587,38 @@ void SearchEditor::ExportItems(QList<QStandardItem *> items)
         return;
     }
 
-    QString extension = QFileInfo(filename).suffix().toLower();
-
-    if (extension != FILE_EXTENSION) {
-        filename += "." % FILE_EXTENSION;
+    QString ext = QFileInfo(filename).suffix().toLower();
+    QChar sep;
+    if (ext == "txt") {
+        sep = QChar(9);
+    } else if (ext == "csv") {
+        sep = QChar(',');
     }
 
-    // Save the data, and last folder opened if successful
-    if (SaveData(entries, filename)) {
-        m_LastFolderOpen = QFileInfo(filename).absolutePath();
-        WriteSettings();
+    if (ext == "ini") {
+        // Save the data, and last folder opened if successful
+        if (SaveData(entries, filename)) {
+            m_LastFolderOpen = QFileInfo(filename).absolutePath();
+            WriteSettings();
+        }
+    } else {
+        if (SaveTextData(entries, filename, sep)) {
+            m_LastFolderOpen = QFileInfo(filename).absolutePath();
+            WriteSettings();
+        }
+    }
+}
+
+void SearchEditor::FillControls()
+{
+    if (ui.SearchEditorTree->selectionModel()->hasSelection()) {
+        QList<QStandardItem *> items = m_SearchEditorModel->GetNonGroupItems(GetSelectedItems());
+
+        if (!ItemsAreUnique(items)) return;
+
+        if (items.size() < 2) return;
+
+        m_SearchEditorModel->FillControls(items);
     }
 }
 
@@ -581,7 +651,8 @@ bool SearchEditor::FilterEntries(const QString &text, QStandardItem *item)
         } else {
             hidden = !(text.isEmpty() || entry->name.toLower().contains(lowercaseText) ||
                        entry->find.toLower().contains(lowercaseText) ||
-                       entry->replace.toLower().contains(lowercaseText));
+                       entry->replace.toLower().contains(lowercaseText) ||
+                       entry->controls.toLower().contains(lowercaseText));
         }
 
         ui.SearchEditorTree->setRowHidden(item->row(), parent_index, hidden);
@@ -701,12 +772,13 @@ void SearchEditor::CreateContextMenuActions()
     m_Copy      =   new QAction(tr("Copy"),               this);
     m_Paste     =   new QAction(tr("Paste"),              this);
     m_Delete    =   new QAction(tr("Delete"),             this);
-    m_Import    =   new QAction(tr("Import") + "...",      this);
+    m_Import    =   new QAction(tr("Import") + "...",     this);
     m_Reload    =   new QAction(tr("Reload") + "...",     this);
     m_Export    =   new QAction(tr("Export") + "...",     this);
     m_ExportAll =   new QAction(tr("Export All") + "...", this);
     m_CollapseAll = new QAction(tr("Collapse All"),       this);
     m_ExpandAll =   new QAction(tr("Expand All"),         this);
+    m_FillIn    =   new QAction(tr("Fill Controls"),      this);
     m_AddEntry->setShortcut(QKeySequence(Qt::ControlModifier + Qt::Key_E));
     m_AddGroup->setShortcut(QKeySequence(Qt::ControlModifier + Qt::Key_G));
     m_Edit->setShortcut(QKeySequence(Qt::Key_F2));
@@ -744,6 +816,7 @@ void SearchEditor::OpenContextMenu(const QPoint &point)
         m_ExportAll->setEnabled(true);
         m_CollapseAll->setEnabled(true);
         m_ExpandAll->setEnabled(true);
+        m_FillIn->setEnabled(true);
     }
 }
 
@@ -775,6 +848,7 @@ void SearchEditor::SetupContextMenu(const QPoint &point)
     m_ContextMenu->addSeparator();
     m_ContextMenu->addAction(m_CollapseAll);
     m_ContextMenu->addAction(m_ExpandAll);
+    m_ContextMenu->addAction(m_FillIn);
 }
 
 void SearchEditor::Apply()
@@ -1044,6 +1118,7 @@ void SearchEditor::ConnectSignalsSlots()
     connect(m_ExportAll,   SIGNAL(triggered()), this, SLOT(ExportAll()));
     connect(m_CollapseAll, SIGNAL(triggered()), this, SLOT(CollapseAll()));
     connect(m_ExpandAll,   SIGNAL(triggered()), this, SLOT(ExpandAll()));
+    connect(m_FillIn,      SIGNAL(triggered()), this, SLOT(FillControls()));
     connect(m_SearchEditorModel, SIGNAL(SettingsFileUpdated()), this, SLOT(SettingsFileModelUpdated()));
     connect(m_SearchEditorModel, SIGNAL(ItemDropped(const QModelIndex &)), this, SLOT(ModelItemDropped(const QModelIndex &)));
 }

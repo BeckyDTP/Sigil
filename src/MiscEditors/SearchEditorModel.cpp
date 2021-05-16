@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2018-2021 Kevin B. Hendricks, Stratford, Ontario, Canada
+**  Copyright (C) 2015-2021 Kevin B. Hendricks, Stratford, Ontario, Canada
 **  Copyright (C) 2012 John Schember <john@nachtimwald.com>
 **  Copyright (C) 2012 Dave Heiland
 **  Copyright (C) 2012 Grant Drake
@@ -27,19 +27,25 @@
 #include <QDataStream>
 #include <QtCore/QTime>
 #include <QFileInfo>
+#include <QFile>
 #include <QRegularExpression>
+#include <QDebug>
 
 #include "MiscEditors/SearchEditorModel.h"
 #include "Misc/Utility.h"
 #include "sigil_constants.h"
+#include "sigil_exception.h"
 
-static const QString SETTINGS_FILE          = "sigil_searches.ini";
+static const QString SETTINGS_FILE          = "sigil_searches_v2.ini";
+static const QString OLD_SETTINGS_FILE      = "sigil_searches.ini";
+
 static const QString SETTINGS_GROUP         = "search_entries";
 static const QString ENTRY_NAME             = "Name";
 static const QString ENTRY_FIND             = "Find";
 static const QString ENTRY_REPLACE          = "Replace";
+static const QString ENTRY_CONTROLS         = "Controls";
 
-const int COLUMNS = 3;
+const int COLUMNS = 4;
 
 static const int IS_GROUP_ROLE = Qt::UserRole + 1;
 static const int FULLNAME_ROLE = Qt::UserRole + 2;
@@ -63,10 +69,23 @@ SearchEditorModel::SearchEditorModel(QObject *parent)
       m_IsDataModified(false)
 {
     m_SettingsPath = Utility::DefinePrefsDir() + "/" + SETTINGS_FILE;
+    QString OldSettingsPath = Utility::DefinePrefsDir() + "/" + OLD_SETTINGS_FILE;
+    QFileInfo fi(m_SettingsPath);
+    if (!fi.exists()) {
+        QFileInfo oldfi(OldSettingsPath);
+        if (oldfi.exists() && oldfi.isFile()) {
+            // create v2 settings file from old one
+            bool success = QFile::copy(oldfi.absoluteFilePath(), m_SettingsPath);
+            if (!success) {
+                qDebug() << "Failed to create v2 saved searches from old";
+            }
+        }
+    }
     QStringList header;
     header.append(tr("Name"));
     header.append(tr("Find"));
     header.append(tr("Replace"));
+    header.append(tr("Controls"));
     setHorizontalHeaderLabels(header);
     LoadInitialData();
     // Save it to make sure we have a file in case it was loaded from examples
@@ -148,9 +167,15 @@ void SearchEditorModel::RowsRemovedHandler(const QModelIndex &parent, int start,
     SetDataModified(true);
 }
 
+
 void SearchEditorModel::ItemChangedHandler(QStandardItem *item)
 {
     Q_ASSERT(item);
+
+    if (item->column() == 3) {
+        QString controls = item->text();
+        item->setToolTip(BuildControlsToolTip(controls));
+    }
 
     if (item->column() != 0) {
         SetDataModified(true);
@@ -314,6 +339,7 @@ void SearchEditorModel::LoadData(const QString &filename, QStandardItem *item)
         entry->fullname = fullname;
         entry->find = ss.value(ENTRY_FIND).toString();
         entry->replace = ss.value(ENTRY_REPLACE).toString();
+        entry->controls = ss.value(ENTRY_CONTROLS, "").toString();
         AddFullNameEntry(entry, item);
         // done with the temporary entry so remove it
         delete entry;
@@ -339,18 +365,27 @@ void SearchEditorModel::LoadTextData(const QString &filename, QStandardItem *ite
                     findreplace = aline.split(sep);
                 }
                 // add to end to prevent errors
-                findreplace << "" << "";
+                findreplace << "" << "" << "" << "";
                 QString localname = "rep" + QStringLiteral("%1").arg(cnt, 5, 10, QLatin1Char('0'));
+                QString fullname;
                 SearchEditorModel::searchEntry *entry = new SearchEditorModel::searchEntry();
-                QString fullname = groupname + localname;
+                // if no name info appears
+                if (findreplace.at(0).isEmpty()) {
+                    fullname = groupname + localname;
+                } else {
+                    // this was created by an Export so fullname is present
+                    fullname = findreplace.at(0);
+                }
                 fullname.replace(QRegularExpression("\\s*/+\\s*"), "/");
                 fullname.replace(QRegularExpression("^/"), "");
                 entry->is_group = fullname.endsWith("/");
                 // Name is set to fullname only while looping through parent groups when adding
                 entry->name = fullname;
                 entry->fullname = fullname;
-                entry->find = findreplace.at(0);
-                entry->replace = findreplace.at(1);
+                entry->find = findreplace.at(1);
+                entry->replace = findreplace.at(2);
+                entry->controls = findreplace.at(3);
+                
                 AddFullNameEntry(entry, item);
                 // done with the temporary entry so remove it
                 delete entry;
@@ -414,6 +449,93 @@ void SearchEditorModel::AddFullNameEntry(SearchEditorModel::searchEntry *entry, 
     }
 }
 
+
+void SearchEditorModel::FillControls(const QList<QStandardItem*> &items)
+{
+    if (items.isEmpty()) return;
+    
+    QStandardItem *source_item = items.at(0);
+    
+    QStandardItem *parent_item = invisibleRootItem();
+    if (source_item->parent()) {
+        parent_item = source_item->parent();
+    }
+    QString controls = parent_item->child(source_item->row(), 3)->text();
+
+    for (int i = 1; i < items.size(); i++) {
+        QStandardItem* aitem = items.at(i);
+        parent_item = invisibleRootItem();
+        if (aitem->parent()) {
+            parent_item = aitem->parent();
+        }
+        parent_item->child(aitem->row(), 3)->setText(controls);
+    }
+    SetDataModified(true);
+}
+
+
+QString SearchEditorModel::BuildControlsToolTip(const QString & controls)
+{
+    QString tooltip_controls = "";
+    if (controls != "") {
+        if (controls.contains("NL")) {
+            tooltip_controls.append("NL - " + tr("Mode: Normal") + "\n");
+        }
+        if (controls.contains("RX")) {
+            tooltip_controls.append("RX - " + tr("Mode: Regular Expression") + "\n");
+        }
+        if (controls.contains("CS")) {
+            tooltip_controls.append("CS - " + tr("Mode: Case Sensitive") + "\n");
+        }
+        if (controls.contains("UP")) {
+            tooltip_controls.append("UP - " + tr("Direction: Up") + "\n");
+        }
+        if (controls.contains("DN")) {
+            tooltip_controls.append("DN - " + tr("Direction: Down") + "\n");
+        }
+        if (controls.contains("CF")) {
+            tooltip_controls.append("CF - " + tr("Target: Current File") + "\n");
+        }
+        if (controls.contains("AH")) {
+            tooltip_controls.append("AH - " + tr("Target: All HTML Files") + "\n");
+        }
+        if (controls.contains("SH")) {
+            tooltip_controls.append("SH - " + tr("Target: Selected HTML Files") + "\n");
+        }
+        if (controls.contains("TH")) {
+            tooltip_controls.append("TH - " + tr("Target: Tabbed HTML Files") + "\n");
+        }
+        if (controls.contains("AC")) {
+            tooltip_controls.append("AC - " + tr("Target: All CSS Files") + "\n");
+        }
+        if (controls.contains("SC")) {
+            tooltip_controls.append("SC - " + tr("Target: Selected CSS Files") + "\n");
+        }
+        if (controls.contains("TC")) {
+            tooltip_controls.append("TC - " + tr("Target: Tabbed CSS Files") + "\n");
+        }
+        if (controls.contains("OP")) {
+            tooltip_controls.append("OP - " + tr("Target: OPF File") + "\n");
+        }
+        if (controls.contains("NX")) {
+            tooltip_controls.append("NX - " + tr("Target: NCX File") + "\n");
+        }
+        if (controls.contains("DA")) {
+            tooltip_controls.append("DA - " + tr("Option: DotAll") + "\n");
+        }
+        if (controls.contains("MM")) {
+            tooltip_controls.append("MM - " + tr("Option: Minimal Match") + "\n");
+        }
+        if (controls.contains("AT")) {
+            tooltip_controls.append("AT - " + tr("Option: Auto Tokenise") + "\n");
+        }
+        if (controls.contains("WR")) {
+            tooltip_controls.append("WR - " + tr("Option: Wrap") + "\n");
+        }
+    }
+    return tooltip_controls;
+}
+
 QStandardItem *SearchEditorModel::AddEntryToModel(SearchEditorModel::searchEntry *entry, bool is_group, QStandardItem *parent_item, int row)
 {
     // parent_item must be a group item
@@ -430,6 +552,7 @@ QStandardItem *SearchEditorModel::AddEntryToModel(SearchEditorModel::searchEntry
             entry->name = "Search";
             entry->find = "";
             entry->replace = "";
+            entry->controls = "";
         } else {
             entry->name = "Group";
         }
@@ -465,11 +588,14 @@ QStandardItem *SearchEditorModel::AddEntryToModel(SearchEditorModel::searchEntry
         rowItems << new QStandardItem(entry->name);
         rowItems << new QStandardItem(entry->find);
         rowItems << new QStandardItem(entry->replace);
+        rowItems << new QStandardItem(entry->controls);
     }
 
     rowItems[0]->setData(entry->is_group, IS_GROUP_ROLE);
     rowItems[0]->setData(entry->fullname, FULLNAME_ROLE);
     rowItems[0]->setToolTip(entry->fullname);
+    rowItems[3]->setToolTip(BuildControlsToolTip(entry->controls));
+    
     // Add the new item to the model at the specified row
     QStandardItem *new_item;
 
@@ -579,6 +705,7 @@ SearchEditorModel::searchEntry *SearchEditorModel::GetEntry(QStandardItem *item)
     entry->name =        parent_item->child(item->row(), 0)->text();
     entry->find =        parent_item->child(item->row(), 1)->text();
     entry->replace =     parent_item->child(item->row(), 2)->text();
+    entry->controls =    parent_item->child(item->row(), 3)->text();
     return entry;
 }
 
@@ -611,6 +738,59 @@ QStandardItem *SearchEditorModel::GetItemFromId(quintptr id, int row, QStandardI
 
     return found_item;
 }
+
+
+QString SearchEditorModel::SaveTextData(QList<SearchEditorModel::searchEntry *> entries,
+                                        const QString &filename,
+                                        const QChar &sep)
+{
+    QString message = "";
+    bool clean_up_needed = false;
+    QString save_path = filename;
+
+    // Save everything if no entries selected
+    if (entries.isEmpty()) {
+        QList<QStandardItem *> items = GetNonParentItems(invisibleRootItem());
+
+        if (!items.isEmpty()) {
+            // GetEntries calls GetEntry which creates each entry with new
+            entries = GetEntries(items);
+            clean_up_needed = true;
+        }
+    }
+
+    // Create Data to write to file
+    QStringList res;
+    foreach(SearchEditorModel::searchEntry * entry, entries) {
+        QStringList data;
+        data << entry->fullname;
+        if (!entry->is_group) {
+           data << entry->find;
+           data << entry->replace;
+           data << entry->controls;
+        }
+        if (sep == ',') {
+            res << Utility::createCSVLine(data);
+        } else {
+            res << data.join(sep);
+        }
+    }
+    QString text = res.join('\n');
+    try {
+        Utility::WriteUnicodeTextFile(text, save_path);
+    } catch (CannotOpenFile& e) {
+        message = QString(e.what());
+    }
+
+    // delete each entry if we created them above
+    if (clean_up_needed) {
+        foreach(SearchEditorModel::searchEntry* entry, entries) {
+            delete entry;
+        }
+    }
+    return message;
+}
+
 
 QString SearchEditorModel::SaveData(QList<SearchEditorModel::searchEntry *> entries, const QString &filename)
 {
@@ -665,6 +845,7 @@ QString SearchEditorModel::SaveData(QList<SearchEditorModel::searchEntry *> entr
             if (!entry->is_group) {
                 ss.setValue(ENTRY_FIND, entry->find);
                 ss.setValue(ENTRY_REPLACE, entry->replace);
+                ss.setValue(ENTRY_CONTROLS, entry->controls);
             }
         }
     

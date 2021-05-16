@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2015-2019 Kevin B. Hendricks, Stratford, Ontario
+**  Copyright (C) 2015-2021 Kevin B. Hendricks, Stratford, Ontario
 **  Copyright (C) 2009-2011 Strahinja Markovic  <strahinja.markovic@gmail.com>
 **
 **  This file is part of Sigil.
@@ -61,6 +61,8 @@ public:
     QList<ContentTab *> GetContentTabs();
 
     QList<Resource *> GetTabResources();
+
+    QList<Resource *> GetTabResourcesOfType(Resource::ResourceType resource_type);
 
     int GetTabCount();
 
@@ -165,6 +167,8 @@ signals:
      */
     void TabChanged(ContentTab *old_tab, ContentTab *new_tab);
 
+    void UpdatePreviewAfterExistingTabSwitch();
+    
     void TabCountChanged();
 
     /**
@@ -291,6 +295,7 @@ private:
 
     QList<ContentTab*> m_TabsToDelete;
     bool m_tabs_deletion_in_use;
+    ContentTab * m_newTab;
 };
 
 #endif // TABMANAGER_H

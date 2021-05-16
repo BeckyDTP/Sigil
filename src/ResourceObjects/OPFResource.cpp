@@ -670,9 +670,62 @@ void OPFResource::AddCoverMetaForImage(const Resource *resource, OPFParser &p)
     }
 }
 
+
+void OPFResource::BulkRemoveResources(const QList<Resource *>resources)
+{
+    QWriteLocker locker(&GetLock());
+    qDebug() << "OPF Bulk Remove Resource";
+    QString source = CleanSource::ProcessXML(GetText(),"application/oebps-package+xml");
+    OPFParser p;
+    p.parse(source);
+    if (p.m_manifest.isEmpty()) return;
+
+    foreach(Resource * resource, resources) {
+        QString href = Utility::URLEncodePath(GetRelativePathToResource(resource));
+        int pos = p.m_hrefpos.value(href, -1);
+        QString item_id = "";
+
+        // Delete the meta tag for cover images before deleting the manifest entry
+        if (resource->Type() == Resource::ImageResourceType) {
+            RemoveCoverMetaForImage(resource, p);
+        }
+        if (pos > -1) {
+            item_id = p.m_manifest.at(pos).m_id;
+        }
+        if (resource->Type() == Resource::HTMLResourceType) {
+            for (int i=0; i < p.m_spine.count(); ++i) {
+                QString idref = p.m_spine.at(i).m_idref;
+                if (idref == item_id) {
+                    p.m_spine.removeAt(i);
+                    break;
+                }
+            }
+            RemoveGuideReferenceForResource(resource, p);
+            QString version = GetEpubVersion();
+            if (version.startsWith('3')) {
+                NavProcessor navproc(GetNavResource());
+                navproc.RemoveLandmarkForResource(resource);
+            }
+        }
+        if (pos > -1) {
+            p.m_manifest.removeAt(pos);
+            // rebuild the maps since updating them item by item would be slower
+            p.m_idpos.clear();
+            p.m_hrefpos.clear();
+            for (int i=0; i < p.m_manifest.count(); ++i) {
+                p.m_idpos[p.m_manifest.at(i).m_id] = i;
+                p.m_hrefpos[p.m_manifest.at(i).m_href] = i;
+            }
+        }
+    }
+    UpdateText(p);
+}
+
+
 void OPFResource::RemoveResource(const Resource *resource)
 {
     QWriteLocker locker(&GetLock());
+    qDebug() << "OPF Remove Resource";
     QString source = CleanSource::ProcessXML(GetText(),"application/oebps-package+xml");
     OPFParser p;
     p.parse(source);
@@ -801,13 +854,80 @@ void OPFResource::RemoveDuplicateGuideCodes(QString code, OPFParser& p)
 
 void OPFResource::RemoveGuideReferenceForResource(const Resource *resource, OPFParser& p)
 {
+    // if guide hrefs use fragments, the same resource may be there in multiple
+    // guide entries.  Since resource being deleted, remove them all
     if (p.m_guide.isEmpty()) return;
     int pos = GetGuideReferenceForResourcePos(resource, p);
-    if (pos > -1) {
+    while((pos > -1) && (!p.m_guide.isEmpty())) {
         p.m_guide.removeAt(pos);
+        pos = GetGuideReferenceForResourcePos(resource, p);
     }
 }
 
+
+void OPFResource::UpdateGuideFragments(QHash<QString,QString> &idupdates)
+{
+    QWriteLocker locker(&GetLock());
+    QString source = CleanSource::ProcessXML(GetText(),"application/oebps-package+xml");
+    OPFParser p;
+    p.parse(source);
+    for(int c=0; c < p.m_guide.size(); c++) {
+        GuideEntry ge = p.m_guide.at(c);
+        QString href = ge.m_href;
+        std::pair<QString, QString> parts = Utility::parseRelativeHREF(href);
+        QString apath = Utility::URLDecodePath(parts.first);
+        QString bkpath = Utility::buildBookPath(apath, GetFolder());
+        QString key = bkpath + parts.second;
+        QString newid = idupdates.value(key,"");
+        if (!newid.isEmpty()) {
+            // found a fragment id needing to be updated
+            parts.second = "#" + newid;
+            href = Utility::buildRelativeHREF(apath, parts.second);
+            ge.m_href = href;
+            p.m_guide[c] = ge;
+        }
+    }
+    UpdateText(p);
+}
+
+
+// first merged resource in list is the sink resource
+void OPFResource::UpdateGuideAfterMerge(QList<Resource*> &merged_resources, QHash<QString,QString> &section_id_map)
+{
+    if (merged_resources.isEmpty() || merged_resources.size() < 2) return;
+    Resource* sink_resource = merged_resources.at(0);
+    QString sink_bookpath = sink_resource->GetRelativePath();
+    QStringList merged_bookpaths;
+    for (int i=1; i < merged_resources.size(); i++) {
+        Resource* res = merged_resources.at(i);
+        merged_bookpaths << res->GetRelativePath();
+    }
+    QWriteLocker locker(&GetLock());
+    QString source = CleanSource::ProcessXML(GetText(),"application/oebps-package+xml");
+    OPFParser p;
+    p.parse(source);
+    for(int c=0; c < p.m_guide.size(); c++) {
+        GuideEntry ge = p.m_guide.at(c);
+        QString href = ge.m_href;
+        std::pair<QString, QString> parts = Utility::parseRelativeHREF(href);
+        QString apath = Utility::URLDecodePath(parts.first);
+        QString bkpath = Utility::buildBookPath(apath, GetFolder());
+        if (merged_bookpaths.contains(bkpath)) {
+            // need to redirect this bookpath to destination bookpath
+            // handle nay redirect to new injected section fragments
+            if (parts.second.isEmpty()) {
+                if (section_id_map.contains(bkpath)) {
+                    parts.second = "#" + section_id_map[bkpath];
+                }
+            }
+            apath = Utility::buildRelativePath(GetRelativePath(), sink_bookpath);
+            href = Utility::buildRelativeHREF(apath, parts.second);
+            ge.m_href = href;
+            p.m_guide[c] = ge;
+        }
+    }
+    UpdateText(p);
+}
 
 void OPFResource::SetGuideSemanticCodeForResource(QString code, const Resource *resource, OPFParser& p, const QString &lang)
 {

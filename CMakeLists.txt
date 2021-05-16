@@ -9,7 +9,20 @@
 
 cmake_minimum_required( VERSION 3.0 ) 
 
-project( Sigil ) 
+project( Sigil )
+
+# Need CMAKE 3.18+ to make full use of new FindPython3
+# with the Development.Embed submodule.
+set( RECENT_CMAKE_VER "3.18.1" )
+if ( NOT DEFINED TRY_NEWER_FINDPYTHON3 )
+    set ( TRY_NEWER_FINDPYTHON3 0 )
+endif()
+
+if (${CMAKE_VERSION} VERSION_GREATER_EQUAL ${RECENT_CMAKE_VER} AND ${TRY_NEWER_FINDPYTHON3})
+    set ( USE_NEWER_FINDPYTHON3 1 )
+else()
+    set ( USE_NEWER_FINDPYTHON3 0 )
+endif()
 
 set( CMAKE_DEBUG_POSTFIX "d" )
 # Avoid the whole Release/Debug folder creation with Visual Studio
@@ -28,7 +41,7 @@ set( PACKAGE_DIRECTORY ${PROJECT_BINARY_DIR}/package )
 set( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake_extras" )
 
 set( SIGIL_MAJOR_VERSION 1 )
-set( SIGIL_MINOR_VERSION 5 )
+set( SIGIL_MINOR_VERSION 6 )
 set( SIGIL_REVISION_VERSION 0 )
 set( SIGIL_FULL_VERSION ${SIGIL_MAJOR_VERSION}.${SIGIL_MINOR_VERSION}.${SIGIL_REVISION_VERSION} )
 
@@ -85,17 +98,33 @@ if (USE_SYSTEM_LIBS)
     endif()
 endif()
 
-if ( APPLE )
-    find_package(PythonInterp 3.8)
-    find_package (PythonLibs 3.8)
-endif()
-if ( WIN32 )
-    find_package(PythonInterp 3.5)
-    find_package (PythonLibs 3.5)
-endif()
-if( UNIX AND NOT APPLE )
-    find_package(PythonInterp 3.4)
-    find_package (PythonLibs 3.4)
+message(STATUS "CMake version in use: ${CMAKE_VERSION}")
+
+if (${USE_NEWER_FINDPYTHON3})
+    message(STATUS "Using newer findpython3 cmake module")
+    if ( APPLE )
+        find_package(Python3 3.8 COMPONENTS Interpreter Development)
+    endif()
+    if ( WIN32 )
+        find_package(Python3 3.5 COMPONENTS Interpreter Development)
+    endif()
+    if( UNIX AND NOT APPLE )
+        find_package(Python3 3.4 COMPONENTS Interpreter Development)
+    endif()
+else()
+    message(STATUS "Using older findpython cmake module")
+    if ( APPLE )
+        find_package(PythonInterp 3.8)
+        find_package (PythonLibs 3.8)
+    endif()
+    if ( WIN32 )
+        find_package(PythonInterp 3.5)
+        find_package (PythonLibs 3.5)
+    endif()
+    if( UNIX AND NOT APPLE )
+        find_package(PythonInterp 3.4)
+        find_package (PythonLibs 3.4)
+    endif()
 endif()
 
 # gumbo-parser it is our main xhtml/html5 parser.

@@ -46,7 +46,8 @@
 #include "BookManipulation/XhtmlDoc.h"
 #include "MainUI/MainWindow.h"
 #include "Parsers/GumboInterface.h"
-#include "Misc/XHTMLHighlighter.h"
+// #include "Misc/XHTMLHighlighter.h"
+#include "Misc/XHTMLHighlighter2.h"
 #include "Dialogs/ClipEditor.h"
 #include "Misc/CSSHighlighter.h"
 #include "Misc/SettingsStore.h"
@@ -106,7 +107,8 @@ CodeViewEditor::CodeViewEditor(HighlighterType high_type, bool check_spelling, Q
     m_regen_taglist(true)
 {
     if (high_type == CodeViewEditor::Highlight_XHTML) {
-        m_Highlighter = new XHTMLHighlighter(check_spelling, this);
+        // m_Highlighter = new XHTMLHighlighter(check_spelling, this);
+        m_Highlighter = new XHTMLHighlighter2(check_spelling, this);
     } else if (high_type == CodeViewEditor::Highlight_CSS) {
         m_Highlighter = new CSSHighlighter(this);
     } else {
@@ -151,13 +153,12 @@ QSize CodeViewEditor::sizeHint() const
 }
 
 
-void CodeViewEditor::CustomSetDocument(TextDocument &document)
+void CodeViewEditor::CustomSetDocument(TextDocument &ndocument)
 {
-    setDocument(&document);
-    document.setModified(false);
-
+    setDocument(&ndocument);
+    ndocument.setModified(false);
     if (m_Highlighter) {
-        m_Highlighter->setDocument(&document);
+        m_Highlighter->setDocument(&ndocument);
         // The QSyntaxHighlighter will setup a singleShot timer to do the highlighting
         // in response to setDocument being called. This causes a problem because we
         // cannot control at what point it finishes, and the textChanged signal of the
@@ -170,7 +171,6 @@ void CodeViewEditor::CustomSetDocument(TextDocument &document)
     ResetFont();
     m_isLoadFinished = true;
     m_regen_taglist = true;
-
     emit DocumentSet();
 }
 
@@ -446,21 +446,19 @@ QString CodeViewEditor::SplitSection()
     if (split_position < body_tag_end) {
         // Cursor is before the start of the body
         split_position = body_tag_end;
-    } else {
-        int next_close_tag_index = text.indexOf(QRegularExpression(NEXT_CLOSE_TAG_LOCATION), split_position);
-        if (next_close_tag_index == -1) {
-            // Cursor is at end of file
-            split_position = body_contents_end;
-        }
     }
-
-    const QStringList &opening_tags = GetUnmatchedTagsForBlock(split_position);
-
-    const QString &text_segment = split_position != body_tag_end
-                                  ? Utility::Substring(body_tag_start, split_position, text)
-                                  : QString("<p>&#160;</p>");
+    if (split_position > body_contents_end) {
+        // Cursor is after or in the closing body tag
+        split_position = body_contents_end;
+    }
     
-
+    const QStringList &opening_tags = GetUnmatchedTagsForBlock(split_position);
+ 
+    QString text_segment = "<p>&#160;</p>";
+    if (split_position != body_tag_end) {
+        text_segment = Utility::Substring(body_tag_start, split_position, text);
+    }
+    
     // This splits off from contents of body from top to the split position
     // Remove the text that will be in the new section from the View.
     QTextCursor cursor = textCursor();
@@ -482,10 +480,8 @@ QString CodeViewEditor::SplitSection()
 
     cursor.endEditBlock();
 
-    return QString()
-           .append(head)
-           .append(text_segment)
-           .append("\n</body>\n</html>");
+    QString new_section = head + text_segment + "\n</body>\n</html>";
+    return new_section;
 }
 
 
@@ -1161,20 +1157,24 @@ void CodeViewEditor::resizeEvent(QResizeEvent *event)
 
 void CodeViewEditor::mouseDoubleClickEvent(QMouseEvent *event)
 {
-    // record the initial position in case later changed by doubleclick event
-    QTextCursor cursor = textCursor();
-    int pos = cursor.selectionStart();
-    
     // Propagate to base class first then handle locally
     QPlainTextEdit::mouseDoubleClickEvent(event);
 
-    // if position not in start or end tag you are done
-    if (!IsPositionInTag(pos)) return;
-
+    // record the initial position in case later changed by doubleclick event
+    QTextCursor cursor = textCursor();
+    int pos = cursor.selectionStart();
     bool isShift = QApplication::keyboardModifiers() & Qt::ShiftModifier;
-    
-    // if shift is used select tag and its contents
-    // if no shift is used just select the tag's contents, not the tag itself
+    bool isAlt = QApplication::keyboardModifiers() & Qt::AltModifier;
+    // qDebug() << "Modifiers: " << QApplication::keyboardModifiers();
+
+    if (!isShift && !isAlt) return;
+
+    if (!IsPositionInTag(pos)){
+        return;
+    }
+
+    // if Shift is used select just the tag's contents, but not the tag itself
+    // if Alt (option key on macOS) is used select the tag's contents and that tag itself
     int open_tag_pos = -1;
     int open_tag_len = -1;
     int close_tag_pos = -1;
@@ -1205,13 +1205,13 @@ void CodeViewEditor::mouseDoubleClickEvent(QMouseEvent *event)
         int selstart;
         int selend;
         if (isShift) {
-            selstart = open_tag_pos;
-            selend = open_tag_pos + open_tag_len;
-            if (close_tag_len != -1) selend = close_tag_pos + close_tag_len;
-        } else {
             selstart = open_tag_pos + open_tag_len;
             selend = selstart;
             if (close_tag_len != -1) selend = close_tag_pos;
+        } else {
+            selstart = open_tag_pos;
+            selend = open_tag_pos + open_tag_len;
+            if (close_tag_len != -1) selend = close_tag_pos + close_tag_len;
         }
         cursor.setPosition(selstart);
         cursor.setPosition(selend, QTextCursor::KeepAnchor);
@@ -1966,7 +1966,8 @@ bool CodeViewEditor::MarkForIndex(const QString &title)
 // Overridden so we can emit the FocusGained() signal.
 void CodeViewEditor::focusInEvent(QFocusEvent *event)
 {
-    RehighlightDocument();
+    // Why is this needed?
+    // RehighlightDocument();
     emit FocusGained(this);
     QPlainTextEdit::focusInEvent(event);
     HighlightCurrentLine(false);
@@ -1985,7 +1986,9 @@ void CodeViewEditor::EmitFilteredCursorMoved()
 {
     // Avoid slowdown while selecting text
     if (QApplication::mouseButtons() == Qt::NoButton) {
-        emit FilteredCursorMoved();
+        if (m_isLoadFinished) {
+            emit FilteredCursorMoved();
+        }
     }
 }
 
@@ -2012,12 +2015,20 @@ void CodeViewEditor::RehighlightDocument()
         return;
     }
 
+    // Is this needed,  Why not let it work asynchronously
     if (m_Highlighter) {
         // We block signals from the document while highlighting takes place,
         // because we do not want the contentsChanged() signal to be fired
         // which would mark the underlying resource as needing saving.
+        XHTMLHighlighter2* xhl = qobject_cast<XHTMLHighlighter2*>(m_Highlighter);
+        // XHTMLHighlighter* xhl = qobject_cast<XHTMLHighlighter*>(m_Highlighter);
+        CSSHighlighter* chl = qobject_cast<CSSHighlighter*>(m_Highlighter);
         document()->blockSignals(true);
-        m_Highlighter->rehighlight();
+        if (xhl) {
+            xhl->do_rehighlight();
+        } else if (chl) {
+            chl->do_rehighlight();
+        }
         document()->blockSignals(false);
     }
 }
@@ -2058,7 +2069,7 @@ void CodeViewEditor::MaybeRegenerateTagList()
     // if (!m_isLoadFinished) return;
     
     if (m_regen_taglist) {
-        // qDebug() << "regenerating tag list";
+        qDebug() << "regenerating tag list";
         m_TagList.reloadLister(toPlainText());
         m_regen_taglist = false;
     }
@@ -2088,7 +2099,7 @@ void CodeViewEditor::HighlightCurrentLine(bool highlight_tags)
         // If and only if cursor is inside a tag, highlight open and matching close
         // current cursor position is just before this char at position pos in text
         QString text = toPlainText();
-        int pos = textCursor().position();
+        int pos = textCursor().selectionStart();
 
         // find previous begin tag marker
         int pb = text.lastIndexOf('<', pos);
@@ -2733,10 +2744,27 @@ bool CodeViewEditor::IsPositionInBody(int pos)
     return m_TagList.isPositionInBody(pos);
 }
 
+// This routine is time critical as it is called a lot
 bool CodeViewEditor::IsPositionInTag(int pos)
 {
-    MaybeRegenerateTagList();
-    return m_TagList.isPositionInTag(pos);
+    QString text = toPlainText();
+    // find previous begin tag marker
+    int pb = text.lastIndexOf('<', pos);
+    // find next end tag marker
+    int ne = text.indexOf('>', pos);
+
+    // find next begin tag marker *after* this char
+    // and handle case if missing
+    int nb = text.indexOf('<', pos+1);
+    if (nb == -1) nb = text.length()+1;
+
+    // in tag if '<' is closer than '>' when search backwards
+    // and if '>' is closer but than '<' (if it exists) but >= pos  when search forward
+    if ((pb > text.lastIndexOf('>', pos-1)) && (ne >= pos) && (nb > ne)) {
+        MaybeRegenerateTagList();
+        return m_TagList.isPositionInTag(pos);
+    }
+    return false;
 }
 
 // OpeningTag is can be a begin tag or a single tag
@@ -3558,12 +3586,15 @@ void CodeViewEditor::ApplyCaseChangeToSelection(const Utility::Casing &casing)
     setTextCursor(cursor);
 }
 
+
+
 QStringList CodeViewEditor::GetUnmatchedTagsForBlock(int pos)
 {
     // Given the specified position within the text, keep looking backwards finding
     // any tags until we hit all open block tags within the body. Append all the opening tags
     // that do not have closing tags together (ignoring self-closing tags)
     // and return the opening tags list complete with their attributes contiguously.
+    // Note: this should *never* include the html, head, or the body opening tags
     QStringList opening_tags;
     QList<int> paired_tags;
     MaybeRegenerateTagList();

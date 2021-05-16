@@ -1,7 +1,7 @@
 /************************************************************************
 **
 **  Copyright (C) 2019-2021 Kevin B. Hendricks, Stratford Ontario Canada
-**  Copyright (C) 2019-2020 Doug Massay
+**  Copyright (C) 2019-2021 Doug Massay
 **
 **  This file is part of Sigil.
 **
@@ -42,6 +42,7 @@
 #include "sigil_constants.h"
 #include "ViewEditors/WebEngPage.h"
 #include "ViewEditors/ViewPreview.h"
+#include "ViewEditors/Overlay.h"
 
 #define DBG if(0)
 
@@ -87,7 +88,8 @@ ViewPreview::ViewPreview(QWidget *parent)
       m_CaretLocationUpdate(QString()),
       m_CustomSetDocumentInProgress(false),
       m_pendingScrollToFragment(QString()),
-      m_LoadOkay(false)
+      m_LoadOkay(false),
+      m_overlay(new LoadingOverlay(this))
 {
     setPage(m_ViewWebPage);
     // Now handled in the WebEngPage constructor to be faster
@@ -287,6 +289,7 @@ void ViewPreview::LoadingProgress(int progress)
         m_isLoadFinished = true;
         m_LoadOkay = true;
     }
+    emit ViewProgress(progress);
 }
 
 void ViewPreview::UpdateFinishedState(bool okay)
@@ -299,7 +302,16 @@ void ViewPreview::UpdateFinishedState(bool okay)
     DBG qDebug() << "UpdateFinishedState with okay " << okay;
     // m_isLoadFinished = true;
     m_LoadOkay = okay;
-    emit DocumentLoaded();
+}
+
+void ViewPreview::HideOverlay()
+{
+    m_overlay->hide();
+}
+
+void ViewPreview::ShowOverlay()
+{
+    m_overlay->show();
 }
 
 QVariant ViewPreview::EvaluateJavascript(const QString &javascript)
@@ -373,6 +385,7 @@ void ViewPreview::WebPageJavascriptOnLoad()
         }
         m_CustomSetDocumentInProgress = false;
     }
+    emit DocumentLoaded();
 }
 
 QString ViewPreview::GetElementSelectingJS_NoTextNodes(const QList<ElementIndex> &hierarchy) const

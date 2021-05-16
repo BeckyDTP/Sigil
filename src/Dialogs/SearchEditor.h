@@ -38,6 +38,8 @@
 
 #include "ui_SearchEditor.h"
 
+class SearchEditorItemDelegate;
+
 /**
  * The editor used to create and modify saved searches
  */
@@ -84,7 +86,8 @@ private slots:
     void ExportAll();
     void CollapseAll();
     void ExpandAll();
-
+    void FillControls();
+    
     void Apply();
     bool Save();
 
@@ -128,6 +131,9 @@ private:
 
     bool SaveData(QList<SearchEditorModel::searchEntry *> entries = QList<SearchEditorModel::searchEntry *>() , QString filename = QString());
 
+    bool SaveTextData(QList<SearchEditorModel::searchEntry *> entries = QList<SearchEditorModel::searchEntry *>() ,
+                      QString filename = QString(), QChar sep=QChar(9));
+
     bool FilterEntries(const QString &text, QStandardItem *item = NULL);
     bool SelectFirstVisibleNonGroup(QStandardItem *item);
 
@@ -152,6 +158,7 @@ private:
     QAction *m_ExportAll;
     QAction *m_CollapseAll;
     QAction *m_ExpandAll;
+    QAction *m_FillIn;
 
     SearchEditorModel *m_SearchEditorModel;
 
@@ -160,6 +167,8 @@ private:
     QPointer<QMenu> m_ContextMenu;
 
     QList<SearchEditorModel::searchEntry *> m_SavedSearchEntries;
+
+    SearchEditorItemDelegate * m_CntrlDelegate;
 
     Ui::SearchEditor ui;
 };
