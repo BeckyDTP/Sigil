@@ -460,6 +460,8 @@ set( SPCRE_FILES
     PCRE/PCRECache.h
     PCRE/PCREReplaceTextBuilder.cpp
     PCRE/PCREReplaceTextBuilder.h
+    PCRE/PCREErrors.cpp
+    PCRE/PCREErrors.h
     )
 
 set( VIEW_EDITOR_FILES
@@ -695,9 +697,9 @@ if ( NOT DEFINED INSTALL_BUNDLED_DICTS )
     set ( INSTALL_BUNDLED_DICTS 1 )
 endif()
 
-# use -DDISABLE_UPDATECHECK=1 to disable the builtin update check.
-# Mainly for use by *nix distros whose Sigil packages can't make use of the 
-# new release downloads anyway. 
+# use -DDISABLE_UPDATE_CHECK=1 to disable the builtin update check.
+# Mainly for use by *nix distros whose Sigil packages can't make use of the
+# new release downloads anyway.
 if ( NOT DEFINED DISABLE_UPDATE_CHECK )
     set ( DISABLE_UPDATE_CHECK 0 )
 endif()

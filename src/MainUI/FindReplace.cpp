@@ -33,6 +33,7 @@
 #include "MainUI/FindReplace.h"
 #include "Misc/SettingsStore.h"
 #include "Misc/FindReplaceQLineEdit.h"
+#include "PCRE/PCREErrors.h"
 
 #define DBG if(0)
 
@@ -49,6 +50,9 @@ static const int SHOW_FIND_RESULTS_MESSAGE_DELAY_MS = 20000;
 static const QStringList TGTS = QStringList() << "CF" << "AH" << "SH" << "TH" << "AC" << "SC" << "TC" << "OP" << "NX";
 static const QStringList MDS = QStringList() << "NL" << "CS" << "RX";
 static const QStringList DRS = QStringList() << "DN" << "UP";
+
+static const QString INVALID = QString(QChar(9940));
+static const QString VALID = QString("");
 
 
 FindReplace::FindReplace(MainWindow *main_window)
@@ -1262,6 +1266,7 @@ void FindReplace::ShowHideAdvancedOptions()
     ui.chkRegexOptionAutoTokenise->setVisible(show_advanced);
     ui.chkOptionWrap->setVisible(show_advanced);
     ui.count->setVisible(show_advanced);
+    ui.revalid->setVisible(show_advanced);
     QIcon icon;
 
     if (show_advanced) {
@@ -1666,6 +1671,32 @@ void FindReplace::ExtendUI()
                                      "</dl>");
 }
 
+
+void FindReplace::ValidateRegex()
+{
+    if (GetSearchMode() == FindReplace::SearchMode_Regex) {
+        QString rawtext = ui.cbFind->lineEdit()->text();
+        QString text = GetSearchRegex();
+        // searches have prepended regex pieces for minimal match and dotall that users do not see
+        int offset_correction = text.length() - rawtext.length();
+        SPCRE rex(text);
+        QString emsg;
+        if (!rex.isValid()) {
+            emsg = tr("Invalid Regex:") + PCREErrors::instance()->GetError(rex.getError(),"");
+            emsg = emsg + " " + tr("offset:") + " " + QString::number(rex.getErrPos() - offset_correction); 
+            ui.cbFind->setToolTip(emsg);
+            ui.revalid->setText(INVALID); 
+        } else {
+            ui.cbFind->setToolTip(tr("Valid Regex"));
+            ui.revalid->setText(VALID);
+        }
+        return;
+    }
+    ui.cbFind->setToolTip("");
+    ui.revalid->setText("");
+}
+
+
 void FindReplace::ConnectSignalsToSlots()
 {
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(expireMessage()));
@@ -1686,4 +1717,11 @@ void FindReplace::ConnectSignalsToSlots()
     connect(ui.chkRegexOptionMinimalMatch, SIGNAL(clicked(bool)), this, SLOT(SetRegexOptionMinimalMatch(bool)));
     connect(ui.chkRegexOptionAutoTokenise, SIGNAL(clicked(bool)), this, SLOT(SetRegexOptionAutoTokenise(bool)));
     connect(ui.chkOptionWrap, SIGNAL(clicked(bool)), this, SLOT(SetOptionWrap(bool)));
+    connect(ui.cbFind, SIGNAL(editTextChanged(const QString&)), this, SLOT(ValidateRegex()));
+    connect(ui.cbFind, SIGNAL(currentTextChanged(const QString&)), this, SLOT(ValidateRegex()));
+    connect(ui.cbFind, SIGNAL(currentTextChanged(const QString&)), this, SLOT(ValidateRegex()));
+    connect(ui.cbSearchMode, SIGNAL(currentTextChanged(const QString&)), this, SLOT(ValidateRegex()));
+    connect(ui.chkRegexOptionDotAll, SIGNAL(clicked(bool)), this, SLOT(ValidateRegex()));
+    connect(ui.chkRegexOptionMinimalMatch, SIGNAL(clicked(bool)), this, SLOT(ValidateRegex()));
+    connect(ui.chkRegexOptionAutoTokenise, SIGNAL(clicked(bool)), this, SLOT(ValidateRegex()));
 }

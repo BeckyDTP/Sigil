@@ -80,6 +80,13 @@ public:
     bool isValid();
 
     /**
+     * Error message if not valid or null string
+     *
+     */
+    QString getError();
+    int getErrPos();
+
+    /**
      * The string that was used to create the regular expression.
      *
      * @return The pattern string that was given in the constructor.
@@ -147,6 +154,9 @@ private:
 
     // Store if the pattern is valid.
     bool m_valid;
+    // error message and offset if not valid 
+    QString m_error;
+    int m_errpos;
     // The regular expression as a string.
     QString m_pattern;
     // The compiled regular expression.

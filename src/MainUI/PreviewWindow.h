@@ -1,7 +1,7 @@
 /************************************************************************
 **
-**  Copyright (C) 2015-2019 Kevin B. Hendricks, Stratford Ontario Canada
-**  Copyright (C) 2015-2019 Doug Massay
+**  Copyright (C) 2015-2021 Kevin B. Hendricks, Stratford Ontario Canada
+**  Copyright (C) 2015-2021 Doug Massay
 **  Copyright (C) 2012      Dave Heiland, John Schember
 **
 **  This file is part of Sigil.
@@ -49,6 +49,7 @@ public:
     PreviewWindow(QWidget *parent = 0);
     ~PreviewWindow();
     QList<ElementIndex> GetCaretLocation();
+    void SetCaretLocation(const QList<ElementIndex> &loc);
     bool IsVisible();
     bool HasFocus();
     float GetZoomFactor();
@@ -59,6 +60,7 @@ public:
 public slots:
     bool UpdatePage(QString filename, QString text, QList<ElementIndex> location);
     void UpdatePageDone();
+    void DelayedScrollTo();
     void ScrollTo(QList<ElementIndex> location);
     void SetZoomFactor(float factor);
     void LinkClicked(const QUrl &url);
@@ -140,9 +142,9 @@ private:
     QAction * m_reloadAction;
 
     
-    QList<ElementIndex> m_location;
     QTimer m_OverlayTimer;
     bool m_updatingPage;
+    bool m_usingMathML;
 };
 
 #endif // PREVIEWWINDOW_H
