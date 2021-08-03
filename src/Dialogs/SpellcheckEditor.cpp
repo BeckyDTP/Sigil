@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2015-2020 Kevin B. Hendricks, Stratford Ontario Canada
+**  Copyright (C) 2015-2021 Kevin B. Hendricks, Stratford Ontario Canada
 **  Copyright (C) 2012-2013 John Schember <john@nachtimwald.com>
 **  Copyright (C) 2012-2013 Dave Heiland
 **
@@ -258,8 +258,6 @@ void SpellcheckEditor::CreateModel(int sort_column, Qt::SortOrder sort_order)
     header.append(tr("Misspelled?"));
     m_SpellcheckEditorModel->setHorizontalHeaderLabels(header);
     ui.SpellcheckEditorTree->header()->setSectionResizeMode(0, QHeaderView::Stretch);
-    ui.SpellcheckEditorTree->resizeColumnToContents(1);
-    ui.SpellcheckEditorTree->resizeColumnToContents(2);
 
     QHash<QString, int> unique_words = m_Book->GetUniqueWordsInHTMLFiles();
 
@@ -272,7 +270,7 @@ void SpellcheckEditor::CreateModel(int sort_column, Qt::SortOrder sort_order)
         i.next();
         QString lcword = i.key();
         QString code = HTMLSpellCheckML::langOf(lcword);
-        QString lang = lp->GetLanguageName(code);
+        QString lang = lp->GetLanguageName(code, code);
         QString word = HTMLSpellCheckML::textOf(lcword);
         int count = unique_words.value(lcword);
         bool misspelled = !sc->spell(lcword);
@@ -316,6 +314,11 @@ void SpellcheckEditor::CreateModel(int sort_column, Qt::SortOrder sort_order)
 
         m_SpellcheckEditorModel->invisibleRootItem()->appendRow(row_items);
     }
+
+    ui.SpellcheckEditorTree->resizeColumnToContents(0);
+    ui.SpellcheckEditorTree->resizeColumnToContents(1);
+    ui.SpellcheckEditorTree->resizeColumnToContents(2);
+    ui.SpellcheckEditorTree->resizeColumnToContents(3);
 
     // Changing the sortIndicator order should not cause the entire wordlist to be regenerated
     // disconnect(ui.SpellcheckEditorTree->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), this, SLOT(Sort(int, Qt::SortOrder)));
@@ -441,7 +444,8 @@ void SpellcheckEditor::FindSelectedWord()
 void SpellcheckEditor::SelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
     UpdateSuggestions();
-    FindSelectedWord();
+    // do not do a FindSelectedWord() here just because selection changed, wait for user to double-click
+    // so that paging up and down in the wordlist is not painfully slow in larger epubs
 }
 
 void SpellcheckEditor::FilterEditTextChangedSlot(const QString &text)

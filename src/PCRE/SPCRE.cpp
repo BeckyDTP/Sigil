@@ -1,5 +1,6 @@
 /************************************************************************
 **
+**  Copyright (C) 2021  Kevin B. Hendricks, Stratford Ontario Canada
 **  Copyright (C) 2011  John Schember <john@nachtimwald.com>
 **
 **  This file is part of Sigil.
@@ -31,22 +32,53 @@ SPCRE::SPCRE(const QString &patten)
     m_pattern = patten;
     m_re = NULL;
     m_study = NULL;
+
+#ifndef PCRE_NO_JIT
+
+    m_jitstack = NULL;
+
+#endif
+
     m_captureSubpatternCount = 0;
-    const char *error;
-    int erroroffset;
+    m_error = QString();
+    m_errpos = -1;
+    const char *error = NULL;
+    int erroroffset = -1;
     m_re = pcre16_compile(m_pattern.utf16(), PCRE_UTF16 | PCRE_MULTILINE, &error, &erroroffset, NULL);
 
     // Pattern is valid.
     if (m_re != NULL) {
         m_valid = true;
         // Study the pattern and save the results of the study.
+
+#ifndef PCRE_NO_JIT
+
+        m_study = pcre16_study(m_re, PCRE_STUDY_JIT_COMPILE, &error);
+        m_jitstack = pcre16_jit_stack_alloc(32*1024, 1024*1024);
+        if (m_jitstack != NULL) {
+            pcre16_assign_jit_stack(m_study, NULL, m_jitstack);
+        }
+
+#else
+
         m_study = pcre16_study(m_re, 0, &error);
+
+#endif
+
+        if (m_study) {
+            // set recursion limit to prevent issues with stack overflow
+            // if JIT is not used
+            m_study->flags = m_study->flags | PCRE_EXTRA_MATCH_LIMIT_RECURSION;
+            m_study->match_limit_recursion = 12000;
+        }
         // Store the number of capture subpatterns.
         pcre16_fullinfo(m_re, m_study, PCRE_INFO_CAPTURECOUNT, &m_captureSubpatternCount);
     }
     // Pattern is not valid.
     else {
         m_valid = false;
+        m_error = QString(error);
+        m_errpos = erroroffset;
     }
 }
 
@@ -61,11 +93,30 @@ SPCRE::~SPCRE()
         pcre16_free(m_study);
         m_study = NULL;
     }
+
+#ifndef PCRE_NO_JIT
+
+    if (m_jitstack != NULL) {
+        pcre16_jit_stack_free(m_jitstack);
+    }
+
+#endif
+
 }
 
 bool SPCRE::isValid()
 {
     return m_valid;
+}
+
+QString SPCRE::getError()
+{
+    return m_error;
+}
+
+int SPCRE::getErrPos()
+{
+    return m_errpos;
 }
 
 QString SPCRE::getPattern()
@@ -235,4 +286,3 @@ SPCRE::MatchInfo SPCRE::generateMatchInfo(int ovector[], int ovector_count)
 
     return match_info;
 }
-

@@ -65,6 +65,7 @@
 #include "Dialogs/EmptyLayout.h"
 #include "Dialogs/HeadingSelector.h"
 #include "Dialogs/LinkStylesheets.h"
+#include "Dialogs/LinkJavascripts.h"
 #include "Dialogs/ManageRepos.h"
 #include "Dialogs/MetaEditor.h"
 #include "Dialogs/PluginRunner.h"
@@ -114,6 +115,7 @@
 #include "sigil_constants.h"
 #include "sigil_exception.h"
 #include "SourceUpdates/LinkUpdates.h"
+#include "SourceUpdates/JavascriptUpdates.h"
 #include "SourceUpdates/WordUpdates.h"
 #include "SourceUpdates/FragmentUpdates.h"
 #include "Tabs/FlowTab.h"
@@ -136,9 +138,9 @@ static const int ZOOM_SLIDER_MAX    = 1000;
 static const int ZOOM_SLIDER_MIDDLE = 500;
 static const int ZOOM_SLIDER_WIDTH  = 140;
 
-static const QString DONATE         = "http://sigil-ebook.com/donate";
-static const QString SIGIL_WEBSITE  = "http://sigil-ebook.com";
-static const QString USER_GUIDE_URL = "http://sigil-ebook.com/documentation";
+static const QString DONATE         = "https://sigil-ebook.com/donate";
+static const QString SIGIL_WEBSITE  = "https://sigil-ebook.com/sigil";
+static const QString USER_GUIDE_URL = "https://sigil-ebook.com//sigil/guide";
 
 static const QString BOOK_BROWSER_NAME            = "bookbrowser";
 static const QString FIND_REPLACE_NAME            = "findreplace";
@@ -851,8 +853,9 @@ void MainWindow::RepoManage()
 
 void MainWindow::launchExternalXEditor()
 {
-    // For simplicity for new users always launch the external xhtml
-    // editor with the opf so that all xhtml files are findable and editable
+    // For simplicity for new users always launch the PageEdit external
+    // editor with the opf so that all xhtml files are findable and editable.
+    // Otherwise launch other external editors with the open html resource.
 
     // Launch external xhtml editor for current tab resource
     // ONLY if the current tab resource is a HTMLResource and
@@ -879,41 +882,68 @@ void MainWindow::launchExternalXEditor()
         return;
     }
 
-    Resource * resource = m_Book->GetOPF();
+    //bool isPageEdit = ss.externalXEditorPath().contains("pageedit", Qt::CaseInsensitive);
+    bool isPageEdit = (xeditorinfo.baseName().toLower() == "pageedit");
+    qDebug() << "External editor is PageEdit: " << isPageEdit;
 
-    // an OPF Resource could be used to access every xhtml file in the spine
-    // so save all of these resources to disk and set a fswatcher on them
-    QList<Resource *> all_resources = m_Book->GetFolderKeeper()->GetResourceList();
-    QList<Resource*> spine_resources = m_Book->GetOPF()->GetSpineOrderResources(all_resources);
-
-    int spinenum = 0;
-    
-    // first suspend file watching and then save all of these to disk
-    // AND while doing so record where in the spine any current html tab might be
-    m_Book->GetFolderKeeper()->SuspendWatchingResources();
-    resource->SaveToDisk();
-    int i = 0;
-    foreach(Resource * spineres, spine_resources) {
-        HTMLResource* xhtmlres = qobject_cast<HTMLResource *>(spineres);
-        if (xhtmlres) {
-            spineres->SaveToDisk();
-        }
-        if (html_resource && (html_resource == xhtmlres)) spinenum = i;
-        i++;
-    }
-    m_Book->GetFolderKeeper()->ResumeWatchingResources();
-    // after re-enabling file watching, add all of these to list of files to be watched
-    foreach(Resource * spineres, spine_resources) {
-        HTMLResource* xhtmlres = qobject_cast<HTMLResource *>(spineres);
-        if (xhtmlres) {
-            m_Book->GetFolderKeeper()->WatchResourceFile(spineres);
-        }
-    }
-    
-    if (OpenExternally::openFileWithXEditor(resource->GetFullPath(), XEditorPath, spinenum)) {
-        m_Book->GetFolderKeeper()->WatchResourceFile(resource);
-        ShowMessageOnStatusBar(tr("Executing External Xhtml Editor"));
+    // If PageEdit isn't being used, only an open html resource will work
+    if (!isPageEdit && !html_resource ) {
+        ShowMessageOnStatusBar(tr("External XHtml Editor works only on Html Resources"));
         return;
+    }
+
+    Resource * resource;
+
+    if (isPageEdit) {
+        resource = m_Book->GetOPF();
+
+        // an OPF Resource could be used to access every xhtml file in the spine
+        // so save all of these resources to disk and set a fswatcher on them
+        QList<Resource *> all_resources = m_Book->GetFolderKeeper()->GetResourceList();
+        QList<Resource*> spine_resources = m_Book->GetOPF()->GetSpineOrderResources(all_resources);
+
+        int spinenum = 0;
+
+        // first suspend file watching and then save all of these to disk
+        // AND while doing so record where in the spine any current html tab might be
+        m_Book->GetFolderKeeper()->SuspendWatchingResources();
+        resource->SaveToDisk();
+        int i = 0;
+        foreach(Resource * spineres, spine_resources) {
+            HTMLResource* xhtmlres = qobject_cast<HTMLResource *>(spineres);
+            if (xhtmlres) {
+                spineres->SaveToDisk();
+            }
+            if (html_resource && (html_resource == xhtmlres)) spinenum = i;
+            i++;
+        }
+        m_Book->GetFolderKeeper()->ResumeWatchingResources();
+        // after re-enabling file watching, add all of these to list of files to be watched
+        foreach(Resource * spineres, spine_resources) {
+            HTMLResource* xhtmlres = qobject_cast<HTMLResource *>(spineres);
+            if (xhtmlres) {
+                m_Book->GetFolderKeeper()->WatchResourceFile(spineres);
+            }
+        }
+
+        if (OpenExternally::openFileWithXEditor(resource->GetFullPath(), XEditorPath, spinenum)) {
+            m_Book->GetFolderKeeper()->WatchResourceFile(resource);
+            ShowMessageOnStatusBar(tr("Executing PageEdit Xhtml Editor"));
+            return;
+        }
+
+    } else {
+        // Not PageEdit. Load single xhtml resource
+        resource = qobject_cast<Resource *>(html_resource);
+        m_Book->GetFolderKeeper()->SuspendWatchingResources();
+        resource->SaveToDisk();
+        m_Book->GetFolderKeeper()->ResumeWatchingResources();
+
+        if (OpenExternally::openFile(resource->GetFullPath(), XEditorPath)) {
+	        m_Book->GetFolderKeeper()->WatchResourceFile(resource);
+            ShowMessageOnStatusBar(tr("Executing External Xhtml Editor"));
+            return;
+        }
     }
     ShowMessageOnStatusBar(tr("Failed to Launch External Xhtml Editor"));
 }
@@ -1363,8 +1393,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
         }
 
 #ifdef Q_OS_MAC
-        // macOSX can not be left in fullscreen mode upon exit
+        // Qt BUG:  macOS can not be left in fullscreen or maximized mode upon exit
         if (isFullScreen()) setWindowState(windowState() & ~Qt::WindowFullScreen);
+        if (isMaximized()) setWindowState(windowState() & ~Qt::WindowMaximized);
 #endif
         event->accept();
     } else {
@@ -3137,6 +3168,110 @@ QStringList MainWindow::GetStylesheetsAlreadyLinked(Resource *resource)
     return linked_stylesheets;
 }
 
+void MainWindow::LinkJavascriptsToResources(QList <Resource *> resources)
+{
+    if (resources.isEmpty()) {
+        return;
+    }
+
+    SaveTabData();
+
+    // Check if data is well formed before saving                                                                   
+    foreach (Resource *r, resources) {
+        HTMLResource *h = qobject_cast<HTMLResource *>(r);
+        if (!h) {
+            continue;
+        }
+        if (!h->FileIsWellFormed()) {
+            QMessageBox::warning(this, tr("Sigil"), tr("Link Javascripts cancelled: %1, XML not well formed.").arg(\
+h->ShortPathName()));
+            return;
+        }
+    }
+
+    // Choose which javascripts to link                                                                             
+    LinkJavascripts link(GetJavascriptsMap(resources), this);
+
+    if (link.exec() != QDialog::Accepted) {
+        return;
+    }
+
+    Resource *current_resource = NULL;
+    ContentTab *tab = m_TabManager->GetCurrentContentTab();
+
+    if (tab != NULL) {
+        current_resource = tab->GetLoadedResource();
+    }
+
+    QStringList javascripts = link.GetJavascripts();
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    // Convert HTML resources into HTMLResource types                                                               
+    QList<HTMLResource *>html_resources;
+    foreach(Resource *resource, resources) {
+        html_resources.append(qobject_cast<HTMLResource *>(resource));
+    } 
+    JavascriptUpdates::UpdateJavascriptsInAllFiles(html_resources, javascripts);
+    m_Book->SetModified();
+
+    if (current_resource && resources.contains(current_resource)) {
+        OpenResource(current_resource);
+    }
+
+    SelectResources(resources);
+    QApplication::restoreOverrideCursor();
+}
+
+QList<std::pair<QString, bool>> MainWindow::GetJavascriptsMap(QList<Resource *> resources)
+{
+    QList<std::pair<QString, bool>> javascript_map;
+    QStringList mtypes = QStringList() << "application/javascript" << "text/javascript";
+    QList<Resource *> js_resources = m_Book->GetFolderKeeper()->GetResourceListByMediaTypes(mtypes);
+    // Use the first resource to get a list of known linked javascripts in order.                                   
+    QStringList checked_linked_bookpaths = GetJavascriptsAlreadyLinked(resources.at(0));
+    // Then only consider them included if every selected resource includes                                         
+    // the same javascripts in the same order.                                                                      
+    foreach(Resource * valid_resource, resources) {
+        QStringList linked_bookpaths = GetJavascriptsAlreadyLinked(valid_resource);
+        foreach(QString bookpath, checked_linked_bookpaths) {
+            if (!linked_bookpaths.contains(bookpath)) {
+		        checked_linked_bookpaths.removeOne(bookpath);
+            }
+        }
+    }
+    // Save the paths included in all resources in order                                                            
+    foreach(QString bookpath, checked_linked_bookpaths) {
+        javascript_map.append(std::make_pair(bookpath, true));
+    }
+    // Save all the remaining paths and mark them not included                                                      
+    foreach(Resource * resource, js_resources) {
+	    QString abookpath = resource->GetRelativePath();
+
+        if (!checked_linked_bookpaths.contains(abookpath)) {
+            javascript_map.append(std::make_pair(abookpath, false));
+	    }
+    }
+    return javascript_map;
+}
+
+QStringList MainWindow::GetJavascriptsAlreadyLinked(Resource *resource)
+{
+    HTMLResource *html_resource = qobject_cast<HTMLResource *>(resource);
+    QStringList linked_javascripts;
+    QStringList existing_javascripts;
+    QStringList mtypes = QStringList() << "application/javascript" << "text/javascript";
+    foreach(Resource * js_resource, m_Book->GetFolderKeeper()->GetResourceListByMediaTypes(mtypes)) {
+        existing_javascripts.append(js_resource->GetRelativePath());
+    }
+    foreach(QString bookpath, html_resource->GetLinkedJavascripts()) {
+        // Only list the javascript if it exists in the book                                                        
+        if (existing_javascripts.contains(bookpath)) {
+            linked_javascripts.append(bookpath);
+        }
+    }
+    return linked_javascripts;
+}
+
+
 void MainWindow::RemoveResources(QList<Resource *> resources)
 {
     // Provide the open tab list to ensure one tab stays open
@@ -3999,6 +4134,7 @@ void MainWindow::UpdatePreview()
 
         // handles all cases of non-html resource in front tab
         if (!html_resource) {
+            DBG qDebug() << "MW: UpdatePreview to non-html resource, using Previous";
             // note: must handle case of m_PreviousHTMLResource being deleted by user
             // see RemoveResources()
             html_resource = m_PreviousHTMLResource;
@@ -4018,12 +4154,15 @@ void MainWindow::UpdatePreview()
                 }
                 text = flow_tab->GetText();
                 location = flow_tab->GetCaretLocation();
+                DBG qDebug() << "MW: UpdatePreview using flow_tab Caret Location";
             } else {
                 text = m_PreviousHTMLText;
                 if (m_PreviousHTMLResource) {
                     location = m_PreviewWindow->GetCaretLocation();
+                    DBG qDebug() << "MW: UpdatePreview using current PreviewWindow location";
                 } else {
                     location = m_PreviousHTMLLocation;
+                    DBG qDebug() << "MW: UpdatePreview using m_PreviousHTMLLocation location";
                 }
 
             }
@@ -4333,13 +4472,13 @@ void MainWindow::ReadSettings()
     SettingsStore::PreviewAppearance PVAppearance = settings.previewAppearance();
     QWebEngineSettings *web_settings = QWebEngineSettings::defaultSettings();
 
-    // QWebEngine security settings to help prevent rogue epub3 javascripts
-    // User preferences control if javascript is allowed (on) or not
+    // Default QWebEngine security settings to help prevent rogue epub3 javascripts
+    // User preferences control if javascript is allowed (on) or not for Preview
     web_settings->setAttribute(QWebEngineSettings::AutoLoadImages, true);
-    web_settings->setAttribute(QWebEngineSettings::JavascriptEnabled, (settings.javascriptOn() == 1));
+    web_settings->setAttribute(QWebEngineSettings::JavascriptEnabled, false);
     web_settings->setAttribute(QWebEngineSettings::JavascriptCanOpenWindows, false);
     web_settings->setAttribute(QWebEngineSettings::JavascriptCanAccessClipboard, false);
-    web_settings->setAttribute(QWebEngineSettings::LocalContentCanAccessRemoteUrls, (settings.remoteOn() == 1));
+    web_settings->setAttribute(QWebEngineSettings::LocalContentCanAccessRemoteUrls, false);
     web_settings->setAttribute(QWebEngineSettings::LocalContentCanAccessFileUrls, true);
     web_settings->setAttribute(QWebEngineSettings::PluginsEnabled, false);
     web_settings->setAttribute(QWebEngineSettings::AutoLoadIconsForPage, false);
@@ -4392,6 +4531,9 @@ void MainWindow::ReadSettings()
     // First check if system MathJax was configured to be used at compile time
     if (!mathjax_dir.isEmpty()) {
         mathjaxurl = mathjax_dir;
+        if (!mathjaxurl.endsWith('/')) {
+            mathjaxurl.append('/');
+        }
     } else {
         // otherwise user supplied environment variable to 'share/sigil'
         // takes precedence over Sigil's usual share location.
@@ -5804,6 +5946,7 @@ void MainWindow::ConnectSignalsToSlots()
             this, SLOT(OpenResource(Resource *)));
     connect(m_BookBrowser, SIGNAL(MergeResourcesRequest(QList<Resource *>)), this, SLOT(MergeResources(QList<Resource *>)));
     connect(m_BookBrowser, SIGNAL(LinkStylesheetsToResourcesRequest(QList<Resource *>)), this, SLOT(LinkStylesheetsToResources(QList<Resource *>)));
+    connect(m_BookBrowser, SIGNAL(LinkJavascriptsToResourcesRequest(QList<Resource *>)), this, SLOT(LinkJavascriptsToResources(QList<Resource *>)));
     connect(m_BookBrowser, SIGNAL(RemoveResourcesRequest()), this, SLOT(RemoveResources()));
     connect(m_BookBrowser, SIGNAL(OpenFileRequest(QString, int, int)), this, SLOT(OpenFile(QString, int, int)));
     connect(m_TableOfContents, SIGNAL(OpenResourceRequest(Resource *, int, int, const QString &, const QUrl &)),

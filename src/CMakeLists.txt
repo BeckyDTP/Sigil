@@ -237,6 +237,8 @@ set( DIALOG_FILES
     Dialogs/ReportsWidgets/ReportsWidget.h
     Dialogs/LinkStylesheets.cpp
     Dialogs/LinkStylesheets.h
+    Dialogs/LinkJavascripts.cpp
+    Dialogs/LinkJavascripts.h
     Dialogs/SearchEditor.cpp
     Dialogs/SearchEditor.h
     Dialogs/Controls.cpp
@@ -460,6 +462,8 @@ set( SPCRE_FILES
     PCRE/PCRECache.h
     PCRE/PCREReplaceTextBuilder.cpp
     PCRE/PCREReplaceTextBuilder.h
+    PCRE/PCREErrors.cpp
+    PCRE/PCREErrors.h
     )
 
 set( VIEW_EDITOR_FILES
@@ -583,6 +587,7 @@ set( UI_FILES
     Form_Files/ReportsStylesInCSSFilesWidget.ui
     Form_Files/ReportsCharactersInHTMLFilesWidget.ui
     Form_Files/LinkStylesheets.ui
+    Form_Files/LinkJavascripts.ui
     Form_Files/SelectCheckpoint.ui
     Form_Files/SearchEditor.ui
     Form_Files/ClipEditor.ui
@@ -609,6 +614,8 @@ set( SOURCEUPDATE_FILES
     SourceUpdates/FragmentUpdates.h
     SourceUpdates/LinkUpdates.cpp
     SourceUpdates/LinkUpdates.h
+    SourceUpdates/JavascriptUpdates.cpp
+    SourceUpdates/JavascriptUpdates.h
     SourceUpdates/WordUpdates.cpp
     SourceUpdates/WordUpdates.h
     SourceUpdates/UniversalUpdates.cpp
@@ -695,9 +702,9 @@ if ( NOT DEFINED INSTALL_BUNDLED_DICTS )
     set ( INSTALL_BUNDLED_DICTS 1 )
 endif()
 
-# use -DDISABLE_UPDATECHECK=1 to disable the builtin update check.
-# Mainly for use by *nix distros whose Sigil packages can't make use of the 
-# new release downloads anyway. 
+# use -DDISABLE_UPDATE_CHECK=1 to disable the builtin update check.
+# Mainly for use by *nix distros whose Sigil packages can't make use of the
+# new release downloads anyway.
 if ( NOT DEFINED DISABLE_UPDATE_CHECK )
     set ( DISABLE_UPDATE_CHECK 0 )
 endif()
