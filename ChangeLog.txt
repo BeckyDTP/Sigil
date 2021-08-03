@@ -1,4 +1,15 @@
-Pre-1.7.0
+pre-1.8.0
+    Bug Fixes:
+     - Reports now generate properly quoted csv when saved
+     - Workaround Bug in QtWebengine when using custom scheme handler and specific audio/video codecs
+
+    New Features:
+     - BookBrowser can now link javascripts similarly to how it links stylesheets
+     - Epub3 javascripts can now open windows if javascript is enabled
+     - Add Find and Replace context menu to clear its curent values and history
+     
+
+Sigil-1.7.0
     Bug Fixes
      - Workaround to ensure the Saved Searches Controls editor widget is movable on all platforms
      - Make the External Xhtml Editor Button/Feature work with both PageEdit and non-PageEdit editors again
@@ -8,11 +19,19 @@ Pre-1.7.0
      - Fix Preview sync when mathml is being used (compensate for mathjax changes)
      - Fix mathml use when external MathJax directory is specified in builds on Linux
      - Prevent Sigil from loading any manifested mimtype file from bad epubs, give load warning
-     - Make Spellcheck dialog use double-click to control search in CV, to speed paging word list. 
+     - Make Spellcheck dialog use double-click to control search in CV, to speed paging word list.
+     - Prevent duplicate translated semantic names
+     - Fix heading tool issues after self-closed BLOCK tags
+     - Prevent stack overflow crashes in pcre lib due to recursion with some valid regex
+     - Fix second window opening on macOS when first launching app with file
+     - Remove [other.] semantic indicators for epub2
+     - Fix crash in CSS Selectors Report when using Filters
 
     New Features:
      - added Find Replace Regular Expression validator
      - added SIGIL_DISABLE_VERSION_META environment variable to control writing of Sigil Version
+     - enable JIT compiler for pcre library to improve regex look-up performance
+     - update the pcre library to version 8.45 (Final EOL)
 
 
 Sigil-1.6.0

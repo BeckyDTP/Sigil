@@ -103,6 +103,7 @@ ViewPreview::ViewPreview(QWidget *parent)
     page()->settings()->setDefaultTextEncoding("UTF-8");
     // Javascript is allowed 
     page()->settings()->setAttribute(QWebEngineSettings::JavascriptEnabled, (settings.javascriptOn() == 1));
+    page()->settings()->setAttribute(QWebEngineSettings::JavascriptCanOpenWindows, (settings.javascriptOn() == 1));
     // Allow epubs to access remote resources via the net
     page()->settings()->setAttribute(QWebEngineSettings::LocalContentCanAccessRemoteUrls, (settings.remoteOn() == 1));
     page()->settings()->setAttribute(QWebEngineSettings::FocusOnNavigationEnabled, false);
@@ -212,6 +213,7 @@ void ViewPreview::Zoom()
 
 void ViewPreview::UpdateDisplay()
 {
+#if 0
     SettingsStore settings;
     float stored_factor = settings.zoomWeb();
 
@@ -219,6 +221,7 @@ void ViewPreview::UpdateDisplay()
         m_CurrentZoomFactor = stored_factor;
         Zoom();
     }
+#endif
 }
 
 void ViewPreview::SetPreviewColors(const QString &bg, const QString &fg)
@@ -288,6 +291,9 @@ void ViewPreview::LoadingProgress(int progress)
     if (progress >= 100 && !m_CustomSetDocumentInProgress) {
         m_isLoadFinished = true;
         m_LoadOkay = true;
+    }
+    if (zoomFactor() != m_CurrentZoomFactor) {
+        setZoomFactor(m_CurrentZoomFactor);
     }
     emit ViewProgress(progress);
 }
@@ -377,11 +383,15 @@ void ViewPreview::WebPageJavascriptOnLoad()
     DBG qDebug() << "WebPageJavascriptOnLoad with m_CustomSetDocumentInProgress: " << m_CustomSetDocumentInProgress;
     m_isLoadFinished = true;
     if (m_CustomSetDocumentInProgress) {
+        // setZoomFactor(m_CurrentZoomFactor);
         if (!m_pendingScrollToFragment.isEmpty()) {
             ScrollToFragment(m_pendingScrollToFragment);
             m_pendingScrollToFragment.clear();
         } else {
-            executeCaretUpdateInternal();
+            // Zoom must be complete before scrolling to an element and centering on it
+            // *but* is not instantaneous.
+            // It is better to delay this and handle it in PreviewWindow
+            // executeCaretUpdateInternal();
         }
         m_CustomSetDocumentInProgress = false;
     }
