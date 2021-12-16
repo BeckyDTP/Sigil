@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2019-2020 Doug Massay
+**  Copyright (C) 2019-2021 Doug Massay
 **  Copyright (C) 2015-2021 Kevin B. Hendricks, Stratford Ontario Canada
 **  Copyright (C) 2012      John Schember <john@nachtimwald.com>
 **  Copyright (C) 2012-2013 Dave Heiland
@@ -29,15 +29,17 @@
 #include <QtCore/QFileInfo>
 #include <QtGui/QContextMenuEvent>
 #include <QtCore/QSignalMapper>
-#include <QtWidgets/QAction>
+#include <QAction>
 #include <QtWidgets/QMenu>
 #include <QtGui/QPainter>
 #include <QtWidgets/QScrollBar>
-#include <QtWidgets/QShortcut>
-#include <QtCore/QXmlStreamReader>
+#include <QShortcut>
+#include <QXmlStreamReader>
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 #include <QRegularExpressionMatchIterator>
+#include <QString>
+#include <QStringRef>
 #include <QPointer>
 #include <QDebug>
 
@@ -55,10 +57,18 @@
 #include "Misc/HTMLSpellCheck.h"
 #include "Misc/Utility.h"
 #include "Parsers/HTMLStyleInfo.h"
-#include "PCRE/PCRECache.h"
+#include "PCRE2/PCRECache.h"
 #include "ViewEditors/CodeViewEditor.h"
 #include "ViewEditors/LineNumberArea.h"
 #include "sigil_constants.h"
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    #define QT_ENUM_SKIPEMPTYPARTS Qt::SkipEmptyParts
+    #define QT_ENUM_KEEPEMPTYPARTS Qt::KeepEmptyParts
+#else
+    #define QT_ENUM_SKIPEMPTYPARTS QString::SkipEmptyParts
+    #define QT_ENUM_KEEPEMPTYPARTS QString::KeepEmptyParts
+#endif
 
 const int PROGRESS_BAR_MINIMUM_DURATION = 1000;
 const QString BREAK_TAG_INSERT    = "<hr class=\"sigil_split_marker\" />";
@@ -77,7 +87,7 @@ static const QString ATTRIB_VALUES_SEARCH   = "\"([^\"]*)";
 static const QString OPEN_TAG_STARTS_SELECTION = "^\\s*(<\\s*([a-zA-Z0-9]+)[^>]*>)";
 static const QString STARTING_INDENT_USED = "(^\\s*)[^\\s]";
 
-static const int MAX_SPELLING_SUGGESTIONS = 10;
+static const uint MAX_SPELLING_SUGGESTIONS = 10;
 
 
 CodeViewEditor::CodeViewEditor(HighlighterType high_type, bool check_spelling, QWidget *parent)
@@ -370,7 +380,7 @@ bool CodeViewEditor::TextIsSelectedAndNotInStartOrEndTag()
     int pos = textCursor().selectionStart();
     int end = textCursor().selectionEnd()-1;
 
-    if ((text[pos] == "<") && (text[end] == ">")) return true;
+    if ((text[pos] == '<') && (text[end] == '>')) return true;
     
     if (IsPositionInTag(pos) || IsPositionInTag(end)) {
         return false;
@@ -392,7 +402,13 @@ bool CodeViewEditor::IsCutTagPairAllowed()
 
 bool CodeViewEditor::IsInsertClosingTagAllowed()
 {
-    return !IsPositionInTag(textCursor().selectionStart());
+    int pos = textCursor().selectionStart();
+    if (IsPositionInTag(pos)) {
+        // special case of cursor |<tag>
+        QString text = m_TagList.getSource();
+        if (text[pos] != '<') return false;
+    }
+    return true;
 }
 
 QString CodeViewEditor::StripCodeTags(QString text)
@@ -1332,7 +1348,7 @@ bool CodeViewEditor::AddSpellCheckContextMenu(QMenu *menu)
 
             // We want to limit the number of suggestions so we don't
             // get a huge context menu.
-            for (int i = 0; i < std::min(suggestions.length(), MAX_SPELLING_SUGGESTIONS); ++i) {
+            for (int i = 0; i < std::min(static_cast<uint>(suggestions.length()), MAX_SPELLING_SUGGESTIONS); ++i) {
                 suggestAction = new QAction(suggestions.at(i), menu);
                 connect(suggestAction, SIGNAL(triggered()), m_spellingMapper, SLOT(map()));
                 m_spellingMapper->setMapping(suggestAction, suggestions.at(i));
@@ -1695,7 +1711,12 @@ void CodeViewEditor::GoToLinkOrStyleAction()
 void CodeViewEditor::GoToLinkOrStyle()
 {
     QString url_name = GetAttribute("href", ANCHOR_TAGS, true);
-
+    
+    if (url_name.isEmpty()) {
+        QStringList LINK_TAGS = QStringList() << "link";
+        url_name = GetAttribute("href", LINK_TAGS, true, false, false);
+    }
+    
     if (url_name.isEmpty()) {
         url_name = GetAttribute("src", SRC_TAGS, true);
     }
@@ -1706,6 +1727,7 @@ void CodeViewEditor::GoToLinkOrStyle()
     }
 
     if (!url_name.isEmpty()) {
+        
         QUrl url = QUrl(url_name);
         QString extension = url_name.right(url_name.length() - url_name.lastIndexOf('.') - 1).toLower();
 
@@ -1869,7 +1891,13 @@ bool CodeViewEditor::IsInsertHyperlinkAllowed()
 bool CodeViewEditor::IsInsertFileAllowed()
 {
     int pos = textCursor().selectionStart();
-    return IsPositionInBody(pos) && !IsPositionInTag(pos);
+    if (!IsPositionInBody(pos)) return false;
+    if (IsPositionInTag(pos)) {
+        // special case of cursor |<tag>
+        QString text = m_TagList.getSource();
+        if (text[pos] != '<') return false;
+    }
+    return true;
 }
 
 bool CodeViewEditor::InsertId(const QString &attribute_value)
@@ -2988,6 +3016,10 @@ CodeViewEditor::StyleTagElement CodeViewEditor::GetSelectedStyleTagElement()
         return element;
     }
 
+    // if caret not in a class attribute search only for element
+    int cstart = ti.pos + attr.pos;
+    if (pos < cstart || pos >= cstart + attr.len) return element;
+
     QString avalue = attr.avalue.trimmed();
     QStringList vals = avalue.split(' ');
     if (vals.length() == 1) {
@@ -3017,7 +3049,7 @@ CodeViewEditor::StyleTagElement CodeViewEditor::GetSelectedStyleTagElement()
         element.classStyle = vals[k];
     } else {
         element.classStyle = vals[0];
-    }    
+    }
     return element;
 }
 
@@ -3039,10 +3071,11 @@ QString CodeViewEditor::GetAttributeId()
 QString CodeViewEditor::GetAttribute(const QString &attribute_name,
                                      QStringList tag_list,
                                      bool must_be_in_attribute,
-                                     bool skip_paired_tags)
+                                     bool skip_paired_tags,
+                                     bool must_be_in_body)
 {
     return ProcessAttribute(attribute_name, tag_list, QString(), 
-                            false, must_be_in_attribute, skip_paired_tags);
+                            false, must_be_in_attribute, skip_paired_tags, must_be_in_body);
 }
 
 
@@ -3058,11 +3091,12 @@ QString CodeViewEditor::SetAttribute(const QString &attribute_name,
 
 
 QString CodeViewEditor::ProcessAttribute(const QString &attribute_name,
-                                               QStringList tag_list,
-                                               const QString &attribute_value,
-                                               bool set_attribute,
-                                               bool must_be_in_attribute,
-                                               bool skip_paired_tags)
+                                         QStringList tag_list,
+                                         const QString &attribute_value,
+                                         bool set_attribute,
+                                         bool must_be_in_attribute,
+                                         bool skip_paired_tags,
+                                         bool must_be_in_body)
 {
 
     if (attribute_name.isEmpty()) {
@@ -3085,8 +3119,7 @@ QString CodeViewEditor::ProcessAttribute(const QString &attribute_name,
     // The old implementation did not properly handle pi, multi-line comments, cdata
     // nor attribute values delimited by single quotes
 
-
-    if (!IsPositionInBody(pos)) return QString();
+    if (must_be_in_body && !IsPositionInBody(pos)) return QString();
 
     // If we're in a closing tag, move to the text between tags to make parsing easier.
     if (IsPositionInClosingTag(pos)) {
@@ -3523,7 +3556,7 @@ void CodeViewEditor::ApplyListToSelection(const QString &element)
         new_text = new_text.trimmed();
         // now split remaining text by new lines and 
         // remove any beginning and ending li tags
-        QStringList alist = new_text.split(QChar::ParagraphSeparator, QString::SkipEmptyParts);
+        QStringList alist = new_text.split(QChar::ParagraphSeparator, QT_ENUM_SKIPEMPTYPARTS);
         QStringList result;
         foreach(QString aitem, alist) {
             result.append(indent + RemoveLastTag(RemoveFirstTag(aitem,"li"), "li"));
@@ -3532,7 +3565,7 @@ void CodeViewEditor::ApplyListToSelection(const QString &element)
         new_text = result.join("\n");
     }
     else if ((tagname == "p") || tagname.isEmpty()) {
-        QStringList alist = new_text.split(QChar::ParagraphSeparator, QString::SkipEmptyParts);
+        QStringList alist = new_text.split(QChar::ParagraphSeparator, QT_ENUM_SKIPEMPTYPARTS);
         QStringList result;
         result.append(indent + "<" + element + ">");
         foreach(QString aitem, alist) {
@@ -3724,9 +3757,17 @@ void CodeViewEditor::ConnectSignalsToSlots()
     connect(this, SIGNAL(selectionChanged()), this, SLOT(ResetLastFindMatch()));
     connect(m_ScrollOneLineUp,   SIGNAL(activated()), this, SLOT(ScrollOneLineUp()));
     connect(m_ScrollOneLineDown, SIGNAL(activated()), this, SLOT(ScrollOneLineDown()));
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0) 
     connect(m_spellingMapper, SIGNAL(mapped(const QString &)), this, SLOT(InsertText(const QString &)));
     connect(m_addSpellingMapper, SIGNAL(mapped(const QString &)), this, SLOT(addToDefaultDictionary(const QString &)));
     connect(m_addDictMapper, SIGNAL(mapped(const QString &)), this, SLOT(addToUserDictionary(const QString &)));
     connect(m_ignoreSpellingMapper, SIGNAL(mapped(const QString &)), this, SLOT(ignoreWord(const QString &)));
     connect(m_clipMapper, SIGNAL(mapped(const QString &)), this, SLOT(PasteClipEntryFromName(const QString &)));
+#else
+    connect(m_spellingMapper, SIGNAL(mappedString(const QString &)), this, SLOT(InsertText(const QString &)));
+    connect(m_addSpellingMapper, SIGNAL(mappedString(const QString &)), this, SLOT(addToDefaultDictionary(const QString &)));
+    connect(m_addDictMapper, SIGNAL(mappedString(const QString &)), this, SLOT(addToUserDictionary(const QString &)));
+    connect(m_ignoreSpellingMapper, SIGNAL(mappedString(const QString &)), this, SLOT(ignoreWord(const QString &)));
+    connect(m_clipMapper, SIGNAL(mappedString(const QString &)), this, SLOT(PasteClipEntryFromName(const QString &)));
+#endif
 }

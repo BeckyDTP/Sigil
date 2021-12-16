@@ -28,6 +28,9 @@
 
 #include <QtCore/QSharedPointer>
 #include <QtWidgets/QDockWidget>
+#include <QPointer>
+#include <QPoint>
+#include <QMenu>
 
 #include "MainUI/MainWindow.h"
 #include "Misc/ValidationResult.h"
@@ -67,6 +70,9 @@ public:
      */
     void ClearResults();
 
+
+    int ResultCount();
+                     
 public slots:
 
     /**
@@ -75,6 +81,8 @@ public slots:
      * @param book The book to be validated.
      */
     void SetBook(QSharedPointer<Book> book);
+
+    void OpenContextMenu(const QPoint &point);
 
 signals:
 
@@ -92,6 +100,8 @@ signals:
 
 private slots:
 
+    void ExportAll();
+
     /**
      * Handles double-clicking on a result in the table.
      *
@@ -103,6 +113,9 @@ protected:
     virtual void showEvent(QShowEvent *event);
 
 private:
+
+    void ReadSettings();
+    void WriteSettings();
 
     /**
      * Sets up the table widget to our liking.
@@ -152,6 +165,13 @@ private:
     QSharedPointer<Book> m_Book;
 
     static const QString SEP;
+
+    bool m_NoProblems;
+
+    QPointer<QMenu> m_ContextMenu;
+    QAction * m_ExportAll;
+
+    QString m_LastFolderOpen;
 };
 
 #endif // VALIDATIONRESULTSVIEW_H

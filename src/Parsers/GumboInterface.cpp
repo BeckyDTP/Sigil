@@ -35,6 +35,13 @@
 #include "string_buffer.h"
 #include "error.h"
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    #define QT_ENUM_SKIPEMPTYPARTS Qt::SkipEmptyParts
+    #define QT_ENUM_KEEPEMPTYPARTS Qt::KeepEmptyParts
+#else
+    #define QT_ENUM_SKIPEMPTYPARTS QString::SkipEmptyParts
+    #define QT_ENUM_KEEPEMPTYPARTS QString::KeepEmptyParts
+#endif
 
 static std::unordered_set<std::string> nonbreaking_inline  = { 
     "a","abbr","acronym","b","bdo","big","br","button","cite","code","del",
@@ -518,7 +525,7 @@ QString GumboInterface::get_qwebpath_to_node(GumboNode* node)
 
 GumboNode* GumboInterface::get_node_from_qwebpath(QString webpath) 
 {
-    QStringList path_pieces = webpath.split(",", QString::SkipEmptyParts);
+    QStringList path_pieces = webpath.split(",", QT_ENUM_SKIPEMPTYPARTS);
     GumboNode* node = get_root_node();
     GumboNode* end_node = node;
     for (int i=0; i < path_pieces.count() - 1 ; ++i) {
@@ -1316,9 +1323,24 @@ std::string GumboInterface::serialize(GumboNode* node, enum UpdateTypes doupdate
     bool in_xml_ns                 = node->v.element.tag_namespace != GUMBO_NAMESPACE_HTML;
     // bool is_inline                 = in_set(nonbreaking_inline, tagname);
     bool is_jslink = false;
+
+
+    // handle special case of stylesheet link missing type attribute
+    if ((tagname == "link") && (node->parent->type == GUMBO_NODE_ELEMENT) && 
+        (node->parent->v.element.tag == GUMBO_TAG_HEAD)) {
+        const GumboVector * attribs = &node->v.element.attributes;
+        GumboAttribute* relatt = gumbo_get_attribute(attribs, "rel");
+        GumboAttribute* typeatt = gumbo_get_attribute(attribs, "type");
+        if (relatt && !typeatt) {
+            std::string rel = relatt->value;
+            if (rel == "stylesheet") {
+                gumbo_element_set_attribute(&node->v.element, "type", "text/css");
+            }
+        }
+    }
     
     // build attr string  
-    const GumboVector * attribs = &node->v.element.attributes;
+    GumboVector * attribs = &node->v.element.attributes;
     for (unsigned int i=0; i< attribs->length; ++i) {
         GumboAttribute* at = static_cast<GumboAttribute*>(attribs->data[i]);
         atts.append(build_attributes(at, no_entity_substitution, ((doupdates & SourceUpdates) && is_href_src_tag), (doupdates & StyleUpdates)));
@@ -1548,6 +1570,20 @@ std::string GumboInterface::prettyprint(GumboNode* node, int lvl, const std::str
     bool is_inline = in_set(nonbreaking_inline, tagname);
     bool in_xml_ns = node->v.element.tag_namespace != GUMBO_NAMESPACE_HTML;
 
+    // handle special case of stylesheet link missing type attribute
+    if ((tagname == "link") && (node->parent->type == GUMBO_NODE_ELEMENT) &&
+        (node->parent->v.element.tag == GUMBO_TAG_HEAD)) {
+        const GumboVector * attribs = &node->v.element.attributes;
+        GumboAttribute* relatt = gumbo_get_attribute(attribs, "rel");
+        GumboAttribute* typeatt = gumbo_get_attribute(attribs, "type");
+        if (relatt && !typeatt) {
+            std::string rel = relatt->value;
+            if (rel == "stylesheet") {
+                gumbo_element_set_attribute(&node->v.element, "type", "text/css");
+            }
+        }
+    }
+    
     // build attr string
     std::string atts = "";
     bool no_entity_substitution = in_set(no_entity_sub, tagname);

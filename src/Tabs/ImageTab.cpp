@@ -32,8 +32,10 @@
 #include <QtGui/QClipboard>
 #include <QtWidgets/QLayout>
 #include <QtWidgets/QMenu>
-#include <QtWebEngineWidgets/QWebEngineView>
-#include <QtWebEngineWidgets/QWebEngineProfile>
+#include <QtWebEngineWidgets>
+#include <QtWebEngineCore>
+#include <QWebEngineView>
+#include <QWebEngineProfile>
 #include <QtPrintSupport/QPrinter>
 #include <QtPrintSupport/QPrintDialog>
 #include <QtPrintSupport/QPrintPreviewDialog>
@@ -399,7 +401,11 @@ void ImageTab::ConnectSignalsToSlots()
     connect(m_OpenWithEditor4, SIGNAL(triggered()),  m_openWithMapper, SLOT(map()));
     m_openWithMapper->setMapping(m_OpenWithEditor4, 4);
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_openWithMapper, SIGNAL(mapped(int)),   this, SLOT(openWithEditor(int)));
+#else
+    connect(m_openWithMapper, SIGNAL(mappedInt(int)),   this, SLOT(openWithEditor(int)));
+#endif
     connect(m_SaveAs,         SIGNAL(triggered()),   this, SLOT(saveAs()));
     connect(m_CopyImage,      SIGNAL(triggered()),   this, SLOT(copyImage()));
 }

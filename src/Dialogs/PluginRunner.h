@@ -73,6 +73,10 @@ public:
 
     static QStringList SupportedEngines();
 
+    QString getPluginType() { return m_pluginType; }
+    QString getResult() { return m_result; }
+    int getValidationErrorCount() { return m_validationResults.count(); }
+                       
 public slots:
     int exec(const QString &name);
     void reject();

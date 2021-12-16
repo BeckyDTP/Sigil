@@ -28,8 +28,10 @@
 #include <QImage>
 #include <QPixmap>
 #include <QtWidgets/QLayout>
-#include <QtWebEngineWidgets/QWebEngineView>
-#include <QtWebEngineWidgets/QWebEngineSettings>
+#include <QtWebEngineWidgets>
+#include <QtWebEngineCore>
+#include <QWebEngineView>
+#include <QWebEngineSettings>
 
 #include "MainUI/MainWindow.h"
 #include "Misc/SettingsStore.h"

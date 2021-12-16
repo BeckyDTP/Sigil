@@ -7,16 +7,18 @@
 [Setup]
 AppName={#AppName}
 AppVerName={#AppName} ${SIGIL_FULL_VERSION}
+AppVersion=${SIGIL_FULL_VERSION}
 VersionInfoVersion=${SIGIL_FULL_VERSION}
 DefaultDirName={autopf}\{#AppName}
 DisableDirPage=no
-;AllowNoIcons=yes
+AllowNoIcons=yes
 DefaultGroupName={#AppName}
 UninstallDisplayIcon={app}\{#AppName}.exe
 AppPublisher=Sigil-Ebook
 AppPublisherURL=https://github.com/Sigil-Ebook/Sigil
-WizardImageFile=compiler:wizmodernimage-IS.bmp
-WizardSmallImageFile=compiler:wizmodernsmallimage-IS.bmp
+; Image filenames have changed and correct defaults will be used anyway
+;WizardImageFile=compiler:wizmodernimage-IS.bmp
+;WizardSmallImageFile=compiler:wizmodernsmallimage-IS.bmp
 Compression=lzma2/ultra
 SolidCompression=yes
 OutputDir=..\installer
@@ -24,7 +26,7 @@ LicenseFile=${LICENSE_LOCATION}
 ; Win 7sp1 is the lowest supported version
 MinVersion=0,6.1.7601
 PrivilegesRequired=admin
-PrivilegesRequiredOverridesAllowed=dialog
+PrivilegesRequiredOverridesAllowed=commandline dialog
 OutputBaseFilename={#AppName}-${SIGIL_FULL_VERSION}-Windows${ISS_SETUP_FILENAME_PLATFORM}-Setup
 ChangesAssociations=yes
 ;SetupLogging=yes
@@ -233,10 +235,23 @@ begin
     end
  end; *)
 
+function CmdLineParamExists(const Value: string): Boolean;
+var
+  I: Integer;
+begin
+  Result := False;
+  for I := 1 to ParamCount do
+    if CompareText(Uppercase(ParamStr(I)), Value) = 0 then
+    begin
+      Result := True;
+      Exit;
+    end;
+end;
+
 procedure CurPageChanged(CurPageID: Integer);
 begin
   if CurPageID = wpSelectComponents then
-    if not IsAdminInstallMode then
+    if (not IsAdminInstallMode) and ((not CmdLineParamExists('/SILENT')) and (not CmdLineParamExists('/VERYSILENT'))) then
     begin
       // Runtime query/install component unchecked by default
       // in User mode installs. Checked in Admin installs.
@@ -247,6 +262,8 @@ end;
 
 // Warn when unchecking component to check for, and install
 // if necessary, the Visual Studio runtime distributable.
+// Use /SUPPRESSMSGBOXES in conjunction with /SILENT or
+// /VERYSILENT on the command line to suppress this warning.
 function NextButtonClick(CurPageID: Integer): Boolean;
 var
   msg: String;
@@ -264,10 +281,10 @@ begin
   if CurPageID = wpSelectComponents then begin
     if IsAdminInstallMode then begin
       if (not WizardIsComponentSelected('vcruntimeadmin')) then
-        Result := MsgBox( msg, mbInformation, MB_YESNO) = IDYES
+        Result := SuppressibleMsgBox(msg, mbInformation, MB_YESNO, IDYES) = IDYES
     end else
       if (not WizardIsComponentSelected('vcruntimeuser')) then
-        Result := MsgBox( msg, mbInformation, MB_YESNO) = IDYES;
+        Result := SuppressibleMsgBox(msg, mbInformation, MB_YESNO, IDYES) = IDYES;
   end;
 end;
 

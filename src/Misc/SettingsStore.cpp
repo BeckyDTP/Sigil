@@ -59,11 +59,13 @@ static QString KEY_REMOTE_ON = SETTINGS_GROUP + "/" + "remote_on";
 static QString KEY_JAVASCRIPT_ON = SETTINGS_GROUP + "/" + "javascript_on";
 static QString KEY_SHOWFULLPATH_ON = SETTINGS_GROUP + "/" + "showfullpath_on";
 static QString KEY_HIGHDPI_SETTING = SETTINGS_GROUP + "/" + "high_dpi";
+static QString KEY_DISABLEGPU_SETTING = SETTINGS_GROUP + "/" + "disable_gpu";
 static QString KEY_PREVIEW_DARK_IN_DM = SETTINGS_GROUP + "/" + "preview_dark_in_dm";
 static QString KEY_DEFAULT_VERSION = SETTINGS_GROUP + "/" + "default_version";
 static QString KEY_PRESERVE_ENTITY_NAMES = SETTINGS_GROUP + "/" + "preserve_entity_names";
 static QString KEY_PRESERVE_ENTITY_CODES = SETTINGS_GROUP + "/" + "preserve_entity_codes";
 static QString KEY_EXTERNAL_XHTML_EDITOR = SETTINGS_GROUP + "/" + "external_xhtml_editor"; 
+static QString KEY_ENABLE_ALTGR = SETTINGS_GROUP + "/" + "enable_altgr";
 
 static QString KEY_PLUGIN_INFO = SETTINGS_GROUP + "/" + "plugin_info";
 static QString KEY_PLUGIN_ENGINE_PATHS = SETTINGS_GROUP + "/" + "plugin_engine_paths";
@@ -282,6 +284,12 @@ int SettingsStore::highDPI()
     return value(KEY_HIGHDPI_SETTING, 0).toInt();
 }
 
+bool SettingsStore::disableGPU()
+{
+    clearSettingsGroup();
+    return static_cast<bool>(value(KEY_DISABLEGPU_SETTING, false).toBool());
+}
+
 int SettingsStore::previewDark()
 {
     clearSettingsGroup();
@@ -478,6 +486,12 @@ int SettingsStore::clipboardHistoryLimit()
     //return value(KEY_CLIPBOARD_HISTORY_LIMIT, CLIPBOARD_HISTORY_MAX).toInt();
 }
 
+bool SettingsStore::enableAltGr()
+{
+    clearSettingsGroup();
+    return static_cast<bool>(value(KEY_ENABLE_ALTGR, false).toBool());
+}
+
 void SettingsStore::setDefaultMetadataLang(const QString &lang)
 {
     clearSettingsGroup();
@@ -614,6 +628,12 @@ void SettingsStore::setHighDPI(int value)
 {
     clearSettingsGroup();
     setValue(KEY_HIGHDPI_SETTING, value);
+}
+
+void SettingsStore::setDisableGPU(bool value)
+{
+    clearSettingsGroup();
+    setValue(KEY_DISABLEGPU_SETTING, value);
 }
 
 void SettingsStore::setPreviewDark(int enabled)
@@ -785,6 +805,12 @@ void SettingsStore::setClipboardHistoryLimit(int limit)
 {
     clearSettingsGroup();
     setValue(KEY_CLIPBOARD_HISTORY_LIMIT, limit);
+}
+
+void SettingsStore::setEnableAltGr(bool enabled)
+{
+    clearSettingsGroup();
+    setValue(KEY_ENABLE_ALTGR, enabled);
 }
 
 void SettingsStore::clearAppearanceSettings()

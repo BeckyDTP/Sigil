@@ -39,6 +39,7 @@
 #include "ResourceObjects/HTMLResource.h"
 #include "ResourceObjects/NCXResource.h"
 #include "ResourceObjects/OPFResource.h"
+#include "ResourceObjects/MiscTextResource.h"
 #include "sigil_constants.h"
 #include "SourceUpdates/AnchorUpdates.h"
 #include "SourceUpdates/PerformHTMLUpdates.h"
@@ -46,6 +47,7 @@
 #include "Misc/SettingsStore.h"
 
 static const QString FIRST_CSS_NAME   = "Style0001.css";
+static const QString FIRST_JS_NAME    = "Script0001.js";
 static const QString FIRST_SVG_NAME   = "Image0001.svg";
 static const QString PLACEHOLDER_TEXT = "PLACEHOLDER";
 static const QString EMPTY_HTML_FILE  = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
@@ -525,6 +527,21 @@ CSSResource *Book::CreateEmptyCSSFile(const QString &folderpath)
     return css_resource;
 }
 
+MiscTextResource *Book::CreateEmptyJSFile(const QString &folderpath)
+{
+    TempFolder tempfolder;
+    QString fullfilepath = tempfolder.GetPath() + "/" + m_Mainfolder->GetUniqueFilenameVersion(FIRST_JS_NAME);
+    Utility::WriteUnicodeTextFile("", fullfilepath);
+    Resource * resource = m_Mainfolder->AddContentFileToFolder(fullfilepath,
+                                                               true,
+                                                               "application/javascript",
+                                                               QString(),
+                                                               folderpath);
+    MiscTextResource *js_resource = qobject_cast<MiscTextResource *>(resource);
+    SetModified(true);
+    return js_resource;
+}
+
 
 SVGResource *Book::CreateEmptySVGFile(const QString& folderpath)
 {
@@ -632,10 +649,13 @@ void Book::CreateNewSections(const QStringList &new_sections, HTMLResource *orig
         sectionInfo.file_extension = file_extension;
         sectionInfo.folder_path = folder_path;
         sync.addFuture(
-            QtConcurrent::run(
-                this,
-                &Book::CreateOneNewSection,
-                sectionInfo));
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)                      
+            QtConcurrent::run(this, &Book::CreateANewSection, sectionInfo)
+#else
+            QtConcurrent::run(&Book::CreateANewSection, this, sectionInfo)
+            //QtConcurrent::run(this, [this, sectionInfo] { &Book::CreateOneNewSection(sectionInfo);
+#endif
+                      );
     }
 
     sync.waitForFinished();
@@ -1086,7 +1106,12 @@ QSet<QString> Book::GetWordsInHTMLFiles()
         all_words.append(result);
     }
 
-    return all_words.toSet();  // Qt 5.15:  QSet<QString>(all_words.begin(), all_words.end());
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
+    return all_words.toSet();
+#else
+    QSet<QString> allwordset(all_words.begin(), all_words.end());
+    return allwordset;
+#endif
 }
 
 QStringList Book::GetWordsInHTMLFileMapped(HTMLResource *html_resource, const QString& default_lang)
@@ -1440,7 +1465,7 @@ void Book::SaveOneResourceToDisk(Resource *resource)
 }
 
 
-Book::NewSectionResult Book::CreateOneNewSection(NewSection section_info)
+Book::NewSectionResult Book::CreateANewSection(NewSection section_info)
 {
     return CreateOneNewSection(section_info, QHash<QString, QString>());
 }

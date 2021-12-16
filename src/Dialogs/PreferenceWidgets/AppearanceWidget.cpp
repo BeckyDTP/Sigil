@@ -27,7 +27,9 @@
 #include <QtWidgets/QListWidget>
 #include <QtGui/QPainter>
 #include <QtWidgets/QStyledItemDelegate>
-#include <QtWebEngineWidgets/QWebEngineSettings>
+#include <QtWebEngineWidgets>
+#include <QtWebEngineCore>
+#include <QWebEngineSettings>
 #include <QFontDialog>
 #include <QFileInfo>
 
@@ -82,9 +84,10 @@ AppearanceWidget::AppearanceWidget()
     m_isHighDPIComboEnabled(true)
 {
 
-#ifdef Q_OS_MAC
+#if defined(Q_OS_MAC) || QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     // Disable the HighDPI combobox on Mac
     // Effectively an isMacOS runtime check
+    // Also needed if Qt >= 6.0.0
     m_isHighDPIComboEnabled = false;
 #endif
 
@@ -196,7 +199,11 @@ PreferencesWidget::ResultActions AppearanceWidget::saveSettings()
     settings.setSpecialCharacterAppearance(specialCharacterAppearance);
     settings.setMainMenuIconSize(double(ui.iconSizeSlider->value())/10);
     // PV settings can be globally changed and will take effect immediately
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QWebEngineSettings *web_settings = QWebEngineSettings::defaultSettings();
+#else
+    QWebEngineSettings *web_settings = QWebEngineProfile::defaultProfile()->settings();
+#endif
     web_settings->setFontSize(QWebEngineSettings::DefaultFontSize,   PVAppearance.font_size);
     web_settings->setFontFamily(QWebEngineSettings::StandardFont,    PVAppearance.font_family_standard);
     web_settings->setFontFamily(QWebEngineSettings::SerifFont,       PVAppearance.font_family_serif);

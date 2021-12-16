@@ -48,6 +48,7 @@
 #include "MiscEditors/SearchEditorModel.h"
 #include "Tabs/ContentTab.h"
 #include "ViewEditors/ElementIndex.h"
+#include "Dialogs/SearchEditor.h"
 
 const int MAX_RECENT_FILES = 5;
 const int STATUSBAR_MSG_DISPLAY_TIME = 7000;
@@ -109,6 +110,10 @@ public:
                Qt::WindowFlags flags = Qt::WindowFlags());
 
     ~MainWindow();
+
+    // routines to help Find and Replace exchange info with the SearchEditor
+    QList<SearchEditorModel::searchEntry*> SearchEditorGetCurrentEntries();
+    void SearchEditorRecordEntryAsCompleted(SearchEditorModel::searchEntry* entry);
 
     void maybe_fixup_dockwidget_geometry(QDockWidget * widget);
 
@@ -218,6 +223,8 @@ public:
 
 public slots:
 
+    bool Automate(const QStringList &commands);
+
     void OpenUrl(const QUrl &url);
 
     void ScrollCVToFragment(const QString &fragment);
@@ -239,11 +246,11 @@ public slots:
                                         const QUrl &fragment = QUrl(),
                                         bool precede_current_tab = false);
 
-    void UpdateManifestProperties();
+    bool UpdateManifestProperties();
 
-    void GenerateNCXGuideFromNav();
+    bool GenerateNCXGuideFromNav();
 
-    void RemoveNCXGuideFromEpub3();
+    bool RemoveNCXGuideFromEpub3();
 
     void CreateIndex();
 
@@ -253,12 +260,22 @@ public slots:
 
     void launchExternalXEditor();
 
-    void RepoCommit();
+    bool RepoCommit();
     void RepoCheckout(QString bookid="", QString destpath="", QString filename="", bool loadnow=true);
     void RepoDiff(QString bookid="");
     void RepoManage();
 
-    void StandardizeEpub();
+    void RunAutomate1();
+    void RunAutomate2();
+    void RunAutomate3();
+    void RunAutomate(const QString &automatefile);
+
+    void EditAutomate1();
+    void EditAutomate2();
+    void EditAutomate3();
+    void EditAutomate(const QString &automatefile);
+    
+    bool StandardizeEpub();
 
     void CreateEpubLayout();
 
@@ -291,7 +308,7 @@ private slots:
 
     void RestoreLastNormalGeometry();
 
-    void AddCover();
+    bool AddCover();
 
 
     /**
@@ -365,8 +382,8 @@ private slots:
 
     bool DeleteCSSStyles(const QString &filename, QList<CSSInfo::CSSSelector *> css_selectors);
 
-    void DeleteUnusedMedia();
-    void DeleteUnusedStyles();
+    bool DeleteUnusedMedia(bool in_automate = false);
+    bool DeleteUnusedStyles(bool in_automate = false);
 
     void InsertFileDialog();
 
@@ -453,9 +470,11 @@ private slots:
     /**
      * Implements Validate Epub action functionality.
      */
-    void WellFormedCheckEpub();
+    bool WellFormedCheckEpub();
 
-    void ValidateStylesheetsWithW3C();
+    bool ValidateStylesheetsWithW3C();
+
+    bool ReformatAllStylesheets(bool multiple_line_format);
 
     bool CharLessThan(const QChar &s1, const QChar &s2);
 
@@ -578,15 +597,15 @@ private slots:
     /**
      * Creates new section/XHTML documents.
      */
-    void SplitOnSGFSectionMarkers();
+    bool SplitOnSGFSectionMarkers();
 
     void SetAutoSpellCheck(bool new_state);
 
     /**
      * Reformats all the book's html resources using Book.cpp's ReformatAllHTML() function.
      */
-    void MendPrettifyHTML();
-    void MendHTML();
+    bool MendPrettifyHTML();
+    bool MendHTML();
 
     void ClearIgnoredWords();
 
@@ -619,9 +638,9 @@ private slots:
 
     void RemoveResources(QList<Resource *> resources = QList<Resource *>());
 
-    void GenerateToc();
+    bool GenerateTOC(bool skip_selector = false);
+    bool CreateHTMLTOC();
     void EditTOCDialog();
-    void CreateHTMLTOC();
 
     void ChangeCasing(QAction* act);
 
@@ -1043,6 +1062,9 @@ private:
 
     bool m_FRVisible;
 
+    bool m_UsingAutomate;
+    QStringList m_AutomateLog;
+    
     /**
      * Holds all the widgets Qt Designer created for us.
      */

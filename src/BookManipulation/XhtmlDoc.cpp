@@ -26,11 +26,9 @@
 #include <QtCore/QHash>
 #include <QtCore/QList>
 #include <QtCore/QString>
-#include <QtCore/QXmlStreamReader>
+#include <QXmlStreamReader>
 // #include <QtWebKitWidgets/QWebFrame>
 // #include <QtWebKitWidgets/QWebPage>
-#include <QtXml/QXmlInputSource>
-#include <QtXml/QXmlSimpleReader>
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 #include <QDir>
@@ -63,7 +61,7 @@ const QStringList ID_TAGS = QStringList() << BLOCK_LEVEL_TAGS <<
                             "font" << "i" << "label" << "mark" << "pre" << "small" <<
                             "span" << "strike" << "strong" << "sub" << "sup" << "u";
 const QStringList ANCHOR_TAGS = QStringList() << "a";
-const QStringList SRC_TAGS = QStringList() << "link" << "img";
+const QStringList SRC_TAGS = QStringList() << "img";
 
 
 const int XML_DECLARATION_SEARCH_PREFIX_SIZE = 150;
@@ -134,14 +132,13 @@ QList<XhtmlDoc::XMLElement> XhtmlDoc::GetTagsInHead(const QString &source, const
         reader.readNext();
 
         if (reader.isStartElement()) {
-            if (reader.name() == "head" || reader.name() == "HEAD") {
+            if (reader.name().compare(QLatin1String("head"),Qt::CaseInsensitive) == 0) {
                 in_head = true;
-            } else if (in_head && reader.name() == tag_name) {
+            } else if (in_head && reader.name().compare(tag_name) == 0) {
                 matching_elements.append(CreateXMLElement(reader));
             }
         } else if (reader.isEndElement() &&
-                   (reader.name() == "head" || reader.name() == "HEAD")
-                  ) {
+                   (reader.name().compare(QLatin1String("head"),Qt::CaseInsensitive) == 0)) {
             break;
         }
     }
@@ -169,7 +166,7 @@ QList<XhtmlDoc::XMLElement> XhtmlDoc::GetTagsInDocument(const QString &source, c
         reader.readNext();
 
         if (reader.isStartElement() &&
-            reader.name() == tag_name) {
+            (reader.name().compare(tag_name) == 0)) {
             matching_elements.append(CreateXMLElement(reader));
         }
     }
@@ -293,9 +290,9 @@ XhtmlDoc::WellFormedError XhtmlDoc::WellFormedErrorForSource(const QString &sour
         reader.readNext();
         if (reader.isDTD()) ndoctypes++;
         if (reader.isStartElement()) {
-            if (reader.name() == "html") nhtmltags++;
-            if (reader.name() == "head") nheadtags++;
-            if (reader.name() == "body") nbodytags++;
+            if (reader.name().compare(QLatin1String("html")) == 0) nhtmltags++;
+            if (reader.name().compare(QLatin1String("head")) == 0) nheadtags++;
+            if (reader.name().compare(QLatin1String("body")) == 0) nbodytags++;
         }
     }
     if (reader.hasError()) {
@@ -398,7 +395,13 @@ QStringList XhtmlDoc::GetSGFSectionSplits(const QString &source,
         sections.append(header + open_tag_source + text + "</body>\n</html>\n");
         // let gumbo/mend fill in any necessary closing tags for any open tags
         // at the end of each section
-    } 
+    }
+    // if body is empty (no split marker) then sections will be empty which should not happen
+    // handle this special case
+    if (sections.isEmpty()) {
+        sections << source;
+    }
+
     return sections;
 }
 

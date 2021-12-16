@@ -21,10 +21,12 @@
 
 #include <QByteArray>
 #include <QKeySequence>
-#include <QtWebEngineWidgets/QWebEngineView>
-#include <QtWebEngineWidgets/QWebEnginePage>
-#include <QtWebEngineWidgets/QWebEngineSettings>
-#include <QtWebEngineWidgets/QWebEngineProfile>
+#include <QtWebEngineWidgets>
+#include <QtWebEngineCore>
+#include <QWebEngineView>
+#include <QWebEnginePage>
+#include <QWebEngineSettings>
+#include <QWebEngineProfile>
 #include <QApplication>
 #include <QDir>
 

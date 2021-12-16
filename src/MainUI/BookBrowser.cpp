@@ -392,7 +392,7 @@ int BookBrowser::AllSelectedItemCount()
     const QString &identifier = item->data().toString();
 
     // If folder item included, multiple selection is invalid                                                                              
-    if (identifier == NULL) {
+    if (identifier.isEmpty()) {
       return -1;
     }
 
@@ -488,7 +488,7 @@ int BookBrowser::ValidSelectedItemCount()
         const QString &identifier = item->data().toString();
 
         // If folder item included, multiple selection is invalid
-        if (identifier == NULL) {
+        if (identifier.isEmpty()) {
             return -1;
         }
 
@@ -523,6 +523,9 @@ void BookBrowser::AddNew()
         AddNewHTML();
     } else if (m_LastContextMenuType == Resource::CSSResourceType) {
         AddNewCSS();
+    } else if (m_LastContextMenuType == Resource::MiscTextResourceType ||
+               m_LastContextMenuType == Resource::GenericResourceType) {
+        AddNewJS();
     } else if (m_LastContextMenuType == Resource::ImageResourceType) {
         AddNewSVG();
     }
@@ -598,6 +601,24 @@ void BookBrowser::CopyCSS()
 void BookBrowser::AddNewCSS()
 {
     CSSResource *new_resource = m_Book->CreateEmptyCSSFile();
+    // Open the new file in a tab
+    emit ResourceActivated(new_resource);
+    emit BookContentModified();
+    Refresh();
+}
+
+void BookBrowser::AddNewJS()
+{
+    QString version = m_Book->GetConstOPF()->GetEpubVersion();
+    if (version.startsWith('2')) {
+        QMessageBox::StandardButton button_pressed;
+        button_pressed = QMessageBox::warning(this, tr("Sigil"),tr("Javascript is not supported on epub2.")
+                                              ,QMessageBox::Ok);
+        return;
+    }
+
+    MiscTextResource *new_resource = m_Book->CreateEmptyJSFile();
+    new_resource->SaveToDisk();
     // Open the new file in a tab
     emit ResourceActivated(new_resource);
     emit BookContentModified();
@@ -1750,6 +1771,7 @@ void BookBrowser::CreateContextMenuActions()
     m_SelectAll               = new QAction(tr("Select All"),            this);
     m_AddNewHTML              = new QAction(tr("Add Blank HTML File"),   this);
     m_AddNewCSS               = new QAction(tr("Add Blank Stylesheet"),  this);
+    m_AddNewJS                = new QAction(tr("Add Blank Javascript"),  this);
     m_AddNewSVG               = new QAction(tr("Add Blank SVG Image"),   this);
     m_AddExisting             = new QAction(tr("Add Existing Files..."), this);
     m_CopyHTML                = new QAction(tr("Add Copy"),              this);
@@ -1780,18 +1802,18 @@ void BookBrowser::CreateContextMenuActions()
     m_NoObfuscationMethod    ->setCheckable(true);
     m_AdobesObfuscationMethod->setCheckable(true);
     m_IdpfsObfuscationMethod ->setCheckable(true);
-    m_CopyHTML->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_Y));
+    m_CopyHTML->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Y));
     sm->registerAction(this, m_CopyHTML, "MainWindow.BookBrowser.CopyHTML");
     m_Delete->setShortcut(QKeySequence::Delete);
-    m_Merge->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_M));
+    m_Merge->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_M));
     m_Merge->setToolTip(tr("Merge with previous file, or merge multiple files into one."));
     sm->registerAction(this, m_Merge, "MainWindow.BookBrowser.Merge");
-    m_Rename->setShortcut(QKeySequence(Qt::CTRL + Qt::ALT + Qt::Key_R));
+    m_Rename->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_R));
     m_Rename->setToolTip(tr("Rename selected file(s)"));
     sm->registerAction(this, m_Rename, "MainWindow.BookBrowser.Rename");
     m_RERename->setToolTip(tr("Use Regular Expressions to Rename selected file(s)"));
     sm->registerAction(this, m_RERename, "MainWindow.BookBrowser.RERename");
-    // m_Move->setShortcut(QKeySequence(Qt::CTRL + Qt::ALT + Qt::Key_R));
+    // m_Move->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_R));
     m_Move->setToolTip(tr("Move selected file(s) to a new folder"));
     sm->registerAction(this, m_Move, "MainWindow.BookBrowser.Move");
     m_LinkStylesheets->setToolTip(tr("Link Stylesheets to selected file(s)."));
@@ -1954,6 +1976,12 @@ bool BookBrowser::SuccessfullySetupContextMenu(const QPoint &point)
         m_ContextMenu->addAction(m_AddNewCSS);
         m_ContextMenu->addAction(m_CopyCSS);
         m_CopyCSS->setEnabled(item_count == 1);
+    } else if (m_LastContextMenuType == Resource::MiscTextResourceType ||
+               m_LastContextMenuType == Resource::GenericResourceType) {
+        QString version = m_Book->GetConstOPF()->GetEpubVersion();
+        if (version.startsWith('3')) {
+            m_ContextMenu->addAction(m_AddNewJS);
+        }
     } else if (m_LastContextMenuType == Resource::ImageResourceType || m_LastContextMenuType == Resource::SVGResourceType) {
         m_ContextMenu->addAction(m_AddNewSVG);
     }
@@ -2040,6 +2068,7 @@ void BookBrowser::ConnectSignalsToSlots()
     connect(m_RenumberTOC,             SIGNAL(triggered()), this, SLOT(RenumberTOC()));
     connect(m_SortHTML,                SIGNAL(triggered()), this, SLOT(SortHTML()));
     connect(m_AddNewCSS,               SIGNAL(triggered()), this, SLOT(AddNewCSS()));
+    connect(m_AddNewJS,                SIGNAL(triggered()), this, SLOT(AddNewJS()));
     connect(m_AddNewSVG,               SIGNAL(triggered()), this, SLOT(AddNewSVG()));
     connect(m_AddExisting,             SIGNAL(triggered()), this, SLOT(AddExisting()));
     connect(m_Rename,                  SIGNAL(triggered()), this, SLOT(Rename()));
@@ -2064,7 +2093,11 @@ void BookBrowser::ConnectSignalsToSlots()
     m_openWithMapper->setMapping(m_OpenWithEditor3, 3);
     connect(m_OpenWithEditor4, SIGNAL(triggered()),  m_openWithMapper, SLOT(map()));
     m_openWithMapper->setMapping(m_OpenWithEditor4, 4);
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_openWithMapper, SIGNAL(mapped(int)), this, SLOT(OpenWithEditor(int)));
+#else
+    connect(m_openWithMapper, SIGNAL(mappedInt(int)), this, SLOT(OpenWithEditor(int)));
+#endif
     connect(m_AdobesObfuscationMethod, SIGNAL(triggered()), this, SLOT(AdobesObfuscationMethod()));
     connect(m_IdpfsObfuscationMethod,  SIGNAL(triggered()), this, SLOT(IdpfsObfuscationMethod()));
     connect(m_NoObfuscationMethod,     SIGNAL(triggered()), this, SLOT(NoObfuscationMethod()));

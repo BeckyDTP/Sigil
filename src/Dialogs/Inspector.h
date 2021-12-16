@@ -27,7 +27,9 @@
 #include <QCloseEvent>
 #include <QSize>
 #include <QVBoxLayout>
-#include <QtWebEngineWidgets/QWebEngineView>
+#include <QtWebEngineWidgets>
+#include <QtWebEngineCore>
+#include <QWebEngineView>
 #include <QShortcut>
 
 class QWebEnginePage;

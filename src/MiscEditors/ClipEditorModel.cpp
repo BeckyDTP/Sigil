@@ -24,6 +24,7 @@
 
 #include <QtCore/QCoreApplication>
 #include <QByteArray>
+#include <QFile>
 #include <QDataStream>
 #include <QtCore/QTime>
 #include <QRegularExpression>
@@ -31,6 +32,14 @@
 #include "MiscEditors/ClipEditorModel.h"
 #include "Misc/Utility.h"
 #include "sigil_constants.h"
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    #define QT_ENUM_SKIPEMPTYPARTS Qt::SkipEmptyParts
+    #define QT_ENUM_KEEPEMPTYPARTS Qt::KeepEmptyParts
+#else
+    #define QT_ENUM_SKIPEMPTYPARTS QString::SkipEmptyParts
+    #define QT_ENUM_KEEPEMPTYPARTS QString::KeepEmptyParts
+#endif
 
 static const QString SETTINGS_FILE          = "sigil_clips.ini";
 static const QString SETTINGS_GROUP         = "clip_entries";
@@ -373,7 +382,7 @@ void ClipEditorModel::AddFullNameEntry(ClipEditorModel::clipEntry *entry, QStand
     QString entry_name = entry->name;
 
     if (entry->name.contains("/")) {
-        QStringList group_names = entry->name.split("/", QString::SkipEmptyParts);
+        QStringList group_names = entry->name.split("/", QT_ENUM_SKIPEMPTYPARTS);
         entry_name = group_names.last();
 
         if (!entry->is_group) {

@@ -26,7 +26,7 @@
 #include <QtCore/QTimer>
 #include <QtCore/QUrl>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QAction>
+#include <QAction>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QLayout>
 #include <QtPrintSupport/QPrinter>
@@ -154,7 +154,7 @@ void FlowTab::DelayedInitialization()
 
     CodeView();
 
-    if (m_PositionToScrollTo > 0) {
+    if (m_PositionToScrollTo >= 0) {
         m_wCodeView->ScrollToPosition(m_PositionToScrollTo);
     } else if (m_LineToScrollTo > 0) {
         m_wCodeView->ScrollToLine(m_LineToScrollTo);

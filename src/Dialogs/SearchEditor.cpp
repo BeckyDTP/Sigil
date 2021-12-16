@@ -27,7 +27,9 @@
 #include <QtWidgets/QMessageBox>
 #include <QtGui/QContextMenuEvent>
 #include <QRegularExpression>
-
+#include <QItemSelectionModel>
+#include <QItemSelection>
+#include <QDebug>
 #include "Dialogs/SearchEditorItemDelegate.h"
 #include "Dialogs/SearchEditor.h"
 #include "Misc/Utility.h"
@@ -40,6 +42,7 @@ SearchEditor::SearchEditor(QWidget *parent)
     QDialog(parent),
     m_LastFolderOpen(QString()),
     m_ContextMenu(new QMenu(this)),
+    m_SearchToLoad(nullptr),
     m_CntrlDelegate(new SearchEditorItemDelegate())
 {
     ui.setupUi(this);
@@ -50,6 +53,29 @@ SearchEditor::SearchEditor(QWidget *parent)
     ConnectSignalsSlots();
     ExpandAll();
 }
+
+
+SearchEditor::~SearchEditor()
+{
+    // clean up any existing copied saved search entries
+    while (m_SavedSearchEntries.count()) {
+        SearchEditorModel::searchEntry * entry = m_SavedSearchEntries.at(0);
+        if (entry) delete entry;
+        m_SavedSearchEntries.removeAt(0);
+    }
+
+    // clean up current search entries
+    while (m_CurrentSearchEntries.count()) {
+        SearchEditorModel::searchEntry * entry = m_CurrentSearchEntries.at(0);
+        if (entry) delete entry;
+        m_CurrentSearchEntries.removeAt(0);
+    }
+
+    // clean up m_SearchToLoad
+    if (m_SearchToLoad) delete m_SearchToLoad;
+    m_SearchToLoad = nullptr;
+}
+
 
 void SearchEditor::SetupSearchEditorTree()
 {
@@ -133,39 +159,35 @@ bool SearchEditor::SaveTextData(QList<SearchEditorModel::searchEntry *> entries,
 
 void SearchEditor::LoadFindReplace()
 {
-    // destination needs to delete each searchEntry when done
+    // ownership of the entry to load Find & Replace with remains here
     emit LoadSelectedSearchRequest(GetSelectedEntry(false));
 }
 
 void SearchEditor::Find()
 {
-    // destination needs to delete each searchEntry when done
-    emit FindSelectedSearchRequest(GetSelectedEntries());
+    emit FindSelectedSearchRequest();
 }
 
 void SearchEditor::ReplaceCurrent()
 {
-    // destination needs to delete each searchEntry when done
-    emit ReplaceCurrentSelectedSearchRequest(GetSelectedEntries());
+    emit ReplaceCurrentSelectedSearchRequest();
 }
 
 void SearchEditor::Replace()
 {
-    // destination needs to delete each searchEntry when done
-    emit ReplaceSelectedSearchRequest(GetSelectedEntries());
+    emit ReplaceSelectedSearchRequest();
 }
 
 void SearchEditor::CountAll()
 {
-    // destination needs to delete each searchEntry when done
-    emit CountAllSelectedSearchRequest(GetSelectedEntries());
+    emit CountAllSelectedSearchRequest();
 }
 
 void SearchEditor::ReplaceAll()
 {
-    // destination needs to delete each searchEntry when done
-    emit ReplaceAllSelectedSearchRequest(GetSelectedEntries());
+    emit ReplaceAllSelectedSearchRequest();
 }
+
 
 void SearchEditor::showEvent(QShowEvent *event)
 {
@@ -226,7 +248,8 @@ int SearchEditor::SelectedRowsCount()
     return count;
 }
 
-SearchEditorModel::searchEntry *SearchEditor::GetSelectedEntry(bool show_warning)
+// sets m_SearchToLoad to the currently selected entry and returns it
+SearchEditorModel::searchEntry* SearchEditor::GetSelectedEntry(bool show_warning)
 {
     // Note: a SeachEditorModel::searchEntry is a simple struct that is created
     // by new in SearchEditorModel GetEntry() and GetEntries()
@@ -248,6 +271,8 @@ SearchEditorModel::searchEntry *SearchEditor::GetSelectedEntry(bool show_warning
         if (item) {
             if (!m_SearchEditorModel->ItemIsGroup(item)) {
                 entry = m_SearchEditorModel->GetEntry(item);
+                if (m_SearchToLoad) delete m_SearchToLoad;
+                m_SearchToLoad = entry;
             } else if (show_warning) {
                 Utility::DisplayStdErrorDialog(tr("You cannot select a group for this action."));
             }
@@ -256,6 +281,33 @@ SearchEditorModel::searchEntry *SearchEditor::GetSelectedEntry(bool show_warning
 
     return entry;
 }
+
+void SearchEditor::SetCurrentEntriesFromFullName(const QString &name)
+{
+
+    while (m_CurrentSearchEntries.count()) {
+        SearchEditorModel::searchEntry * entry = m_CurrentSearchEntries.at(0);
+        if (entry) delete entry;
+        m_CurrentSearchEntries.removeAt(0);
+    }
+
+    QList<SearchEditorModel::searchEntry *> selected_entries;
+
+
+    QStandardItem * nameditem = m_SearchEditorModel->GetItemFromName(name);
+    if (nameditem) {
+        QList<QStandardItem *> items = m_SearchEditorModel->GetNonGroupItems(nameditem);
+        if (!ItemsAreUnique(items)) {
+            return;
+        }
+
+        foreach(SearchEditorModel::searchEntry* entry, m_SearchEditorModel->GetEntries(items)) {
+            m_CurrentSearchEntries << entry;
+        }
+    }
+}
+
+
 
 QList<SearchEditorModel::searchEntry *> SearchEditor::GetSelectedEntries()
 {
@@ -278,6 +330,7 @@ QList<SearchEditorModel::searchEntry *> SearchEditor::GetSelectedEntries()
     return selected_entries;
 }
 
+
 QList<QStandardItem *> SearchEditor::GetSelectedItems()
 {
     // Shift-click order is top to bottom regardless of starting position
@@ -294,8 +347,10 @@ bool SearchEditor::ItemsAreUnique(QList<QStandardItem *> items)
 {
     // Although saving a group and a sub item works, it could be confusing to users to
     // have and entry appear twice so its more predictable just to prevent it and warn the user
-    if (items.toSet().count() != items.count()) {
-    // In Qt 5.15 if (QSet<QStandardItem *>(items.begin(), items.end()).count() != items.count()) {
+    QList<QStandardItem *> nodupitems = items;
+    std::sort(nodupitems.begin(), nodupitems.end());
+    nodupitems.erase(std::unique(nodupitems.begin(), nodupitems.end()), nodupitems.end());
+    if (nodupitems.count() != items.count()) {
         Utility::DisplayStdErrorDialog(tr("You cannot select an entry and a group containing the entry."));
         return false;
     }
@@ -344,8 +399,10 @@ QStandardItem *SearchEditor::AddEntry(bool is_group, SearchEditorModel::searchEn
 
 QStandardItem *SearchEditor::AddGroup()
 {
+    // will clean up after itself since entry is NULL
     return AddEntry(true);
 }
+
 
 void SearchEditor::Edit()
 {
@@ -359,37 +416,77 @@ void SearchEditor::Cut()
     }
 }
 
+
+// NOTE: Provides the remembered state needed by downstream F&R routines
+void SearchEditor::RecordEntryAsCompleted(SearchEditorModel::searchEntry* entry)
+{
+    for (int i = 0; i < m_CurrentSearchEntries.count(); i++) {
+        if (m_CurrentSearchEntries.at(i) == entry) {
+            m_CurrentSearchEntries.removeAt(i);
+            delete entry;
+        }
+    }
+}
+
+
+// NOTE: Ownership of these pointers remains here with the Search Editor
+// This is just a copy of the remaining current search entry list
+QList<SearchEditorModel::searchEntry*> SearchEditor::GetCurrentEntries()
+{
+    QList<SearchEditorModel::searchEntry*> entries;
+    for(int i=0; i < m_CurrentSearchEntries.count(); i++) {
+        entries << m_CurrentSearchEntries.at(i);
+    }
+    return entries;
+}
+
+void SearchEditor::SelectionChanged()
+{
+    // any time the current selection changes update m_CurrentSearchEntries
+    while (m_CurrentSearchEntries.count()) {
+        SearchEditorModel::searchEntry * entry = m_CurrentSearchEntries.at(0);
+        if (entry) delete entry;
+        m_CurrentSearchEntries.removeAt(0);
+    }
+    foreach(SearchEditorModel::searchEntry* entry, GetSelectedEntries()) {
+        m_CurrentSearchEntries << entry;
+    }
+}
+
+
 bool SearchEditor::Copy()
 {
     if (SelectedRowsCount() < 1) {
         return false;
     }
 
-    while (m_SavedSearchEntries.count()) {
-        m_SavedSearchEntries.removeAt(0);
-    }
 
-    QList<SearchEditorModel::searchEntry *> entries = GetSelectedEntries();
-
-    if (!entries.count()) {
-        return false;
-    }
-
+    // verify user is not trying to copy groups
     foreach(QStandardItem * item, GetSelectedItems()) {
         SearchEditorModel::searchEntry *entry = m_SearchEditorModel->GetEntry(item);
-
-        if (entry->is_group) {
+        bool is_group = entry->is_group;
+        delete entry;
+        if (is_group) {
             Utility::DisplayStdErrorDialog(tr("You cannot Copy or Cut groups - use drag-and-drop.")) ;
             return false;
         }
     }
+
+    // clean up previous copied entries
+    while (m_SavedSearchEntries.count()) {
+        SearchEditorModel::searchEntry * entry = m_SavedSearchEntries.at(0);
+        if (entry) delete entry;
+        m_SavedSearchEntries.removeAt(0);
+    }
+
+
+    QList<SearchEditorModel::searchEntry *> entries = GetSelectedEntries();
+    if (!entries.count()) {
+        return false;
+    }
+
     foreach(SearchEditorModel::searchEntry * entry, entries) {
-        SearchEditorModel::searchEntry *save_entry = new SearchEditorModel::searchEntry();
-        save_entry->name = entry->name;
-        save_entry->find = entry->find;
-        save_entry->replace = entry->replace;
-        save_entry->controls = entry->controls;
-        m_SavedSearchEntries.append(save_entry);
+        m_SavedSearchEntries.append(entry);
     }
     return true;
 }
@@ -583,29 +680,31 @@ void SearchEditor::ExportItems(QList<QStandardItem *> items)
                        &default_filter,
                        options);
 
-    if (filename.isEmpty()) {
-        return;
-    }
-
-    QString ext = QFileInfo(filename).suffix().toLower();
-    QChar sep;
-    if (ext == "txt") {
-        sep = QChar(9);
-    } else if (ext == "csv") {
-        sep = QChar(',');
-    }
-
-    if (ext == "ini") {
-        // Save the data, and last folder opened if successful
-        if (SaveData(entries, filename)) {
-            m_LastFolderOpen = QFileInfo(filename).absolutePath();
-            WriteSettings();
+    if (!filename.isEmpty()) {
+        QString ext = QFileInfo(filename).suffix().toLower();
+        QChar sep;
+        if (ext == "txt") {
+            sep = QChar(9);
+        } else if (ext == "csv") {
+            sep = QChar(',');
         }
-    } else {
-        if (SaveTextData(entries, filename, sep)) {
-            m_LastFolderOpen = QFileInfo(filename).absolutePath();
-            WriteSettings();
+
+        if (ext == "ini") {
+            // Save the data, and last folder opened if successful
+            if (SaveData(entries, filename)) {
+                m_LastFolderOpen = QFileInfo(filename).absolutePath();
+                WriteSettings();
+            }
+        } else {
+            if (SaveTextData(entries, filename, sep)) {
+                m_LastFolderOpen = QFileInfo(filename).absolutePath();
+                WriteSettings();
+            }
         }
+    }
+    // clean up to prevent memory leaks
+    foreach(SearchEditorModel::searchEntry* entry, entries) {
+        delete entry;
     }
 }
 
@@ -1121,4 +1220,6 @@ void SearchEditor::ConnectSignalsSlots()
     connect(m_FillIn,      SIGNAL(triggered()), this, SLOT(FillControls()));
     connect(m_SearchEditorModel, SIGNAL(SettingsFileUpdated()), this, SLOT(SettingsFileModelUpdated()));
     connect(m_SearchEditorModel, SIGNAL(ItemDropped(const QModelIndex &)), this, SLOT(ModelItemDropped(const QModelIndex &)));
+    connect(ui.SearchEditorTree->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), this, SLOT(SelectionChanged()));
+
 }

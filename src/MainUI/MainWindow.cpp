@@ -30,7 +30,6 @@
 #include <QFuture>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QImage>
-#include <QDesktopWidget>
 #include <QGuiApplication>
 #include <QScreen>
 #include <QtWidgets/QFileDialog>
@@ -38,7 +37,9 @@
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QProgressDialog>
 #include <QtWidgets/QToolBar>
-#include <QtWebEngineWidgets/QWebEngineSettings>
+#include <QtWebEngineWidgets>
+#include <QtWebEngineCore>
+#include <QWebEngineSettings>
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 #ifdef Q_OS_WIN32
@@ -54,6 +55,10 @@
 #include <QStyle>
 #include <QDebug>
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#include <QDesktopWidget>
+#endif
+
 #include "BookManipulation/CleanSource.h"
 #include "BookManipulation/Index.h"
 #include "BookManipulation/FolderKeeper.h"
@@ -67,6 +72,7 @@
 #include "Dialogs/LinkStylesheets.h"
 #include "Dialogs/LinkJavascripts.h"
 #include "Dialogs/ManageRepos.h"
+#include "Dialogs/AutomateEditor.h"
 #include "Dialogs/MetaEditor.h"
 #include "Dialogs/PluginRunner.h"
 #include "Dialogs/Preferences.h"
@@ -169,6 +175,32 @@ static const QString CUSTOM_PREVIEW_STYLE_FILENAME = "custom_preview_style.css";
 
 QStringList MainWindow::s_RecentFiles = QStringList();
 
+// This list needs to be kept in exact sync with AutomateEditor.cpp in Dialogs
+static const QStringList AUTOMATE_TOOLS = QStringList() <<
+    "AddCover" <<
+    "CreateHTMLTOC" <<
+    "DeleteUnusedMedia" <<
+    "DeleteUnusedStyles" <<
+    "GenerateNCXGuideFromNav" <<
+    "GenerateTOC" <<
+    "MendPrettifyHTML" <<
+    "MendHTML" <<
+    "ReformatCSSMultipleLines" <<
+    "ReformatCSSSingleLines" <<
+    "RemoveNCXGuideFromEpub3" <<
+    "RepoCommit" <<
+    "RunSavedSearchReplaceAll" <<
+    "Save" <<
+    "SetBookBrowserToAllCSS" <<
+    "SetBookBrowserToAllHTML" <<
+    "SetBookBrowserToAllImages" <<
+    "SetBookBrowserToInitialSelection" <<
+    "SplitOnSGFSectionMarkers" <<
+    "StandardizeEpub" <<
+    "UpdateManifestProperties" <<
+    "ValidateStylesheetsWithW3C" <<
+    "WellFormedCheckEpub";
+
 MainWindow::MainWindow(const QString &openfilepath, 
                        const QString version,
                        bool is_internal,
@@ -224,7 +256,8 @@ MainWindow::MainWindow(const QString &openfilepath,
     m_pluginList(QStringList()),
     m_SaveCSS(false),
     m_IsClosing(false),
-    m_headingActionGroup(new QActionGroup(this))
+    m_headingActionGroup(new QActionGroup(this)),
+    m_UsingAutomate(false)
 {
     createJumpList();
     ui.setupUi(this);
@@ -292,6 +325,221 @@ void MainWindow::createJumpList()
     jumplist.recent()->setVisible(true);
 #endif
 }
+
+void MainWindow::RunAutomate1()
+{
+    QString automatefile = Utility::DefinePrefsDir() + "/automate01.txt";
+    RunAutomate(automatefile);
+}
+
+void MainWindow::EditAutomate1()
+{
+    QString automatefile = Utility::DefinePrefsDir() + "/automate01.txt";
+    EditAutomate(automatefile);
+}
+
+void MainWindow::RunAutomate2()
+{
+    QString automatefile = Utility::DefinePrefsDir() + "/automate02.txt";
+    RunAutomate(automatefile);
+}
+
+void MainWindow::EditAutomate2()
+{
+    QString automatefile = Utility::DefinePrefsDir() + "/automate02.txt";
+    EditAutomate(automatefile);
+}
+
+void MainWindow::RunAutomate3()
+{
+    QString automatefile = Utility::DefinePrefsDir() + "/automate03.txt";
+    RunAutomate(automatefile);
+}
+
+void MainWindow::EditAutomate3()
+{
+    QString automatefile = Utility::DefinePrefsDir() + "/automate03.txt";
+    EditAutomate(automatefile);
+}
+
+void MainWindow::EditAutomate(const QString &automatefile)
+{
+    AutomateEditor aedit(automatefile, this);
+    if (aedit.exec() != QDialog::Accepted) {
+        ShowMessageOnStatusBar(tr("Automate List Editor cancelled."));
+        return;
+    }
+    ShowMessageOnStatusBar(tr("Automate List edited."));
+}
+
+void MainWindow::RunAutomate(const QString &automatefile)
+{
+    if (m_UsingAutomate) {
+        ShowMessageOnStatusBar(tr("Error: Automation Already in Use"));
+        return;
+    }
+    m_AutomateLog.clear();
+    m_UsingAutomate = true;
+    if (!QFile::exists(automatefile)) {
+        ShowMessageOnStatusBar(tr("Missing Automation List") + ": " + automatefile );
+        m_UsingAutomate = false;
+        return;
+    }
+    QString data = Utility::ReadUnicodeTextFile(automatefile);
+    QStringList datalines = data.split('\n');
+    QStringList commands;
+    foreach(QString aline, datalines) {
+        QString cmd = aline.trimmed();
+        if (!cmd.isEmpty()) commands << cmd;
+    }
+    if (!commands.isEmpty()) Automate(commands);
+    m_UsingAutomate = false;
+    m_AutomateLog.clear();
+}
+
+
+bool MainWindow::Automate(const QStringList &commands)
+{
+    // store away the set of resources selected in BookBrowser at the start
+    QList<Resource*> selected_resources = m_BookBrowser->AllSelectedResources();
+    PluginDB *pdb = PluginDB::instance();
+    QHash<QString, Plugin *> plugins = pdb->all_plugins();
+    QStringList plugin_names = plugins.keys();
+    bool has_error = false;
+    
+    foreach(QString cmd , commands) {
+        bool success = false;
+        QString plugin_type;
+        int validation_error_count = 0;
+
+        // allow lines to be commented out by starting with #
+        if (cmd.startsWith('#')) continue;
+        ShowMessageOnStatusBar(cmd + " " + tr("running"));
+
+        if (plugin_names.contains(cmd)) {
+            PluginRunner prunner(m_TabManager, this);
+            prunner.exec(cmd);
+
+            qApp->processEvents();
+
+            success = prunner.getResult() == "success";
+            plugin_type = prunner.getPluginType();
+        } else if (AUTOMATE_TOOLS.contains(cmd)) {
+            if (cmd == "Save")                            success = Save();
+            else if (cmd == "WellFormedCheckEpub")        success = WellFormedCheckEpub();
+            else if (cmd == "MendPrettifyHTML")           success = MendPrettifyHTML();
+            else if (cmd == "MendHTML")                   success = MendHTML();
+            else if (cmd == "ValidateStylesheetsWithW3C") success = ValidateStylesheetsWithW3C();
+            else if (cmd == "RepoCommit")                 success = RepoCommit();
+            else if (cmd == "DeleteUnusedMedia")          success = DeleteUnusedMedia(true);
+            else if (cmd == "DeleteUnusedStyles")         success = DeleteUnusedStyles(true);
+            else if (cmd == "StandardizeEpub")            success = StandardizeEpub();
+            else if (cmd == "SplitOnSGFSectionMarkers")   success = SplitOnSGFSectionMarkers();
+            else if (cmd == "AddCover")                   success = AddCover();
+            else if (cmd == "GenerateTOC")                success = GenerateTOC(true);
+            else if (cmd == "CreateHTMLTOC")              success = CreateHTMLTOC();
+            else if (cmd == "ReformatCSSMultipleLines")   success = ReformatAllStylesheets(true);
+            else if (cmd == "ReformatCSSSingleLines")     success = ReformatAllStylesheets(false);
+            // allow some control over what is selected in BookBrowser because some plugins
+            // use that to control which files they work on
+            else if (cmd == "SetBookBrowserToAllCSS")   {
+                SelectResources(GetAllCSSResources());
+                success = true;
+            } else if (cmd == "SetBookBrowserToAllHTML")   {
+                SelectResources(GetAllHTMLResources());
+                success = true;
+            } else if (cmd == "SetBookBrowserToAllImages") {
+                SelectResources(m_BookBrowser->AllImageResources());
+                success = true;
+            } else if (cmd == "SetBookBrowserToInitialSelection") {
+                // net initial selection against all existing resources in case some have been
+                // deleted in earlier steps
+                QList<Resource*> resources_to_select;
+                QList<Resource*> all_resources = m_Book->GetFolderKeeper()->GetResourceList();
+                foreach(Resource * resource, selected_resources) {
+                    if (all_resources.contains(resource)) resources_to_select << resource;
+                }
+                SelectResources(resources_to_select);
+                success = true;
+            } else {
+                // these tools are epub3 specific
+                QString version = m_Book->GetOPF()->GetEpubVersion();
+                if (version.startsWith('3')) {
+                    if (cmd == "GenerateNCXGuideFromNav")     success = GenerateNCXGuideFromNav();
+                    if (cmd == "RemoveNCXGuideFromEpub3")     success = RemoveNCXGuideFromEpub3();
+                    if (cmd == "UpdateManifestProperties")    success = UpdateManifestProperties();
+                } else {
+                    ShowMessageOnStatusBar(cmd + " " + tr("skipped since not an epub3"));
+                    success = true;
+                }
+            }
+        // handle saved search and its full name parameter     
+        } else if (cmd.startsWith("RunSavedSearchReplaceAll")) {
+            QString fullname = cmd.mid(25, -1).trimmed();
+            m_SearchEditor->SetCurrentEntriesFromFullName(fullname);
+
+            if (m_SearchEditor->GetCurrentEntriesCount() > 0) {
+                // m_FindReplace handles deleting each searchEntry that was created with new
+                // Temporarily reroute FindReplace Messages to the Status Bar so they are logged
+                connect(m_FindReplace, SIGNAL(ShowMessageRequest(const QString &)),
+                        this, SLOT(ShowMessageOnStatusBar(const QString &)));
+                m_FindReplace->ReplaceAllSearch();
+                disconnect(m_FindReplace, SIGNAL(ShowMessageRequest(const QString &)),
+                           this, SLOT(ShowMessageOnStatusBar(const QString &)));
+                success = true;
+            } else {
+                ShowMessageOnStatusBar(tr("Missing or unknown Saved Search name") + ": " + cmd);
+                success = false;
+            }
+        } else {
+            ShowMessageOnStatusBar(tr("Missing or unknown plugin or tool") + ": " + cmd);
+            has_error = true;
+            break;
+        }
+        if (!success) {
+            ShowMessageOnStatusBar(cmd + " " + tr("failed"));
+            has_error = true;
+            break;
+        }
+        if ((plugin_type == "validation") || (cmd == "WellFormedCheckEpub")) {
+            validation_error_count = m_ValidationResultsView->ResultCount();
+            if (validation_error_count > 0) {        
+                // Try to pause to see if can ignore or not in a non-modal way
+                ShowMessageOnStatusBar(tr("Validation tool") + ": " + cmd + " "
+                                       + tr("found errors") + " " + QString::number(validation_error_count));
+                QMessageBox msgBox;
+                msgBox.setModal(false);
+                msgBox.setText(tr("Validation tool found errors - Abort or Ignore?"));
+                QPushButton * abortButton = msgBox.addButton(QMessageBox::Abort);
+                QPushButton * ignoreButton = msgBox.addButton(QMessageBox::Ignore);
+                bool button_clicked = false;
+                connect(&msgBox, &QMessageBox::buttonClicked, this, [this, &button_clicked]() { button_clicked = true; });
+                msgBox.show();
+                while(!button_clicked) { qApp->processEvents(); }
+                if (msgBox.clickedButton() != ignoreButton) {
+                    has_error = true;
+                    ShowMessageOnStatusBar(tr("Aborted due to Validation Errors"));
+                    break;
+                } else {
+                    ShowMessageOnStatusBar(tr("Ignored Validation Errors"));
+                }
+            } else {
+                ShowMessageOnStatusBar(tr("Validation Tool Reported No Problems Found"));
+            }
+        }
+        qApp->processEvents();
+        m_AutomateLog << "";
+    }
+    if (has_error) {
+        ShowMessageOnStatusBar(tr("Automation List Failed"));
+    } else {
+        ShowMessageOnStatusBar(tr("Automation List Completed"));
+    }
+    RepoLog alog(tr("Automate Log"), m_AutomateLog.join('\n'), this);
+    alog.exec();
+    return has_error == false;
+}
+
 
 // Note on Mac OS X you may only add a QMenu or SubMenu to the MenuBar Once!
 // Actions can be removed
@@ -423,7 +671,7 @@ void MainWindow::unloadPluginsMenu()
     }
 }
 
-void MainWindow::StandardizeEpub()
+bool MainWindow::StandardizeEpub()
 {
     SaveTabData();
 
@@ -433,7 +681,7 @@ void MainWindow::StandardizeEpub()
                                       tr("Are you sure you want to restructure this epub?\nThis action cannot be reversed."), 
                                       QMessageBox::Ok | QMessageBox::Cancel);
     if (button_pressed != QMessageBox::Ok) {
-      return;
+      return false;
     }
     
     QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -445,7 +693,7 @@ void MainWindow::StandardizeEpub()
             QMessageBox::warning(this, tr("Sigil"), 
                                  tr("Restructure cancelled: %1, XML not well formed.").arg(hresource->ShortPathName()));
             QApplication::restoreOverrideCursor();
-            return;
+            return false;
         }
     }
     // make sure opf is in good shape as well
@@ -454,7 +702,7 @@ void MainWindow::StandardizeEpub()
         QMessageBox::warning(this, tr("Sigil"),
                              tr("Restructure cancelled: %1, XML not well formed.").arg(opfresource->ShortPathName()));
         QApplication::restoreOverrideCursor();
-        return;
+        return false;
     }
     // ditto for ncx if one exists
     NCXResource* ncxresource = m_Book->GetNCX();
@@ -462,7 +710,7 @@ void MainWindow::StandardizeEpub()
         QMessageBox::warning(this, tr("Sigil"),
                              tr("Restructure cancelled: %1, XML not well formed.").arg(ncxresource->ShortPathName()));
         QApplication::restoreOverrideCursor();
-        return;
+        return false;
     }
     // we really should parse validate each css file here but
     // since we update css files using regular expressions, the full 
@@ -531,6 +779,7 @@ void MainWindow::StandardizeEpub()
     m_Book->SetModified();
     QApplication::restoreOverrideCursor();
     ShowMessageOnStatusBar(tr("Restructure completed."));
+    return true;
 }
 
 void MainWindow::FixDuplicateFilenames()
@@ -588,7 +837,7 @@ void MainWindow::MoveContentFilesToStdFolders()
     }
 }
 
-void MainWindow::RepoCommit()
+bool MainWindow::RepoCommit()
 {
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
@@ -631,19 +880,25 @@ void MainWindow::RepoCommit()
     // now perform the commit using python in a separate thread since this
     // may take a while depending on the speed of the filesystem
     PythonRoutines pr;
-    QFuture<QString> future = QtConcurrent::run(&pr, &PythonRoutines::PerformRepoCommitInPython, 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    QFuture<QString> future = QtConcurrent::run(&pr, &PythonRoutines::PerformRepoCommitInPython,
                                                 localRepo, bookid, bookinfo, bookroot, bookfiles);
+#else
+    QFuture<QString> future = QtConcurrent::run(&PythonRoutines::PerformRepoCommitInPython, &pr,
+                                                localRepo, bookid, bookinfo, bookroot, bookfiles);
+#endif
     future.waitForFinished();
     QString commit_result = future.result();
 
     if (commit_result.isEmpty()) {
         ShowMessageOnStatusBar(tr("Checkpoint generation failed."));
         QApplication::restoreOverrideCursor();
-        return;
+        return false;
     }
 
     QApplication::restoreOverrideCursor();
     ShowMessageOnStatusBar(tr("Checkpoint saved."));
+    return true;
 }
 
 // handle both the current epub and the general case
@@ -674,8 +929,13 @@ void MainWindow::RepoCheckout(QString bookid, QString destdir, QString filename,
     // now perform the operation using python in a separate thread since this
     // may take a while depending on the speed of the filesystem
     PythonRoutines pr;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QFuture<QStringList> future = QtConcurrent::run(&pr, &PythonRoutines::GetRepoTagsInPython, 
                                                          localRepo, bookid);
+#else
+    QFuture<QStringList> future = QtConcurrent::run(&PythonRoutines::GetRepoTagsInPython, &pr,
+                                                         localRepo, bookid);
+#endif   
     future.waitForFinished();
     QStringList tag_results = future.result();
     if (tag_results.isEmpty()) {
@@ -715,9 +975,13 @@ void MainWindow::RepoCheckout(QString bookid, QString destdir, QString filename,
     open_tab_positions << m_TabManager->GetCurrentContentTab()->GetCursorPosition();
     
     QApplication::setOverrideCursor(Qt::WaitCursor);
-
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QFuture<QString> afuture = QtConcurrent::run(&pr, &PythonRoutines::GenerateEpubFromTagInPython, 
                                                  localRepo, bookid, tagname, filename, destdir);
+#else
+    QFuture<QString> afuture = QtConcurrent::run(&PythonRoutines::GenerateEpubFromTagInPython, &pr,
+                                                 localRepo, bookid, tagname, filename, destdir);
+#endif
     afuture.waitForFinished();
     QString epub_result = afuture.result();
     if (epub_result.isEmpty()) {
@@ -784,8 +1048,13 @@ void MainWindow::RepoDiff(QString bookid)
     // Get tags using python in a separate thread since this
     // may take a while depending on the speed of the filesystem
     PythonRoutines pr;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)    
     QFuture<QStringList> future = QtConcurrent::run(&pr, &PythonRoutines::GetRepoTagsInPython, 
                                                           localRepo, bookid);
+#else
+    QFuture<QStringList> future = QtConcurrent::run(&PythonRoutines::GetRepoTagsInPython, &pr,
+                                                          localRepo, bookid);
+#endif
     future.waitForFinished();
     QStringList tag_results = future.result();
     if (tag_results.isEmpty()) {
@@ -812,8 +1081,13 @@ void MainWindow::RepoDiff(QString bookid)
     // checkout this tag version and copy it to a tempfolder
     TempFolder destdir;
     QApplication::setOverrideCursor(Qt::WaitCursor);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)    
     QFuture<QString> cfuture = QtConcurrent::run(&pr, &PythonRoutines::CopyTagToDestDirInPython, 
                                                  localRepo, bookid, chkpoint1, destdir.GetPath() );
+#else
+    QFuture<QString> cfuture = QtConcurrent::run(&PythonRoutines::CopyTagToDestDirInPython, &pr,
+                                                 localRepo, bookid, chkpoint1, destdir.GetPath() );
+#endif
     cfuture.waitForFinished();
     QString copied = cfuture.result();
     QApplication::restoreOverrideCursor();
@@ -824,9 +1098,15 @@ void MainWindow::RepoDiff(QString bookid)
     bookfiles << "META-INF/container.xml";
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
+    
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)    
     QFuture<QList<QStringList> > dfuture = QtConcurrent::run(&pr, 
                                              &PythonRoutines::GetCurrentStatusVsDestDirInPython, 
                                              bookroot, bookfiles, destdir.GetPath());
+#else
+    QFuture<QList<QStringList> > dfuture = QtConcurrent::run(&PythonRoutines::GetCurrentStatusVsDestDirInPython,
+                                             &pr, bookroot, bookfiles, destdir.GetPath());
+#endif
     dfuture.waitForFinished();
     QList<QStringList> sres = dfuture.result();
     QApplication::restoreOverrideCursor();
@@ -862,10 +1142,12 @@ void MainWindow::launchExternalXEditor()
     // ONLY if an external editor path is set and still exists
 
     HTMLResource *html_resource = NULL;
-
+    OPFResource * opf_resource = NULL;
+    
     ContentTab *tab = GetCurrentContentTab();
     if (tab) {
         html_resource = qobject_cast<HTMLResource *>(tab->GetLoadedResource());
+        opf_resource = qobject_cast<OPFResource *>(tab->GetLoadedResource());
     }
 
     SettingsStore ss;
@@ -884,12 +1166,19 @@ void MainWindow::launchExternalXEditor()
 
     //bool isPageEdit = ss.externalXEditorPath().contains("pageedit", Qt::CaseInsensitive);
     bool isPageEdit = (xeditorinfo.baseName().toLower() == "pageedit");
-    qDebug() << "External editor is PageEdit: " << isPageEdit;
+    // qDebug() << "External editor is PageEdit: " << isPageEdit;
 
-    // If PageEdit isn't being used, only an open html resource will work
-    if (!isPageEdit && !html_resource ) {
-        ShowMessageOnStatusBar(tr("External XHtml Editor works only on Html Resources"));
-        return;
+    if (isPageEdit) {
+        if (!html_resource && !opf_resource) {
+            ShowMessageOnStatusBar(tr("PageEdit XHtml Editor works only on Html/OPF Resources"));
+            return;
+        }
+    } else { 
+        // PageEdit isn't being used, so only an open html resource will work
+        if (!html_resource ) {
+            ShowMessageOnStatusBar(tr("External XHtml Editor works only on Html Resources"));
+            return;
+        }
     }
 
     Resource * resource;
@@ -1229,6 +1518,7 @@ void MainWindow::ShowMessageOnStatusBar(const QString &message,
     if (message.isEmpty()) {
         statusBar()->clearMessage();
     } else {
+        if (m_UsingAutomate) m_AutomateLog << message;
         statusBar()->showMessage(message, millisecond_duration);
     }
 }
@@ -1758,7 +2048,7 @@ void MainWindow::GoToLinkedStyleDefinition(const QString &element_name, const QS
         CSSResource *first_css_resource = 0;
         foreach(QString bookpath, stylesheets) {
             Resource * resource = m_Book->GetFolderKeeper()->GetResourceByBookPath(bookpath);
-            CSSResource *css_resource = qobject_cast<CSSResource*>( resource ); 
+            CSSResource *css_resource = qobject_cast<CSSResource*>( resource );
             if (!first_css_resource) {
                 first_css_resource = css_resource;
             }
@@ -1766,10 +2056,17 @@ void MainWindow::GoToLinkedStyleDefinition(const QString &element_name, const QS
                 CSSInfo css_info(css_resource->GetText());
                 CSSInfo::CSSSelector *selector = css_info.getCSSSelectorForElementClass(element_name, style_class_name);
 
-                // If we fail to find a matching class, search again with just the element
-                if (!style_class_name.isEmpty() && !selector) {
-                    selector = css_info.getCSSSelectorForElementClass(element_name, "");
-                }
+                // All of this is actually handled in CSSInfo and is NOT needed here
+
+                // If we fail to find a matching element.class, search again with just the class
+                // if (!style_class_name.isEmpty() && !selector) {
+                //    selector = css_info.getCSSSelectorForElementClass("", style_class_name);
+                // }
+                //
+                // If we fail to find a matching selector search again with just the element
+                // if (style_class_name.isEmpty() && !selector) {
+                //     selector = css_info.getCSSSelectorForElementClass(element_name, "");
+                // }
 
                 if (selector) {
                     m_TabManager->OpenResource(css_resource, -1, selector->pos);
@@ -1882,7 +2179,7 @@ bool MainWindow::ProceedWithUndefinedUrlFragments()
 }
 
 
-void MainWindow::AddCover()
+bool MainWindow::AddCover()
 {
     QString version = m_Book->GetOPF()->GetEpubVersion();
  
@@ -1906,7 +2203,7 @@ void MainWindow::AddCover()
         }
     }
     if (selected_files.count() == 0) {
-        return;
+        return false;
     }
     QString image_bookpath = selected_files.first();
 
@@ -1997,8 +2294,10 @@ void MainWindow::AddCover()
             }
         } else {
             Utility::DisplayStdErrorDialog(tr("Unexpected error. Only image files can be used for the cover."));
+            return false;
         }
     } catch (ResourceDoesNotExist&) {
+        return false;
         //
     }
 
@@ -2015,15 +2314,16 @@ void MainWindow::AddCover()
 
     ShowMessageOnStatusBar(tr("Cover added."));
     QApplication::restoreOverrideCursor();
+    return true;
 }
 
 
-void MainWindow::UpdateManifestProperties()
+bool MainWindow::UpdateManifestProperties()
 {
     QString version = m_Book->GetConstOPF()->GetEpubVersion();
     if (!version.startsWith('3')) {
         ShowMessageOnStatusBar(tr("Not Available for epub2."));
-        return;
+        return false;
     }
     SaveTabData();
     QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -2032,15 +2332,16 @@ void MainWindow::UpdateManifestProperties()
     m_Book->SetModified();
     ShowMessageOnStatusBar(tr("OPF Manifest Properties Updated."));
     QApplication::restoreOverrideCursor();
+    return true;
 }
 
 
-void MainWindow::RemoveNCXGuideFromEpub3()
+bool MainWindow::RemoveNCXGuideFromEpub3()
 {
     QString version = m_Book->GetConstOPF()->GetEpubVersion();
     if (!version.startsWith('3')) {
         ShowMessageOnStatusBar(tr("Not Available for epub2."));
-        return;
+        return false;
     }
 
     SaveTabData();
@@ -2063,16 +2364,16 @@ void MainWindow::RemoveNCXGuideFromEpub3()
 
     ShowMessageOnStatusBar(tr("NCX and Guide removed."));
     QApplication::restoreOverrideCursor();
-
+    return true;
 }
 
 
-void MainWindow::GenerateNCXGuideFromNav()
+bool MainWindow::GenerateNCXGuideFromNav()
 {
     QString version = m_Book->GetConstOPF()->GetEpubVersion();
     if (!version.startsWith('3')) {
         ShowMessageOnStatusBar(tr("Not Available for epub2."));
-        return;
+        return false;
     }
 
     SaveTabData();
@@ -2090,7 +2391,7 @@ void MainWindow::GenerateNCXGuideFromNav()
     if ((!nav_resource) || navdata.isEmpty()) {
         ShowMessageOnStatusBar(tr("NCX and Guide generation failed."));
         QApplication::restoreOverrideCursor();
-        return;
+        return false;
     }
 
     NCXResource * ncx_resource = m_Book->GetNCX();
@@ -2115,15 +2416,20 @@ void MainWindow::GenerateNCXGuideFromNav()
 
     // Now build the ncx in python in a separate thread since may be an long job
     PythonRoutines pr;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)    
     QFuture<QString> future = QtConcurrent::run(&pr, &PythonRoutines::GenerateNcxInPython, navdata, 
                                                 navbkpath, ncxdir, doctitle, mainid);
+#else
+    QFuture<QString> future = QtConcurrent::run(&PythonRoutines::GenerateNcxInPython, &pr, navdata, 
+                                             navbkpath, ncxdir, doctitle, mainid);
+#endif
     future.waitForFinished();
     QString ncxdata = future.result();
 
     if (ncxdata.isEmpty()) {
         ShowMessageOnStatusBar(tr("NCX and Guide generation failed."));
         QApplication::restoreOverrideCursor();
-        return;
+        return false;
     }
 
     ncx_resource->SetText(ncxdata);
@@ -2161,6 +2467,7 @@ void MainWindow::GenerateNCXGuideFromNav()
 
     ShowMessageOnStatusBar(tr("NCX and Guide generated."));
     QApplication::restoreOverrideCursor();
+    return true;
 }
 
 
@@ -2446,12 +2753,12 @@ bool MainWindow::DeleteCSSStyles(const QString &bookpath, QList<CSSInfo::CSSSele
     return is_modified;
 }
 
-void MainWindow::DeleteUnusedMedia()
+bool MainWindow::DeleteUnusedMedia(bool in_automate)
 {
     SaveTabData();
     if (!m_Book.data()->GetNonWellFormedHTMLFiles().isEmpty()) {
         QMessageBox::warning(this, tr("Sigil"), tr("Delete Unused Media Files cancelled due to XML not well formed."));
-        return;
+        return false;
     }
 
     QRegularExpression url_file_search("url\\s*\\(\\s*['\"]?([^\\(\\)'\"]*)[\"']?\\)");
@@ -2500,16 +2807,21 @@ void MainWindow::DeleteUnusedMedia()
         RemoveResources(resources);
         ShowMessageOnStatusBar(tr("Unused media files deleted."));
     } else {
-        QMessageBox::information(this, tr("Sigil"), tr("There are no unused image, video or audio files to delete."));
+        if (in_automate) {
+            ShowMessageOnStatusBar(tr("There are no unused image, video or audio files to delete."));
+        } else {
+            QMessageBox::information(this, tr("Sigil"), tr("There are no unused image, video or audio files to delete."));
+        }
     }
+    return true;
 }
 
-void MainWindow::DeleteUnusedStyles()
+bool MainWindow::DeleteUnusedStyles(bool in_automate)
 {
     SaveTabData();
     if (!m_Book.data()->GetNonWellFormedHTMLFiles().isEmpty()) {
         QMessageBox::warning(this, tr("Sigil"), tr("Delete Unused Styles cancelled due to XML not well formed."));
-        return;
+        return false;
     }
 
     // This one handles all selector types
@@ -2524,9 +2836,14 @@ void MainWindow::DeleteUnusedStyles()
     if (css_selectors_to_delete.count() > 0) {
         DeleteReportsStyles(css_selectors_to_delete);
     } else {
-        QMessageBox::information(this, tr("Sigil"), tr("There are no unused stylesheet selectors to delete."));
+        if (in_automate) {
+            ShowMessageOnStatusBar(tr("There are no unused stylesheet selectors to delete."));
+        } else {
+            QMessageBox::information(this, tr("Sigil"), tr("There are no unused stylesheet selectors to delete."));
+        }
     }
     qDeleteAll(css_selector_usage);
+    return true;
 }
 
 void MainWindow::InsertFileDialog()
@@ -2917,7 +3234,7 @@ void MainWindow::MergeResources(QList <Resource *> resources)
             UsedIds.insert(id);
         }
     }
-    QStringList Dups = Duplicates.toList();
+    QStringList Dups = Duplicates.values();
     if (!Dups.isEmpty()) {
         // if duplicates exist, run the SourceUpdates/FragmentUpdates
         QHash<QString, QString> Updates;
@@ -3211,6 +3528,9 @@ h->ShortPathName()));
         html_resources.append(qobject_cast<HTMLResource *>(resource));
     } 
     JavascriptUpdates::UpdateJavascriptsInAllFiles(html_resources, javascripts);
+
+    m_Book->GetOPF()->UpdateManifestProperties(resources);
+
     m_Book->SetModified();
 
     if (current_resource && resources.contains(current_resource)) {
@@ -3310,22 +3630,22 @@ void MainWindow::EditTOCDialog()
 }
 
 // For epub2 this set the NCX, for epub3 this sets the Nav TOC section
-void MainWindow::GenerateToc()
+bool MainWindow::GenerateTOC(bool skip_selector)
 {
     SaveTabData();
     QList<Resource *> resources = GetAllHTMLResources();
 
     if (resources.isEmpty()) {
-        return;
+        return false;
     }
 
     bool is_headings_changed = false;
-    {
+    if (!skip_selector) {
         HeadingSelector toc(m_Book, this);
 
         if (toc.exec() != QDialog::Accepted) {
             ShowMessageOnStatusBar(tr("Generate TOC cancelled."));
-            return;
+            return false;
         }
 
         is_headings_changed = toc.IsBookChanged();
@@ -3355,10 +3675,11 @@ void MainWindow::GenerateToc()
     }
 
     QApplication::restoreOverrideCursor();
+    return true;
 }
 
 
-void MainWindow::CreateHTMLTOC()
+bool MainWindow::CreateHTMLTOC()
 {
     SaveTabData();
     QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -3468,6 +3789,7 @@ void MainWindow::CreateHTMLTOC()
     m_BookBrowser->Refresh();
     OpenResource(tocResource);
     QApplication::restoreOverrideCursor();
+    return true;
 }
 
 
@@ -3694,9 +4016,10 @@ void MainWindow::updateToolTipsOnPluginIcons()
     }
 }
 
-void MainWindow::WellFormedCheckEpub()
+bool MainWindow::WellFormedCheckEpub()
 {
     m_ValidationResultsView->ValidateCurrentBook();
+    return true;
 }
 
 
@@ -3706,22 +4029,40 @@ bool MainWindow::CharLessThan(const QChar &s1, const QChar &s2)
 }
 
 
-void MainWindow::ValidateStylesheetsWithW3C()
+bool MainWindow::ValidateStylesheetsWithW3C()
 {
     SaveTabData();
     QList<Resource *> css_resources = m_BookBrowser->AllCSSResources();
 
     if (css_resources.isEmpty()) {
         ShowMessageOnStatusBar(tr("This EPUB does not contain any CSS stylesheets to validate."));
-        return;
+        return true;
     }
 
     foreach(Resource * resource, css_resources) {
         CSSResource *css_resource = qobject_cast<CSSResource *>(resource);
         css_resource->ValidateStylesheetWithW3C();
     }
+    return true;
 }
 
+
+bool MainWindow::ReformatAllStylesheets(bool multiple_line_format)
+{
+    SaveTabData();
+    QList<Resource *> css_resources = m_BookBrowser->AllCSSResources();
+
+    if (css_resources.isEmpty()) {
+        ShowMessageOnStatusBar(tr("This EPUB does not contain any CSS stylesheets to reformat."));
+        return true;
+    }
+
+    foreach(Resource * resource, css_resources) {
+        CSSResource *css_resource = qobject_cast<CSSResource *>(resource);
+        css_resource->ReformatCSS(multiple_line_format);
+    }
+    return true;
+}
 
 void MainWindow::ChangeSignalsWhenTabChanges(ContentTab *old_tab, ContentTab *new_tab)
 {
@@ -4236,14 +4577,16 @@ void MainWindow::SetAutoSpellCheck(bool new_state)
     emit SettingsChanged();
 }
 
-void MainWindow::MendPrettifyHTML()
+bool MainWindow::MendPrettifyHTML()
 {
     m_Book->ReformatAllHTML(false);
+    return true;
 }
 
-void MainWindow::MendHTML()
+bool MainWindow::MendHTML()
 {
     m_Book->ReformatAllHTML(true);
+    return true;
 }
 
 void MainWindow::ClearIgnoredWords()
@@ -4286,22 +4629,6 @@ void MainWindow::CreateSectionBreakOldTab(QString content, HTMLResource *origina
     // originating tab. Since this comes from a FlowTab assume that it is 
     // an xhtml file even if called .xml to avoid doing damage.
 
-#if 0
-    // XXX: This should be using the mime type not the extension.
-    if (!TEXT_EXTENSIONS.contains(QFileInfo(originating_resource->Filename()).suffix().toLower())) {
-        QMessageBox::warning(this, tr("Sigil"), tr("Cannot split since it may not be an HTML file."));
-        return;
-    }
-
-    HTMLResource * nav_resource = m_Book->GetConstOPF()->GetNavResource();
-    if (nav_resource && nav_resource == originating_resource) {
-        QMessageBox::warning(this, tr("Sigil"), tr("The Nav file cannot be split."));
-        return;
-    }
-#endif
-
-    qDebug() << "   invoking split at cursor for " << originating_resource;
-
     HTMLResource *html_resource = m_Book->CreateSectionBreakOriginalResource(content, originating_resource);
     m_BookBrowser->Refresh();
     // Open the old shortened content in a new tab preceding the current one.
@@ -4318,7 +4645,7 @@ void MainWindow::CreateSectionBreakOldTab(QString content, HTMLResource *origina
     ShowMessageOnStatusBar(tr("Split completed."));
 }
 
-void MainWindow::SplitOnSGFSectionMarkers()
+bool MainWindow::SplitOnSGFSectionMarkers()
 {
     QList<Resource *> html_resources = GetAllHTMLResources();
     Resource * nav_resource = m_Book->GetConstOPF()->GetNavResource();
@@ -4334,19 +4661,19 @@ void MainWindow::SplitOnSGFSectionMarkers()
         HTMLResource *html_resource = qobject_cast<HTMLResource *>(resource);
         if (!html_resource) {
             QMessageBox::warning(this, tr("Sigil"), tr("Cannot split since at least one file is not an HTML file."));
-            return;
+            return false;
         }
 
         // Check if data is well formed before splitting.
         if (!html_resource->FileIsWellFormed()) {
             QMessageBox::warning(this, tr("Sigil"), tr("Cannot split: %1 XML is not well formed").arg(html_resource->ShortPathName()));
-            return;
+            return false;
         }
 
         // XXX: This should be using the mime type not the extension.
         if (!TEXT_EXTENSIONS.contains(QFileInfo(html_resource->Filename()).suffix().toLower())) {
             QMessageBox::warning(this, tr("Sigil"), tr("Cannot split since at least one file may not be an HTML file."));
-            return;
+            return false;
         }
 
         // Handle warning the user about undefined url fragments.
@@ -4360,7 +4687,7 @@ void MainWindow::SplitOnSGFSectionMarkers()
     }
 
     if (!ignore_frags) {
-        return;
+        return false;
     }
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -4384,6 +4711,7 @@ void MainWindow::SplitOnSGFSectionMarkers()
     }
 
     QApplication::restoreOverrideCursor();
+    return true;
 }
 
 void MainWindow::ShowPasteClipboardHistoryDialog()
@@ -4431,11 +4759,22 @@ void MainWindow::ReadSettings()
     } 
 
     if (MaximizedState) {
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         QRect maxsize = settings.value("max_mw_geometry", QApplication::desktop()->availableGeometry(this)).toRect();
+#else
+        QRect maxsize = settings.value("max_mw_geometry", QGuiApplication::primaryScreen()->availableGeometry()).toRect();
+#endif
         setGeometry(maxsize);
         setWindowState(windowState() | Qt::WindowMaximized);
+
     } else if (FullScreenState) {
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         QRect maxsize = settings.value("max_mw_geometry", QApplication::desktop()->screenGeometry(this)).toRect();
+#else
+        QRect maxsize = settings.value("max_mw_geometry", QGuiApplication::primaryScreen()->availableGeometry()).toRect();
+#endif
         setGeometry(maxsize);
         setWindowState(windowState() | Qt::WindowFullScreen);
     }
@@ -4470,7 +4809,11 @@ void MainWindow::ReadSettings()
 
     // Our default fonts for Preview
     SettingsStore::PreviewAppearance PVAppearance = settings.previewAppearance();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QWebEngineSettings *web_settings = QWebEngineSettings::defaultSettings();
+#else
+    QWebEngineSettings *web_settings = QWebEngineProfile::defaultProfile()->settings();
+#endif
 
     // Default QWebEngine security settings to help prevent rogue epub3 javascripts
     // User preferences control if javascript is allowed (on) or not for Preview
@@ -5437,6 +5780,7 @@ void MainWindow::ExtendUI()
     ui.menuToolbars->addAction(ui.toolBarClips->toggleViewAction());
     ui.menuToolbars->addAction(ui.toolBarClips2->toggleViewAction());
     ui.menuToolbars->addAction(ui.toolBarIndexActions->toggleViewAction());
+    ui.menuToolbars->addAction(ui.toolBarAutomate->toggleViewAction());
     ui.toolBarClips->setVisible(false);
     m_lbCursorPosition = new QLabel(QString(""), statusBar());
     statusBar()->addPermanentWidget(m_lbCursorPosition);
@@ -5476,6 +5820,7 @@ void MainWindow::ExtendUI()
     sm->registerAction(this, ui.actionNewEpub3, "MainWindow.NewEpub3");
     sm->registerAction(this, ui.actionNewHTMLFile, "MainWindow.NewHTMLFile");
     sm->registerAction(this, ui.actionNewCSSFile, "MainWindow.NewCSSFile");
+    sm->registerAction(this, ui.actionNewJSFile, "MainWindow.NewJSFile");
     sm->registerAction(this, ui.actionNewSVGFile, "MainWindow.NewSVGFile");
     sm->registerAction(this, ui.actionAddExistingFile, "MainWindow.AddExistingFile");
     sm->registerAction(this, ui.actionStandardize, "MainWindow.StandardizeEpub");
@@ -5607,6 +5952,13 @@ void MainWindow::ExtendUI()
     sm->registerAction(this, ui.actionCheckout,   "MainWindow.RestoreFromCheckpoint");
     sm->registerAction(this, ui.actionDiff,       "MainWindow.CompareToCheckpoint");
     sm->registerAction(this, ui.actionManageRepo, "MainWindow.ManageCheckpointRepository");
+    // Automation Lists
+    sm->registerAction(this, ui.actionAutomate1,   "MainWindow.RunAutomate1");
+    sm->registerAction(this, ui.actionAutomate2,   "MainWindow.RunAutomate2");
+    sm->registerAction(this, ui.actionAutomate3,   "MainWindow.RunAutomate3");
+    sm->registerAction(this, ui.actionAutomate1Editor,   "MainWindow.EditAutomate1");
+    sm->registerAction(this, ui.actionAutomate2Editor,   "MainWindow.EditAutomate2");
+    sm->registerAction(this, ui.actionAutomate3Editor,   "MainWindow.EditAutomate3");
     // Help
     sm->registerAction(this, ui.actionUserGuide, "MainWindow.UserGuide");
     sm->registerAction(this, ui.actionFAQ, "MainWindow.FAQ");
@@ -5638,6 +5990,14 @@ void MainWindow::ExtendUI()
 
     // Change Case QToolButton
     ui.tbCase->setPopupMode(QToolButton::InstantPopup);
+
+    // Automate QToolButtons - set to run on click but delay for menu
+    ui.tbAutomate1->setPopupMode(QToolButton::DelayedPopup);
+    ui.tbAutomate2->setPopupMode(QToolButton::DelayedPopup);
+    ui.tbAutomate3->setPopupMode(QToolButton::DelayedPopup);
+    ui.tbAutomate1->setDefaultAction(ui.actionAutomate1);
+    ui.tbAutomate2->setDefaultAction(ui.actionAutomate2);
+    ui.tbAutomate3->setDefaultAction(ui.actionAutomate3);
 
     UpdateClipsUI();
 }
@@ -5762,13 +6122,13 @@ void MainWindow::changeEvent(QEvent *e)
                 }
 
                 DWINGEO {
-                    int numscreens = qApp->desktop()->numScreens();
+                    QList<QScreen*>screenlist = QGuiApplication::screens();
+                    int numscreens = screenlist.count();
                     for (int i = 0; i < numscreens; i++) {
                         qDebug() << "Screen: " << i;
-                        qDebug() << "    screen  geo: " << qApp->desktop()->screenGeometry(i);
-                        QScreen *srn = QApplication::screens().at(i);
-                        qDebug() << "    avail   geo: " << srn->availableGeometry();
+                        QScreen *srn = screenlist.at(i);
                         qDebug() << "    geo        : " << srn->geometry();
+                        qDebug() << "    avail   geo: " << srn->availableGeometry();
                         qDebug() << "    devideRatio: " << srn->devicePixelRatio();
                         qDebug() << "    logical dpi: " << srn->logicalDotsPerInchX() << srn->logicalDotsPerInchY();
                         qDebug() << "    physic  dpi: " << srn->physicalDotsPerInchX() << srn->physicalDotsPerInchY();
@@ -5822,6 +6182,7 @@ void MainWindow::ConnectSignalsToSlots()
     connect(ui.actionOpen,          SIGNAL(triggered()), this, SLOT(Open()));
     connect(ui.actionNewHTMLFile,   SIGNAL(triggered()), m_BookBrowser, SLOT(AddNewHTML()));
     connect(ui.actionNewCSSFile,    SIGNAL(triggered()), m_BookBrowser, SLOT(AddNewCSS()));
+    connect(ui.actionNewJSFile,     SIGNAL(triggered()), m_BookBrowser, SLOT(AddNewJS()));
     connect(ui.actionNewSVGFile,    SIGNAL(triggered()), m_BookBrowser, SLOT(AddNewSVG()));
     connect(ui.actionAddExistingFile,   SIGNAL(triggered()), m_BookBrowser, SLOT(AddExisting()));
     connect(ui.actionSave,          SIGNAL(triggered()), this, SLOT(Save()));
@@ -5835,6 +6196,14 @@ void MainWindow::ConnectSignalsToSlots()
     connect(ui.actionCheckout,      SIGNAL(triggered()), this, SLOT(RepoCheckout()));
     connect(ui.actionDiff,          SIGNAL(triggered()), this, SLOT(RepoDiff()));
     connect(ui.actionManageRepo,    SIGNAL(triggered()), this, SLOT(RepoManage()));
+
+    // Automation
+    connect(ui.actionAutomate1,        SIGNAL(triggered()), this, SLOT(RunAutomate1()));
+    connect(ui.actionAutomate2,        SIGNAL(triggered()), this, SLOT(RunAutomate2()));
+    connect(ui.actionAutomate3,        SIGNAL(triggered()), this, SLOT(RunAutomate3()));
+    connect(ui.actionAutomate1Editor,  SIGNAL(triggered()), this, SLOT(EditAutomate1()));
+    connect(ui.actionAutomate2Editor,  SIGNAL(triggered()), this, SLOT(EditAutomate2()));
+    connect(ui.actionAutomate3Editor,  SIGNAL(triggered()), this, SLOT(EditAutomate3()));
 
     // Edit
     connect(ui.actionXEditor,         SIGNAL(triggered()), this, SLOT(launchExternalXEditor()));
@@ -5879,7 +6248,7 @@ void MainWindow::ConnectSignalsToSlots()
     connect(ui.actionNCXGuideFromNav, SIGNAL(triggered()), this, SLOT(GenerateNCXGuideFromNav()));
     connect(ui.actionRemoveNCXGuide,  SIGNAL(triggered()), this, SLOT(RemoveNCXGuideFromEpub3()));
     connect(ui.actionClearIgnoredWords, SIGNAL(triggered()), this, SLOT(ClearIgnoredWords()));
-    connect(ui.actionGenerateTOC,   SIGNAL(triggered()), this, SLOT(GenerateToc()));
+    connect(ui.actionGenerateTOC,   SIGNAL(triggered()), this, SLOT(GenerateTOC()));
     connect(ui.actionEditTOC,       SIGNAL(triggered()), this, SLOT(EditTOCDialog()));
     connect(ui.actionCreateHTMLTOC, SIGNAL(triggered()), this, SLOT(CreateHTMLTOC()));
     connect(ui.actionReports,       SIGNAL(triggered()), this, SLOT(ReportsDialog()));
@@ -5960,22 +6329,20 @@ void MainWindow::ConnectSignalsToSlots()
     connect(m_FindReplace, SIGNAL(OpenSearchEditorRequest(SearchEditorModel::searchEntry *)),
             this,          SLOT(SearchEditorDialog(SearchEditorModel::searchEntry *)));
     connect(m_TabManager, SIGNAL(ShowStatusMessageRequest(const QString &, int)), this, SLOT(ShowMessageOnStatusBar(const QString &, int)));
+
     connect(m_FindReplace, SIGNAL(ShowMessageRequest(const QString &)),
             m_SearchEditor, SLOT(ShowMessage(const QString &)));
     connect(m_FindReplace,   SIGNAL(ClipboardSaveRequest()),     m_ClipboardHistorySelector,  SLOT(SaveClipboardState()));
     connect(m_FindReplace,   SIGNAL(ClipboardRestoreRequest()),  m_ClipboardHistorySelector,  SLOT(RestoreClipboardState()));
+
+    connect(m_SearchEditor, SIGNAL(FindSelectedSearchRequest()), m_FindReplace,   SLOT(FindSearch()));
+    connect(m_SearchEditor, SIGNAL(ReplaceCurrentSelectedSearchRequest()), m_FindReplace,   SLOT(ReplaceCurrentSearch()));
+    connect(m_SearchEditor, SIGNAL(ReplaceSelectedSearchRequest()), m_FindReplace,   SLOT(ReplaceSearch()));
+    connect(m_SearchEditor, SIGNAL(CountAllSelectedSearchRequest()), m_FindReplace,   SLOT(CountAllSearch()));
+    connect(m_SearchEditor, SIGNAL(ReplaceAllSelectedSearchRequest()), m_FindReplace,   SLOT(ReplaceAllSearch()));
     connect(m_SearchEditor, SIGNAL(LoadSelectedSearchRequest(SearchEditorModel::searchEntry *)),
             m_FindReplace,   SLOT(LoadSearch(SearchEditorModel::searchEntry *)));
-    connect(m_SearchEditor, SIGNAL(FindSelectedSearchRequest(QList<SearchEditorModel::searchEntry *>)),
-            m_FindReplace,   SLOT(FindSearch(QList<SearchEditorModel::searchEntry *>)));
-    connect(m_SearchEditor, SIGNAL(ReplaceCurrentSelectedSearchRequest(QList<SearchEditorModel::searchEntry *>)),
-            m_FindReplace,   SLOT(ReplaceCurrentSearch(QList<SearchEditorModel::searchEntry *>)));
-    connect(m_SearchEditor, SIGNAL(ReplaceSelectedSearchRequest(QList<SearchEditorModel::searchEntry *>)),
-            m_FindReplace,   SLOT(ReplaceSearch(QList<SearchEditorModel::searchEntry *>)));
-    connect(m_SearchEditor, SIGNAL(CountAllSelectedSearchRequest(QList<SearchEditorModel::searchEntry *>)),
-            m_FindReplace,   SLOT(CountAllSearch(QList<SearchEditorModel::searchEntry *>)));
-    connect(m_SearchEditor, SIGNAL(ReplaceAllSelectedSearchRequest(QList<SearchEditorModel::searchEntry *>)),
-            m_FindReplace,   SLOT(ReplaceAllSearch(QList<SearchEditorModel::searchEntry *>)));
+
     connect(m_ClipboardHistorySelector, SIGNAL(PasteRequest(const QString &)), this, SLOT(PasteTextIntoCurrentTarget(const QString &)));
     connect(m_SelectCharacter, SIGNAL(SelectedCharacter(const QString &)), this, SLOT(PasteTextIntoCurrentTarget(const QString &)));
     connect(m_ClipEditor, SIGNAL(PasteSelectedClipRequest(QList<ClipEditorModel::clipEntry *>)),
@@ -6172,4 +6539,17 @@ void MainWindow::BreakTabConnections(ContentTab *tab)
     disconnect(ui.actionPrint,                     0, tab, 0);
     disconnect(ui.actionAddToIndex,                0, tab, 0);
     disconnect(ui.actionMarkForIndex,              0, tab, 0);
+}
+
+
+// Utility routines to help Find and Replace exchange info with the SearchEditor
+
+QList<SearchEditorModel::searchEntry*> MainWindow::SearchEditorGetCurrentEntries()
+{
+    return m_SearchEditor->GetCurrentEntries();
+}
+
+void MainWindow::SearchEditorRecordEntryAsCompleted(SearchEditorModel::searchEntry* entry)
+{
+    m_SearchEditor->RecordEntryAsCompleted(entry);
 }

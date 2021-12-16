@@ -26,7 +26,7 @@
 #define CSSFILESWIDGET_H
 
 #include <QtCore/QSharedPointer>
-#include <QtWidgets/QAction>
+#include <QAction>
 #include <QtWidgets/QMenu>
 
 #include "ResourceObjects/Resource.h"
@@ -34,13 +34,13 @@
 #include <QtWidgets/QDialog>
 #include <QtGui/QStandardItemModel>
 #include <QPointer>
+#include <QStringList>
 #include "BookManipulation/Book.h"
 #include "Dialogs/ReportsWidgets/ReportsWidget.h"
 
 #include "ui_ReportsCSSFilesWidget.h"
 
 class QString;
-class QStringList;
 
 class CSSFilesWidget : public ReportsWidget
 {

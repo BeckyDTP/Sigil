@@ -25,7 +25,9 @@
 
 #include <memory>
 #include <QEvent>
-#include <QtWebEngineWidgets/QWebEngineView>
+#include <QtWebEngineWidgets>
+#include <QtWebEngineCore>
+#include <QWebEngineView>
 #include "ViewEditors/WebEngPage.h"
 #include "ViewEditors/Viewer.h"
 

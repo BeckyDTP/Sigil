@@ -95,7 +95,6 @@ public:
 
     QString secondary_dictionary();
 
-
     /**
      * Get the list of entities/code pairs to preserve
      */
@@ -151,6 +150,8 @@ public:
     int showFullPathOn();
 
     int highDPI();
+
+    bool disableGPU();
 
     int previewDark();
 
@@ -253,6 +254,8 @@ public:
      * Clear all Preview, Code View and Special Characters settings back to their defaults.
      */
     void clearAppearanceSettings();
+
+    bool enableAltGr();
 
 public slots:
 
@@ -359,6 +362,8 @@ public slots:
 
     void setHighDPI(int value);
 
+    void setDisableGPU(bool value);
+
     void setPreviewDark(int enabled);
 
     void setCleanOn(int on);
@@ -401,6 +406,8 @@ public slots:
      * Set the number of clipboard history items to retain
      */
     void setClipboardHistoryLimit(int limit);
+
+    void setEnableAltGr(bool enabled);
 
 private:
     /**

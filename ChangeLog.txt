@@ -1,13 +1,46 @@
-pre-1.8.0
+pre-1.9.0
+    Bug Fixes
+     - Update gumbo to follow WhatWG changes for closing br and p tags in foreign content
+     - Fix Saved Search Controls code typo for Tabbed Html Files
+     - Plug long existant memory leaks related to Saved Searches that stop after a match is found
+     - More file position of 0 fixes and handle toInt() result failures from N/A in ValidationResults
+     - Fix incorrect copied permissions with AddContentFileToFolder after QFile::copy
+
+    New Features
+     - Make Validation Results sortable by clicking on column header
+     - Add Export All to Validation Results for text or csv output
+     - Redesign Saved Searches and Find Replace to not overload wrap when searching multiple targets
+     - Update to use the PCRE2 library for regular expression searching
+     - Add a new Sigil Preferences settings to disable GPU acceleration for QtWebEngine/Preview
+         to make it easier for Sigil to keep working even with older graphics drivers
+x
+
+
+Sigil-1.8.0
     Bug Fixes:
      - Reports now generate properly quoted csv when saved
      - Workaround Bug in QtWebengine when using custom scheme handler and specific audio/video codecs
+     - Fix CV -> Preview sync after intial load when Preview Zoom is not equal to 100%
+     - Fix link tags with rel set to stylesheets via Mend and Mend and Prettify that are missing type
+     - Fix GoToLinkOrStyle to work on css link tags in head
+     - Fix logic in GoToLinkOrStyle to better identify the actual target with styles
+     - Fix insert media file when cursor at very start of tag
+     - Fix Windows and macOS bugs when generating Keyboard Shortcuts
+     - Fix insert closing tag when cursor at very start of tag
+     - Fix double copy to Clipboard from OPF and NCX Tabs
+     - Fix GoToLinkOrStyle when class attribute present but cursor not in the class attribute
+     - Fix TabManager scroll to position to properly handle position of 0
+     - Fix crash using Split At Markers when body tag is completely empty (no whitespace or anything)
 
     New Features:
      - BookBrowser can now link javascripts similarly to how it links stylesheets
      - Epub3 javascripts can now open windows if javascript is enabled
      - Add Find and Replace context menu to clear its curent values and history
-     
+     - Add support for 3 Automation lists that support editing and automatically running a list of
+         commands that can include all Sigil plugins and a limited set of Tools
+     - Add support for BookBrowser to insert a blank javascript file
+     - Do not require replacement prompt if current book is unmodified and input plugin is run
+
 
 Sigil-1.7.0
     Bug Fixes

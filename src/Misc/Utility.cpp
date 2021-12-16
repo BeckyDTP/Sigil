@@ -45,7 +45,7 @@
 #include <QtCore/QProcess>
 #include <QtCore/QStandardPaths>
 #include <QtCore/QStringList>
-#include <QtCore/QStringRef>
+#include <QStringRef>
 #include <QtCore/QTextStream>
 #include <QtCore/QtGlobal>
 #include <QtCore/QUrl>
@@ -69,6 +69,14 @@
 #include "Misc/SettingsStore.h"
 #include "Misc/SleepFunctions.h"
 #include "MainUI/MainApplication.h"
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    #define QT_ENUM_SKIPEMPTYPARTS Qt::SkipEmptyParts
+    #define QT_ENUM_KEEPEMPTYPARTS Qt::KeepEmptyParts
+#else
+    #define QT_ENUM_SKIPEMPTYPARTS QString::SkipEmptyParts
+    #define QT_ENUM_KEEPEMPTYPARTS QString::KeepEmptyParts
+#endif
 
 static const QString URL_SAFE = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.-/~";
 
@@ -114,7 +122,11 @@ QString Utility::DefinePrefsDir()
     if (!SIGIL_PREFS_DIR.isEmpty()) {
         return SIGIL_PREFS_DIR;
     } else {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         return QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+#else
+        return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
+#endif
     }
 }
 
@@ -299,8 +311,13 @@ QString Utility::Substring(int start_index, int end_index, const QString &string
 // [ start_index, end_index >
 QStringRef Utility::SubstringRef(int start_index, int end_index, const QString &string)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     return string.midRef(start_index, end_index - start_index);
+#else
+    return QStringRef(&string, start_index, end_index - start_index);
+#endif
 }
+
 // Replace the first occurrence of string "before"
 // with string "after" in string "string"
 QString Utility::ReplaceFirst(const QString &before, const QString &after, const QString &string)
@@ -530,7 +547,9 @@ QString Utility::ReadUnicodeTextFile(const QString &fullfilepath)
 
     QTextStream in(&file);
     // Input should be UTF-8
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     in.setCodec("UTF-8");
+#endif
     // This will automatically switch reading from
     // UTF-8 to UTF-16 if a BOM is detected
     in.setAutoDetectUnicode(true);
@@ -555,7 +574,9 @@ void Utility::WriteUnicodeTextFile(const QString &text, const QString &fullfilep
 
     QTextStream out(&file);
     // We ALWAYS output in UTF-8
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     out.setCodec("UTF-8");
+#endif
     out << text;
 }
 
@@ -1069,8 +1090,8 @@ QString Utility::relativePath(const QString & destination, const QString & start
     while (dest.endsWith(sep)) dest.chop(1);
     while (start.endsWith(sep)) start.chop(1);
 
-    QStringList dsegs = dest.split(sep, QString::KeepEmptyParts);
-    QStringList ssegs = start.split(sep, QString::KeepEmptyParts);
+    QStringList dsegs = dest.split(sep, QT_ENUM_KEEPEMPTYPARTS);
+    QStringList ssegs = start.split(sep, QT_ENUM_KEEPEMPTYPARTS);
     QStringList res;
     int i = 0;
     int nd = dsegs.size();

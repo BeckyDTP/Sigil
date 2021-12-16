@@ -65,6 +65,7 @@
      <addaction name="separator"/>
      <addaction name="actionNewHTMLFile"/>
      <addaction name="actionNewCSSFile"/>
+     <addaction name="actionNewJSFile"/>
      <addaction name="actionNewSVGFile"/>
     </widget>
     <widget class="QMenu" name="menuNew">
@@ -624,6 +625,50 @@
    <addaction name="actionPlugin8"/>
    <addaction name="actionPlugin9"/>
    <addaction name="actionPlugin10"/>
+  </widget>
+  <widget class="QToolBar" name="toolBarAutomate">
+   <property name="windowTitle">
+    <string>Automation Lists</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <widget class="QToolButton" name="tbAutomate1">
+    <property name="icon">
+     <iconset resource="../Resource_Files/main/main.qrc">
+     <normaloff>:/main/automate_1.svg</normaloff>:/main/automate_1.svg</iconset>
+    </property>
+    <property name="toolTip">
+     <string>Automation List 1</string>
+    </property>
+    <addaction name="actionAutomate1"/>
+    <addaction name="actionAutomate1Editor"/>
+   </widget>
+   <widget class="QToolButton" name="tbAutomate2">
+    <property name="icon">
+     <iconset resource="../Resource_Files/main/main.qrc">
+     <normaloff>:/main/automate_2.svg</normaloff>:/main/automate_2.svg</iconset>
+    </property>
+    <property name="toolTip">
+     <string>Automation List 2</string>
+    </property>
+    <addaction name="actionAutomate2"/>
+    <addaction name="actionAutomate2Editor"/>
+   </widget>
+   <widget class="QToolButton" name="tbAutomate3">
+    <property name="icon">
+     <iconset resource="../Resource_Files/main/main.qrc">
+     <normaloff>:/main/automate_3.svg</normaloff>:/main/automate_3.svg</iconset>
+    </property>
+    <property name="toolTip">
+     <string>Automation List 3</string>
+    </property>
+    <addaction name="actionAutomate3"/>
+    <addaction name="actionAutomate3Editor"/>
+   </widget>
   </widget>
   <widget class="QToolBar" name="toolBarHeadings">
    <property name="windowTitle">
@@ -2547,6 +2592,14 @@
     <string>Add a new blank stylesheet to the book.</string>
    </property>
   </action>
+  <action name="actionNewJSFile">
+   <property name="text">
+    <string>Blank Javascript</string>
+   </property>
+   <property name="toolTip">
+    <string>Add a new blank javascript to the book.</string>
+   </property>
+  </action>
   <action name="actionNewSVGFile">
    <property name="text">
     <string>Blank SVG Image</string>
@@ -2672,6 +2725,48 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+D</string>
+   </property>
+  </action>
+  <action name="actionAutomate1">
+   <property name="icon">
+    <iconset resource="../Resource_Files/main/main.qrc">
+     <normaloff>:/main/automate_1.svg</normaloff>:/main/automate_1.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Run Automate List 1</string>
+   </property>
+  </action>
+  <action name="actionAutomate1Editor">
+   <property name="text">
+    <string>Edit Automate List 1</string>
+   </property>
+  </action>
+  <action name="actionAutomate2">
+   <property name="icon">
+    <iconset resource="../Resource_Files/main/main.qrc">
+     <normaloff>:/main/automate_2.svg</normaloff>:/main/automate_2.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Run Automate List 2</string>
+   </property>
+  </action>
+  <action name="actionAutomate2Editor">
+   <property name="text">
+    <string>Edit Automate List 2</string>
+   </property>
+  </action>
+  <action name="actionAutomate3">
+   <property name="icon">
+    <iconset resource="../Resource_Files/main/main.qrc">
+     <normaloff>:/main/automate_3.svg</normaloff>:/main/automate_3.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Run Automate List 3</string>
+   </property>
+  </action>
+  <action name="actionAutomate3Editor">
+   <property name="text">
+    <string>Edit Automate List 3</string>
    </property>
   </action>
   <action name="actionManage_Plugins">

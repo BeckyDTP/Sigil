@@ -28,19 +28,20 @@
 #include <QtCore/QDir>
 #include <QtCore/QLibraryInfo>
 #include <QStyleFactory>
-#include <QtCore/QTextCodec>
+#include <QTextCodec>
 #include <QtCore/QThreadPool>
 #include <QtCore/QTranslator>
 #include <QtCore/QStandardPaths>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMessageBox>
-#include <QXmlStreamReader>
 #include <QResource>
 #include <QFile>
 #include <QFileInfo>
 #include <QTextStream>
 #include <QFontMetrics>
-#include <QtWebEngineWidgets/QWebEngineProfile>
+#include <QtWebEngineWidgets>
+#include <QtWebEngineCore>
+#include <QWebEngineProfile>
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
 #include <QWebEngineUrlScheme>
@@ -295,7 +296,7 @@ void setupHighDPI()
 int main(int argc, char *argv[])
 {
 #if !defined(Q_OS_WIN32) && !defined(Q_OS_MAC)
-    QT_REQUIRE_VERSION(argc, argv, "5.9.0");
+    QT_REQUIRE_VERSION(argc, argv, "5.10.0");
 #else
     QT_REQUIRE_VERSION(argc, argv, "5.12.3");
 #endif
@@ -335,10 +336,12 @@ int main(int argc, char *argv[])
     QWebEngineUrlScheme::registerScheme(sigilScheme);
 #endif
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #ifndef Q_OS_MAC
     setupHighDPI();
 #endif
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+#endif
 
     // many qtbugs related to mixing 32 and 64 bit qt apps when shader disk cache is used
     // Only use if using Qt5.9.0 or higher
@@ -347,7 +350,7 @@ int main(int argc, char *argv[])
 #endif
 
     // Disable ? as Sigil does not use QWhatsThis
-#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0) && QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_DisableWindowContextHelpButton);
 #endif
 
@@ -359,6 +362,27 @@ int main(int argc, char *argv[])
 
     // QtWebEngine may need this
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
+
+#if defined(Q_OS_WIN32)
+    SettingsStore ss;
+    if (ss.enableAltGr()) {
+        qputenv("QT_QPA_PLATFORM", "windows:altgr");
+    }
+#endif
+
+    // enable disabling of gpu acceleration for QtWebEngine.
+    // append to current environment variable contents as numerous chromium 
+    // switches exist that may be useful
+    SettingsStore nss;
+    if (nss.disableGPU()) {
+        QString current_flags = Utility::GetEnvironmentVar("QTWEBENGINE_CHROMIUM_FLAGS");
+        if (current_flags.isEmpty()) {
+            current_flags = "--disable-gpu";
+        } else if (!current_flags.contains("--disable-gpu")) {
+            current_flags += " --disable-gpu";
+        }
+        qputenv("QTWEBENGINE_CHROMIUM_FLAGS", current_flags.toUtf8());
+    }
 
     MainApplication app(argc, argv);
 

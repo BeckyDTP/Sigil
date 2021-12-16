@@ -24,6 +24,7 @@
 #include <QtCore/QThread>
 #include <QtConcurrent/QtConcurrent>
 #include <QtWidgets/QApplication>
+#include <QXmlStreamReader>
 
 #include "MainUI/TOCModel.h"
 #include "Misc/Utility.h"
@@ -31,6 +32,14 @@
 #include "ResourceObjects/OPFResource.h"
 #include "ResourceObjects/NavProcessor.h"
 #include "BookManipulation/CleanSource.h"
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    #define QT_ENUM_SKIPEMPTYPARTS Qt::SkipEmptyParts
+    #define QT_ENUM_KEEPEMPTYPARTS Qt::KeepEmptyParts
+#else
+    #define QT_ENUM_SKIPEMPTYPARTS QString::SkipEmptyParts
+    #define QT_ENUM_KEEPEMPTYPARTS QString::KeepEmptyParts
+#endif
 
 TOCModel::TOCModel(QObject *parent)
     :
@@ -80,7 +89,11 @@ void TOCModel::Refresh()
     }
 
     m_RefreshInProgress = true;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)    
     m_TocRootWatcher->setFuture(QtConcurrent::run(this, &TOCModel::GetRootTOCEntry));
+#else
+    m_TocRootWatcher->setFuture(QtConcurrent::run(&TOCModel::GetRootTOCEntry, this));
+#endif
 }
 
 
@@ -124,18 +137,18 @@ TOCModel::TOCEntry TOCModel::ParseNCX(const QString &ncx_source)
 
         if (ncx.isStartElement()) {
             if (!in_navmap) {
-                if (ncx.name() == "navMap") {
+                if (ncx.name().compare(QLatin1String("navMap")) == 0) {
                     in_navmap = true;
                 }
 
                 continue;
             }
 
-            if (ncx.name() == "navPoint") {
+            if (ncx.name().compare(QLatin1String("navPoint")) == 0) {
                 root.children.append(ParseNavPoint(ncx));
             }
         } else if (ncx.isEndElement() &&
-                   ncx.name() == "navMap") {
+                   ncx.name().compare(QLatin1String("navMap")) == 0) {
             break;
         }
     }
@@ -158,7 +171,7 @@ TOCModel::TOCEntry TOCModel::ParseNavPoint(QXmlStreamReader &ncx)
         ncx.readNext();
 
         if (ncx.isStartElement()) {
-            if (ncx.name() == "text") {
+            if (ncx.name().compare(QLatin1String("text")) == 0) {
                 while (!ncx.isCharacters()) {
                     ncx.readNext();
                 }
@@ -167,14 +180,14 @@ TOCModel::TOCEntry TOCModel::ParseNavPoint(QXmlStreamReader &ncx)
                 // (that is, XML entities have already been converted to text).
                 // Compress whitespace that pretty-print may add.
                 current.text = ncx.text().toString().simplified();
-            } else if (ncx.name() == "content") {
+            } else if (ncx.name().compare(QLatin1String("content")) == 0) {
                 QString href = ncx.attributes().value("", "src").toString();
                 current.target = ConvertHREFToBookPath(href);
-            } else if (ncx.name() == "navPoint") {
+            } else if (ncx.name().compare(QLatin1String("navPoint")) == 0) {
                 current.children.append(ParseNavPoint(ncx));
             }
         } else if (ncx.isEndElement() &&
-                   ncx.name() == "navPoint") {
+                   ncx.name().compare(QLatin1String("navPoint")) == 0) {
             break;
         }
     }
@@ -216,7 +229,7 @@ QString TOCModel::ConvertHREFToBookPath(const QString &ahref)
     if (ahref.indexOf(":") != -1) return ahref;
     // split off any fragment
     NCXResource* ncxres = m_Book->GetNCX();
-    QStringList pieces = ahref.split('#', QString::KeepEmptyParts);
+    QStringList pieces = ahref.split('#', QT_ENUM_KEEPEMPTYPARTS);
     QString basepath = pieces.at(0);
     QString fragment = "";
     if (pieces.size() > 1) fragment = pieces.at(1);

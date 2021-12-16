@@ -27,11 +27,13 @@
 #include <QSize>
 #include <QUrl>
 #include <QDir>
-#include <QtWebEngineWidgets/QWebEngineSettings>
-#include <QtWebEngineWidgets/QWebEngineProfile>
-#include <QtWebEngineWidgets/QWebEnginePage>
-#include <QtWebEngineWidgets/QWebEngineView>
-#include <QtWebEngineWidgets/QWebEngineScript>
+#include <QtWebEngineWidgets>
+#include <QtWebEngineCore>
+#include <QWebEngineSettings>
+#include <QWebEngineProfile>
+#include <QWebEnginePage>
+#include <QWebEngineView>
+#include <QWebEngineScript>
 #include <QApplication>
 #include <QGuiApplication>
 #include <QDebug>
@@ -45,6 +47,14 @@
 #include "ViewEditors/Overlay.h"
 
 #define DBG if(0)
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    #define QT_ENUM_SKIPEMPTYPARTS Qt::SkipEmptyParts
+    #define QT_ENUM_KEEPEMPTYPARTS Qt::KeepEmptyParts
+#else
+    #define QT_ENUM_SKIPEMPTYPARTS QString::SkipEmptyParts
+    #define QT_ENUM_KEEPEMPTYPARTS QString::KeepEmptyParts
+#endif
 
 const QString SET_CURSOR_JS2 =
     "var range = document.createRange();"
@@ -440,7 +450,7 @@ QList<ElementIndex> ViewPreview::ConvertQWebPathToHierarchy(const QString & webp
 {
     // The location element hierarchy encoded in a string
     QString location_string = webpath;
-    QStringList elements    = location_string.split(",", QString::SkipEmptyParts);
+    QStringList elements    = location_string.split(",", QT_ENUM_SKIPEMPTYPARTS);
     QList<ElementIndex> location;
     foreach(QString element, elements) {
         ElementIndex new_element;

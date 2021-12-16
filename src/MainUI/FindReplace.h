@@ -97,13 +97,12 @@ public slots:
     void show();
 
     void LoadSearchByName(const QString &name);
-
     void LoadSearch(SearchEditorModel::searchEntry *search_entry);
-    void FindSearch(QList<SearchEditorModel::searchEntry *> search_entries);
-    void ReplaceCurrentSearch(QList<SearchEditorModel::searchEntry *> search_entries);
-    void ReplaceSearch(QList<SearchEditorModel::searchEntry *> search_entries);
-    void CountAllSearch(QList<SearchEditorModel::searchEntry *> search_entries);
-    void ReplaceAllSearch(QList<SearchEditorModel::searchEntry *>search_entries);
+    void FindSearch();
+    void ReplaceCurrentSearch();
+    void ReplaceSearch();
+    void CountAllSearch();
+    void ReplaceAllSearch();
 
     bool FindMisspelledWord();
 
@@ -140,6 +139,9 @@ protected:
 
 private slots:
 
+    // Escape pure text so it can be used in a regex searh
+    QString escapePureText(const QString str);
+    
     // Shows a message in the main window.
     void ShowMessage(const QString &message);
 
@@ -149,6 +151,8 @@ private slots:
     void CountClicked();
     void ReplaceClicked();
     void ReplaceAllClicked();
+    void RestartClicked();
+
 
     // Uses the find direction to determine if we should find next
     // or previous.
@@ -193,6 +197,11 @@ private slots:
     void AdvancedOptionsClicked();
 
 private:
+
+    void SetPreviousSearch();
+    bool IsNewSearch();
+
+    void SetFirstResource(bool update_position = true);
 
     QString GetControls();
     
@@ -328,6 +337,8 @@ private:
     QString m_LastFindText;
 
     bool m_IsSearchGroupRunning;
+
+    QStringList m_PreviousSearch;
 };
 
 
@@ -337,9 +348,11 @@ bool FindReplace::ResourceContainsCurrentRegex(T *resource)
     // For now, this must hold
     // Q_ASSERT(GetLookWhere() == FindReplace::LookWhere_AllHTMLFiles || GetLookWhere() == FindReplace::LookWhere_SelectedHTMLFiles);
     Resource *generic_resource = resource;
+    QList<Resource*> reslist;
+    reslist << generic_resource;
     return SearchOperations::CountInFiles(
                GetSearchRegex(),
-               QList<Resource *>() << generic_resource,
+               reslist,
                m_SpellCheck) > 0;
 }
 

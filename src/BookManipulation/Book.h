@@ -38,6 +38,7 @@ class FolderKeeper;
 class HTMLResource;
 class NCXResource;
 class OPFResource;
+class MiscTextResource;
 class Resource;
 
 /**
@@ -169,6 +170,8 @@ public:
     CSSResource *CreateEmptyCSSFile(const QString &folderpath = QString("\\"));
 
     SVGResource *CreateEmptySVGFile(const QString &folderpath = QString("\\"));
+
+    MiscTextResource *CreateEmptyJSFile(const QString &folderpath = QString("\\"));
 
     HTMLResource *CreateHTMLCoverFile(QString text);
 
@@ -402,7 +405,7 @@ private:
      *
      * @param section_info New section to create.
      */
-    NewSectionResult CreateOneNewSection(NewSection section_info);
+    NewSectionResult CreateANewSection(NewSection section_info);
 
     /**
      * Creates one new section/XHTML document.

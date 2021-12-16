@@ -62,7 +62,7 @@ PluginRunner::PluginRunner(TabManager *tabMgr, QWidget *parent)
       m_pluginName(""),
       m_pluginOutput(""),
       m_algorithm(""),
-      m_result(""),
+      m_result("failed"),
       m_xhtml_net_change(0),
       m_ready(false)
 
@@ -463,6 +463,7 @@ void PluginRunner::pluginFinished(int exitcode, QProcess::ExitStatus exitstatus)
     // before modifying xhtml files make sure they are well formed
     if (!checkIsWellFormed()) {
         ui.statusLbl->setText(tr("Status: No Changes Made"));
+        m_result = "failed";
         return;
     }
 
@@ -472,6 +473,7 @@ void PluginRunner::pluginFinished(int exitcode, QProcess::ExitStatus exitstatus)
         if (htmlresources.count() + m_xhtml_net_change < 0) {
             Utility::DisplayStdErrorDialog(tr("Error: Plugin Tried to Remove the Last XHTML file .. aborting changes"));
             ui.statusLbl->setText(tr("Status: No Changes Made"));
+            m_result = "failed";
             return;
         }
     }
@@ -519,11 +521,11 @@ void PluginRunner::pluginFinished(int exitcode, QProcess::ExitStatus exitstatus)
     // now make these changes known to Sigil
     m_book->GetFolderKeeper()->ResumeWatchingResources();
 
-#ifdef Q_OS_MAC
+// ifdef  Q_OS_MAC
     // On OS X a new window with the book is opened. The current one's content is not
     // replaced so we don't want to set it as modified if it's an input plugin.
-    if (m_pluginType != "input") {
-#endif
+    // if (m_pluginType != "input") {
+// endif
         if (book_modified) {
             m_bookBrowser->BookContentModified();
             m_bookBrowser->Refresh();
@@ -531,9 +533,9 @@ void PluginRunner::pluginFinished(int exitcode, QProcess::ExitStatus exitstatus)
             // clearMemoryCaches() and updates current tab
             m_mainWindow->ResourcesAddedOrDeletedOrMoved();
         }
-#ifdef Q_OS_MAC
-    }
-#endif
+// ifdef Q_OS_MAC
+    // }
+// endif
     ui.statusLbl->setText(tr("Status:") + " " + m_result);
 
     // Validation plugins we auto close the plugin runner dialog
@@ -601,6 +603,7 @@ void PluginRunner::cancelPlugin()
     ui.textEdit->append(tr("Plugin cancelled"));
     ui.statusLbl->setText(tr("Status: cancelled"));
     ui.cancelButton->setEnabled(false);
+    m_result = "failed";
 }
 
 bool PluginRunner::processResultXML()
@@ -635,7 +638,7 @@ bool PluginRunner::processResultXML()
                 mime =  attr.value("media-type").toString();
                 info << href << id << mime;
                 QString fileinfo = info.join(SEP);
-                if (reader.name() == "deleted") {
+                if (reader.name().compare(QLatin1String("deleted")) == 0) {
                     m_filesToDelete.append(fileinfo);
                     if (mime == "application/xhtml+xml") {
                         // only count deleting xhtml files that are 
@@ -645,7 +648,7 @@ bool PluginRunner::processResultXML()
                             m_xhtmlFiles.remove(href);
                         }
                     }
-                } else if (reader.name() == "added") {
+                } else if (reader.name().compare(QLatin1String("added")) == 0) {
                     m_filesToAdd.append(fileinfo);
                     if (mime == "application/xhtml+xml") {
                         m_xhtml_net_change++;
@@ -693,6 +696,7 @@ bool PluginRunner::processResultXML()
     }
     if (reader.hasError()) {
         Utility::DisplayStdErrorDialog(tr("Error Parsing Result XML:  ") + reader.errorString());
+        m_result = "failed";
         return false;
     }
     return true;
@@ -872,7 +876,7 @@ bool PluginRunner::addFiles(const QStringList &files)
             QString epubPath = m_outputDir + "/" + href;
             QFileInfo fi(epubPath);
             ui.statusLbl->setText(tr("Status: Loading") + " " + fi.fileName());
-#ifdef Q_OS_MAC
+#if 0 // was ifdef Q_OS_MAC
             // creating a new MainWindow inside a modal QDialog seems to have issues
             // about mouse pointer location and focus that may cause a segfault in 
             // showModal() -> isBlockingWindow() -> isAncestorOf() when a
@@ -884,19 +888,23 @@ bool PluginRunner::addFiles(const QStringList &files)
             // will this be allowed if PluginRunner is Application Modal
             new_window->activateWindow();
 #else
-            // For Linux and Windows will replace current book
+            // For Linux and Windows and macOS  will replace current book
             // So Throw Up a Dialog to See if they want to proceed
             bool proceed = false;
-            QMessageBox msgBox;
-            msgBox.setIcon(QMessageBox::Warning);
-            msgBox.setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
-            msgBox.setWindowTitle(tr("Input Plugin"));
-            msgBox.setText(tr("Your current book will be completely replaced losing any unsaved changes ...  Are you sure you want to proceed"));
-            QPushButton *yesButton = msgBox.addButton(QMessageBox::Yes);
-            QPushButton *noButton =  msgBox.addButton(QMessageBox::No);
-            msgBox.setDefaultButton(noButton);
-            msgBox.exec();
-            if (msgBox.clickedButton() == yesButton) {
+            if (m_book->IsModified()) {
+                QMessageBox msgBox;
+                msgBox.setIcon(QMessageBox::Warning);
+                msgBox.setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
+                msgBox.setWindowTitle(tr("Input Plugin"));
+                msgBox.setText(tr("Your current book will be completely replaced losing any unsaved changes ...  Are you sure you want to proceed"));
+                QPushButton *yesButton = msgBox.addButton(QMessageBox::Yes);
+                QPushButton *noButton =  msgBox.addButton(QMessageBox::No);
+                msgBox.setDefaultButton(noButton);
+                msgBox.exec();
+                if (msgBox.clickedButton() == yesButton) {
+                    proceed = true;
+                }
+            } else {
                 proceed = true;
             }
             if (proceed) {
@@ -1062,7 +1070,7 @@ void PluginRunner::connectSignalsToSlots()
     connect(ui.cancelButton, SIGNAL(clicked()), this, SLOT(cancelPlugin()));
     connect(ui.showButton, SIGNAL(clicked()), this, SLOT(showConsole()));
     connect(&m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(pluginFinished(int, QProcess::ExitStatus)));
-    connect(&m_process, SIGNAL(error(QProcess::ProcessError)), this, SLOT(processError(QProcess::ProcessError)));
+    connect(&m_process, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(processError(QProcess::ProcessError)));
     connect(&m_process, SIGNAL(readyReadStandardError()), this, SLOT(processError()));
     connect(&m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(processOutput()));
     connect(ui.okButton, SIGNAL(clicked()), this, SLOT(accept()));

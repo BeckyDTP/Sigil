@@ -28,6 +28,13 @@
 
 #include "KeyboardShortcutsWidget.h"
 #include "Misc/KeyboardShortcutManager.h"
+#include "Misc/SettingsStore.h"
+
+#ifdef Q_OS_WIN32
+#include "Windows.h"
+#endif
+
+#define DBG if(1)
 
 const int COL_NAME = 0;
 const int COL_SHORTCUT = 1;
@@ -37,6 +44,7 @@ const int COL_DESCRIPTION = 2;
 const int COL_ID = 3;
 
 KeyboardShortcutsWidget::KeyboardShortcutsWidget()
+    : m_EnableAltGr(false)
 {
     ui.setupUi(this);
     connectSignalsSlots();
@@ -56,6 +64,11 @@ PreferencesWidget::ResultActions KeyboardShortcutsWidget::saveSettings()
         sm->setKeySequence(id, keySequence);
     }
 
+    SettingsStore settings;
+    settings.setEnableAltGr(ui.EnableAltGr->checkState() == Qt::Checked);
+    if (m_EnableAltGr != ui.EnableAltGr->isChecked()) {
+        results = results | PreferencesWidget::ResultAction_RestartSigil;
+    }
     return results;
 }
 
@@ -228,6 +241,16 @@ void KeyboardShortcutsWidget::readSettings()
     }
     ui.commandList->sortItems(0, Qt::AscendingOrder);
     markSequencesAsDuplicatedIfNeeded();
+
+#if defined(Q_OS_WIN32)
+    SettingsStore settings;
+    ui.EnableAltGr->setChecked(settings.enableAltGr());
+#endif
+#if !defined(Q_OS_WIN32)
+    ui.EnableAltGr->setVisible(false);
+    ui.EnableAltGr->setChecked(false);
+#endif
+    m_EnableAltGr = ui.EnableAltGr->isChecked();
 }
 
 void KeyboardShortcutsWidget::connectSignalsSlots()
@@ -265,15 +288,65 @@ void KeyboardShortcutsWidget::handleKeyEvent(QKeyEvent *event)
 
         return;
     }
-    nextKey |= translateModifiers(event->modifiers(), event->text());
+
+    QString letter = QKeySequence(nextKey).toString(QKeySequence::PortableText);
+    Qt::KeyboardModifiers state = event->modifiers();
+
+    DBG qDebug() << "key(): " << QString::number(nextKey) << "  " << QChar(nextKey);
+    DBG qDebug() << "text(): " << event->text();
+    DBG qDebug() << "nativeVirtualKey(): " << event->nativeVirtualKey();
+    DBG qDebug() << "letter: " << letter;
+    DBG qDebug() << "modifiers: " << state;
+
+    // Key event generation for shortcuts is one of the most
+    // non-crossplatform things in all of Qt so lots of ifdefs
+
+#ifdef Q_OS_WIN32
+    if ((state & Qt::GroupSwitchModifier)) {
+        // The GroupSwitchModifier via windows altgr option on command line
+        // indicates this is AltGr which should not be used for Keyboard Shortcuts.
+        // it messes with QKeySequence.toString so fixup letter and turn off
+        // the GroupSwitchModifier
+        // letter = "" + QChar(nextKey);
+        // state = state & ~((int)Qt::GroupSwitchModifier);
+        return;
+    }
+    // try using the Windows call MapVirtualKeyW
+    const qint32 vk = event->nativeVirtualKey();
+    UINT  result = MapVirtualKeyW(vk, MAPVK_VK_TO_CHAR);
+    bool isDeadKey = (result & 0x80000000) == 0x80000000;
+    result = result & 0x0000FFFF;
+    DBG qDebug() << "MapVK_VK_TO_CHAR: " << QString::number(result) << " " << QChar(result) << " " << isDeadKey;
+    if (result != 0) {
+        // Dead keys (ie. diacritics should not be used in Keyboard Shortcuts
+        if (isDeadKey) return;
+        ui.targetEdit->setText(QKeySequence(result | state).toString(QKeySequence::PortableText));
+    } else {
+        if ((state & Qt::ShiftModifier) && letter.toUpper() == letter.toLower()) {
+            // remove the shift since it is included in the keycode
+            state = state & ~Qt::SHIFT;
+        }
+        ui.targetEdit->setText(QKeySequence(nextKey | state).toString(QKeySequence::PortableText));
+    }
+#else  /* linux and macos */
 
 #ifdef Q_OS_MAC
-    ui.targetEdit->setText(QKeySequence(nextKey).toString());
-#else
-    ui.targetEdit->setText(QKeySequence(nextKey).toString(QKeySequence::PortableText));
+    // macOS treats some META+SHIFT+key sequences incorrectly so try to fix it up
+    if ((state & Qt::MetaModifier) && (letter.toUpper() == letter.toLower())) {
+        state = state & ~Qt::SHIFT;
+    }
 #endif
+
+    nextKey |= translateModifiers(state, event->text());
+    ui.targetEdit->setText(QKeySequence(nextKey).toString(QKeySequence::PortableText));
+
+#endif
+
+    DBG qDebug() << "\n";
+
     event->accept();
 }
+
 
 int KeyboardShortcutsWidget::translateModifiers(Qt::KeyboardModifiers state, const QString &text)
 {
