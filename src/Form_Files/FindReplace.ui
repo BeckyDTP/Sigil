@@ -91,42 +91,6 @@
           </property>
          </spacer>
         </item>
-        <item>
-         <widget class="QToolButton" name="advancedShowHide">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="toolTip">
-           <string>Show/Hide Advanced Options</string>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">border: 0px;</string>
-          </property>
-          <property name="text">
-           <string>...</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../Resource_Files/main/main.qrc">
-            <normaloff>:/main/chevron-down.svg</normaloff>:/main/chevron-down.svg
-           </iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>24</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="autoRaise">
-           <bool>false</bool>
-          </property>
-          <property name="arrowType">
-           <enum>Qt::NoArrow</enum>
-          </property>
-         </widget>
-        </item>
        </layout>
       </item>
       <item>
@@ -183,16 +147,18 @@
           <property name="toolTip">
            <string>Find next match.</string>
           </property>
+          <property name="icon">
+            <iconset resource="../Resource_Files/main/main.qrc">
+              <normaloff>:/main/find.svg</normaloff>:/main/find.svg
+            </iconset>
+          </property>
           <property name="styleSheet">
            <string notr="true"/>
-          </property>
-          <property name="text">
-           <string>Find</string>
           </property>
          </widget>
         </item>
         <item row="0" column="3">
-         <widget class="QToolButton" name="replaceFind">
+         <widget class="QToolButton" name="replaceCurrent">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -200,14 +166,42 @@
            </sizepolicy>
           </property>
           <property name="toolTip">
-           <string>Replace highlighted match (if any),
-then find the Next match in Code View.</string>
+           <string>Replace highlighted match (if any) in Code View.</string>
           </property>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="text">
-           <string>Replace/Find</string>
+          <property name="icon">
+            <iconset resource="../Resource_Files/main/main.qrc">
+              <normaloff>:/main/replace.svg</normaloff>:/main/replace.svg 
+            </iconset>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="4">
+         <widget class="QToolButton" name="restart">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>22</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Restart current search from beginning.</string>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="icon">
+            <iconset resource="../Resource_Files/main/main.qrc">
+              <normaloff>:/main/restart.svg</normaloff>:/main/restart.svg
+            </iconset>
           </property>
          </widget>
         </item>
@@ -238,7 +232,7 @@ then find the Next match in Code View.</string>
          </widget>
         </item>
         <item row="1" column="2">
-         <widget class="QToolButton" name="replaceCurrent">
+         <widget class="QToolButton" name="replaceFind">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -246,13 +240,16 @@ then find the Next match in Code View.</string>
            </sizepolicy>
           </property>
           <property name="toolTip">
-           <string>Replace highlighted match (if any) in Code View.</string>
+           <string>Replace highlighted match (if any),
+then find the Next match in Code View.</string>
           </property>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="text">
-           <string>Replace</string>
+          <property name="icon">
+            <iconset resource="../Resource_Files/main/main.qrc">
+              <normaloff>:/main/replace-find.svg</normaloff>:/main/replace-find.svg 
+            </iconset>
           </property>
          </widget>
         </item>
@@ -265,142 +262,20 @@ then find the Next match in Code View.</string>
            </sizepolicy>
           </property>
           <property name="toolTip">
-           <string>Replace all matches in Code View.</string>
+           <string>Replace all matches in Code View.
+             Use with SHIFT to Filter Replacements before changes are applied.</string>
           </property>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="text">
-           <string>Replace All</string>
+          <property name="icon">
+            <iconset resource="../Resource_Files/main/main.qrc">
+              <normaloff>:/main/replace-all.svg</normaloff>:/main/replace-all.svg 
+            </iconset>
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="optionsl">
-          <property name="text">
-           <string>Options:</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <layout class="QHBoxLayout" name="advancedLayout" stretch="0,0,0,0,0">
-          <item>
-           <widget class="QCheckBox" name="chkRegexOptionDotAll">
-            <property name="toolTip">
-             <string>For Regex searches, prefix your search with (?s).</string>
-            </property>
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-            <property name="text">
-             <string>DotAll</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="chkRegexOptionMinimalMatch">
-            <property name="toolTip">
-             <string>For Regex searches, prefix your search with (?U).</string>
-            </property>
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-            <property name="text">
-             <string>Minimal Match</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="chkRegexOptionAutoTokenise">
-            <property name="toolTip">
-             <string>For Regex searches, tokenise/escape selection when opening Find.</string>
-            </property>
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-            <property name="text">
-             <string>Auto-Tokenise</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="chkOptionWrap">
-            <property name="toolTip">
-             <string>Search from current position to end of the 
-current file or book, and then wrap to the
-other end to continue searching.</string>
-            </property>
-            <property name="text">
-             <string>Wrap</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacerAdvanced">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>0</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QLabel" name="revalid">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>2</width>
-              <height>22</height>
-             </size>
-            </property>
-            <property name="toolTip">
-             <string>Regex Valid?</string>
-            </property>
-            <property name="text">
-             <string> </string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="2" column="2">
-         <widget class="QToolButton" name="restart">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>22</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Restart current search from beginning.</string>
-          </property>
-          <property name="styleSheet">
-           <string notr="true"/>
-          </property>
-          <property name="text">
-           <string>Restart</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="3">
+        <item row="1" column="4">
          <widget class="QToolButton" name="count">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -415,17 +290,21 @@ other end to continue searching.</string>
            </size>
           </property>
           <property name="toolTip">
-           <string>Count all matches in Code View.</string>
+            <string>Count all matches in Code View.
+              Use with SHIFT to generate a Dry Run Replace All table.
+            </string>
           </property>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <property name="text">
-           <string>Count All</string>
+          <property name="icon">
+            <iconset resource="../Resource_Files/main/main.qrc">
+              <normaloff>:/main/count-all.svg</normaloff>:/main/count-all.svg
+            </iconset>
           </property>
          </widget>
         </item>
-        <item row="3" column="0">
+        <item row="2" column="0">
          <widget class="QLabel" name="model">
           <property name="text">
            <string>Mode:</string>
@@ -435,7 +314,7 @@ other end to continue searching.</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="1" colspan="4">
+        <item row="2" column="1" colspan="3">
          <layout class="QHBoxLayout" name="modeLayout" stretch="0,0,0,0,0">
           <item>
            <widget class="QComboBox" name="cbSearchMode"/>
@@ -449,15 +328,105 @@ other end to continue searching.</string>
           <item>
            <widget class="QComboBox" name="cbSearchDirection"/>
           </item>
+         </layout>
+        </item>
+        <item row="2" column="4">
+         <widget class="QLabel" name="revalid">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>8</width>
+            <height>22</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Regex Valid?</string>
+          </property>
+          <property name="text">
+           <string> </string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="optionsl">
+          <property name="text">
+           <string>Options:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1" colspan="4">
+         <layout class="QHBoxLayout" name="advancedLayout" stretch="0,0,0,0,0">
           <item>
-           <spacer name="horizontalSpacer">
+           <widget class="QToolButton" name="tbRegexOptions">
+            <property name="toolTip">
+             <string>Set advanced Regex search flags / options.</string>
+            </property>
+            <property name="text">
+             <string>Regex Options</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="space0">
+            <property name="text">
+             <string>  </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="chkOptionWrap">
+             <property name="toolTip">
+               <string>Search from current position to top or end of the
+current file and then wrap to the
+other end to continue searching.</string>
+            </property>
+            <property name="text">
+             <string>Wrap</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="space1">
+            <property name="text">
+             <string>  </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="chkOptionTextOnly">
+            <property name="toolTip">
+              <string>Search only in text (outside tags).
+Valid only when searching HTML files.</string>
+            </property>
+            <property name="text">
+             <string>Text</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="space2">
+            <property name="text">
+             <string>  </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacerAdvanced">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>40</width>
-              <height>20</height>
+              <width>16</width>
+              <height>0</height>
              </size>
             </property>
            </spacer>
@@ -487,9 +456,9 @@ other end to continue searching.</string>
  <tabstops>
   <tabstop>cbFind</tabstop>
   <tabstop>cbReplace</tabstop>
-  <tabstop>chkRegexOptionDotAll</tabstop>
-  <tabstop>chkRegexOptionMinimalMatch</tabstop>
-  <tabstop>chkRegexOptionAutoTokenise</tabstop>
+  <tabstop>tbRegexOptions</tabstop>
+  <tabstop>chkOptionWrap</tabstop>
+  <tabstop>chkOptionTextOnly</tabstop>
   <tabstop>cbSearchMode</tabstop>
   <tabstop>cbLookWhere</tabstop>
   <tabstop>cbSearchDirection</tabstop>

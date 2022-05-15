@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ko" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="ko">
 <context>
     <name>About</name>
     <message>
@@ -498,155 +498,155 @@ if a sans-serif font-family specified in your CSS</source>
         <translation>모두 초기화</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="97"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="104"/>
         <source>Custom icon theme provided by the user</source>
         <translation>사용자가 제공하는 맞춤 아이콘 테마</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="111"/>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="112"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="118"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="119"/>
         <source>Detect</source>
         <translation>감지</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="111"/>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="114"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="118"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="121"/>
         <source>On</source>
         <translation>켜기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="111"/>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="116"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="118"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="123"/>
         <source>Off</source>
         <translation>끄기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="112"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="119"/>
         <source>Detect whether any high dpi scaling should take place.</source>
         <translation>High dpi 스케일링이 발생하는지 감지합니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="113"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="120"/>
         <source>Defers to any Qt environment variables that are set to control high dpi behavior.</source>
         <translation>High dpi 동작을 제어하도록 설정된 Qt 환경 변수를 연기합니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="114"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="121"/>
         <source>Turns on high dpi scaling and ignores any Qt environment variables</source>
         <translation>High dpi 스케일링을 켜고 Qt 환경 변수를 무시합니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="115"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="122"/>
         <source>that are set controlling high dpi behavior.</source>
         <translation>High dpi 동작을 제어하도록 설정되어 있습니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="116"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="123"/>
         <source>Turns off high dpi scaling regardless if any Qt environment</source>
         <translation>Qt 환경에 관계없이 High dpi 스케일링을 끕니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="117"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="124"/>
         <source>variables controlling high dpi behavior are set.</source>
         <translation>High dpi 동작을 제어하는 ​​변수가 설정됩니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="121"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="128"/>
         <source>Adjust the distance necessary to drag an item before a move event is triggered.</source>
         <translation>이동 이벤트가 생기기 전에 항목을 드래그하는 데 필요한 거리를 조정하세요.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="122"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="129"/>
         <source>-20 to +20 pixel range</source>
         <translation>-20에서 +20 사이의 픽셀 범위</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="128"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="135"/>
         <source>Highlight matching tags in Code View when cursor is inside tags.</source>
         <translation>커서가 태그 내부에 있을 때 코드보기에서 일치하는 태그를 강조합니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="338"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="349"/>
         <source>CSS Comment</source>
         <translation>CSS 주석</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="339"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="350"/>
         <source>CSS Property</source>
         <translation>CSS 속성(Property)</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="340"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="351"/>
         <source>CSS Quote</source>
         <translation>CSS 인용</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="341"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="352"/>
         <source>CSS Selector</source>
         <translation>CSS 선택자(Selector)</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="342"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="353"/>
         <source>CSS Value</source>
         <translation>CSS 값(Value)</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="343"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="354"/>
         <source>Line Highlight</source>
         <translation>줄 강조</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="344"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="355"/>
         <source>Line# Background</source>
         <translation>Line# 배경</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="345"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="356"/>
         <source>Line# Foreground</source>
         <translation>Line# 전경</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="346"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="357"/>
         <source>Spelling Underline</source>
         <translation>맞춤법 오류 밑줄</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="347"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="358"/>
         <source>XHTML Attribute Name</source>
         <translation>XHTML 특성 이름(Attribute Name)</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="348"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="359"/>
         <source>XHTML Attribute Value</source>
         <translation>XHTML 특성 값(Attribute Value)</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="349"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="360"/>
         <source>XHTML CSS</source>
         <translation>XHTML CSS</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="350"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="361"/>
         <source>XHTML CSS Comment</source>
         <translation>XHTML CSS 주석(Comment)</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="351"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="362"/>
         <source>XHTML DocType</source>
         <translation>XHTML DocType</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="352"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="363"/>
         <source>XHTML Entity</source>
         <translation>XHTML 엔터티(Entity)</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="353"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="364"/>
         <source>XHTML HTML Tag</source>
         <translation>XHTML HTML 태그(Tag)</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="354"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="365"/>
         <source>XHTML HTML Comment</source>
         <translation>XHTML HTML 주석(Comment)</translation>
     </message>
@@ -671,7 +671,7 @@ if a sans-serif font-family specified in your CSS</source>
     <message>
         <location filename="../../Form_Files/AutomateEditor.ui" line="62"/>
         <source>Remove an Automate List element.</source>
-        <translation type="unfinished"/>
+        <translation>자동화 목록 요소를 삭제합니다.</translation>
     </message>
     <message>
         <location filename="../../Form_Files/AutomateEditor.ui" line="65"/>
@@ -681,7 +681,7 @@ if a sans-serif font-family specified in your CSS</source>
     <message>
         <location filename="../../Form_Files/AutomateEditor.ui" line="72"/>
         <source>Add a new Plugin element to the list.</source>
-        <translation type="unfinished"/>
+        <translation>목록에 새 플러그인 목록을 추가합니다.</translation>
     </message>
     <message>
         <location filename="../../Form_Files/AutomateEditor.ui" line="75"/>
@@ -707,7 +707,7 @@ if a sans-serif font-family specified in your CSS</source>
     <message>
         <location filename="../../Form_Files/AutomateEditor.ui" line="169"/>
         <source>Use OK to commit your changes to the file, otherwise use Cancel.</source>
-        <translation type="unfinished"/>
+        <translation>확인 버튼을 눌러 변경 사항을 저장합니다. 저장하지 않으려면 취소 버튼을 누르세요.</translation>
     </message>
     <message>
         <location filename="../../Dialogs/AutomateEditor.cpp" line="63"/>
@@ -720,130 +720,140 @@ if a sans-serif font-family specified in your CSS</source>
         <translation>매개변수</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/AutomateEditor.cpp" line="161"/>
+        <location filename="../../Dialogs/AutomateEditor.cpp" line="164"/>
         <source>[SavedSearch full name here]</source>
         <translation>[저장된 검색 이름]</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/AutomateEditor.cpp" line="294"/>
+        <location filename="../../Dialogs/AutomateEditor.cpp" line="167"/>
+        <source>[String parameter for next Plugin run here]</source>
+        <translation>[다음 플러그인 실행을 위한 문자열 매개변수]</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/AutomateEditor.cpp" line="300"/>
         <source>Add Cover to epub.</source>
         <translation>EPUB에 표지를 추가합니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/AutomateEditor.cpp" line="295"/>
+        <location filename="../../Dialogs/AutomateEditor.cpp" line="301"/>
         <source>Create HTML Table Of Contents.</source>
-        <translation type="unfinished"/>
+        <translation>HTML 차례(TOC)를 생성합니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/AutomateEditor.cpp" line="296"/>
+        <location filename="../../Dialogs/AutomateEditor.cpp" line="302"/>
         <source>Delete Unused Media Resource.</source>
         <translation>사용하지 않은 미디어 리소스 삭제</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/AutomateEditor.cpp" line="297"/>
+        <location filename="../../Dialogs/AutomateEditor.cpp" line="303"/>
         <source>Delete Unused CSS Selectors.</source>
         <translation>사용하지 않은 CSS 선택자 삭제</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/AutomateEditor.cpp" line="298"/>
-        <source>Generate NCX and OPF Guide from Epub3 Nav.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../../Dialogs/AutomateEditor.cpp" line="299"/>
-        <source>Generate TOC from Heading Tags.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../../Dialogs/AutomateEditor.cpp" line="300"/>
-        <source>Mend and Prettify all XHtml files.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../../Dialogs/AutomateEditor.cpp" line="301"/>
-        <source>Mend All XHtml files.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../../Dialogs/AutomateEditor.cpp" line="302"/>
-        <source>Reformat All CSS to Multiple Lines format.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../../Dialogs/AutomateEditor.cpp" line="303"/>
-        <source>Reformat All CSS to Single Lines format.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../../Dialogs/AutomateEditor.cpp" line="304"/>
-        <source>Remove NCX and OPF Guide from Epub3.</source>
-        <translation type="unfinished"/>
+        <source>Generate NCX and OPF Guide from Epub3 Nav.</source>
+        <translation>Epub3 Nav에서 NCX 및 OPF 가이드를 생성합니다.</translation>
     </message>
     <message>
         <location filename="../../Dialogs/AutomateEditor.cpp" line="305"/>
-        <source>Save a Checkpoint of the current epub.</source>
-        <translation type="unfinished"/>
+        <source>Generate TOC from Heading Tags.</source>
+        <translation>제목 태그를 기준으로 차례를 생성합니다.</translation>
     </message>
     <message>
         <location filename="../../Dialogs/AutomateEditor.cpp" line="306"/>
-        <source>Run the named Saved Search with Replace All.</source>
-        <translation type="unfinished"/>
+        <source>Mend and Prettify all XHtml files.</source>
+        <translation>모든 XHtml 파일을 Mend and Prettify 방식으로 정리합니다.</translation>
     </message>
     <message>
         <location filename="../../Dialogs/AutomateEditor.cpp" line="307"/>
+        <source>Mend All XHtml files.</source>
+        <translation>모든 Xhtml 파일을 Mend 방식으로 정리합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/AutomateEditor.cpp" line="308"/>
+        <source>Reformat All CSS to Multiple Lines format.</source>
+        <translation>모든 CSS를 다중 라인 형식으로 다시 정리합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/AutomateEditor.cpp" line="309"/>
+        <source>Reformat All CSS to Single Lines format.</source>
+        <translation>모든 CSS를 싱글 라인 형식으로 다시 정리합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/AutomateEditor.cpp" line="310"/>
+        <source>Remove NCX and OPF Guide from Epub3.</source>
+        <translation>EPUB3에서 NCX와 OPF Guide를 제거합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/AutomateEditor.cpp" line="311"/>
+        <source>Save a Checkpoint of the current epub.</source>
+        <translation>현재 EPUB의 체크포인트를 저장합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/AutomateEditor.cpp" line="312"/>
+        <source>Run the named Saved Search with Replace All.</source>
+        <translation>이름이 지정된 Saved Search와 Replace All을 실행합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/AutomateEditor.cpp" line="313"/>
         <source>Save the current epub.</source>
         <translation>현재 EPUB 저장</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/AutomateEditor.cpp" line="308"/>
+        <location filename="../../Dialogs/AutomateEditor.cpp" line="314"/>
         <source>Select all CSS Files in BookBrowser</source>
         <translation>책 찾아보기에서 모든 CSS 파일 선택</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/AutomateEditor.cpp" line="309"/>
+        <location filename="../../Dialogs/AutomateEditor.cpp" line="315"/>
         <source>Select all HTML Files in BookBrowser</source>
         <translation>책 찾아보기에서 모든 HTML 파일 선택</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/AutomateEditor.cpp" line="310"/>
+        <location filename="../../Dialogs/AutomateEditor.cpp" line="316"/>
         <source>Select all Image Files in BookBrowser</source>
         <translation>책 찾아보기에서 모든 이미지 파일 선택</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/AutomateEditor.cpp" line="311"/>
+        <location filename="../../Dialogs/AutomateEditor.cpp" line="317"/>
         <source>Reset BookBrowser to its initial selection</source>
-        <translation type="unfinished"/>
+        <translation>책 찾아보기를 초기 선택으로 재설정합니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/AutomateEditor.cpp" line="312"/>
+        <location filename="../../Dialogs/AutomateEditor.cpp" line="318"/>
+        <source>set a string parameter to be passed to the next plugin.</source>
+        <translation>다음 플러그인에 전달할 문자열 매개변수를 설정합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/AutomateEditor.cpp" line="320"/>
         <source>Split XHtml files on Sigil Section Markers</source>
-        <translation type="unfinished"/>
+        <translation>장 나누기 표시 코드가 표시된 부분을 XHTML파일로 분할합니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/AutomateEditor.cpp" line="313"/>
+        <location filename="../../Dialogs/AutomateEditor.cpp" line="321"/>
         <source>Convert Epub layout to Sigil&apos;s historic Standard form.</source>
-        <translation>Epub 레이아웃을 Sigil의 역사적인(historic) 표준 형식으로 변환합니다.</translation>
+        <translation>EPUB 레이아웃을 Sigil의 기본적인(historic) 표준 형식으로 변환합니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/AutomateEditor.cpp" line="314"/>
+        <location filename="../../Dialogs/AutomateEditor.cpp" line="322"/>
         <source>Update Epub3 OPF Manifest properties.</source>
-        <translation type="unfinished"/>
+        <translation>Epub3 OPF 매니페스트 속성을 업데이트합니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/AutomateEditor.cpp" line="315"/>
+        <location filename="../../Dialogs/AutomateEditor.cpp" line="323"/>
         <source>Validate All Stylesheets with W3C in external browser.</source>
-        <translation type="unfinished"/>
+        <translation>외부 브라우저에서 W3C로 모든 스타일시트를 검증합니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/AutomateEditor.cpp" line="316"/>
-        <source>Perform a basic Well-Fromed Check on Epub XHtml files.</source>
-        <translation type="unfinished"/>
+        <location filename="../../Dialogs/AutomateEditor.cpp" line="324"/>
+        <source>Perform a basic Well-Formed Check on Epub XHtml files.</source>
+        <translation>Epub XHTML 파일에 대한 기본 Well-Formed Check를 수행합니다.</translation>
     </message>
 </context>
 <context>
     <name>Book</name>
     <message>
-        <location filename="../../BookManipulation/Book.cpp" line="418"/>
+        <location filename="../../BookManipulation/Book.cpp" line="419"/>
         <source>Start</source>
         <translation>시작</translation>
     </message>
@@ -851,342 +861,338 @@ if a sans-serif font-family specified in your CSS</source>
 <context>
     <name>BookBrowser</name>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="73"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="82"/>
         <source>Book Browser</source>
         <translation>책 찾아보기</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="85"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="94"/>
         <source>Font Obfuscation</source>
         <translation>글꼴 난독 처리</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="86"/>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1794"/>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1921"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="95"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1814"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1941"/>
         <source>Open With</source>
         <translation>외부 프로그램으로 편집</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../MainUI/BookBrowser.cpp" line="146"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="155"/>
         <source>%n file(s)</source>
         <translation><numerusform>%n 파일</numerusform></translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="249"/>
-        <location filename="../../MainUI/BookBrowser.cpp" line="615"/>
-        <location filename="../../MainUI/BookBrowser.cpp" line="748"/>
-        <location filename="../../MainUI/BookBrowser.cpp" line="780"/>
-        <location filename="../../MainUI/BookBrowser.cpp" line="840"/>
-        <location filename="../../MainUI/BookBrowser.cpp" line="953"/>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1239"/>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1344"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="266"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="635"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="768"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="800"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="860"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="973"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1259"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1364"/>
         <source>Sigil</source>
         <translation>Sigil</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="250"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="267"/>
         <source>Are you sure you want to sort the selected files alphanumerically?</source>
         <translation>선택한 파일을 사전순으로 정렬하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="251"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="268"/>
         <source>This action cannot be reversed.</source>
         <translation>이 작업의 실행을 취소할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="294"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="311"/>
         <source>The file &quot;%1&quot; does not exist.</source>
         <translation>파일 &quot;%1&quot; 는(은) 존재하지 않습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="615"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="635"/>
         <source>Javascript is not supported on epub2.</source>
-        <translation>epub2에서는 자바스크립트가 지원되지 않습니다.</translation>
+        <translation>EPUB2에서는 자바스크립트가 지원되지 않습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="673"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="693"/>
         <source>Add Existing Files</source>
         <translation>기존 파일 추가</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="718"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="738"/>
         <source>File is not an image and cannot be used:
 
 &quot;%1&quot;.</source>
         <translation>선택한 파일은 이미지 파일이 아닙니다:
-
 &quot;%1&quot;.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="727"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="747"/>
         <source>File is not multimedia (image, video, audio) and cannot be inserted:
 
 &quot;%1&quot;.</source>
         <translation>멀티미디어(이미지, 동영상, 오디오) 파일이 아니면 추가되지 않습니다.
-
 &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="749"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="769"/>
         <source>The multimedia file &quot;%1&quot; already exists in the book.
 
 OK to replace?</source>
         <translation>멀티미디어 파일 &quot;%1&quot;이(가) 이미 추가되어 있습니다. 교체하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="775"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="795"/>
         <source>Unable to delete or replace file &quot;%1&quot;.</source>
         <translation>&quot;%1&quot; 파일을 지우거나 교체할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="780"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="800"/>
         <source>Unable to load &quot;%1&quot;
 
 A file with this name already exists in the book.</source>
         <translation>&quot;%1&quot;을(를) 불러들일 수 없습니다.
-
 이 이름을 갖는 파일이 이미 책에 있습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="841"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="861"/>
         <source>The following file(s) were not loaded due to invalid content or not well formed XML:
 
 %1</source>
         <translation>다음 파일은 잘못된 콘텐츠 혹은 문법에 맞지 않는 XML 파일이어서 추가되지 않았습니다.
-
 %1</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="854"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="874"/>
         <source>File(s) added or replaced.</source>
         <translation>파일 추가 또는 교체</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="894"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="914"/>
         <source>Save As File</source>
         <translation>파일로 저장</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="917"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="937"/>
         <source>Unable to save the file.</source>
         <translation>파일을 저장할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="931"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="951"/>
         <source>Choose the directory to save the files to</source>
         <translation>파일을 저장할 디렉토리를 선택하세요.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="953"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="973"/>
         <source>One or more files already exists.  OK to overwrite?</source>
         <translation>하나 이상의 파일이 이미 존재합니다. 덮어쓰시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="970"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="990"/>
         <source>Unable to save files.  Destination may be a directory.</source>
         <translation>파일을 저장할 수 없습니다. 대상이 디렉토리입니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="978"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="998"/>
         <source>Unable to save files.</source>
         <translation>파일을 저장할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1239"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1259"/>
         <source>Cannot rename files since this would result in duplicate filenames.</source>
         <translation>동일한 파일명이 있어 파일명을 수정할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1310"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1330"/>
         <source>Destination Folder has invalid path &quot;%1&quot;</source>
         <translation>대상 폴더에 잘못된 경로 &quot;%1&quot;이(가) 있습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1344"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1364"/>
         <source>Cannot move files since this would result in duplicate filenames.</source>
         <translation>동일한 파일명이 있어 파일을 이동할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1391"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1411"/>
         <source>The Nav document can not be removed.</source>
         <translation>Nav 문서는 삭제할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1399"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1419"/>
         <source>The NCX can not be removed.</source>
         <translation>NCX파일은 삭제할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1406"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1426"/>
         <source>The OPF is required for epub and can not be removed.</source>
         <translation>OPF 파일은 EPUB에 반드시 필요하기 때문에 삭제할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1415"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1435"/>
         <source>You cannot remove all html files.
 There always has to be at least one.</source>
-        <translation>모든 html 파일을 삭제할 수 없습니다.
+        <translation>모든 HTML 파일을 삭제할 수 없습니다.
 적어도 하나는 항상 있어야 합니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1556"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1576"/>
         <source>Unable to set file as cover image.</source>
         <translation>파일을 표지 이미지로 설정할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1771"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1791"/>
         <source>Select All</source>
         <translation>모두 선택</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1772"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1792"/>
         <source>Add Blank HTML File</source>
         <translation>빈 HTML 파일 추가하기</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1773"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1793"/>
         <source>Add Blank Stylesheet</source>
         <translation>빈 스타일시트 추가</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1774"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1794"/>
         <source>Add Blank Javascript</source>
         <translation>빈 자바스크립트 추가</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1775"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1795"/>
         <source>Add Blank SVG Image</source>
         <translation>빈 SVG 그림을 추가</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1776"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1796"/>
         <source>Add Existing Files...</source>
         <translation>기존 파일 추가...</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1777"/>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1778"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1797"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1798"/>
         <source>Add Copy</source>
         <translation>복사본 추가</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1779"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1799"/>
         <source>Rename</source>
         <translation>이름 바꾸기</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1780"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1800"/>
         <source>RegEx Rename</source>
         <translation>정규식으로 이름변경</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1781"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1801"/>
         <source>Move</source>
         <translation>이동</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1782"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1802"/>
         <source>Delete</source>
         <translation>삭제</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1783"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1803"/>
         <source>Cover Image</source>
         <translation>표지 그림</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1784"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1804"/>
         <source>Merge</source>
         <translation>합치기</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1785"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1805"/>
         <source>None</source>
         <translation>없음</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1786"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1806"/>
         <source>Use Adobe&apos;s Method</source>
         <translation>Adobe 방식 사용하기</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1787"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1807"/>
         <source>Use IDPF&apos;s Method</source>
         <translation>IDPF 방식 사용하기</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1788"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1808"/>
         <source>Sort</source>
         <translation>정렬</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1789"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1809"/>
         <source>Renumber TOC Entries</source>
-        <translation>목차 항목 번호 다시 매기기</translation>
+        <translation>차례 항목 번호 다시 매기기</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1790"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1810"/>
         <source>Link Stylesheets...</source>
-        <translation>Stylesheets 연결...</translation>
+        <translation>스타일시트 연결...</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1791"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1811"/>
         <source>Link Javascripts...</source>
         <translation>자바스크립트 연결...</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1792"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1812"/>
         <source>Add Semantics...</source>
         <translation>시맨틱 추가</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1793"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1813"/>
         <source>Validate with W3C</source>
         <translation>W3C로 검증하기</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1795"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1815"/>
         <source>Save As</source>
         <translation>다른 이름으로 저장</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1809"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1829"/>
         <source>Merge with previous file, or merge multiple files into one.</source>
         <translation>선택한 파일을 이전 파일과 병합하거나 여러개의 선택된 파일을 하나의 파일로 병합합니다. </translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1812"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1832"/>
         <source>Rename selected file(s)</source>
         <translation>선택한 파일의 파일명을 변경합니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1814"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1834"/>
         <source>Use Regular Expressions to Rename selected file(s)</source>
         <translation>정규식을 사용하여 선택한 파일 이름 바꾸기</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1817"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1837"/>
         <source>Move selected file(s) to a new folder</source>
         <translation>선택한 파일을 새 폴더로 이동</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1819"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1839"/>
         <source>Link Stylesheets to selected file(s).</source>
         <translation>선택한 파일에 스타일시트를 연결합니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1821"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1841"/>
         <source>Link Javascripts to selected file(s).</source>
         <translation>선택한 파일에 자바스크립트 연결</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1823"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1843"/>
         <source>Add Semantics to selected file(s).</source>
         <translation>선택한 파일에 시맨틱을 추가합니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="1956"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="1976"/>
         <source>Other Application</source>
         <translation>다른 응용프로그램</translation>
     </message>
@@ -1217,7 +1223,7 @@ There always has to be at least one.</source>
     </message>
     <message>
         <location filename="../../Dialogs/CPCompare.cpp" line="84"/>
-        <location filename="../../Dialogs/CPCompare.cpp" line="193"/>
+        <location filename="../../Dialogs/CPCompare.cpp" line="197"/>
         <source>Results of Comparison</source>
         <translation>비교 결과</translation>
     </message>
@@ -1227,25 +1233,25 @@ There always has to be at least one.</source>
         <translation>완료</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/CPCompare.cpp" line="187"/>
-        <location filename="../../Dialogs/CPCompare.cpp" line="196"/>
+        <location filename="../../Dialogs/CPCompare.cpp" line="191"/>
+        <location filename="../../Dialogs/CPCompare.cpp" line="200"/>
         <source>Checkpoint:</source>
         <translation>체크포인트:</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/CPCompare.cpp" line="187"/>
-        <location filename="../../Dialogs/CPCompare.cpp" line="197"/>
+        <location filename="../../Dialogs/CPCompare.cpp" line="191"/>
+        <location filename="../../Dialogs/CPCompare.cpp" line="201"/>
         <source>Current:</source>
         <translation>현재:</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/CPCompare.cpp" line="195"/>
+        <location filename="../../Dialogs/CPCompare.cpp" line="199"/>
         <source>These binary files differ in content:</source>
         <translation>이 바이너리 파일은 내용이 다릅니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/CPCompare.cpp" line="196"/>
-        <location filename="../../Dialogs/CPCompare.cpp" line="197"/>
+        <location filename="../../Dialogs/CPCompare.cpp" line="200"/>
+        <location filename="../../Dialogs/CPCompare.cpp" line="201"/>
         <source>bytes</source>
         <translation>bytes</translation>
     </message>
@@ -1313,7 +1319,7 @@ There always has to be at least one.</source>
     <message>
         <location filename="../../ResourceObjects/CSSResource.cpp" line="99"/>
         <source>Sigil will send your stylesheet data to the &lt;a href=&apos;http://jigsaw.w3.org/css-validator/&apos;&gt;W3C Validation Service&lt;/a&gt;.</source>
-        <translation>&lt;a href=&apos;http://jigsaw.w3.org/css-validator/&apos;&gt;W3C Validation Service&lt;/a&gt;로 Stylesheet 데이터를 전송합니다.</translation>
+        <translation>&lt;a href=&apos;http://jigsaw.w3.org/css-validator/&apos;&gt;W3C Validation Service&lt;/a&gt;로 스타일시트 데이터를 전송합니다.</translation>
     </message>
     <message>
         <location filename="../../ResourceObjects/CSSResource.cpp" line="100"/>
@@ -1349,47 +1355,47 @@ There always has to be at least one.</source>
         <translation>문자:</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ReportsWidgets/CharactersInHTMLFilesWidget.cpp" line="78"/>
+        <location filename="../../Dialogs/ReportsWidgets/CharactersInHTMLFilesWidget.cpp" line="81"/>
         <source>Character</source>
         <translation>문자</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ReportsWidgets/CharactersInHTMLFilesWidget.cpp" line="79"/>
+        <location filename="../../Dialogs/ReportsWidgets/CharactersInHTMLFilesWidget.cpp" line="82"/>
         <source>Decimal</source>
         <translation>10진수</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ReportsWidgets/CharactersInHTMLFilesWidget.cpp" line="80"/>
+        <location filename="../../Dialogs/ReportsWidgets/CharactersInHTMLFilesWidget.cpp" line="83"/>
         <source>Hexadecimal</source>
         <translation>16진수</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ReportsWidgets/CharactersInHTMLFilesWidget.cpp" line="81"/>
+        <location filename="../../Dialogs/ReportsWidgets/CharactersInHTMLFilesWidget.cpp" line="84"/>
         <source>Entity Name</source>
         <translation>엔터티(Entity) 이름</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ReportsWidgets/CharactersInHTMLFilesWidget.cpp" line="82"/>
+        <location filename="../../Dialogs/ReportsWidgets/CharactersInHTMLFilesWidget.cpp" line="85"/>
         <source>Entity Description</source>
         <translation>엔터티(Entity) 설명</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ReportsWidgets/CharactersInHTMLFilesWidget.cpp" line="88"/>
+        <location filename="../../Dialogs/ReportsWidgets/CharactersInHTMLFilesWidget.cpp" line="91"/>
         <source>&lt;p&gt;This is a list of the characters used in all HTML files.&lt;p&gt;</source>
         <translation>모든 HTML 파일에 사용된 문자 목록</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ReportsWidgets/CharactersInHTMLFilesWidget.cpp" line="244"/>
+        <location filename="../../Dialogs/ReportsWidgets/CharactersInHTMLFilesWidget.cpp" line="278"/>
         <source>Save Report As Comma Separated File</source>
         <translation>보고서를 콤마로 구분된 파일(Comma Sparated File)로 저장</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ReportsWidgets/CharactersInHTMLFilesWidget.cpp" line="257"/>
+        <location filename="../../Dialogs/ReportsWidgets/CharactersInHTMLFilesWidget.cpp" line="291"/>
         <source>Sigil</source>
         <translation>Sigil</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ReportsWidgets/CharactersInHTMLFilesWidget.cpp" line="257"/>
+        <location filename="../../Dialogs/ReportsWidgets/CharactersInHTMLFilesWidget.cpp" line="291"/>
         <source>Cannot save report file.</source>
         <translation>리포트 파일을 저장할 수 없습니다.</translation>
     </message>
@@ -1471,7 +1477,7 @@ There always has to be at least one.</source>
     <name>ClipEditor</name>
     <message>
         <location filename="../../Form_Files/ClipEditor.ui" line="14"/>
-        <location filename="../../Dialogs/ClipEditor.cpp" line="537"/>
+        <location filename="../../Dialogs/ClipEditor.cpp" line="539"/>
         <source>Clip Editor</source>
         <translation>클립 편집기</translation>
     </message>
@@ -1502,13 +1508,13 @@ There always has to be at least one.</source>
     </message>
     <message>
         <location filename="../../Form_Files/ClipEditor.ui" line="91"/>
-        <location filename="../../Dialogs/ClipEditor.cpp" line="648"/>
+        <location filename="../../Dialogs/ClipEditor.cpp" line="650"/>
         <source>Add Entry</source>
         <translation>항목 추가</translation>
     </message>
     <message>
         <location filename="../../Form_Files/ClipEditor.ui" line="98"/>
-        <location filename="../../Dialogs/ClipEditor.cpp" line="649"/>
+        <location filename="../../Dialogs/ClipEditor.cpp" line="651"/>
         <source>Add Group</source>
         <translation>그룹 추가</translation>
     </message>
@@ -1596,112 +1602,112 @@ There always has to be at least one.</source>
         <translation>파일로 저장된 클립 불러오기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ClipEditor.cpp" line="196"/>
+        <location filename="../../Dialogs/ClipEditor.cpp" line="198"/>
         <source>You cannot select an entry and a group containing the entry.</source>
         <translation>항목을 포함하는 그룹과 항목을 동시에 선택할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ClipEditor.cpp" line="283"/>
+        <location filename="../../Dialogs/ClipEditor.cpp" line="285"/>
         <source>You cannot Copy or Cut groups - use drag-and-drop.</source>
         <translation>그룹을 복사하기나 잘라내기할 수 없습니다. - 끌어서 놓기를 사용하세요.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ClipEditor.cpp" line="355"/>
+        <location filename="../../Dialogs/ClipEditor.cpp" line="357"/>
         <source>Sigil</source>
         <translation>Sigil</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ClipEditor.cpp" line="355"/>
+        <location filename="../../Dialogs/ClipEditor.cpp" line="357"/>
         <source>Are you sure you want to reload all entries?  This will overwrite any unsaved changes.</source>
         <translation>모든 항목을 다시 읽어들이는 것이 확실합니까? 저장되지 않은 모든 변경 내용을 잃게됩니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ClipEditor.cpp" line="376"/>
+        <location filename="../../Dialogs/ClipEditor.cpp" line="378"/>
         <source>Import Entries</source>
         <translation>항목 불러오기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ClipEditor.cpp" line="456"/>
+        <location filename="../../Dialogs/ClipEditor.cpp" line="458"/>
         <source>Export Selected Entries</source>
         <translation>선택된 항목 내보내기</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../Dialogs/ClipEditor.cpp" line="537"/>
+        <location filename="../../Dialogs/ClipEditor.cpp" line="539"/>
         <source>CSS entries added: %n</source>
         <translation><numerusform>CSS 항목 추가: %n</numerusform></translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ClipEditor.cpp" line="650"/>
+        <location filename="../../Dialogs/ClipEditor.cpp" line="652"/>
         <source>Edit</source>
         <translation>편집</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ClipEditor.cpp" line="651"/>
+        <location filename="../../Dialogs/ClipEditor.cpp" line="653"/>
         <source>Cut</source>
         <translation>잘라내기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ClipEditor.cpp" line="652"/>
+        <location filename="../../Dialogs/ClipEditor.cpp" line="654"/>
         <source>Copy</source>
         <translation>복사하기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ClipEditor.cpp" line="653"/>
+        <location filename="../../Dialogs/ClipEditor.cpp" line="655"/>
         <source>Paste</source>
         <translation>붙여넣기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ClipEditor.cpp" line="654"/>
+        <location filename="../../Dialogs/ClipEditor.cpp" line="656"/>
         <source>Delete</source>
         <translation>삭제</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ClipEditor.cpp" line="655"/>
+        <location filename="../../Dialogs/ClipEditor.cpp" line="657"/>
         <source>Import</source>
         <translation>불러오기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ClipEditor.cpp" line="656"/>
+        <location filename="../../Dialogs/ClipEditor.cpp" line="658"/>
         <source>Reload</source>
         <translation>새로 고침</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ClipEditor.cpp" line="657"/>
+        <location filename="../../Dialogs/ClipEditor.cpp" line="659"/>
         <source>Export</source>
         <translation>내보내기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ClipEditor.cpp" line="658"/>
+        <location filename="../../Dialogs/ClipEditor.cpp" line="660"/>
         <source>Export All</source>
         <translation>모두 내보내기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ClipEditor.cpp" line="659"/>
+        <location filename="../../Dialogs/ClipEditor.cpp" line="661"/>
         <source>Collapse All</source>
         <translation>모두 접기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ClipEditor.cpp" line="660"/>
+        <location filename="../../Dialogs/ClipEditor.cpp" line="662"/>
         <source>Expand All</source>
         <translation>모두 펼치기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ClipEditor.cpp" line="661"/>
+        <location filename="../../Dialogs/ClipEditor.cpp" line="663"/>
         <source>Autofill</source>
         <translation>자동 채우기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ClipEditor.cpp" line="743"/>
+        <location filename="../../Dialogs/ClipEditor.cpp" line="745"/>
         <source>Clip entries saved.</source>
         <translation>클립 항목이 저장되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ClipEditor.cpp" line="772"/>
+        <location filename="../../Dialogs/ClipEditor.cpp" line="774"/>
         <source>Sigil: Clip Editor</source>
         <translation>Sigil: 클립 편집기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ClipEditor.cpp" line="773"/>
+        <location filename="../../Dialogs/ClipEditor.cpp" line="775"/>
         <source>The Clip entries may have been modified.
 Do you want to save your changes?</source>
         <translation>클립 항목이 변경되었습니다.
@@ -1711,17 +1717,17 @@ Do you want to save your changes?</source>
 <context>
     <name>ClipEditorModel</name>
     <message>
-        <location filename="../../MiscEditors/ClipEditorModel.cpp" line="65"/>
+        <location filename="../../MiscEditors/ClipEditorModel.cpp" line="79"/>
         <source>Name</source>
         <translation>이름</translation>
     </message>
     <message>
-        <location filename="../../MiscEditors/ClipEditorModel.cpp" line="66"/>
+        <location filename="../../MiscEditors/ClipEditorModel.cpp" line="80"/>
         <source>Text</source>
         <translation>텍스트</translation>
     </message>
     <message>
-        <location filename="../../MiscEditors/ClipEditorModel.cpp" line="664"/>
+        <location filename="../../MiscEditors/ClipEditorModel.cpp" line="678"/>
         <source>Unable to create file %1</source>
         <translation>%1 파일을 생성할 수 없습니다</translation>
     </message>
@@ -1770,135 +1776,170 @@ Do you want to save your changes?</source>
 <context>
     <name>CodeViewEditor</name>
     <message>
-        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="503"/>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="559"/>
         <source>Cannot insert closing tag at this position.</source>
         <translation>이 위치에 닫기 태그를 삽입 할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="511"/>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="567"/>
         <source>No open tags found at this position.</source>
         <translation>이 위치에 열려있는 태그가 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1361"/>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1444"/>
         <source>Add To Default Dictionary</source>
         <translation>기본 사전에 추가</translation>
     </message>
     <message>
-        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1374"/>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1457"/>
         <source>Add To Dictionary</source>
         <translation>사전에 추가하기</translation>
     </message>
     <message>
-        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1391"/>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1474"/>
         <source>Ignore</source>
         <translation>무시</translation>
     </message>
     <message>
-        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1453"/>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1536"/>
         <source>Reformat CSS</source>
         <translation>CSS 정리</translation>
     </message>
     <message>
-        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1455"/>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1538"/>
         <source>Multiple Lines Per Style</source>
         <translation>스타일을 여러 줄로 정리</translation>
     </message>
     <message>
-        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1456"/>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1539"/>
         <source>Single Line Per Style</source>
         <translation>스타일을 한 줄로 정리</translation>
     </message>
     <message>
-        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1481"/>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1565"/>
+        <source>Rename Selected Class</source>
+        <translation>선택한 클래스 이름 바꾸기</translation>
+    </message>
+    <message>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1587"/>
         <source>Reformat HTML</source>
         <translation>HTML 정리</translation>
     </message>
     <message>
-        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1483"/>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1589"/>
         <source>Mend and Prettify Code</source>
         <translation>Ment and Prettify 코드 방식</translation>
     </message>
     <message>
-        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1484"/>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1590"/>
         <source>Mend and Prettify Code - All HTML Files</source>
         <translation>Ment and Prettify 코드 방식 - 모든 파일에 적용</translation>
     </message>
     <message>
-        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1485"/>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1591"/>
         <source>Mend Code</source>
         <translation>Mend 코드 방식</translation>
     </message>
     <message>
-        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1486"/>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1592"/>
         <source>Mend Code - All HTML Files</source>
         <translation>Mend 코드 방식 - 모든 파일에 적용</translation>
     </message>
     <message>
-        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1516"/>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1622"/>
         <source>Go To Link Or Style</source>
         <translation>링크 혹은 스타일로 이동</translation>
     </message>
     <message>
-        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1538"/>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1644"/>
+        <source>Toggle Line Wrap Mode</source>
+        <translation>줄바꿈 모드 전환</translation>
+    </message>
+    <message>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1666"/>
         <source>View Image</source>
         <translation>이미지 보기</translation>
     </message>
     <message>
-        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1539"/>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1667"/>
         <source>Open Tab For Image</source>
         <translation>이미지를 탭으로 열기</translation>
     </message>
     <message>
-        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1565"/>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1693"/>
         <source>Mark Selected Text</source>
         <translation>선택 영역 표시</translation>
     </message>
     <message>
-        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1567"/>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1695"/>
         <source>Unmark Marked Text</source>
         <translation>선택 내용 표시 해제</translation>
     </message>
     <message>
-        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1593"/>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1721"/>
         <source>Clips</source>
         <translation>클립</translation>
     </message>
     <message>
-        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1603"/>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1731"/>
         <source>Add To Clips</source>
         <translation>클립에 추가</translation>
     </message>
     <message>
-        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1732"/>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1860"/>
         <source>You must be in an opening HTML tag to use this feature.</source>
         <translation>이 기능은 HTML 시작 태그에 사용할 수 있습니다.</translation>
     </message>
     <message>
-        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1742"/>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1870"/>
         <source>You must be inside an opening HTML tag to use this feature.</source>
         <translation>이 기능은 HTML 태그 사이에 사용할 수 있습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1934"/>
+        <source>Selected Text is not a valid class name.</source>
+        <translation>선택한 텍스트는 유효한 클래스 이름이 아닙니다.</translation>
+    </message>
+    <message>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1941"/>
+        <source>Rename Class</source>
+        <translation>클래스 이름 바꾸기</translation>
+    </message>
+    <message>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1942"/>
+        <source>Enter new class name</source>
+        <translation>새 클래스 이름 입력</translation>
+    </message>
+    <message>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1962"/>
+        <source>Class renamed.</source>
+        <translation>클래스 이름이 변경되었습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../ViewEditors/CodeViewEditor.cpp" line="1964"/>
+        <source>Class rename aborted.</source>
+        <translation>클래스 이름 변경이 중단되었습니다.</translation>
     </message>
 </context>
 <context>
     <name>ColorSwatchDelegate</name>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="61"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="63"/>
         <source>Background</source>
         <translation>배경</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="63"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="65"/>
         <source>Foreground</source>
         <translation>전경</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="65"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="67"/>
         <source>Selection Background</source>
         <translation>배경 선택</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="67"/>
+        <location filename="../../Dialogs/PreferenceWidgets/AppearanceWidget.cpp" line="69"/>
         <source>Selection Foreground</source>
         <translation>전경 선택</translation>
     </message>
@@ -1916,247 +1957,350 @@ Do you want to save your changes?</source>
         <translation>설정:</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/Controls.ui" line="111"/>
+        <location filename="../../Form_Files/Controls.ui" line="118"/>
         <source>For Regex searches, prefix your search with (?s).</source>
         <translation>정규식 검색을 할 때 접두어에 (?s)를 추가합니다. 줄바꿈이 된 항목까지 검색을 합니다.</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/Controls.ui" line="117"/>
+        <location filename="../../Form_Files/Controls.ui" line="124"/>
         <source>DotAll</source>
         <translation>줄바꿈 포함</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/Controls.ui" line="124"/>
+        <location filename="../../Form_Files/Controls.ui" line="138"/>
         <source>For Regex searches, prefix your search with (?U).</source>
         <translation>정규식 검색을 할 때 접두어에 (?U)를 추가합니다. </translation>
     </message>
     <message>
-        <location filename="../../Form_Files/Controls.ui" line="130"/>
+        <location filename="../../Form_Files/Controls.ui" line="144"/>
         <source>Minimal Match</source>
         <translation>최소 일치</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/Controls.ui" line="137"/>
+        <location filename="../../Form_Files/Controls.ui" line="158"/>
         <source>For Regex searches, tokenise/escape selection when opening Find.</source>
         <translation>검색할 내용을 선택 후 CTRL+F로 검색창을 열면 선택된 내용이 토큰화 되어 찾기에 추가됩니다.</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/Controls.ui" line="143"/>
+        <location filename="../../Form_Files/Controls.ui" line="164"/>
         <source>Auto-Tokenise</source>
         <translation>자동 토큰화</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/Controls.ui" line="150"/>
-        <source>Search from current position to end of the 
-current file or book, and then wrap to the
+        <location filename="../../Form_Files/Controls.ui" line="178"/>
+        <source>Search from current position to top or end of the 
+current file and then wrap to the
 other end to continue searching.</source>
-        <translation>현재 위치에서 현재 파일 또는 책의 
-끝까지 검색 한 다음 처음부터 현재 
-위치까지 계속 검색합니다.</translation>
+        <translation>현재 위치에서 현재 파일의 맨 위 또는 끝까지 검색한 다음
+다른 쪽 끝으로 줄을 바꿔 계속 검색합니다.</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/Controls.ui" line="155"/>
+        <location filename="../../Form_Files/Controls.ui" line="183"/>
         <source>Wrap</source>
         <translation>되돌이 검색</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/Controls.ui" line="177"/>
+        <location filename="../../Form_Files/Controls.ui" line="197"/>
+        <source>Search only in text (outside tags).
+              Valid only when searching HTML files.</source>
+        <translation>텍스트(태그 제외)만 검색합니다. HTML 파일을 검색할 때만 유효합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/Controls.ui" line="201"/>
+        <source>Text</source>
+        <translation>텍스트</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/Controls.ui" line="223"/>
         <source>Mode:</source>
         <translation>방식:</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/Controls.ui" line="211"/>
+        <location filename="../../Form_Files/Controls.ui" line="257"/>
         <source>Clear All</source>
         <translation>모두 지우기</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/Controls.ui" line="214"/>
+        <location filename="../../Form_Files/Controls.ui" line="260"/>
         <source>Ignore current settings and return an empty Controls value. </source>
         <translation>현재 설정을 무시하고 빈 컨트롤 값을 반환합니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="289"/>
+        <location filename="../../Dialogs/Controls.cpp" line="302"/>
         <source>What to search for</source>
         <translation>무엇을 찾습니까</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="290"/>
+        <location filename="../../Dialogs/Controls.cpp" line="303"/>
         <source>Select Mode</source>
         <translation>모드 선택</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="291"/>
-        <location filename="../../Dialogs/Controls.cpp" line="292"/>
+        <location filename="../../Dialogs/Controls.cpp" line="304"/>
+        <location filename="../../Dialogs/Controls.cpp" line="305"/>
         <source>Normal</source>
         <translation>기본 방식</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="292"/>
+        <location filename="../../Dialogs/Controls.cpp" line="305"/>
         <source>Case in-sensitive search of exactly what you type.</source>
         <translation>입력한 대로 대소문자 구별없이 찾기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="294"/>
-        <location filename="../../Dialogs/Controls.cpp" line="295"/>
+        <location filename="../../Dialogs/Controls.cpp" line="307"/>
+        <location filename="../../Dialogs/Controls.cpp" line="308"/>
         <source>Case Sensitive</source>
         <translation>대/소문자 구분</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="295"/>
+        <location filename="../../Dialogs/Controls.cpp" line="308"/>
         <source>Case sensitive search of exactly what you type.</source>
         <translation>입력한 대로 대소문자 구별하여 찾기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="297"/>
-        <location filename="../../Dialogs/Controls.cpp" line="298"/>
+        <location filename="../../Dialogs/Controls.cpp" line="310"/>
+        <location filename="../../Dialogs/Controls.cpp" line="311"/>
         <source>Regex</source>
         <translation>정규식</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="298"/>
+        <location filename="../../Dialogs/Controls.cpp" line="311"/>
         <source>Search for a pattern using Regular Expression syntax.</source>
         <translation>정규식 문법을 사용하여 패턴 찾기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="303"/>
+        <location filename="../../Dialogs/Controls.cpp" line="316"/>
         <source>Where to search</source>
         <translation>어디서 찾습니까</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="305"/>
+        <location filename="../../Dialogs/Controls.cpp" line="318"/>
         <source>Select Target</source>
         <translation>대상 선택</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="306"/>
-        <location filename="../../Dialogs/Controls.cpp" line="307"/>
-        <location filename="../../Dialogs/Controls.cpp" line="316"/>
+        <location filename="../../Dialogs/Controls.cpp" line="319"/>
+        <location filename="../../Dialogs/Controls.cpp" line="320"/>
+        <location filename="../../Dialogs/Controls.cpp" line="329"/>
         <source>Current File</source>
         <translation>현재 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="307"/>
+        <location filename="../../Dialogs/Controls.cpp" line="320"/>
         <source>Restrict the find or replace to the opened file.  Hold the Ctrl key down while clicking any search buttons to temporarily restrict the search to the Current File.</source>
         <translation>열려있는 파일에서만 찾기나 바꾸기를 수행합니다. 임시로 현재 파일에서만 찾으려면 찾기 버튼을 누를때는 Ctrl 키를 누르세요.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="309"/>
-        <location filename="../../Dialogs/Controls.cpp" line="310"/>
+        <location filename="../../Dialogs/Controls.cpp" line="322"/>
+        <location filename="../../Dialogs/Controls.cpp" line="323"/>
         <source>All HTML Files</source>
         <translation>모든 HTML 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="310"/>
+        <location filename="../../Dialogs/Controls.cpp" line="323"/>
         <source>Find or replace in all HTML files in Code View.</source>
         <translation>코드 보기의 모든 HTML 파일에서 찾기 또는 바꾸기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="312"/>
-        <location filename="../../Dialogs/Controls.cpp" line="313"/>
+        <location filename="../../Dialogs/Controls.cpp" line="325"/>
+        <location filename="../../Dialogs/Controls.cpp" line="326"/>
         <source>Selected HTML Files</source>
         <translation>선택된 HTML 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="313"/>
+        <location filename="../../Dialogs/Controls.cpp" line="326"/>
         <source>Restrict the find or replace to the HTML files selected in the Book Browser in Code View.</source>
         <translation>책 찾아보기에서 HTML 파일 선택 후 코드보기 창에서 찾거나 바꿉니다. 선택된 파일 내에서만 검색을 합니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="315"/>
+        <location filename="../../Dialogs/Controls.cpp" line="328"/>
         <source>Tabbed HTML Files</source>
         <translation>탭에 열린 HTML 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="316"/>
+        <location filename="../../Dialogs/Controls.cpp" line="329"/>
         <source>Restrict the find or replace to the HTML files open in Tabs.</source>
         <translation>찾기 또는 바꾸기를 탭에 열려있는 HTML 파일로 제한합니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="318"/>
-        <location filename="../../Dialogs/Controls.cpp" line="319"/>
+        <location filename="../../Dialogs/Controls.cpp" line="331"/>
+        <location filename="../../Dialogs/Controls.cpp" line="332"/>
         <source>All CSS Files</source>
         <translation>모든 CSS 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="319"/>
+        <location filename="../../Dialogs/Controls.cpp" line="332"/>
         <source>Find or replace in all CSS files in Code View.</source>
         <translation>코드보기의 모든 CSS 파일을 찾거나 바꿉니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="321"/>
-        <location filename="../../Dialogs/Controls.cpp" line="322"/>
+        <location filename="../../Dialogs/Controls.cpp" line="334"/>
+        <location filename="../../Dialogs/Controls.cpp" line="335"/>
         <source>Selected CSS Files</source>
         <translation>선택한 CSS 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="322"/>
+        <location filename="../../Dialogs/Controls.cpp" line="335"/>
         <source>Restrict the find or replace to the CSS files selected in the Book Browser in Code View.</source>
         <translation>찾기 또는 바꾸기를 코드보기의 책 브라우저에서 선택한 CSS 파일로 제한합니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="324"/>
-        <location filename="../../Dialogs/Controls.cpp" line="325"/>
+        <location filename="../../Dialogs/Controls.cpp" line="337"/>
+        <location filename="../../Dialogs/Controls.cpp" line="338"/>
         <source>Tabbed CSS Files</source>
         <translation>탭에 열린 CSS 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="325"/>
+        <location filename="../../Dialogs/Controls.cpp" line="338"/>
         <source>Restrict the find or replace to the CSS files open in Tabs.</source>
         <translation>찾기 또는 바꾸기를 탭에 열려있는 CSS 파일로 제한합니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="327"/>
-        <location filename="../../Dialogs/Controls.cpp" line="328"/>
+        <location filename="../../Dialogs/Controls.cpp" line="340"/>
+        <location filename="../../Dialogs/Controls.cpp" line="341"/>
         <source>OPF File</source>
         <translation>OPF 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="328"/>
+        <location filename="../../Dialogs/Controls.cpp" line="341"/>
         <source>Restrict the find or replace to the OPF file.</source>
         <translation>찾기 또는 바꾸기를 OPF 파일로 제한합니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="330"/>
-        <location filename="../../Dialogs/Controls.cpp" line="331"/>
+        <location filename="../../Dialogs/Controls.cpp" line="343"/>
+        <location filename="../../Dialogs/Controls.cpp" line="344"/>
         <source>NCX File</source>
         <translation>NCX 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="331"/>
+        <location filename="../../Dialogs/Controls.cpp" line="344"/>
         <source>Restrict the find or replace to the NCX file.</source>
         <translation>찾기 또는 바꾸기를 NCX 파일로 제한합니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="337"/>
+        <location filename="../../Dialogs/Controls.cpp" line="350"/>
         <source>Select Direction</source>
         <translation>방향 선택</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="338"/>
-        <location filename="../../Dialogs/Controls.cpp" line="342"/>
+        <location filename="../../Dialogs/Controls.cpp" line="351"/>
+        <location filename="../../Dialogs/Controls.cpp" line="355"/>
         <source>Up</source>
         <translation>위쪽</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="339"/>
-        <location filename="../../Dialogs/Controls.cpp" line="343"/>
+        <location filename="../../Dialogs/Controls.cpp" line="352"/>
+        <location filename="../../Dialogs/Controls.cpp" line="356"/>
         <source>Down</source>
         <translation>아래쪽</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="340"/>
+        <location filename="../../Dialogs/Controls.cpp" line="353"/>
         <source>Direction to search</source>
         <translation>찾을 방향</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="342"/>
+        <location filename="../../Dialogs/Controls.cpp" line="355"/>
         <source>Search for the previous match from your current position.</source>
         <translation>현재 위치에서 이전 검색 결과 찾기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Controls.cpp" line="343"/>
+        <location filename="../../Dialogs/Controls.cpp" line="356"/>
         <source>Search for the next match from your current position.</source>
         <translation>현재 위치에서 다음 검색 결과 찾기</translation>
+    </message>
+</context>
+<context>
+    <name>CountsReport</name>
+    <message>
+        <location filename="../../Form_Files/CountsReport.ui" line="14"/>
+        <source>Counts Report</source>
+        <translation>개수 보고서</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/CountsReport.ui" line="34"/>
+        <source>List only the table rows which contain the text you enter.</source>
+        <translation>입력한 텍스트가 포함된 테이블 행만 나열합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/CountsReport.ui" line="37"/>
+        <source>Filter:</source>
+        <translation>필터:</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/CountsReport.cpp" line="85"/>
+        <source>Search Full Name</source>
+        <translation>전체 이름 검색</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/CountsReport.cpp" line="86"/>
+        <source>Find</source>
+        <translation>찾기</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/CountsReport.cpp" line="87"/>
+        <source>Target</source>
+        <translation>대상</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/CountsReport.cpp" line="88"/>
+        <source>Count</source>
+        <translation>세기</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/CountsReport.cpp" line="101"/>
+        <source>All HTML Files</source>
+        <translation>모든 HTML 파일</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/CountsReport.cpp" line="102"/>
+        <source>Selected HTML Files</source>
+        <translation>선택된 HTML 파일</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/CountsReport.cpp" line="103"/>
+        <source>Tabbed HTML Files</source>
+        <translation>탭에 열린 HTML 파일</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/CountsReport.cpp" line="104"/>
+        <source>All CSS Files</source>
+        <translation>모든 CSS 파일</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/CountsReport.cpp" line="105"/>
+        <source>Selected CSS Files</source>
+        <translation>선택한 CSS 파일</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/CountsReport.cpp" line="106"/>
+        <source>Tabbed CSS Files</source>
+        <translation>탭에 열린 CSS 파일</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/CountsReport.cpp" line="107"/>
+        <source>OPF File</source>
+        <translation>OPF 파일</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/CountsReport.cpp" line="108"/>
+        <source>NCX File</source>
+        <translation>NCX 파일</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/CountsReport.cpp" line="253"/>
+        <source>Save Report As Comma Separated File</source>
+        <translation>보고서를 콤마로 구분된 파일(Comma Sparated File)로 저장</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/CountsReport.cpp" line="266"/>
+        <source>Sigil</source>
+        <translation>Sigil</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/CountsReport.cpp" line="266"/>
+        <source>Cannot save report file.</source>
+        <translation>리포트 파일을 저장할 수 없습니다.</translation>
     </message>
 </context>
 <context>
@@ -2165,6 +2309,11 @@ other end to continue searching.</source>
         <location filename="../../Form_Files/DeleteFiles.ui" line="14"/>
         <source>Delete Files</source>
         <translation>파일 삭제</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/DeleteFiles.ui" line="27"/>
+        <source>Select / Unselect all</source>
+        <translation>모두 선택 / 선택 취소</translation>
     </message>
     <message>
         <location filename="../../Dialogs/DeleteFiles.cpp" line="68"/>
@@ -2190,6 +2339,11 @@ other end to continue searching.</source>
         <translation>스타일 삭제</translation>
     </message>
     <message>
+        <location filename="../../Form_Files/DeleteStyles.ui" line="27"/>
+        <source>Select / Unselect all</source>
+        <translation>모두 선택 / 선택 취소</translation>
+    </message>
+    <message>
         <location filename="../../Dialogs/DeleteStyles.cpp" line="80"/>
         <source>Delete Marked Styles</source>
         <translation>선택한 스타일 삭제</translation>
@@ -2211,11 +2365,104 @@ other end to continue searching.</source>
     </message>
 </context>
 <context>
+    <name>DryRunReplace</name>
+    <message>
+        <location filename="../../Form_Files/DryRunReplace.ui" line="14"/>
+        <source>Dry Run Replace-All Results</source>
+        <translation>모두 교체 테스트 실행 결과</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/DryRunReplace.ui" line="34"/>
+        <source>List only the table rows which contain the text you enter.</source>
+        <translation>입력한 텍스트가 포함된 테이블 행만 나열합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/DryRunReplace.ui" line="37"/>
+        <source>Filter:</source>
+        <translation>필터:</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/DryRunReplace.ui" line="60"/>
+        <source>Select the amount of context before and after the match in characters</source>
+        <translation>일치 전후의 컨텍스트 양을 문자 단위로 선택합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/DryRunReplace.ui" line="63"/>
+        <source>Context:</source>
+        <translation>문맥:</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/DryRunReplace.ui" line="83"/>
+        <source>Count:</source>
+        <translation>개수:</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/DryRunReplace.ui" line="90"/>
+        <source>Total Number of Matches/Replacements</source>
+        <translation>총 일치/교체 수</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/DryRunReplace.ui" line="93"/>
+        <source>----   </source>
+        <translation>----   </translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/DryRunReplace.ui" line="129"/>
+        <source>Perform the dry run ReplaceAll again and rebuild the table</source>
+        <translation>모두 바꾸기 테스트 실행을 다시 수행하고 테이블을 다시 작성합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/DryRunReplace.ui" line="132"/>
+        <source>Refresh</source>
+        <translation>새로 고침</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/DryRunReplace.ui" line="152"/>
+        <source>Close this dialog</source>
+        <translation>이 대화 상자 닫기</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/DryRunReplace.ui" line="155"/>
+        <source>Close</source>
+        <translation>닫기</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/DryRunReplace.cpp" line="122"/>
+        <source>... Creating Table</source>
+        <translation>... 테이블을 생성중입니다</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/DryRunReplace.cpp" line="127"/>
+        <source>Book Path</source>
+        <translation>책 경로</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/DryRunReplace.cpp" line="128"/>
+        <source>Offset</source>
+        <translation>오프셋</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/DryRunReplace.cpp" line="129"/>
+        <source>Before</source>
+        <translation>이전</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/DryRunReplace.cpp" line="130"/>
+        <source>After</source>
+        <translation>다음</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/DryRunReplace.cpp" line="237"/>
+        <source>Dry Run Replace-All</source>
+        <translation>모두 교체 테스트 실행</translation>
+    </message>
+</context>
+<context>
     <name>EditTOC</name>
     <message>
         <location filename="../../Form_Files/EditTOC.ui" line="14"/>
         <source>Edit Table Of Contents</source>
-        <translation>목차 편집</translation>
+        <translation>차례 편집</translation>
     </message>
     <message>
         <location filename="../../Form_Files/EditTOC.ui" line="52"/>
@@ -2251,7 +2498,7 @@ other end to continue searching.</source>
     <message>
         <location filename="../../Form_Files/EditTOC.ui" line="82"/>
         <source>Set the destination of the TOC entry from a list of valid targets in the book.</source>
-        <translation>책의 유효한 대상 목록에서 목차 항목의 대상을 설정하십시오.</translation>
+        <translation>책의 유효한 대상 목록에서 차례 항목의 대상을 설정하십시오.</translation>
     </message>
     <message>
         <location filename="../../Form_Files/EditTOC.ui" line="85"/>
@@ -2281,7 +2528,7 @@ You can also use the right arrow key.</source>
     <message>
         <location filename="../../Dialogs/EditTOC.cpp" line="97"/>
         <source>TOC Entry</source>
-        <translation>목차 항목</translation>
+        <translation>차례 항목</translation>
     </message>
     <message>
         <location filename="../../Dialogs/EditTOC.cpp" line="98"/>
@@ -2317,7 +2564,7 @@ You can also use the right arrow key.</source>
 <context>
     <name>EmbeddedPython</name>
     <message>
-        <location filename="../../EmbedPython/EmbeddedPython.cpp" line="647"/>
+        <location filename="../../EmbedPython/EmbeddedPython.cpp" line="668"/>
         <source>Embedded Python Error</source>
         <translation>내장 Python 오류</translation>
     </message>
@@ -2404,152 +2651,152 @@ locations and names for the OPF, NCX and/or Nav.</source>
         <translation>EPUB 디자인을 사용하려면 확인을, 그렇지 않으면 취소를 누르세요.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="144"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="155"/>
         <source>Xhtml files</source>
-        <translation>Xhtml 파일</translation>
+        <translation>XHTML 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="144"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="155"/>
         <source>Style files</source>
         <translation>스타일 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="145"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="156"/>
         <source>Image files</source>
         <translation>이미지 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="145"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="156"/>
         <source>Font files</source>
         <translation>글꼴 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="146"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="157"/>
         <source>Audio files</source>
         <translation>오디오 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="146"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="157"/>
         <source>Video files</source>
         <translation>비디오 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="147"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="158"/>
         <source>Javascript files</source>
         <translation>자바스크립트 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="147"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="158"/>
         <source>Misc files</source>
         <translation>기타 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="148"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="159"/>
         <source>OPF file</source>
         <translation>OPF 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="148"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="159"/>
         <source>NCX file</source>
         <translation>NCX 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="149"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="160"/>
         <source>Nav file</source>
-        <translation>목차 파일</translation>
+        <translation>차례 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="222"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="233"/>
         <source>Select previously saved layout design ini File</source>
         <translation>이전에 ini 파일에 저장한 디자인 레이아웃 선택</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="224"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="235"/>
         <source>Settings Files (*.ini)</source>
         <translation>설정 파일(*.ini)</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="325"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="342"/>
         <source>Save current design to an ini File</source>
         <translation>현재 디자인을 ini 파일에 저장.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="357"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="374"/>
         <source>Add a Folder</source>
         <translation>폴더 추가</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="357"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="374"/>
         <source>New Folder Name?</source>
         <translation>새 폴더 명</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="357"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="374"/>
         <source>untitled_folder</source>
         <translation>이름 없는 폴더</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="394"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="411"/>
         <source>Rename a Folder</source>
         <translation>폴더명 변경</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="394"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="411"/>
         <source>New Name for Folder?</source>
         <translation>변경할 폴더명</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="405"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="422"/>
         <source>Rename a File</source>
         <translation>파일명 변경</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="405"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="422"/>
         <source>New Name for File?</source>
         <translation>변경할 파일명</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="463"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="480"/>
         <source>A single OPF file is required.</source>
         <translation>OPF 파일은 하나만 존재해야 합니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="464"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="481"/>
         <source>At least one xhtml marker must exist.</source>
-        <translation>하나 이상의 xhtml 마커가 반드시 존재해야 합니다.</translation>
+        <translation>하나 이상의 XHTML 마커가 반드시 존재해야 합니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="465"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="482"/>
         <source>At least one image marker must exist.</source>
         <translation>하나 이상의 이미지 마커가 반드시 존재해야 합니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="466"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="483"/>
         <source>At least one css marker must exist.</source>
         <translation>하나 이상의 CSS 마커가 반드시 존재해야 합니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="468"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="485"/>
         <source>A single NCX file is required.</source>
         <translation>NCX 파일은 하나만 존재해야 합니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="470"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="487"/>
         <source>A single NAV file is required.</source>
         <translation>NAV 파일은 하나만 존재해야 합니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="474"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="491"/>
         <source>Errors Detected</source>
         <translation>오류가 발견되었습니다</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="480"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="497"/>
         <source>Sigil</source>
         <translation>Sigil</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="481"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="498"/>
         <source>Do you want to set this layout as the default empty Epub layout for Sigil?
 
 </source>
@@ -2570,392 +2817,403 @@ locations and names for the OPF, NCX and/or Nav.</source>
     </message>
     <message>
         <location filename="../../Form_Files/FindReplace.ui" line="61"/>
-        <location filename="../../Form_Files/FindReplace.ui" line="109"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/FindReplace.ui" line="103"/>
-        <source>Show/Hide Advanced Options</source>
-        <translation>고급 설정 표시/숨기기</translation>
-    </message>
-    <message>
-        <location filename="../../Form_Files/FindReplace.ui" line="152"/>
+        <location filename="../../Form_Files/FindReplace.ui" line="116"/>
         <source>Find:</source>
         <translation>찾기:</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/FindReplace.ui" line="184"/>
+        <location filename="../../Form_Files/FindReplace.ui" line="148"/>
         <source>Find next match.</source>
         <translation>다음 일치하는 것 찾기</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/FindReplace.ui" line="190"/>
-        <source>Find</source>
-        <translation>찾기</translation>
+        <location filename="../../Form_Files/FindReplace.ui" line="169"/>
+        <source>Replace highlighted match (if any) in Code View.</source>
+        <translation>코드 보기 창에서 강조 표시된 항목이 있을 경우 이를 변경합니다.</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/FindReplace.ui" line="203"/>
+        <location filename="../../Form_Files/FindReplace.ui" line="196"/>
+        <source>Restart current search from beginning.</source>
+        <translation>현재 검색을 처음부터 다시 시작합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/FindReplace.ui" line="211"/>
+        <source>Replace:</source>
+        <translation>바꾸기:</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/FindReplace.ui" line="243"/>
         <source>Replace highlighted match (if any),
 then find the Next match in Code View.</source>
         <translation>코드 보기 창에서 강조 표시된 일치항목이 있을 경우 이를 바꾼 후 다음 일치 항목을 찾습니다.</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/FindReplace.ui" line="210"/>
-        <source>Replace/Find</source>
-        <translation>바꾸기/찾기</translation>
-    </message>
-    <message>
-        <location filename="../../Form_Files/FindReplace.ui" line="217"/>
-        <source>Replace:</source>
-        <translation>바꾸기:</translation>
-    </message>
-    <message>
-        <location filename="../../Form_Files/FindReplace.ui" line="249"/>
-        <source>Replace highlighted match (if any) in Code View.</source>
-        <translation>코드 보기 창에서 강조 표시된 항목이 있을 경우 이를 변경합니다.</translation>
-    </message>
-    <message>
-        <location filename="../../Form_Files/FindReplace.ui" line="255"/>
-        <source>Replace</source>
-        <translation>바꾸기</translation>
-    </message>
-    <message>
-        <location filename="../../Form_Files/FindReplace.ui" line="268"/>
-        <source>Replace all matches in Code View.</source>
-        <translation>코드 보기에서 모든 일치 항목 바꾸기</translation>
-    </message>
-    <message>
-        <location filename="../../Form_Files/FindReplace.ui" line="274"/>
-        <source>Replace All</source>
-        <translation>모두 바꾸기</translation>
-    </message>
-    <message>
-        <location filename="../../Form_Files/FindReplace.ui" line="281"/>
-        <source>Options:</source>
-        <translation>설정:</translation>
+        <location filename="../../Form_Files/FindReplace.ui" line="265"/>
+        <source>Replace all matches in Code View.
+             Use with SHIFT to Filter Replacements before changes are applied.</source>
+        <translation>코드 보기에서 모든 일치 항목을 교체하세요. 
+변경 사항을 적용하기 전에 SHIFT to Filter Replacements와 함께 사용합니다.</translation>
     </message>
     <message>
         <location filename="../../Form_Files/FindReplace.ui" line="293"/>
-        <source>For Regex searches, prefix your search with (?s).</source>
-        <translation>정규식 검색을 할 때 접두어에 (?s)를 추가합니다. 줄바꿈이 된 항목까지 검색을 합니다.</translation>
+        <source>Count all matches in Code View.
+              Use with SHIFT to generate a Dry Run Replace All table.
+            </source>
+        <translation>코드 보기에서 모든 일치 항목을 계산합니다.
+SHIFT와 함께 사용하여 Dry Run Replace All 테이블을 생성합니다.</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/FindReplace.ui" line="299"/>
-        <source>DotAll</source>
-        <translation>줄바꿈 포함</translation>
-    </message>
-    <message>
-        <location filename="../../Form_Files/FindReplace.ui" line="306"/>
-        <source>For Regex searches, prefix your search with (?U).</source>
-        <translation>정규식 검색을 할 때 접두어에 (?U)를 추가합니다. </translation>
-    </message>
-    <message>
-        <location filename="../../Form_Files/FindReplace.ui" line="312"/>
-        <source>Minimal Match</source>
-        <translation>최소 일치</translation>
-    </message>
-    <message>
-        <location filename="../../Form_Files/FindReplace.ui" line="319"/>
-        <source>For Regex searches, tokenise/escape selection when opening Find.</source>
-        <translation>검색할 내용을 선택 후 CTRL+F로 검색창을 열면 선택된 내용이 토큰화 되어 찾기에 추가됩니다.</translation>
-    </message>
-    <message>
-        <location filename="../../Form_Files/FindReplace.ui" line="325"/>
-        <source>Auto-Tokenise</source>
-        <translation>자동 토큰화</translation>
-    </message>
-    <message>
-        <location filename="../../Form_Files/FindReplace.ui" line="332"/>
-        <source>Search from current position to end of the 
-current file or book, and then wrap to the
-other end to continue searching.</source>
-        <translation>현재 위치에서 현재 파일 또는 책의 
-끝까지 검색 한 다음 처음부터 현재 
-위치까지 계속 검색합니다.</translation>
-    </message>
-    <message>
-        <location filename="../../Form_Files/FindReplace.ui" line="337"/>
-        <source>Wrap</source>
-        <translation>되돌이 검색</translation>
-    </message>
-    <message>
-        <location filename="../../Form_Files/FindReplace.ui" line="371"/>
-        <source>Regex Valid?</source>
-        <translation>유효한 정규식인가요?</translation>
-    </message>
-    <message>
-        <location filename="../../Form_Files/FindReplace.ui" line="393"/>
-        <source>Count all matches in Code View.</source>
-        <translation>코드 보기 창에서 일치하는 모든 항목의 갯수를 보여줍니다.</translation>
-    </message>
-    <message>
-        <location filename="../../Form_Files/FindReplace.ui" line="399"/>
-        <source>Count All</source>
-        <translation>모두 세기</translation>
-    </message>
-    <message>
-        <location filename="../../Form_Files/FindReplace.ui" line="406"/>
+        <location filename="../../Form_Files/FindReplace.ui" line="310"/>
         <source>Mode:</source>
         <translation>방식:</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="245"/>
-        <location filename="../../MainUI/FindReplace.cpp" line="1643"/>
-        <location filename="../../MainUI/FindReplace.cpp" line="1644"/>
-        <location filename="../../MainUI/FindReplace.cpp" line="1653"/>
+        <location filename="../../Form_Files/FindReplace.ui" line="348"/>
+        <source>Regex Valid?</source>
+        <translation>유효한 정규식인가요?</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/FindReplace.ui" line="358"/>
+        <source>Options:</source>
+        <translation>설정:</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/FindReplace.ui" line="370"/>
+        <source>Set advanced Regex search flags / options.</source>
+        <translation>고급 정규식 검색 플래그/옵션을 설정합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/FindReplace.ui" line="373"/>
+        <source>Regex Options</source>
+        <translation>정규식 옵션</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/FindReplace.ui" line="387"/>
+        <source>Search from current position to top or end of the
+current file and then wrap to the
+other end to continue searching.</source>
+        <translation>현재 위치에서 현재 파일의 맨 위 또는 끝까지 검색한 다음 다른 쪽 끝으로 줄을 바꿔 계속 검색합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/FindReplace.ui" line="392"/>
+        <source>Wrap</source>
+        <translation>되돌이 검색</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/FindReplace.ui" line="406"/>
+        <source>Search only in text (outside tags).
+Valid only when searching HTML files.</source>
+        <translation>텍스트(태그 제외)만 검색합니다. 
+HTML 파일을 검색할 때만 유효합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/FindReplace.ui" line="410"/>
+        <source>Text</source>
+        <translation>텍스트</translation>
+    </message>
+    <message>
+        <location filename="../../MainUI/FindReplace.cpp" line="301"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="308"/>
+        <source>Search will restart</source>
+        <translation>검색이 다시 시작됩니다</translation>
+    </message>
+    <message>
+        <location filename="../../MainUI/FindReplace.cpp" line="333"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2104"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2105"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2114"/>
         <source>Current File</source>
         <translation>현재 파일</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../MainUI/FindReplace.cpp" line="404"/>
-        <location filename="../../MainUI/FindReplace.cpp" line="1445"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="562"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="1882"/>
         <source>Matches found: %n</source>
-        <translation><numerusform>%n개 일치 항목 발견</numerusform></translation>
+        <translation><numerusform>%n 개 일치 항목 발견</numerusform></translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="488"/>
-        <location filename="../../MainUI/FindReplace.cpp" line="1470"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="652"/>
+        <source>Choose Replacements</source>
+        <translation>교체 항목 선택</translation>
+    </message>
+    <message>
+        <location filename="../../MainUI/FindReplace.cpp" line="670"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="729"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="1925"/>
         <source>No replacements made</source>
         <translation>바꿀 텍스트가 없습니다</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../MainUI/FindReplace.cpp" line="490"/>
-        <location filename="../../MainUI/FindReplace.cpp" line="1472"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="672"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="731"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="1927"/>
         <source>Replacements made: %n</source>
         <translation><numerusform>%n 개 항목이 교체됨</numerusform></translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="689"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="942"/>
         <source>No matches found</source>
-        <translation>
-        </translation>
+        <translation>일치하는 항목이 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1319"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="1672"/>
         <source>This tab cannot be searched</source>
         <translation>이 탭은 검색할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1355"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="1715"/>
         <source>Unnamed search loaded</source>
         <translation>이름 없는 검색이 로드됨</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1358"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="1718"/>
         <source>Loaded</source>
         <translation>불러오기</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1371"/>
-        <location filename="../../MainUI/FindReplace.cpp" line="1391"/>
-        <location filename="../../MainUI/FindReplace.cpp" line="1409"/>
-        <location filename="../../MainUI/FindReplace.cpp" line="1429"/>
-        <location filename="../../MainUI/FindReplace.cpp" line="1455"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="1788"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="1812"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="1841"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="1866"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="1910"/>
         <source>No searches selected</source>
-        <translation>검색 결과 없음</translation>
+        <translation>검색어를 선택하지 않았습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1520"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="1975"/>
         <source>Sigil</source>
         <translation>Sigil</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1521"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="1976"/>
         <source>Are you sure you want to clear your Find and Replace current values and history?</source>
-        <translation type="unfinished"/>
+        <translation>찾기 및 바꾸기 현재 값과 기록을 지우시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1629"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2090"/>
         <source>What to search for</source>
         <translation>무엇을 찾습니까</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1630"/>
-        <location filename="../../MainUI/FindReplace.cpp" line="1631"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2091"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2092"/>
         <source>Normal</source>
         <translation>기본 방식</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1631"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2092"/>
         <source>Case in-sensitive search of exactly what you type.</source>
         <translation>입력한 대로 대소문자 구별없이 찾기</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1633"/>
-        <location filename="../../MainUI/FindReplace.cpp" line="1634"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2094"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2095"/>
         <source>Case Sensitive</source>
         <translation>대/소문자 구분</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1634"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2095"/>
         <source>Case sensitive search of exactly what you type.</source>
         <translation>입력한 대로 대소문자 구별하여 찾기</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1636"/>
-        <location filename="../../MainUI/FindReplace.cpp" line="1637"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2097"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2098"/>
         <source>Regex</source>
         <translation>정규식</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1637"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2098"/>
         <source>Search for a pattern using Regular Expression syntax.</source>
         <translation>정규식 문법을 사용하여 패턴 찾기</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1641"/>
-        <location filename="../../MainUI/FindReplace.cpp" line="1675"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2102"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2136"/>
         <source>Where to search</source>
         <translation>어디서 찾습니까</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1644"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2105"/>
         <source>Restrict the find or replace to the opened file.  Hold the Ctrl key down while clicking any search buttons to temporarily restrict the search to the Current File.</source>
         <translation>열려있는 파일에서만 찾기나 바꾸기를 수행합니다. 임시로 현재 파일에서만 찾으려면 찾기 버튼을 누를때는 Ctrl 키를 누르세요.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1646"/>
-        <location filename="../../MainUI/FindReplace.cpp" line="1647"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2107"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2108"/>
         <source>All HTML Files</source>
         <translation>모든 HTML 파일</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1647"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2108"/>
         <source>Find or replace in all HTML files in Code View.</source>
         <translation>코드 보기의 모든 HTML 파일에서 찾기 또는 바꾸기</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1649"/>
-        <location filename="../../MainUI/FindReplace.cpp" line="1650"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2110"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2111"/>
         <source>Selected HTML Files</source>
         <translation>선택된 HTML 파일</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1650"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2111"/>
         <source>Restrict the find or replace to the HTML files selected in the Book Browser in Code View.</source>
         <translation>책 찾아보기에서 HTML 파일 선택 후 코드보기 창에서 찾거나 바꿉니다. 선택된 파일 내에서만 검색을 합니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1652"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2113"/>
         <source>Tabbed HTML Files</source>
         <translation>탭에 열린 HTML 파일</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1653"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2114"/>
         <source>Restrict the find or replace to the HTML files open in Tabs.</source>
         <translation>찾기 또는 바꾸기를 탭에 열려있는 HTML 파일로 제한합니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1655"/>
-        <location filename="../../MainUI/FindReplace.cpp" line="1656"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2116"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2117"/>
         <source>All CSS Files</source>
         <translation>모든 CSS 파일</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1656"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2117"/>
         <source>Find or replace in all CSS files in Code View.</source>
         <translation>코드보기의 모든 CSS 파일을 찾거나 바꿉니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1658"/>
-        <location filename="../../MainUI/FindReplace.cpp" line="1659"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2119"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2120"/>
         <source>Selected CSS Files</source>
         <translation>선택한 CSS 파일</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1659"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2120"/>
         <source>Restrict the find or replace to the CSS files selected in the Book Browser in Code View.</source>
         <translation>찾기 또는 바꾸기를 코드보기의 책 브라우저에서 선택한 CSS 파일로 제한합니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1661"/>
-        <location filename="../../MainUI/FindReplace.cpp" line="1662"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2122"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2123"/>
         <source>Tabbed CSS Files</source>
         <translation>탭에 열린 CSS 파일</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1662"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2123"/>
         <source>Restrict the find or replace to the CSS files open in Tabs.</source>
         <translation>찾기 또는 바꾸기를 탭에 열려있는 CSS 파일로 제한합니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1664"/>
-        <location filename="../../MainUI/FindReplace.cpp" line="1665"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2125"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2126"/>
         <source>OPF File</source>
         <translation>OPF 파일</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1665"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2126"/>
         <source>Restrict the find or replace to the OPF file.</source>
         <translation>찾기 또는 바꾸기를 OPF 파일로 제한하십시오.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1667"/>
-        <location filename="../../MainUI/FindReplace.cpp" line="1668"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2128"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2129"/>
         <source>NCX File</source>
         <translation>NCX 파일</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1668"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2129"/>
         <source>Restrict the find or replace to the NCX file.</source>
         <translation>찾기 또는 바꾸기를 NCX 파일로 제한합니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1671"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2132"/>
         <source>To restrict search to selected text, use Search&amp;rarr;Mark Selected Text.</source>
         <translation>선택 영역으로 검색을 제한하려면 [검색&amp;rarr; 선택 영역 표시]를 사용하세요.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1676"/>
-        <location filename="../../MainUI/FindReplace.cpp" line="1677"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2137"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2138"/>
         <source>Marked Text</source>
         <translation>선택된 텍스트</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1677"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2138"/>
         <source>Restrict the find or replace to the text marked by Search&amp;rarr;Mark Selected Text.  Cleared if you use Undo, enter text, or change views or tabs.</source>
         <translation>[검색&amp;rarr; 선택 영역 표시]로 선택된 텍스트만 검색합니다. 선택 영역 취소, 다른 텍스트 입력 또는 탭이나 파일을 이동하면 선택 영역이 취소됩니다. </translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1681"/>
-        <location filename="../../MainUI/FindReplace.cpp" line="1685"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2142"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2146"/>
         <source>Up</source>
         <translation>위쪽</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1682"/>
-        <location filename="../../MainUI/FindReplace.cpp" line="1686"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2143"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2147"/>
         <source>Down</source>
         <translation>아래쪽</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1683"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2144"/>
         <source>Direction to search</source>
         <translation>찾을 방향</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1685"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2146"/>
         <source>Search for the previous match from your current position.</source>
         <translation>현재 위치에서 이전 검색 결과 찾기</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1686"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2147"/>
         <source>Search for the next match from your current position.</source>
         <translation>현재 위치에서 다음 검색 결과 찾기</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1701"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2153"/>
+        <source>Dot All</source>
+        <translation>최소 일치</translation>
+    </message>
+    <message>
+        <location filename="../../MainUI/FindReplace.cpp" line="2156"/>
+        <source>For Regex searches, prefix your search with (?s).</source>
+        <translation>정규식 검색을 할 때 접두어에 (?s)를 추가합니다. 줄바꿈이 된 항목까지 검색을 합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../MainUI/FindReplace.cpp" line="2160"/>
+        <source>Minimal Match</source>
+        <translation>최소 일치</translation>
+    </message>
+    <message>
+        <location filename="../../MainUI/FindReplace.cpp" line="2163"/>
+        <source>For Regex searches, prefix your search with (?U).</source>
+        <translation>정규식 검색을 할 때 접두어에 (?U)를 추가합니다. </translation>
+    </message>
+    <message>
+        <location filename="../../MainUI/FindReplace.cpp" line="2167"/>
+        <source>Auto Tokenise</source>
+        <translation>자동 토큰화</translation>
+    </message>
+    <message>
+        <location filename="../../MainUI/FindReplace.cpp" line="2170"/>
+        <source>For Regex searches, tokenise/escape selection when opening Find.</source>
+        <translation>검색할 내용을 선택 후 CTRL+F로 검색창을 열면 선택된 내용이 토큰화 되어 찾기에 추가됩니다.</translation>
+    </message>
+    <message>
+        <location filename="../../MainUI/FindReplace.cpp" line="2194"/>
         <source>Invalid Regex:</source>
         <translation>잘못된 정규식:</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1702"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2195"/>
         <source>offset:</source>
         <translation>오프셋:</translation>
     </message>
     <message>
-        <location filename="../../MainUI/FindReplace.cpp" line="1706"/>
+        <location filename="../../MainUI/FindReplace.cpp" line="2199"/>
         <source>Valid Regex</source>
         <translation>유효한 정규식</translation>
     </message>
@@ -2963,17 +3221,17 @@ other end to continue searching.</source>
 <context>
     <name>FindReplaceQLineEdit</name>
     <message>
-        <location filename="../../Misc/FindReplaceQLineEdit.cpp" line="60"/>
+        <location filename="../../Misc/FindReplaceQLineEdit.cpp" line="64"/>
         <source>Clear Find Replace History</source>
         <translation>찾기 바꾸기 기록 지우기</translation>
     </message>
     <message>
-        <location filename="../../Misc/FindReplaceQLineEdit.cpp" line="73"/>
+        <location filename="../../Misc/FindReplaceQLineEdit.cpp" line="77"/>
         <source>Tokenise Selection</source>
         <translation>자동 토큰화</translation>
     </message>
     <message>
-        <location filename="../../Misc/FindReplaceQLineEdit.cpp" line="86"/>
+        <location filename="../../Misc/FindReplaceQLineEdit.cpp" line="90"/>
         <source>Save Search</source>
         <translation>검색 저장</translation>
     </message>
@@ -2981,7 +3239,7 @@ other end to continue searching.</source>
 <context>
     <name>FlowTab</name>
     <message>
-        <location filename="../../Tabs/FlowTab.cpp" line="861"/>
+        <location filename="../../Tabs/FlowTab.cpp" line="864"/>
         <source>Print %1</source>
         <translation>인쇄 %1</translation>
     </message>
@@ -2997,29 +3255,29 @@ other end to continue searching.</source>
 <context>
     <name>FontView</name>
     <message>
-        <location filename="../../Widgets/FontView.cpp" line="121"/>
+        <location filename="../../Widgets/FontView.cpp" line="125"/>
         <source>No reliable font data</source>
         <translation>신뢰할 수 있는 글꼴 없음</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FontView.cpp" line="132"/>
+        <location filename="../../Widgets/FontView.cpp" line="136"/>
         <source>abcdefghijklmnopqrstuvwxyz</source>
         <translation>abcdefghijklmnopqrstuvwxyz</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FontView.cpp" line="133"/>
+        <location filename="../../Widgets/FontView.cpp" line="137"/>
         <source>ABCDEFGHIJKLMNOPQRSTUVWXYZ</source>
         <translation>ABCDEFGHIJKLMNOPQRSTUVWXYZ</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FontView.cpp" line="134"/>
+        <location filename="../../Widgets/FontView.cpp" line="138"/>
         <source>0123456789.:,;(*!?&apos;\/&quot;)$%^&amp;-+@=_-~&gt;&lt;</source>
         <translation>0123456789.:,;(*!?&apos;\/&quot;)$%^&amp;-+@=_-~&gt;&lt;</translation>
     </message>
     <message>
-        <location filename="../../Widgets/FontView.cpp" line="135"/>
+        <location filename="../../Widgets/FontView.cpp" line="139"/>
         <source>The quick brown fox jumps over the lazy dog</source>
-        <translation>날쌘 갈색 여우가 게으른 개를 뛰어넘는다.</translation>
+        <translation>날쌘 『갈색 여우』가 게으른 개를 뛰어넘는다. 123456789 ABCDEFG abcdefg</translation>
     </message>
 </context>
 <context>
@@ -3109,7 +3367,7 @@ mended.</source>
     <message>
         <location filename="../../Form_Files/PGeneralSettingsWidget.ui" line="186"/>
         <source>Set your preferred external xhtml editor:</source>
-        <translation>선호하는 외부 xhtml 편집기를 설정:</translation>
+        <translation>선호하는 외부 XHTML 편집기 설정:</translation>
     </message>
     <message>
         <location filename="../../Form_Files/PGeneralSettingsWidget.ui" line="203"/>
@@ -3261,19 +3519,35 @@ mended.</source>
         <translation>자동</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/GeneralSettingsWidget.cpp" line="197"/>
-        <source>Incorrect Path for External Xhtml Editor selected</source>
-        <translation>외부 편집기 경로를 잘못 선택하였습니다. </translation>
+        <location filename="../../Form_Files/PGeneralSettingsWidget.ui" line="536"/>
+        <source>Disable GPU Acceleration in QtWebEngine/Preview</source>
+        <translation>QtWebEngine/Preview에서 GPU 가속 비활성화</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/GeneralSettingsWidget.cpp" line="217"/>
+        <location filename="../../Form_Files/PGeneralSettingsWidget.ui" line="539"/>
+        <source> Disable GPU Acceleration in QtWebEngine/Preview.</source>
+        <translation>QtWebEngine/Preview에서 GPU 가속 비활성화</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/PGeneralSettingsWidget.ui" line="554"/>
+        <location filename="../../Form_Files/PGeneralSettingsWidget.ui" line="557"/>
+        <source>Disable GPU Acceleration in QtWebEngine.</source>
+        <translation>QtWebEngine에서 GPU 가속 비활성</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/PreferenceWidgets/GeneralSettingsWidget.cpp" line="209"/>
+        <source>Incorrect Path for External Xhtml Editor selected</source>
+        <translation>외부 편집기 경로가 잘못 되었습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/PreferenceWidgets/GeneralSettingsWidget.cpp" line="229"/>
         <source>Select Folder for Temporary Files</source>
         <translation>임시 파일 폴더 선택</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/GeneralSettingsWidget.cpp" line="234"/>
+        <location filename="../../Dialogs/PreferenceWidgets/GeneralSettingsWidget.cpp" line="246"/>
         <source>Incorrect Folder for Temporary Files selected</source>
-        <translation>임시 파일 폴더를 잘못 선택하였습니다. </translation>
+        <translation>임시 파일 폴더 경로가 잘못 되었습니다.</translation>
     </message>
 </context>
 <context>
@@ -3458,7 +3732,7 @@ mended.</source>
     <message>
         <location filename="../../Misc/GuideItems.cpp" line="171"/>
         <source>Preliminary material to the main content of a publication, such as tables of contents, dedications, etc.</source>
-        <translation>목차, 헌정의 말 등 출판물의 주요 내용을 포함하는 책의 첫머리 부분이며 전문 또는 서문 등과 같은 의미로 사용한다.</translation>
+        <translation>차례, 헌정의 말 등 출판물의 주요 내용을 포함하는 책의 첫머리 부분이며 전문 또는 서문 등과 같은 의미로 사용한다.</translation>
     </message>
     <message>
         <location filename="../../Misc/GuideItems.cpp" line="172"/>
@@ -3633,12 +3907,12 @@ mended.</source>
     <message>
         <location filename="../../Misc/GuideItems.cpp" line="189"/>
         <source>Table of Contents</source>
-        <translation>목차</translation>
+        <translation>차례</translation>
     </message>
     <message>
         <location filename="../../Misc/GuideItems.cpp" line="189"/>
         <source>A table of contents which is a list of the headings or parts of the book or document, organized in the order in which they appear. Typically appearing in the work&apos;s frontmatter, or at the beginning of a section.</source>
-        <translation>책 또는 문서의 제목 또는 부분의 목록 인 목차로, 순서대로 표시됩니다. 일반적으로 작품의 전면 또는 섹션 시작 부분에 나타납니다.</translation>
+        <translation>책 또는 문서의 제목 또는 부분의 목록인 차례로, 순서대로 표시됩니다. 일반적으로 작품의 전면 또는 섹션 시작 부분에 나타납니다.</translation>
     </message>
 </context>
 <context>
@@ -3744,13 +4018,13 @@ mended.</source>
     <message>
         <location filename="../../Form_Files/HeadingSelector.ui" line="14"/>
         <source>Generate Table Of Contents</source>
-        <translation>목차 만들기</translation>
+        <translation>차례 만들기</translation>
     </message>
     <message>
         <location filename="../../Form_Files/HeadingSelector.ui" line="52"/>
         <source>Change the name of the entry in the TOC.
 The heading&apos;s title attribute will be updated in the document.</source>
-        <translation>목차의 항목 이름을 변경합니다. 본문의 제목은 수정되지 않으며 헤딩(heading) 태그의 title 속성이 문서에서 업데이트됩니다.</translation>
+        <translation>차례의 항목 이름을 변경합니다. 본문의 제목은 수정되지 않으며 헤딩(heading) 태그의 title 속성이 문서에서 업데이트됩니다.</translation>
     </message>
     <message>
         <location filename="../../Form_Files/HeadingSelector.ui" line="56"/>
@@ -3776,7 +4050,7 @@ You can also use the right arrow key.</source>
         <location filename="../../Form_Files/HeadingSelector.ui" line="130"/>
         <source>Only display the items that will be added to the Table Of Contents.
 Check or uncheck an entry to determine if it will be added to the TOC.</source>
-        <translation>목차에 추가 될 항목 만 표시합니다 . 항목을 확인하거나 선택 취소하여 항목을 목차에 추가할 지 결정합니다.</translation>
+        <translation>차례에 추가 될 항목 만 표시합니다 . 항목을 확인하거나 선택 취소하여 항목을 차례에 추가할 것인지 결정합니다.</translation>
     </message>
     <message>
         <location filename="../../Form_Files/HeadingSelector.ui" line="134"/>
@@ -3808,7 +4082,7 @@ You can then check or uncheck individual headings in the list above.</source>
     <message>
         <location filename="../../Dialogs/HeadingSelector.cpp" line="617"/>
         <source>TOC Entry / Heading Title</source>
-        <translation>목차 항목</translation>
+        <translation>차례 항목</translation>
     </message>
     <message>
         <location filename="../../Dialogs/HeadingSelector.cpp" line="619"/>
@@ -3929,49 +4203,49 @@ You can then check or uncheck individual headings in the list above.</source>
 <context>
     <name>ImageTab</name>
     <message>
-        <location filename="../../Tabs/ImageTab.cpp" line="186"/>
+        <location filename="../../Tabs/ImageTab.cpp" line="199"/>
         <source>shades</source>
         <translation>그림자</translation>
     </message>
     <message>
-        <location filename="../../Tabs/ImageTab.cpp" line="186"/>
+        <location filename="../../Tabs/ImageTab.cpp" line="199"/>
         <source>colors</source>
         <translation>색상</translation>
     </message>
     <message>
-        <location filename="../../Tabs/ImageTab.cpp" line="187"/>
+        <location filename="../../Tabs/ImageTab.cpp" line="200"/>
         <source>Grayscale</source>
         <translation>회색조(Grayscale)</translation>
     </message>
     <message>
-        <location filename="../../Tabs/ImageTab.cpp" line="187"/>
+        <location filename="../../Tabs/ImageTab.cpp" line="200"/>
         <source>Color</source>
         <translation>색상</translation>
     </message>
     <message>
-        <location filename="../../Tabs/ImageTab.cpp" line="309"/>
-        <location filename="../../Tabs/ImageTab.cpp" line="367"/>
-        <location filename="../../Tabs/ImageTab.cpp" line="370"/>
+        <location filename="../../Tabs/ImageTab.cpp" line="322"/>
+        <location filename="../../Tabs/ImageTab.cpp" line="380"/>
+        <location filename="../../Tabs/ImageTab.cpp" line="383"/>
         <source>Open With</source>
         <translation>다른 프로그램으로 편집</translation>
     </message>
     <message>
-        <location filename="../../Tabs/ImageTab.cpp" line="345"/>
+        <location filename="../../Tabs/ImageTab.cpp" line="358"/>
         <source>Other Application</source>
         <translation>다른 응용프로그램</translation>
     </message>
     <message>
-        <location filename="../../Tabs/ImageTab.cpp" line="368"/>
+        <location filename="../../Tabs/ImageTab.cpp" line="381"/>
         <source>Save As</source>
         <translation>다른 이름으로 저장</translation>
     </message>
     <message>
-        <location filename="../../Tabs/ImageTab.cpp" line="369"/>
+        <location filename="../../Tabs/ImageTab.cpp" line="382"/>
         <source>Copy Image</source>
         <translation>이미지 복사</translation>
     </message>
     <message>
-        <location filename="../../Tabs/ImageTab.cpp" line="424"/>
+        <location filename="../../Tabs/ImageTab.cpp" line="441"/>
         <source>Print %1</source>
         <translation>인쇄 %1</translation>
     </message>
@@ -3979,22 +4253,22 @@ You can then check or uncheck individual headings in the list above.</source>
 <context>
     <name>ImageView</name>
     <message>
-        <location filename="../../Widgets/ImageView.cpp" line="84"/>
+        <location filename="../../Widgets/ImageView.cpp" line="88"/>
         <source>shades</source>
         <translation>그림자</translation>
     </message>
     <message>
-        <location filename="../../Widgets/ImageView.cpp" line="84"/>
+        <location filename="../../Widgets/ImageView.cpp" line="88"/>
         <source>colors</source>
         <translation>색상</translation>
     </message>
     <message>
-        <location filename="../../Widgets/ImageView.cpp" line="85"/>
+        <location filename="../../Widgets/ImageView.cpp" line="89"/>
         <source>Grayscale</source>
         <translation>회색조(Grayscale)</translation>
     </message>
     <message>
-        <location filename="../../Widgets/ImageView.cpp" line="85"/>
+        <location filename="../../Widgets/ImageView.cpp" line="89"/>
         <source>Color</source>
         <translation>색상</translation>
     </message>
@@ -4002,31 +4276,31 @@ You can then check or uncheck individual headings in the list above.</source>
 <context>
     <name>ImportEPUB</name>
     <message>
-        <location filename="../../Importers/ImportEPUB.cpp" line="149"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="155"/>
         <source>Files exist in epub that are not listed in the manifest, they will be ignored</source>
         <translation>매니페스트에 나열되지 않은 파일이 epub에 존재하기 때문에 파일은 무시합니다.</translation>
     </message>
     <message>
-        <location filename="../../Importers/ImportEPUB.cpp" line="200"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="188"/>
         <source>Sigil</source>
         <translation>Sigil</translation>
     </message>
     <message>
-        <location filename="../../Importers/ImportEPUB.cpp" line="201"/>
-        <source>This EPUB has HTML files that are not well formed or are missing a DOCTYPE, html, head or body elements. Sigil can automatically fix these files, although this may result in minor data loss in extreme circumstances.
+        <location filename="../../Importers/ImportEPUB.cpp" line="189"/>
+        <source>This EPUB has HTML files that are not well formed or are missing a DOCTYPE, html, head or body elements. Sigil can automatically fix these files, although this may very rarely result in minor data loss in extreme circumstances.
 
 Do you want to automatically fix the files?</source>
-        <translation>이 EPUB에는 형식이 올바르지 않거나 DOCTYPE, html, head 또는 body 요소가 누락 된 HTML 파일이 있습니다. Sigil은 이러한 파일을 자동으로 수정할 수 있지만 편집 오류 상태에 따라 약간의 데이터 손실이 발생할 수 있습니다 . 
+        <translation>이 EPUB에는 형식이 올바르지 않거나 DOCTYPE, html, head 또는 body 요소가 누락 된 HTML 파일이 있습니다. Sigil은 이러한 파일을 자동으로 수정할 수 있지만 편집 오류 상태에 따라 아주 드물게 약간의 데이터 손실이 발생할 수 있습니다 . 
 
 파일을 자동으로 수정 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../../Importers/ImportEPUB.cpp" line="576"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="592"/>
         <source>Epub has missing or improperly specified OPF.</source>
         <translation>Epub에 OPF가 없거나 잘못 지정되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../Importers/ImportEPUB.cpp" line="616"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="632"/>
         <source>This epub has multiple renditions (multiple OPF files). Editing this epub in Sigil will produce a normal single rendition epub using only the main (first) OPF file found.</source>
         <translation>이 epub에는 다줄 렌디션(renditions, 다중 OPF 파일)이 있습니다. Sigil에서 이 epub를 편집하면 Sigil이 처음 발견한 OPF 파일만 사용합니다.</translation>
     </message>
@@ -4210,17 +4484,17 @@ Do you want to save your changes?</source>
 <context>
     <name>IndexEditorModel</name>
     <message>
-        <location filename="../../MiscEditors/IndexEditorModel.cpp" line="61"/>
+        <location filename="../../MiscEditors/IndexEditorModel.cpp" line="68"/>
         <source>Text to Include</source>
         <translation>포함할 텍스트</translation>
     </message>
     <message>
-        <location filename="../../MiscEditors/IndexEditorModel.cpp" line="62"/>
+        <location filename="../../MiscEditors/IndexEditorModel.cpp" line="69"/>
         <source>Index Entries</source>
         <translation>색인 항목</translation>
     </message>
     <message>
-        <location filename="../../MiscEditors/IndexEditorModel.cpp" line="347"/>
+        <location filename="../../MiscEditors/IndexEditorModel.cpp" line="354"/>
         <source>Unable to create file %1</source>
         <translation>%1 파일을 생성할 수 없습니다</translation>
     </message>
@@ -4228,12 +4502,12 @@ Do you want to save your changes?</source>
 <context>
     <name>Inspector</name>
     <message>
-        <location filename="../../Dialogs/Inspector.cpp" line="54"/>
+        <location filename="../../Dialogs/Inspector.cpp" line="56"/>
         <source>Inspect Page or Element</source>
         <translation>페이지 또는 요소 검사</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/Inspector.cpp" line="153"/>
+        <location filename="../../Dialogs/Inspector.cpp" line="155"/>
         <source>The Inspector functionality is not supported before Qt 5.11</source>
         <translation>검사 기능은 Qt 5.11 이전에는 지원되지 않습니다.</translation>
     </message>
@@ -4317,7 +4591,7 @@ Do you want to save your changes?</source>
         <translation>지우기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/KeyboardShortcutsWidget.cpp" line="438"/>
+        <location filename="../../Dialogs/PreferenceWidgets/KeyboardShortcutsWidget.cpp" line="439"/>
         <source>Conflicts with: &lt;b&gt;</source>
         <translation>충돌 항목:&lt;b&gt;</translation>
     </message>
@@ -4544,7 +4818,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../../Misc/Landmarks.cpp" line="173"/>
         <source>Preliminary material to the main content of a publication, such as tables of contents, dedications, etc.</source>
-        <translation>목차, 헌정의 말 등 출판물의 주요 내용을 포함하는 책의 첫머리 부분이며 전문 또는 서문 등과 같은 의미로 사용한다.</translation>
+        <translation>차례, 헌정의 말 등 출판물의 주요 내용을 포함하는 책의 첫머리 부분이며 전문 또는 서문 등과 같은 의미로 사용한다.</translation>
     </message>
     <message>
         <location filename="../../Misc/Landmarks.cpp" line="174"/>
@@ -4779,12 +5053,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../../Misc/Landmarks.cpp" line="197"/>
         <source>Table of Contents</source>
-        <translation>목차</translation>
+        <translation>차례</translation>
     </message>
     <message>
         <location filename="../../Misc/Landmarks.cpp" line="197"/>
         <source>A table of contents which is a list of the headings or parts of the book or document, organized in the order in which they appear. Typically appearing in the work&apos;s frontmatter, or at the beginning of a section.</source>
-        <translation>책 또는 문서의 제목 또는 부분의 목록 인 목차로, 순서대로 표시됩니다. 일반적으로 작품의 전면 또는 섹션 시작 부분에 나타납니다.</translation>
+        <translation>책 또는 문서의 제목 또는 부분의 목록인 차례로, 순서대로 표시됩니다. 일반적으로 작품의 전면 또는 섹션 시작 부분에 나타납니다.</translation>
     </message>
     <message>
         <location filename="../../Misc/Landmarks.cpp" line="198"/>
@@ -7783,7 +8057,9 @@ Use Preferences-&gt;Spellcheck Dictionaries to set the Spellcheck dictionary.</s
         <source>Move the selected javascripts up in priority.
 
 Javascripts that are listed first are loaded first.</source>
-        <translation type="unfinished"/>
+        <translation>선택한 자바스크립트의 우선순위를 바꾸려면 위로 이동하세요. 
+
+먼저 나열된 Javascript가 먼저 로드됩니다.</translation>
     </message>
     <message>
         <location filename="../../Form_Files/LinkJavascripts.ui" line="48"/>
@@ -8062,205 +8338,205 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
         <translation>현재 파일(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="300"/>
+        <location filename="../../Form_Files/main.ui" line="302"/>
         <source>&amp;Window</source>
         <translation>창(&amp;W)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="312"/>
+        <location filename="../../Form_Files/main.ui" line="314"/>
         <source>&amp;Tools</source>
         <translation>도구(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="316"/>
+        <location filename="../../Form_Files/main.ui" line="318"/>
         <source>&amp;Table Of Contents</source>
-        <translation>목차(&amp;T)</translation>
+        <translation>차례(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="324"/>
+        <location filename="../../Form_Files/main.ui" line="326"/>
         <source>Spe&amp;llcheck</source>
         <translation>맞춤법검사(&amp;l)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="338"/>
+        <location filename="../../Form_Files/main.ui" line="340"/>
         <source>&amp;Index</source>
         <translation>색인(&amp;I)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="349"/>
+        <location filename="../../Form_Files/main.ui" line="351"/>
         <source>Re&amp;format HTML</source>
         <translation>HTML 정리(&amp;f)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="356"/>
+        <location filename="../../Form_Files/main.ui" line="358"/>
         <source>Epub&amp;3 Tools</source>
         <translation>Epub&amp;3 도구</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="384"/>
+        <location filename="../../Form_Files/main.ui" line="386"/>
         <source>Plugins</source>
         <translation>플러그인(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="390"/>
-        <location filename="../../Form_Files/main.ui" line="455"/>
+        <location filename="../../Form_Files/main.ui" line="392"/>
+        <location filename="../../Form_Files/main.ui" line="457"/>
         <source>Checkpoints</source>
         <translation>체크포인트(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="414"/>
+        <location filename="../../Form_Files/main.ui" line="416"/>
         <source>New</source>
         <translation>새로</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="428"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="1459"/>
+        <location filename="../../Form_Files/main.ui" line="430"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1522"/>
         <source>File</source>
         <translation>파일</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="442"/>
+        <location filename="../../Form_Files/main.ui" line="444"/>
         <source>Add Existing</source>
         <translation>기존 아이콘 추가</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="470"/>
+        <location filename="../../Form_Files/main.ui" line="472"/>
         <source>Index</source>
         <translation>색인</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="486"/>
+        <location filename="../../Form_Files/main.ui" line="488"/>
         <source>Undo/Redo</source>
         <translation>되돌리기/다시실행</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="500"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="619"/>
+        <location filename="../../Form_Files/main.ui" line="502"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="640"/>
         <source>Edit</source>
         <translation>편집</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="516"/>
+        <location filename="../../Form_Files/main.ui" line="518"/>
         <source>External Editor</source>
         <translation>외부 편집기</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="529"/>
+        <location filename="../../Form_Files/main.ui" line="531"/>
         <source>Find</source>
         <translation>찾기</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="543"/>
+        <location filename="../../Form_Files/main.ui" line="545"/>
         <source>Insert</source>
         <translation>삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="560"/>
+        <location filename="../../Form_Files/main.ui" line="562"/>
         <source>Back</source>
         <translation>뒤로</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="572"/>
+        <location filename="../../Form_Files/main.ui" line="574"/>
         <source>Donate</source>
         <translation>기부</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="584"/>
+        <location filename="../../Form_Files/main.ui" line="586"/>
         <source>Tools</source>
         <translation>도구</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="599"/>
+        <location filename="../../Form_Files/main.ui" line="601"/>
         <source>Plugins Set 1</source>
         <translation>플러그인 도구 1</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="615"/>
+        <location filename="../../Form_Files/main.ui" line="617"/>
         <source>Plugins Set 2</source>
         <translation>플러그인 도구 2</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="631"/>
+        <location filename="../../Form_Files/main.ui" line="633"/>
         <source>Automation Lists</source>
         <translation>자동화 목록</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="645"/>
+        <location filename="../../Form_Files/main.ui" line="647"/>
         <source>Automation List 1</source>
         <translation>자동화 목록 1</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="656"/>
+        <location filename="../../Form_Files/main.ui" line="658"/>
         <source>Automation List 2</source>
         <translation>자동화 목록 2</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="667"/>
+        <location filename="../../Form_Files/main.ui" line="669"/>
         <source>Automation List 3</source>
         <translation>자동화 목록 3</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="675"/>
+        <location filename="../../Form_Files/main.ui" line="677"/>
         <source>Heading</source>
         <translation>제목 스타일</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="689"/>
+        <location filename="../../Form_Files/main.ui" line="691"/>
         <source>Set Heading Level of Selected Text</source>
         <translation>선택한 텍스트의 제목 수준 설정</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="702"/>
+        <location filename="../../Form_Files/main.ui" line="704"/>
         <source>Format</source>
         <translation>서식</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="719"/>
+        <location filename="../../Form_Files/main.ui" line="721"/>
         <source>Align</source>
         <translation>정렬</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="734"/>
+        <location filename="../../Form_Files/main.ui" line="736"/>
         <source>List</source>
         <translation>목록</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="747"/>
+        <location filename="../../Form_Files/main.ui" line="749"/>
         <source>Indent</source>
         <translation>들여쓰기</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="760"/>
+        <location filename="../../Form_Files/main.ui" line="762"/>
         <source>Change Case</source>
         <translation>대소문자 변경</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="774"/>
+        <location filename="../../Form_Files/main.ui" line="776"/>
         <source>Set Case of Selected Text</source>
         <translation>선택한 텍스트의 대소 문자 설정</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="784"/>
+        <location filename="../../Form_Files/main.ui" line="786"/>
         <source>Text Direction</source>
         <translation>텍스트 방향</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="798"/>
+        <location filename="../../Form_Files/main.ui" line="800"/>
         <source>Clip Bar</source>
         <translation>클립 바</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="829"/>
+        <location filename="../../Form_Files/main.ui" line="831"/>
         <source>Clip Bar2</source>
         <translation>클립 바2</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="865"/>
+        <location filename="../../Form_Files/main.ui" line="867"/>
         <source>New Default</source>
         <translation>기본 EPUB 새로 만들기</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="868"/>
+        <location filename="../../Form_Files/main.ui" line="870"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;New&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Create a new default book.&lt;/p&gt;</source>
@@ -8269,17 +8545,17 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;기본 설정된 EPUB으로 새로 만들기&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="873"/>
+        <location filename="../../Form_Files/main.ui" line="875"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="883"/>
+        <location filename="../../Form_Files/main.ui" line="885"/>
         <source>ePub&amp;2</source>
         <translation>ePub&amp;2</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="886"/>
+        <location filename="../../Form_Files/main.ui" line="888"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;New ePub2&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Create a new ePub2 book.&lt;/p&gt;</source>
@@ -8288,12 +8564,12 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;빈 EPUB2 파일을 새로 만듧니다.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="898"/>
+        <location filename="../../Form_Files/main.ui" line="900"/>
         <source>ePub&amp;3</source>
         <translation>ePub&amp;3</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="901"/>
+        <location filename="../../Form_Files/main.ui" line="903"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;New ePub3&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Create a new ePub3 book.&lt;/p&gt;</source>
@@ -8302,12 +8578,12 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;빈 EPUB3 파일을 새로 만듧니다.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="913"/>
+        <location filename="../../Form_Files/main.ui" line="915"/>
         <source>&amp;Save</source>
         <translation>저장(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="916"/>
+        <location filename="../../Form_Files/main.ui" line="918"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Save&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Save the current book.&lt;/p&gt;</source>
@@ -8316,17 +8592,17 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;현재 책 저장하기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="921"/>
+        <location filename="../../Form_Files/main.ui" line="923"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="926"/>
+        <location filename="../../Form_Files/main.ui" line="928"/>
         <source>Save &amp;As...</source>
         <translation>다른 이름으로 저장(&amp;A)...</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="929"/>
+        <location filename="../../Form_Files/main.ui" line="931"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Save As&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Save the current book with a different filename.&lt;/p&gt;</source>
@@ -8335,27 +8611,27 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;현재 책을 다른 파일 이름으로 저장하기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="934"/>
+        <location filename="../../Form_Files/main.ui" line="936"/>
         <source>Ctrl+Shift+S</source>
         <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="939"/>
+        <location filename="../../Form_Files/main.ui" line="941"/>
         <source>Save A &amp;Copy...</source>
         <translation>사본으로 저장(&amp;C)...</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="942"/>
+        <location filename="../../Form_Files/main.ui" line="944"/>
         <source>Save a copy of your book to another file name.</source>
         <translation>책의 사본을 다른 파일 이름으로 저장합니다.</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="951"/>
+        <location filename="../../Form_Files/main.ui" line="953"/>
         <source>Cu&amp;t</source>
         <translation>잘라내기(&amp;t)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="954"/>
+        <location filename="../../Form_Files/main.ui" line="956"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Cut&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Cuts the selected text from the document and puts it on the clipboard.&lt;/p&gt;</source>
@@ -8364,12 +8640,12 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;문서에서 선택된 텍스트를 잘라내서 클립보드에 보관하기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="965"/>
+        <location filename="../../Form_Files/main.ui" line="967"/>
         <source>&amp;Paste</source>
         <translation>붙여넣기(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="968"/>
+        <location filename="../../Form_Files/main.ui" line="970"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Paste&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Pastes the content from the clipboard into the book.&lt;/p&gt;</source>
@@ -8378,27 +8654,27 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;클립보드에 있는 내용물을 책 안에 붙여넣기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="975"/>
+        <location filename="../../Form_Files/main.ui" line="977"/>
         <source>&amp;Closing Tag</source>
         <translation>태그 닫기(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="978"/>
+        <location filename="../../Form_Files/main.ui" line="980"/>
         <source>Insert a closing tag in Code View.</source>
         <translation>코드 보기에서 닫는 태그를 넣으세요.</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="981"/>
+        <location filename="../../Form_Files/main.ui" line="983"/>
         <source>Ctrl+.</source>
         <translation>Ctrl+.</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="990"/>
+        <location filename="../../Form_Files/main.ui" line="992"/>
         <source>&amp;Undo</source>
         <translation>되돌리기(&amp;U)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="993"/>
+        <location filename="../../Form_Files/main.ui" line="995"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Undo&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Reverts the changes of the previous operation.&lt;/p&gt;</source>
@@ -8407,17 +8683,17 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;바로 전에 작업한 변경 내용을 되돌리기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="998"/>
+        <location filename="../../Form_Files/main.ui" line="1000"/>
         <source>Ctrl+Z</source>
         <translation>Ctrl+Z</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1007"/>
+        <location filename="../../Form_Files/main.ui" line="1009"/>
         <source>&amp;Redo</source>
         <translation>다시 실행(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1010"/>
+        <location filename="../../Form_Files/main.ui" line="1012"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Redo&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Restores the changes reverted by the previous Undo action.&lt;/p&gt;</source>
@@ -8426,17 +8702,17 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;바로 전에 되돌리기 작업한 변경 내용을 다시 실행하기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1015"/>
+        <location filename="../../Form_Files/main.ui" line="1017"/>
         <source>Ctrl+Y</source>
         <translation>Ctrl+Y</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1024"/>
+        <location filename="../../Form_Files/main.ui" line="1026"/>
         <source>&amp;Copy</source>
         <translation>복사(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1027"/>
+        <location filename="../../Form_Files/main.ui" line="1029"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Copy&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Copies the selected text and puts it on the clipboard.&lt;/p&gt;</source>
@@ -8445,12 +8721,12 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;문서에서 선택된 텍스트를 복사해서 클립보드에 보관하기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1041"/>
+        <location filename="../../Form_Files/main.ui" line="1043"/>
         <source>Align &amp;Left</source>
         <translation>왼쪽 정렬(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1044"/>
+        <location filename="../../Form_Files/main.ui" line="1046"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Align Left&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Align the paragraph to the left.&lt;/p&gt;</source>
@@ -8459,12 +8735,12 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;문단을 왼쪽으로 정렬합니다.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1058"/>
+        <location filename="../../Form_Files/main.ui" line="1060"/>
         <source>Align &amp;Right</source>
         <translation>오른쪽 정렬(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1061"/>
+        <location filename="../../Form_Files/main.ui" line="1063"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Align Right&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Align the paragraph to the right.&lt;/p&gt;</source>
@@ -8473,12 +8749,12 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;문단을 오른쪽으로 정렬합니다.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1075"/>
+        <location filename="../../Form_Files/main.ui" line="1077"/>
         <source>&amp;Center</source>
         <translation>가운데 정렬(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1078"/>
+        <location filename="../../Form_Files/main.ui" line="1080"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Center&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Center the paragraph.&lt;/p&gt;</source>
@@ -8487,17 +8763,17 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;단락을 가운데 맞춤.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1083"/>
+        <location filename="../../Form_Files/main.ui" line="1085"/>
         <source>Ctrl+E</source>
         <translation>Ctrl+E</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1095"/>
+        <location filename="../../Form_Files/main.ui" line="1097"/>
         <source>&amp;Justify</source>
         <translation>양쪽 맞춤(&amp;J)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1098"/>
+        <location filename="../../Form_Files/main.ui" line="1100"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Justify&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Align the paragraph to both the left and right margins.&lt;/p&gt;</source>
@@ -8506,17 +8782,17 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;왼쪽과 오른쪽의 여백에 단락을 맞추기 .&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1103"/>
+        <location filename="../../Form_Files/main.ui" line="1105"/>
         <source>Ctrl+J</source>
         <translation>Ctrl+J</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1115"/>
+        <location filename="../../Form_Files/main.ui" line="1117"/>
         <source>&amp;Bold</source>
         <translation>진하게(&amp;B)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1118"/>
+        <location filename="../../Form_Files/main.ui" line="1120"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Bold&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Make the selected text bold.&lt;/p&gt;</source>
@@ -8525,17 +8801,17 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;선택한 텍스트를 굵게 합니다.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1123"/>
+        <location filename="../../Form_Files/main.ui" line="1125"/>
         <source>Ctrl+B</source>
         <translation>Ctrl+B</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1135"/>
+        <location filename="../../Form_Files/main.ui" line="1137"/>
         <source>&amp;Italic</source>
         <translation>기울임꼴(&amp;I)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1138"/>
+        <location filename="../../Form_Files/main.ui" line="1140"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Italic&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Make the selected text italic.&lt;/p&gt;</source>
@@ -8544,17 +8820,17 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;선택한 텍스트를 기울임꼴로 합니다.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1143"/>
+        <location filename="../../Form_Files/main.ui" line="1145"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1152"/>
+        <location filename="../../Form_Files/main.ui" line="1154"/>
         <source>&amp;Open...</source>
         <translation>열기...(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1155"/>
+        <location filename="../../Form_Files/main.ui" line="1157"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Open&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Open a book from disk.&lt;/p&gt;</source>
@@ -8563,17 +8839,17 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;디스크에서 책 열기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1160"/>
+        <location filename="../../Form_Files/main.ui" line="1162"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1172"/>
+        <location filename="../../Form_Files/main.ui" line="1174"/>
         <source>&amp;Underline</source>
         <translation>밑줄(&amp;U)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1175"/>
+        <location filename="../../Form_Files/main.ui" line="1177"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Underline&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Underline the selected text.&lt;/p&gt;</source>
@@ -8582,42 +8858,42 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;선택한 텍스트에 밑줄을 넣습니다.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1180"/>
+        <location filename="../../Form_Files/main.ui" line="1182"/>
         <source>Ctrl+U</source>
         <translation>Ctrl+U</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1192"/>
+        <location filename="../../Form_Files/main.ui" line="1194"/>
         <source>&amp;Quit</source>
         <translation>나가기(&amp;Q)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1195"/>
+        <location filename="../../Form_Files/main.ui" line="1197"/>
         <source>Exit</source>
         <translation>종료</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1198"/>
+        <location filename="../../Form_Files/main.ui" line="1200"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1210"/>
+        <location filename="../../Form_Files/main.ui" line="1212"/>
         <source>&amp;About...</source>
         <translation>Sigil 정보(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1213"/>
+        <location filename="../../Form_Files/main.ui" line="1215"/>
         <source>Show information about Sigil.</source>
         <translation>Sigil에 대한 정보 보기.</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1218"/>
+        <location filename="../../Form_Files/main.ui" line="1220"/>
         <source>Add &amp;Cover...</source>
         <translation>표지 추가(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1221"/>
+        <location filename="../../Form_Files/main.ui" line="1223"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Add Cover&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Add a cover.&lt;/p&gt;</source>
@@ -8626,12 +8902,12 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;표지를 추가합니다.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1232"/>
+        <location filename="../../Form_Files/main.ui" line="1234"/>
         <source>&amp;Metadata Editor...</source>
         <translation>메타데이터 편집기...(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1235"/>
+        <location filename="../../Form_Files/main.ui" line="1237"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Metadata Editor&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Edit and display information about your book including the author and title.&lt;/p&gt;</source>
@@ -8640,50 +8916,50 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;저자, 제목 등을 포함하는 책에 대한 정보를 표시하고 편집하기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1240"/>
+        <location filename="../../Form_Files/main.ui" line="1242"/>
         <source>F8</source>
         <translation>F8</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1249"/>
+        <location filename="../../Form_Files/main.ui" line="1251"/>
         <source>&amp;Generate Table Of Contents...</source>
-        <translation>목차 만들기...(&amp;G)</translation>
+        <translation>차례 만들기...(&amp;G)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1252"/>
+        <location filename="../../Form_Files/main.ui" line="1254"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Generate Table of Contents&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Generate a new Table of Contents from headings in your book.&lt;/p&gt;</source>
-        <translation>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;목차 만들기&lt;/b&gt;&lt;/p&gt;
+        <translation>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;차례 만들기&lt;/b&gt;&lt;/p&gt;
 
-&lt;p style=&quot;margin-left: 0.5em;&quot;&gt;책에 있는 헤딩 태그를 기준으로 목차를 만듧니다.&lt;/p&gt;</translation>
+&lt;p style=&quot;margin-left: 0.5em;&quot;&gt;책에 있는 헤딩 태그를 기준으로 차례를 만듧니다.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1257"/>
+        <location filename="../../Form_Files/main.ui" line="1259"/>
         <source>Ctrl+T</source>
         <translation>Ctrl+T</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1266"/>
+        <location filename="../../Form_Files/main.ui" line="1268"/>
         <source>&amp;Edit Table Of Contents...</source>
-        <translation>목차 편집(&amp;E)</translation>
+        <translation>차례 편집(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1269"/>
+        <location filename="../../Form_Files/main.ui" line="1271"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Edit Table of Contents&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Directly edit the existing Table of Contents.&lt;/p&gt;</source>
-        <translation>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;목차 편집&lt;/b&gt;&lt;/p&gt;
+        <translation>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;차례 편집&lt;/b&gt;&lt;/p&gt;
 
-&lt;p style=&quot;margin-left: 0.5em;&quot;&gt;만들어 진 목차를 직접 수정합니다.&lt;/p&gt;</translation>
+&lt;p style=&quot;margin-left: 0.5em;&quot;&gt;만들어 진 차례를 직접 수정합니다.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1280"/>
+        <location filename="../../Form_Files/main.ui" line="1282"/>
         <source>&amp;Split At Cursor</source>
         <translation>현재 커서 위치에서 나누기(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1283"/>
+        <location filename="../../Form_Files/main.ui" line="1285"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Split At Cursor&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Split the current file into two files using your cursor location as the dividing point.&lt;/p&gt;</source>
@@ -8692,17 +8968,17 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;커서가 있는 위치에서 현재 파일을 두 개의 파일로 분할합니다.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1288"/>
+        <location filename="../../Form_Files/main.ui" line="1290"/>
         <source>Ctrl+Return</source>
         <translation>Ctrl+Return</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1297"/>
+        <location filename="../../Form_Files/main.ui" line="1299"/>
         <source>&amp;File...</source>
         <translation>파일....(&amp;F)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1300"/>
+        <location filename="../../Form_Files/main.ui" line="1302"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Insert File&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Select image, video or audio files from your book to insert into the text.&lt;/p&gt;
@@ -8715,17 +8991,17 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;메뉴 파일-추가-기존 파일을 사용하여 책에 파일을 추가 할 수 있습니다.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1307"/>
+        <location filename="../../Form_Files/main.ui" line="1309"/>
         <source>Ctrl+Shift+I</source>
         <translation>Ctrl+Shift+I</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1316"/>
+        <location filename="../../Form_Files/main.ui" line="1318"/>
         <source>&amp;Special Character...</source>
         <translation>특수 문자(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1319"/>
+        <location filename="../../Form_Files/main.ui" line="1321"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Insert Special Character&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Select a character to insert into your text.&lt;/p&gt;</source>
@@ -8734,13 +9010,13 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;텍스트에 넣을 문자 선택하기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1330"/>
+        <location filename="../../Form_Files/main.ui" line="1332"/>
         <source>I&amp;D...</source>
         <translation>I&amp;D...
 </translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1333"/>
+        <location filename="../../Form_Files/main.ui" line="1335"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Insert ID&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Insert or edit an anchor with an ID name to use as a link target.&lt;/p&gt;</source>
@@ -8749,12 +9025,12 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;링크 타겟으로 사용할 ID 이름으로 앵커를 추가하거나 편집합니다.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1344"/>
+        <location filename="../../Form_Files/main.ui" line="1346"/>
         <source>&amp;Link...</source>
         <translation>링크(&amp;L)....</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1347"/>
+        <location filename="../../Form_Files/main.ui" line="1349"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Insert Link&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Insert or edit an anchor with a hyperlink to a target.&lt;/p&gt;</source>
@@ -8763,12 +9039,12 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;대상에 대한 하이퍼 링크가있는 앵커를 삽입하거나 편집하십시오.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1361"/>
+        <location filename="../../Form_Files/main.ui" line="1363"/>
         <source>&amp;Numbered List</source>
         <translation>글머리 숫자(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1364"/>
+        <location filename="../../Form_Files/main.ui" line="1366"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Numbering&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Create a numbered list.&lt;/p&gt;</source>
@@ -8777,12 +9053,12 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;번호 매긴 목록 만들기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1378"/>
+        <location filename="../../Form_Files/main.ui" line="1380"/>
         <source>Bulle&amp;ted List</source>
         <translation>글머리 목록(&amp;t)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1381"/>
+        <location filename="../../Form_Files/main.ui" line="1383"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Bullets&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Create a bulleted list.&lt;/p&gt;</source>
@@ -8791,17 +9067,17 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;글머리 기호 목록 만들기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1386"/>
+        <location filename="../../Form_Files/main.ui" line="1388"/>
         <source>Ctrl+Shift+L</source>
         <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1398"/>
+        <location filename="../../Form_Files/main.ui" line="1400"/>
         <source>Stri&amp;kethrough</source>
         <translation>취소선(&amp;K)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1401"/>
+        <location filename="../../Form_Files/main.ui" line="1403"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Strikethrough&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Draw a line through the selected text.&lt;/p&gt;</source>
@@ -8810,12 +9086,12 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;선택한 텍스트에 취소선 그리기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1415"/>
+        <location filename="../../Form_Files/main.ui" line="1417"/>
         <source>&amp;Subscript</source>
         <translation>아래 첨자(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1418"/>
+        <location filename="../../Form_Files/main.ui" line="1420"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Subscript&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Set the selected text slightly smaller and below the normal line.&lt;/p&gt;</source>
@@ -8824,12 +9100,12 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;선택된 텍스트를 조금 작고 기준선 아래로 설정하기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1432"/>
+        <location filename="../../Form_Files/main.ui" line="1434"/>
         <source>Su&amp;perscript</source>
         <translation>위첨자(&amp;p)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1435"/>
+        <location filename="../../Form_Files/main.ui" line="1437"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Superscript&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Set the selected text slightly smaller and above the normal line.&lt;/p&gt;</source>
@@ -8838,88 +9114,88 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;선택된 텍스트를 조금 작고 기준선 위로 설정하기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1446"/>
+        <location filename="../../Form_Files/main.ui" line="1448"/>
         <source>&amp;Print...</source>
         <translation>인쇄...(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1449"/>
+        <location filename="../../Form_Files/main.ui" line="1451"/>
         <source>Print</source>
         <translation>인쇄</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1452"/>
+        <location filename="../../Form_Files/main.ui" line="1454"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1461"/>
+        <location filename="../../Form_Files/main.ui" line="1463"/>
         <source>Print Pre&amp;view...</source>
         <translation>인쇄 미리보기...(&amp;v)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1464"/>
+        <location filename="../../Form_Files/main.ui" line="1466"/>
         <source>Print Preview</source>
         <translation>인쇄 미리보기</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1469"/>
-        <location filename="../../Form_Files/main.ui" line="1472"/>
+        <location filename="../../Form_Files/main.ui" line="1471"/>
+        <location filename="../../Form_Files/main.ui" line="1474"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1475"/>
+        <location filename="../../Form_Files/main.ui" line="1477"/>
         <source>Ctrl+Shift+W</source>
         <translation>Ctrl+Shift+W</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1480"/>
+        <location filename="../../Form_Files/main.ui" line="1482"/>
         <source>Restructure Epub to Sigil Norm</source>
         <translation>Sigil 표준 양식으로 재구성</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1483"/>
+        <location filename="../../Form_Files/main.ui" line="1485"/>
         <source>Restructure Epub to Sigil Standard Form</source>
         <translation>Sigil 표준 양식으로 EPUB의 구조를 다시 구성합니다.</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1492"/>
+        <location filename="../../Form_Files/main.ui" line="1494"/>
         <source>Zoom &amp;In</source>
         <translation>확대(&amp;I)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1495"/>
+        <location filename="../../Form_Files/main.ui" line="1497"/>
         <source>Zoom In</source>
         <translation>확대</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1498"/>
+        <location filename="../../Form_Files/main.ui" line="1500"/>
         <source>Ctrl+=</source>
         <translation>확대</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1507"/>
+        <location filename="../../Form_Files/main.ui" line="1509"/>
         <source>Zoom &amp;Out</source>
         <translation>축소(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1510"/>
+        <location filename="../../Form_Files/main.ui" line="1512"/>
         <source>Zoom Out</source>
         <translation>축소</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1513"/>
+        <location filename="../../Form_Files/main.ui" line="1515"/>
         <source>Ctrl+-</source>
         <translation>Ctrl+-</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1522"/>
+        <location filename="../../Form_Files/main.ui" line="1524"/>
         <source>&amp;Find &amp;&amp; Replace...</source>
         <translation>찾기 &amp;&amp; 바꾸기(&amp;F)...</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1525"/>
+        <location filename="../../Form_Files/main.ui" line="1527"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Find &amp;amp; Replace&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Find and replace text in the document.&lt;/p&gt;</source>
@@ -8928,17 +9204,17 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;문서에서 텍스트를 찾아 바꾸기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1530"/>
+        <location filename="../../Form_Files/main.ui" line="1532"/>
         <source>Ctrl+F</source>
         <translation>Ctrl+F</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1539"/>
+        <location filename="../../Form_Files/main.ui" line="1541"/>
         <source>Incre&amp;ase Indent</source>
         <translation>들여쓰기(&amp;a)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1542"/>
+        <location filename="../../Form_Files/main.ui" line="1544"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Increase Indent&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Increase the indent level of the paragraph.&lt;/p&gt;</source>
@@ -8947,17 +9223,17 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;문단 들여쓰기 값 조정하기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1547"/>
+        <location filename="../../Form_Files/main.ui" line="1549"/>
         <source>Ctrl+Alt+M</source>
         <translation>Ctrl+Alt+M</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1556"/>
+        <location filename="../../Form_Files/main.ui" line="1558"/>
         <source>&amp;Decrease Indent</source>
         <translation>들여쓰기 취소(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1559"/>
+        <location filename="../../Form_Files/main.ui" line="1561"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Decrease Indent&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Decrease the indent level of the paragraph.&lt;/p&gt;</source>
@@ -8966,18 +9242,18 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;문단 내어쓰기 값 조정하기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1564"/>
-        <location filename="../../Form_Files/main.ui" line="1994"/>
+        <location filename="../../Form_Files/main.ui" line="1566"/>
+        <location filename="../../Form_Files/main.ui" line="2006"/>
         <source>Ctrl+Shift+M</source>
         <translation>Ctrl+Shift+M</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1573"/>
+        <location filename="../../Form_Files/main.ui" line="1575"/>
         <source>Te&amp;xt Direction LTR</source>
         <translation>텍스트 방향 좌에서 우로(&amp;x)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1576"/>
+        <location filename="../../Form_Files/main.ui" line="1578"/>
         <source>
      &lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Left-to-Right&lt;/b&gt;&lt;/p&gt;
 
@@ -8989,12 +9265,12 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;문단의 방향을 왼쪽에서 오른쪽으로 설정하기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1589"/>
+        <location filename="../../Form_Files/main.ui" line="1591"/>
         <source>T&amp;ext Direction RTL</source>
         <translation>텍스트 방향 우에서 좌로(&amp;e)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1592"/>
+        <location filename="../../Form_Files/main.ui" line="1594"/>
         <source>
      &lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Right-to-Left&lt;/b&gt;&lt;/p&gt;
 
@@ -9006,12 +9282,12 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;문단의 방향을 오른쪽에서 왼쪽으로 설정하기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1605"/>
+        <location filename="../../Form_Files/main.ui" line="1607"/>
         <source>Text Directi&amp;on Default</source>
         <translation>기본 텍스트 방향(&amp;o)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1608"/>
+        <location filename="../../Form_Files/main.ui" line="1610"/>
         <source>
      &lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Default&lt;/b&gt;&lt;/p&gt;
 
@@ -9023,22 +9299,22 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;문단의 방향을 기본값으로 설정하기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1617"/>
+        <location filename="../../Form_Files/main.ui" line="1619"/>
         <source>Remove &amp;Formatting</source>
         <translation>서식 제거(&amp;F)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1620"/>
+        <location filename="../../Form_Files/main.ui" line="1622"/>
         <source>Ctrl+Space</source>
         <translation>Ctrl+Space</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1629"/>
+        <location filename="../../Form_Files/main.ui" line="1631"/>
         <source>Remove Tag Pair</source>
         <translation>태그 쌍 제거</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1632"/>
+        <location filename="../../Form_Files/main.ui" line="1634"/>
         <source>
      &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Remove Open and Close Tag Pair.&lt;/p&gt;
     </source>
@@ -9047,12 +9323,12 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
     </translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1643"/>
+        <location filename="../../Form_Files/main.ui" line="1645"/>
         <source>&amp;Lowercase</source>
         <translation>소문자로(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1646"/>
+        <location filename="../../Form_Files/main.ui" line="1648"/>
         <source>
      &lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Lowercase&lt;/b&gt;&lt;/p&gt;
 
@@ -9064,17 +9340,17 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;선택한 텍스트를 소문자로 설정하기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1653"/>
-        <source>Alt+L</source>
-        <translation>Alt+L</translation>
+        <location filename="../../Form_Files/main.ui" line="1655"/>
+        <source>Ctrl+Alt+L</source>
+        <translation>Ctrl+Alt+L</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1662"/>
+        <location filename="../../Form_Files/main.ui" line="1664"/>
         <source>&amp;Uppercase</source>
         <translation>대문자로(&amp;U)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1665"/>
+        <location filename="../../Form_Files/main.ui" line="1667"/>
         <source>
      &lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Uppercase&lt;/b&gt;&lt;/p&gt;
 
@@ -9086,17 +9362,17 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;선택한 텍스트를 대문자로 설정하기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1672"/>
-        <source>Alt+U</source>
-        <translation>Alt+U</translation>
+        <location filename="../../Form_Files/main.ui" line="1674"/>
+        <source>Ctrl+Alt+U</source>
+        <translation>Ctrl+Alt+U</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1681"/>
+        <location filename="../../Form_Files/main.ui" line="1683"/>
         <source>&amp;Titlecase</source>
         <translation>제목 스타일 대소문자(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1684"/>
+        <location filename="../../Form_Files/main.ui" line="1686"/>
         <source>
      &lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Titlecase&lt;/b&gt;&lt;/p&gt;
 
@@ -9107,12 +9383,12 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;선택한 각 영문 단어의 첫번째 글자를 대문자로 바꿉니다.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1697"/>
+        <location filename="../../Form_Files/main.ui" line="1699"/>
         <source>&amp;Capitalize</source>
         <translation>첫 글자를 대문자로(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1700"/>
+        <location filename="../../Form_Files/main.ui" line="1702"/>
         <source>
      &lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Capitalize&lt;/b&gt;&lt;/p&gt;
 
@@ -9124,127 +9400,127 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;선택한 텍스트에서 단어의 첫 글자를 대문자로 설정하기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1709"/>
+        <location filename="../../Form_Files/main.ui" line="1711"/>
         <source>Sigil Website...</source>
         <translation>Sigil 공식 홈페이지...</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1714"/>
+        <location filename="../../Form_Files/main.ui" line="1716"/>
         <source>&amp;Next Tab</source>
         <translation>다음 탭(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1717"/>
+        <location filename="../../Form_Files/main.ui" line="1719"/>
         <source>Ctrl+PgUp</source>
         <translation>Ctrl+PgUp</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1722"/>
+        <location filename="../../Form_Files/main.ui" line="1724"/>
         <source>&amp;Previous Tab</source>
         <translation>이전 탭(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1725"/>
+        <location filename="../../Form_Files/main.ui" line="1727"/>
         <source>Ctrl+PgDown</source>
         <translation>Ctrl+PgDown</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1730"/>
+        <location filename="../../Form_Files/main.ui" line="1732"/>
         <source>&amp;Close Tab</source>
         <translation>탭 닫기(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1733"/>
+        <location filename="../../Form_Files/main.ui" line="1735"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1738"/>
+        <location filename="../../Form_Files/main.ui" line="1740"/>
         <source>Split At &amp;Markers</source>
         <translation>장 나누기 표시 분할(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1741"/>
+        <location filename="../../Form_Files/main.ui" line="1743"/>
         <source>Split At Sigil split file markers</source>
         <translation>장 나누기 표시가 된 부분을 파일로 분할합니다.</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1744"/>
+        <location filename="../../Form_Files/main.ui" line="1746"/>
         <source>F6</source>
         <translation>양쪽 맞춤(&amp;J)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1749"/>
+        <location filename="../../Form_Files/main.ui" line="1751"/>
         <source>Split &amp;Marker</source>
         <translation>장 나누기 표시(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1752"/>
+        <location filename="../../Form_Files/main.ui" line="1754"/>
         <source>Insert Sigil split file marker</source>
         <translation>파일을 나눌 위치를 표시합니다.</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1755"/>
+        <location filename="../../Form_Files/main.ui" line="1757"/>
         <source>Ctrl+Shift+Return</source>
         <translation>Ctrl+Shift+Return</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1760"/>
+        <location filename="../../Form_Files/main.ui" line="1762"/>
         <source>User &amp;Guide...</source>
         <translation>사용 안내(&amp;G)...</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1763"/>
+        <location filename="../../Form_Files/main.ui" line="1765"/>
         <source>User Guide</source>
         <translation>사용 안내</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1766"/>
+        <location filename="../../Form_Files/main.ui" line="1768"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1771"/>
+        <location filename="../../Form_Files/main.ui" line="1773"/>
         <source>&amp;Frequently Asked Questions...</source>
         <translation>자주 묻는 질문...(&amp;F)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1774"/>
+        <location filename="../../Form_Files/main.ui" line="1776"/>
         <source>Frequently Asked Questions</source>
         <translation>자주 묻는 질문</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1779"/>
+        <location filename="../../Form_Files/main.ui" line="1781"/>
         <source>&amp;Tutorials...</source>
         <translation>스스로 익히기(&amp;T)...</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1782"/>
+        <location filename="../../Form_Files/main.ui" line="1784"/>
         <source>Tutorials</source>
         <translation>스스로 익히기</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1787"/>
+        <location filename="../../Form_Files/main.ui" line="1789"/>
         <source>Well-Formed Check &amp;EPUB</source>
         <translation>EPUB 문법 검사(Wel-Formed Check)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1790"/>
+        <location filename="../../Form_Files/main.ui" line="1792"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Well-Formed Check EPUB&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Verify your document complies with minimum needed to be successfully parsed. This does not indicate compliance with the relevant epub standards.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;EPUB 문법 검사(Well-Formed Check)&lt;/span&gt;&lt;/p&gt;&lt;p&gt; 문서가 구문 분석에 필요한 최소값을 준수하는지 확인합니다. 이는 EPUB 표준을 준수 함을 나타내지 않습니다.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1793"/>
+        <location filename="../../Form_Files/main.ui" line="1795"/>
         <source>F7</source>
         <translation>F7</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1798"/>
+        <location filename="../../Form_Files/main.ui" line="1800"/>
         <source>Validate Stylesheets With &amp;W3C</source>
         <translation>W3C로 스타일시트 검증하기(&amp;W)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1801"/>
+        <location filename="../../Form_Files/main.ui" line="1803"/>
         <source>
      &lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Validate Stylesheets with W3C&lt;/b&gt;&lt;/p&gt;
 
@@ -9255,12 +9531,12 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;온라인 W3C CSS Validation Service를 사용하여 CSS 스타일 시트가 W3C 표준을 준수하는지 확인합니다&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1814"/>
+        <location filename="../../Form_Files/main.ui" line="1816"/>
         <source>&amp;Spellcheck...</source>
         <translation>맞춤법 검사(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1817"/>
+        <location filename="../../Form_Files/main.ui" line="1819"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Spellcheck&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Find all misspelled words and allow you to add them to a dictionary or ignore them.&lt;/p&gt;</source>
@@ -9269,102 +9545,102 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;맞춤법이 틀린 단어를 모두 찾아서 사전에 추가하거나 무시할 수 있습니다. 한글 맞춤법 검사 파일은 다음 사이트에서 다운받아 추가할 수 있습니다. https://github.com/spellcheck-ko/hunspell-dict-ko/releases&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1822"/>
-        <source>Alt+Q</source>
-        <translation>Alt+Q</translation>
+        <location filename="../../Form_Files/main.ui" line="1824"/>
+        <source>Ctrl+Alt+Q</source>
+        <translation>Ctrl+Alt+Q</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1830"/>
+        <location filename="../../Form_Files/main.ui" line="1832"/>
         <source>&amp;Highlight Misspelled Words</source>
         <translation>맞춤법 틀린 단어 강조(&amp;H)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1833"/>
+        <location filename="../../Form_Files/main.ui" line="1835"/>
         <source>Enable or disable highlighting of misspelled words in Code View.</source>
         <translation>코드 보기 창에서 맞춤법이 틀린 단어를 강조하거나 기능을 해제합니다. </translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1838"/>
+        <location filename="../../Form_Files/main.ui" line="1840"/>
         <source>&amp;Next Misspelled Word</source>
         <translation>다음 철자가 잘못된 단어(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1841"/>
+        <location filename="../../Form_Files/main.ui" line="1843"/>
         <source>Find the next misspelled word in the book.</source>
         <translation>맞춤법이 틀린 다음 단어 찾기</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1844"/>
+        <location filename="../../Form_Files/main.ui" line="1846"/>
         <source>F4</source>
         <translation>F4</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1849"/>
+        <location filename="../../Form_Files/main.ui" line="1851"/>
         <source>&amp;Add Misspelled Word</source>
         <translation>맞춤법 틀린 단어 추가(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1852"/>
+        <location filename="../../Form_Files/main.ui" line="1854"/>
         <source>Add the current misspelled word under the caret to the default user dictionary.</source>
         <translation>기본 사용자 사전에 맞춤법이 틀린 단어로 추가합니다.</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1857"/>
+        <location filename="../../Form_Files/main.ui" line="1859"/>
         <source>&amp;Ignore Misspelled Word</source>
         <translation>맞춤법 틀린 단어 무시(&amp;I)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1860"/>
+        <location filename="../../Form_Files/main.ui" line="1862"/>
         <source>Ignore the current misspelled word under the caret until Sigil is restarted.</source>
         <translation>Sigil이 다시 시작될 때까지 맞춤법이 틀린 단어를 무시합니다.</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1865"/>
+        <location filename="../../Form_Files/main.ui" line="1867"/>
         <source>&amp;Clear Ignored Words</source>
         <translation>무시 단어 지우기(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1868"/>
+        <location filename="../../Form_Files/main.ui" line="1870"/>
         <source>Clear currently ignored words from Spellcheck without having to restart Sigil.</source>
         <translation>Sigil을 다시 시작하지 않고도 맞춤법 검사를 무시하도록 추가한 단어를 초기화합니다.</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1873"/>
+        <location filename="../../Form_Files/main.ui" line="1875"/>
         <source>&amp;Index Editor...</source>
         <translation>색인 편집기...(&amp;I)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1881"/>
+        <location filename="../../Form_Files/main.ui" line="1883"/>
         <source>Ctrl+Alt+I</source>
         <translation>Ctrl+Alt+I</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1886"/>
+        <location filename="../../Form_Files/main.ui" line="1888"/>
         <source>&amp;Delete Unused Media Files...</source>
         <translation>사용하지 않는 미디어 파일 삭제(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1891"/>
+        <location filename="../../Form_Files/main.ui" line="1893"/>
         <source>Delete &amp;Unused Stylesheet Selectors...</source>
         <translation>사용하지 않는 스타일 시트 선택자 삭제...(&amp;U)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1896"/>
+        <location filename="../../Form_Files/main.ui" line="1898"/>
         <source>&amp;Reports...</source>
         <translation>보고서...(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1899"/>
+        <location filename="../../Form_Files/main.ui" line="1901"/>
         <source>Ctrl+Shift+R</source>
         <translation>Ctrl+Shift+R</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1908"/>
+        <location filename="../../Form_Files/main.ui" line="1910"/>
         <source>&amp;Donate...</source>
         <translation>기부하기...(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1911"/>
+        <location filename="../../Form_Files/main.ui" line="1913"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Donate&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Donate to support Sigil.&lt;/p&gt;
@@ -9375,627 +9651,637 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 </translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1919"/>
+        <location filename="../../Form_Files/main.ui" line="1921"/>
         <source>Close &amp;Other Tabs</source>
         <translation>다른 탭 닫기(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1922"/>
+        <location filename="../../Form_Files/main.ui" line="1924"/>
         <source>Ctrl+Alt+W</source>
         <translation>Ctrl+Alt+W</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1927"/>
+        <location filename="../../Form_Files/main.ui" line="1929"/>
         <source>Go To &amp;Line...</source>
         <translation>줄 이동(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1930"/>
+        <location filename="../../Form_Files/main.ui" line="1932"/>
         <source>Ctrl+/</source>
         <translation>Ctrl+/</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1935"/>
+        <location filename="../../Form_Files/main.ui" line="1937"/>
         <source>Find &amp;Next</source>
         <translation>다음 찾기(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1938"/>
+        <location filename="../../Form_Files/main.ui" line="1940"/>
         <source>Ctrl+G</source>
         <translation>Ctrl+G</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1943"/>
+        <location filename="../../Form_Files/main.ui" line="1945"/>
         <source>Find &amp;Previous</source>
         <translation>이전 찾기(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1946"/>
+        <location filename="../../Form_Files/main.ui" line="1948"/>
         <source>Ctrl+Shift+G</source>
         <translation>Ctrl+Shift+G</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1951"/>
+        <location filename="../../Form_Files/main.ui" line="1953"/>
         <source>Replace</source>
         <translation>바꾸기</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1954"/>
+        <location filename="../../Form_Files/main.ui" line="1956"/>
         <source>Ctrl+R</source>
         <translation>Ctrl+R</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1959"/>
+        <location filename="../../Form_Files/main.ui" line="1961"/>
         <source>&amp;Replace/Find Next</source>
         <translation>바꾸기/찾기 다음(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1962"/>
+        <location filename="../../Form_Files/main.ui" line="1964"/>
         <source>Ctrl+]</source>
         <translation>Ctrl+]</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1967"/>
+        <location filename="../../Form_Files/main.ui" line="1969"/>
         <source>R&amp;eplace/Find Previous</source>
         <translation>바꾸기/찾기 이전(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1970"/>
+        <location filename="../../Form_Files/main.ui" line="1972"/>
         <source>Ctrl+[</source>
         <translation>Ctrl+[</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1975"/>
+        <location filename="../../Form_Files/main.ui" line="1977"/>
         <source>Replace &amp;All</source>
         <translation>모두 바꾸기(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1978"/>
-        <source>Alt+A</source>
-        <translation>Alt+A</translation>
+        <location filename="../../Form_Files/main.ui" line="1980"/>
+        <source>Ctrl+Alt+A</source>
+        <translation>Ctrl+Alt+A</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1983"/>
+        <location filename="../../Form_Files/main.ui" line="1985"/>
         <source>&amp;Count All</source>
         <translation>모두 세기(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1986"/>
-        <source>Alt+C</source>
-        <translation>Alt+C</translation>
+        <location filename="../../Form_Files/main.ui" line="1988"/>
+        <source>Ctrl+Alt+N</source>
+        <translation>Ctrl+Alt+N</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1991"/>
+        <location filename="../../Form_Files/main.ui" line="1993"/>
+        <source>Dry Run Replace All</source>
+        <translation>모두 교체 테스트 실행</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/main.ui" line="1998"/>
+        <source>Filter Replacements</source>
+        <translation>필터 교체</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/main.ui" line="2003"/>
         <source>Mar&amp;k Selected Text</source>
         <translation>선택 영역 표시(&amp;k)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="1999"/>
+        <location filename="../../Form_Files/main.ui" line="2011"/>
         <source>Find &amp;Next In File</source>
         <translation>파일 안에서 다음 찾기(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2004"/>
+        <location filename="../../Form_Files/main.ui" line="2016"/>
         <source>&amp;Replace Next In File</source>
         <translation>파일 안에서 다음 바꾸기(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2009"/>
+        <location filename="../../Form_Files/main.ui" line="2021"/>
         <source>Replace &amp;All In File</source>
         <translation>현재 파일 안에서 모두 바꾸기(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2014"/>
+        <location filename="../../Form_Files/main.ui" line="2026"/>
         <source>&amp;Count All In File</source>
         <translation>파일 안에서 모두 세기(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2023"/>
+        <location filename="../../Form_Files/main.ui" line="2035"/>
         <source>&amp;Saved Searches...</source>
         <translation>저장된 검색(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2026"/>
+        <location filename="../../Form_Files/main.ui" line="2038"/>
         <source>Ctrl+Alt+F</source>
         <translation>Ctrl+Alt+F</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2031"/>
+        <location filename="../../Form_Files/main.ui" line="2043"/>
         <source>&amp;Clip Editor...</source>
         <translation>클립 편집기(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2034"/>
+        <location filename="../../Form_Files/main.ui" line="2046"/>
         <source>Open the Clip Editor.</source>
         <translation>클립 편집기 열기</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2037"/>
+        <location filename="../../Form_Files/main.ui" line="2049"/>
         <source>Ctrl+Alt+C</source>
         <translation>Ctrl+Alt+C</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2042"/>
+        <location filename="../../Form_Files/main.ui" line="2054"/>
         <source>Clip &amp;1</source>
         <translation>클립 &amp;1</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2045"/>
+        <location filename="../../Form_Files/main.ui" line="2057"/>
         <source>Insert Clip 1</source>
         <translation>클립 1 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2048"/>
+        <location filename="../../Form_Files/main.ui" line="2060"/>
         <source>Ctrl+Alt+1</source>
         <translation>Ctrl+Alt+1</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2053"/>
+        <location filename="../../Form_Files/main.ui" line="2065"/>
         <source>Clip &amp;2</source>
         <translation>클립 &amp;2</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2056"/>
+        <location filename="../../Form_Files/main.ui" line="2068"/>
         <source>Insert Clip 2</source>
         <translation>클립 2 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2059"/>
+        <location filename="../../Form_Files/main.ui" line="2071"/>
         <source>Ctrl+Alt+2</source>
         <translation>Ctrl+Alt+2</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2064"/>
+        <location filename="../../Form_Files/main.ui" line="2076"/>
         <source>Clip &amp;3</source>
         <translation>클립 &amp;3</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2067"/>
+        <location filename="../../Form_Files/main.ui" line="2079"/>
         <source>Insert Clip 3</source>
         <translation>클립 3 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2070"/>
+        <location filename="../../Form_Files/main.ui" line="2082"/>
         <source>Ctrl+Alt+3</source>
         <translation>Ctrl+Alt+3</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2075"/>
+        <location filename="../../Form_Files/main.ui" line="2087"/>
         <source>Clip &amp;4</source>
         <translation>클립 &amp;4</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2078"/>
+        <location filename="../../Form_Files/main.ui" line="2090"/>
         <source>Insert Clip 4</source>
         <translation>클립 4 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2081"/>
+        <location filename="../../Form_Files/main.ui" line="2093"/>
         <source>Ctrl+Alt+4</source>
         <translation>Ctrl+Alt+4</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2086"/>
+        <location filename="../../Form_Files/main.ui" line="2098"/>
         <source>Clip &amp;5</source>
         <translation>클립 &amp;5</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2089"/>
+        <location filename="../../Form_Files/main.ui" line="2101"/>
         <source>Insert Clip 5</source>
         <translation>클립 5 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2092"/>
+        <location filename="../../Form_Files/main.ui" line="2104"/>
         <source>Ctrl+Alt+5</source>
         <translation>Ctrl+Alt+5</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2097"/>
+        <location filename="../../Form_Files/main.ui" line="2109"/>
         <source>Clip &amp;6</source>
         <translation>클립 &amp;6</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2100"/>
+        <location filename="../../Form_Files/main.ui" line="2112"/>
         <source>Insert Clip 6</source>
         <translation>클립 6 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2103"/>
+        <location filename="../../Form_Files/main.ui" line="2115"/>
         <source>Ctrl+Alt+6</source>
         <translation>Ctrl+Alt+6</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2108"/>
+        <location filename="../../Form_Files/main.ui" line="2120"/>
         <source>Clip &amp;7</source>
         <translation>클립 &amp;7</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2111"/>
+        <location filename="../../Form_Files/main.ui" line="2123"/>
         <source>Insert Clip 7</source>
         <translation>클립 7 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2114"/>
+        <location filename="../../Form_Files/main.ui" line="2126"/>
         <source>Ctrl+Alt+7</source>
         <translation>Ctrl+Alt+7</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2119"/>
+        <location filename="../../Form_Files/main.ui" line="2131"/>
         <source>Clip &amp;8</source>
         <translation>클립 &amp;8</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2122"/>
+        <location filename="../../Form_Files/main.ui" line="2134"/>
         <source>Insert Clip 8</source>
         <translation>클립 8 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2125"/>
+        <location filename="../../Form_Files/main.ui" line="2137"/>
         <source>Ctrl+Alt+8</source>
         <translation>Ctrl+Alt+8</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2130"/>
+        <location filename="../../Form_Files/main.ui" line="2142"/>
         <source>Clip &amp;9</source>
         <translation>클립 &amp;9</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2133"/>
+        <location filename="../../Form_Files/main.ui" line="2145"/>
         <source>Insert Clip 9</source>
         <translation>클립 9 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2136"/>
+        <location filename="../../Form_Files/main.ui" line="2148"/>
         <source>Ctrl+Alt+9</source>
         <translation>Ctrl+Alt+9</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2141"/>
+        <location filename="../../Form_Files/main.ui" line="2153"/>
         <source>Clip 1&amp;0</source>
         <translation>클립 1&amp;0</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2144"/>
+        <location filename="../../Form_Files/main.ui" line="2156"/>
         <source>Insert Clip 10</source>
         <translation>클립 10 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2147"/>
+        <location filename="../../Form_Files/main.ui" line="2159"/>
         <source>Ctrl+Alt+0</source>
         <translation>Ctrl+Alt+0</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2152"/>
+        <location filename="../../Form_Files/main.ui" line="2164"/>
         <source>Clip 11</source>
         <translation>클립 11</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2155"/>
+        <location filename="../../Form_Files/main.ui" line="2167"/>
         <source>Insert Clip 11</source>
         <translation>클립 11 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2160"/>
+        <location filename="../../Form_Files/main.ui" line="2172"/>
         <source>Clip 12</source>
         <translation>클립 12</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2163"/>
+        <location filename="../../Form_Files/main.ui" line="2175"/>
         <source>Insert Clip 12</source>
         <translation>클립 12 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2168"/>
+        <location filename="../../Form_Files/main.ui" line="2180"/>
         <source>Clip 13</source>
         <translation>클립 13</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2171"/>
+        <location filename="../../Form_Files/main.ui" line="2183"/>
         <source>Insert Clip 13</source>
         <translation>클립 13 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2176"/>
+        <location filename="../../Form_Files/main.ui" line="2188"/>
         <source>Clip 14</source>
         <translation>클립 14</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2179"/>
+        <location filename="../../Form_Files/main.ui" line="2191"/>
         <source>Insert Clip 14</source>
         <translation>클립 14 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2184"/>
+        <location filename="../../Form_Files/main.ui" line="2196"/>
         <source>Clip 15</source>
         <translation>클립 15</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2187"/>
+        <location filename="../../Form_Files/main.ui" line="2199"/>
         <source>Insert Clip 15</source>
         <translation>클립 15 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2192"/>
+        <location filename="../../Form_Files/main.ui" line="2204"/>
         <source>Clip 16</source>
         <translation>클립 16</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2195"/>
+        <location filename="../../Form_Files/main.ui" line="2207"/>
         <source>Insert Clip 16</source>
         <translation>클립 16 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2200"/>
+        <location filename="../../Form_Files/main.ui" line="2212"/>
         <source>Clip 17</source>
         <translation>클립 17</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2203"/>
+        <location filename="../../Form_Files/main.ui" line="2215"/>
         <source>Insert Clip 17</source>
         <translation>클립 17 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2208"/>
+        <location filename="../../Form_Files/main.ui" line="2220"/>
         <source>Clip 18</source>
         <translation>클립 18</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2211"/>
+        <location filename="../../Form_Files/main.ui" line="2223"/>
         <source>Insert Clip 18</source>
         <translation>클립 18 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2216"/>
+        <location filename="../../Form_Files/main.ui" line="2228"/>
         <source>Clip 19</source>
         <translation>클립 19</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2219"/>
+        <location filename="../../Form_Files/main.ui" line="2231"/>
         <source>Insert Clip 19</source>
         <translation>클립 19 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2224"/>
+        <location filename="../../Form_Files/main.ui" line="2236"/>
         <source>Clip 20</source>
         <translation>클립 20</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2227"/>
+        <location filename="../../Form_Files/main.ui" line="2239"/>
         <source>Insert Clip 20</source>
         <translation>클립 20 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2233"/>
+        <location filename="../../Form_Files/main.ui" line="2245"/>
         <source>Clip 21</source>
         <translation>클립 21</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2236"/>
+        <location filename="../../Form_Files/main.ui" line="2248"/>
         <source>Insert Clip 21</source>
         <translation>클립 21 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2241"/>
+        <location filename="../../Form_Files/main.ui" line="2253"/>
         <source>Clip 22</source>
         <translation>클립 22</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2244"/>
+        <location filename="../../Form_Files/main.ui" line="2256"/>
         <source>Insert Clip 22</source>
         <translation>클립 22 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2249"/>
+        <location filename="../../Form_Files/main.ui" line="2261"/>
         <source>Clip 23</source>
         <translation>클립 23</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2252"/>
+        <location filename="../../Form_Files/main.ui" line="2264"/>
         <source>Insert Clip 23</source>
         <translation>클립 23 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2257"/>
+        <location filename="../../Form_Files/main.ui" line="2269"/>
         <source>Clip 24</source>
         <translation>클립 24</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2260"/>
+        <location filename="../../Form_Files/main.ui" line="2272"/>
         <source>Insert Clip 24</source>
         <translation>클립 24 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2265"/>
+        <location filename="../../Form_Files/main.ui" line="2277"/>
         <source>Clip 25</source>
         <translation>클립 25</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2268"/>
+        <location filename="../../Form_Files/main.ui" line="2280"/>
         <source>Insert Clip 25</source>
         <translation>클립 25 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2273"/>
+        <location filename="../../Form_Files/main.ui" line="2285"/>
         <source>Clip 26</source>
         <translation>클립 26</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2276"/>
+        <location filename="../../Form_Files/main.ui" line="2288"/>
         <source>Insert Clip 26</source>
         <translation>클립 26 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2281"/>
+        <location filename="../../Form_Files/main.ui" line="2293"/>
         <source>Clip 27</source>
         <translation>클립 27</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2284"/>
+        <location filename="../../Form_Files/main.ui" line="2296"/>
         <source>Insert Clip 27</source>
         <translation>클립 27 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2289"/>
+        <location filename="../../Form_Files/main.ui" line="2301"/>
         <source>Clip 28</source>
         <translation>클립 28</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2292"/>
+        <location filename="../../Form_Files/main.ui" line="2304"/>
         <source>Insert Clip 28</source>
         <translation>클립 28 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2297"/>
+        <location filename="../../Form_Files/main.ui" line="2309"/>
         <source>Clip 29</source>
         <translation>클립 29</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2300"/>
+        <location filename="../../Form_Files/main.ui" line="2312"/>
         <source>Insert Clip 29</source>
         <translation>클립 29 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2305"/>
+        <location filename="../../Form_Files/main.ui" line="2317"/>
         <source>Clip 30</source>
         <translation>클립 30</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2308"/>
+        <location filename="../../Form_Files/main.ui" line="2320"/>
         <source>Insert Clip 30</source>
         <translation>클립 30 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2313"/>
+        <location filename="../../Form_Files/main.ui" line="2325"/>
         <source>Clip 31</source>
         <translation>클립 31</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2316"/>
+        <location filename="../../Form_Files/main.ui" line="2328"/>
         <source>Insert Clip 31</source>
         <translation>클립 31 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2321"/>
+        <location filename="../../Form_Files/main.ui" line="2333"/>
         <source>Clip 32</source>
         <translation>클립 32</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2324"/>
+        <location filename="../../Form_Files/main.ui" line="2336"/>
         <source>Insert Clip 32</source>
         <translation>클립 32 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2329"/>
+        <location filename="../../Form_Files/main.ui" line="2341"/>
         <source>Clip 33</source>
         <translation>클립 33</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2332"/>
+        <location filename="../../Form_Files/main.ui" line="2344"/>
         <source>Insert Clip 33</source>
         <translation>클립 33 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2337"/>
+        <location filename="../../Form_Files/main.ui" line="2349"/>
         <source>Clip 34</source>
         <translation>클립 34</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2340"/>
+        <location filename="../../Form_Files/main.ui" line="2352"/>
         <source>Insert Clip 34</source>
         <translation>클립 34 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2345"/>
+        <location filename="../../Form_Files/main.ui" line="2357"/>
         <source>Clip 35</source>
         <translation>클립 35</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2348"/>
+        <location filename="../../Form_Files/main.ui" line="2360"/>
         <source>Insert Clip 35</source>
         <translation>클립 35 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2353"/>
+        <location filename="../../Form_Files/main.ui" line="2365"/>
         <source>Clip 36</source>
         <translation>클립 36</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2356"/>
+        <location filename="../../Form_Files/main.ui" line="2368"/>
         <source>Insert Clip 36</source>
         <translation>클립 36 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2361"/>
+        <location filename="../../Form_Files/main.ui" line="2373"/>
         <source>Clip 37</source>
         <translation>클립 37</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2364"/>
+        <location filename="../../Form_Files/main.ui" line="2376"/>
         <source>Insert Clip 37</source>
         <translation>클립 37 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2369"/>
+        <location filename="../../Form_Files/main.ui" line="2381"/>
         <source>Clip 38</source>
         <translation>클립 38</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2372"/>
+        <location filename="../../Form_Files/main.ui" line="2384"/>
         <source>Insert Clip 38</source>
         <translation>클립 38 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2377"/>
+        <location filename="../../Form_Files/main.ui" line="2389"/>
         <source>Clip 39</source>
         <translation>클립 39</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2380"/>
+        <location filename="../../Form_Files/main.ui" line="2392"/>
         <source>Insert Clip 39</source>
         <translation>클립 39 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2385"/>
+        <location filename="../../Form_Files/main.ui" line="2397"/>
         <source>Clip 40</source>
         <translation>클립 40</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2388"/>
+        <location filename="../../Form_Files/main.ui" line="2400"/>
         <source>Insert Clip 40</source>
         <translation>클립 40 삽입</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2397"/>
+        <location filename="../../Form_Files/main.ui" line="2409"/>
         <source>&amp;Preferences...</source>
         <translation>설정(&amp;P)...</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2400"/>
+        <location filename="../../Form_Files/main.ui" line="2412"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2405"/>
+        <location filename="../../Form_Files/main.ui" line="2417"/>
         <source>&amp;Zoom Reset</source>
         <translation>줌 리셋(&amp;Z)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2408"/>
+        <location filename="../../Form_Files/main.ui" line="2420"/>
         <source>Zoom Reset</source>
         <translation>확대/축소 다시 설정</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2411"/>
+        <location filename="../../Form_Files/main.ui" line="2423"/>
         <source>Ctrl+0</source>
         <translation>Ctrl+0</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2423"/>
+        <location filename="../../Form_Files/main.ui" line="2435"/>
         <source>Heading &amp;1</source>
         <translation>Heading &amp;1</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2426"/>
+        <location filename="../../Form_Files/main.ui" line="2438"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Heading 1&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Format paragraph as a level 1 heading.&lt;/p&gt;</source>
@@ -10004,17 +10290,17 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;문단 형태를 제목 1로 설정하기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2431"/>
+        <location filename="../../Form_Files/main.ui" line="2443"/>
         <source>Ctrl+1</source>
         <translation>Ctrl+1</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2443"/>
+        <location filename="../../Form_Files/main.ui" line="2455"/>
         <source>Heading &amp;2</source>
         <translation>Heading &amp;2</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2446"/>
+        <location filename="../../Form_Files/main.ui" line="2458"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Heading 2&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Format paragraph as a level 2 heading.&lt;/p&gt;</source>
@@ -10023,17 +10309,17 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;문단 형태를 제목 2로 설정하기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2451"/>
+        <location filename="../../Form_Files/main.ui" line="2463"/>
         <source>Ctrl+2</source>
         <translation>Ctrl+2</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2463"/>
+        <location filename="../../Form_Files/main.ui" line="2475"/>
         <source>Heading &amp;3</source>
         <translation>Heading &amp;3</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2466"/>
+        <location filename="../../Form_Files/main.ui" line="2478"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Heading 3&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Format paragraph as a level 3 heading.&lt;/p&gt;</source>
@@ -10042,17 +10328,17 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;문단 형태를 제목 3로 설정하기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2471"/>
+        <location filename="../../Form_Files/main.ui" line="2483"/>
         <source>Ctrl+3</source>
         <translation>Ctrl+3</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2483"/>
+        <location filename="../../Form_Files/main.ui" line="2495"/>
         <source>Heading &amp;4</source>
         <translation>Heading &amp;4</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2486"/>
+        <location filename="../../Form_Files/main.ui" line="2498"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Heading 4&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Format paragraph as a level 4 heading.&lt;/p&gt;</source>
@@ -10061,17 +10347,17 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;문단 형태를 제목 4로 설정하기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2491"/>
+        <location filename="../../Form_Files/main.ui" line="2503"/>
         <source>Ctrl+4</source>
         <translation>Ctrl+4</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2503"/>
+        <location filename="../../Form_Files/main.ui" line="2515"/>
         <source>Heading &amp;5</source>
         <translation>Heading &amp;5</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2506"/>
+        <location filename="../../Form_Files/main.ui" line="2518"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Heading 5&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Format paragraph as a level 5 heading.&lt;/p&gt;</source>
@@ -10080,17 +10366,17 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;문단 형태를 제목 5로 설정하기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2511"/>
+        <location filename="../../Form_Files/main.ui" line="2523"/>
         <source>Ctrl+5</source>
         <translation>Ctrl+5</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2523"/>
+        <location filename="../../Form_Files/main.ui" line="2535"/>
         <source>Heading &amp;6</source>
         <translation>Heading &amp;6</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2526"/>
+        <location filename="../../Form_Files/main.ui" line="2538"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Heading 6&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Format paragraph as a level 6 heading.&lt;/p&gt;</source>
@@ -10099,17 +10385,17 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;문단 형태를 제목 6로 설정하기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2531"/>
+        <location filename="../../Form_Files/main.ui" line="2543"/>
         <source>Ctrl+6</source>
         <translation>Ctrl+6</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2543"/>
+        <location filename="../../Form_Files/main.ui" line="2555"/>
         <source>&amp;Normal</source>
         <translation>기본(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2546"/>
+        <location filename="../../Form_Files/main.ui" line="2558"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Paragraph&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Format paragraph as a normal paragraph.&lt;/p&gt;</source>
@@ -10118,37 +10404,37 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;문단 형태를 제목 로 설정하기.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2551"/>
+        <location filename="../../Form_Files/main.ui" line="2563"/>
         <source>Ctrl+7</source>
         <translation>Ctrl+7</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2559"/>
+        <location filename="../../Form_Files/main.ui" line="2571"/>
         <source>&amp;Preserve Existing Attributes</source>
         <translation>기존 속성 유지(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2562"/>
+        <location filename="../../Form_Files/main.ui" line="2574"/>
         <source>When applying this style, preserve any existing attributes on the tag</source>
         <translation>이 스타일을 적용할때 태그에 있는 기존의 특성(attributes)은 유지됩니다</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2567"/>
+        <location filename="../../Form_Files/main.ui" line="2579"/>
         <source>Blank HTML File</source>
         <translation>빈 HTML 파일</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2570"/>
+        <location filename="../../Form_Files/main.ui" line="2582"/>
         <source>Add a new blank HTML file to the book.</source>
         <translation>책에 빈 HTML을 추가합니다.</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2579"/>
+        <location filename="../../Form_Files/main.ui" line="2591"/>
         <source>Existing Files...</source>
         <translation>기존 파일...</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2582"/>
+        <location filename="../../Form_Files/main.ui" line="2594"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Add Existing Files&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Add files from your computer to the book.&lt;/p&gt;</source>
@@ -10157,137 +10443,137 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;책에 컴퓨터에서 파일을 추가합니다.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2589"/>
+        <location filename="../../Form_Files/main.ui" line="2601"/>
         <source>Blank Stylesheet</source>
         <translation>빈 스타일시트</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2592"/>
+        <location filename="../../Form_Files/main.ui" line="2604"/>
         <source>Add a new blank stylesheet to the book.</source>
         <translation>책에 새 빈 스타일시트를 추가합니다.</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2597"/>
+        <location filename="../../Form_Files/main.ui" line="2609"/>
         <source>Blank Javascript</source>
         <translation>빈 자바스크립트</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2600"/>
+        <location filename="../../Form_Files/main.ui" line="2612"/>
         <source>Add a new blank javascript to the book.</source>
         <translation>책에 새 빈 자바스크립트를 추가합니다.</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2605"/>
+        <location filename="../../Form_Files/main.ui" line="2617"/>
         <source>Blank SVG Image</source>
         <translation>빈 SVG 이미지</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2608"/>
+        <location filename="../../Form_Files/main.ui" line="2620"/>
         <source>Add a new blank svg image file to the book.</source>
         <translation>책에 새 빈 svg 이미지 파일을 추가합니다.</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2613"/>
+        <location filename="../../Form_Files/main.ui" line="2625"/>
         <source>Pre&amp;vious File</source>
         <translation>이전 파일(&amp;V)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2616"/>
+        <location filename="../../Form_Files/main.ui" line="2628"/>
         <source>Open previous file of the same type.</source>
         <translation>동일한 형태의 기존 파일을 엽니다.</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2619"/>
+        <location filename="../../Form_Files/main.ui" line="2631"/>
         <source>Alt+PgUp</source>
         <translation>Alt+PgUp</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2624"/>
+        <location filename="../../Form_Files/main.ui" line="2636"/>
         <source>Next &amp;File</source>
         <translation>다음 파일(&amp;F)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2627"/>
+        <location filename="../../Form_Files/main.ui" line="2639"/>
         <source>Open next file of the same type.</source>
         <translation>동일한 형태의 다음 파일을 엽니다.</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2630"/>
+        <location filename="../../Form_Files/main.ui" line="2642"/>
         <source>Alt+PgDown</source>
         <translation>Alt+PgDown</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2635"/>
+        <location filename="../../Form_Files/main.ui" line="2647"/>
         <source>&amp;Add To Index Editor</source>
         <translation>색인 편집기에 추가(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2642"/>
+        <location filename="../../Form_Files/main.ui" line="2654"/>
         <source>Add the selected text to the Index Editor.</source>
         <translation>색인 편집기에 선택한 텍스트를 추가합니다.</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2647"/>
+        <location filename="../../Form_Files/main.ui" line="2659"/>
         <source>&amp;Mark For Index</source>
         <translation>색인 마크(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2654"/>
+        <location filename="../../Form_Files/main.ui" line="2666"/>
         <source>Mark the selected text for inclusion in the Index.</source>
         <translation>선택한 텍스트를 색인에 포함하도록 표시</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2657"/>
+        <location filename="../../Form_Files/main.ui" line="2669"/>
         <source>Ctrl+Shift+X</source>
         <translation>Ctrl+Shift+X</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2662"/>
+        <location filename="../../Form_Files/main.ui" line="2674"/>
         <source>&amp;Create Index</source>
         <translation>색인 만들기(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2669"/>
+        <location filename="../../Form_Files/main.ui" line="2681"/>
         <source>Generate a new Index HTML file.</source>
         <translation>새로운 색인 HTML 파일 생성</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2674"/>
+        <location filename="../../Form_Files/main.ui" line="2686"/>
         <source>&amp;Create HTML Table Of Contents</source>
-        <translation>HTML 목차 만들기(&amp;C)</translation>
+        <translation>HTML 차례 만들기(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2677"/>
+        <location filename="../../Form_Files/main.ui" line="2689"/>
         <source>Create a new HTML file using the current TOC.</source>
-        <translation>현재 TOC를 사용하여 새 HTML 파일 목차를 만듧니다.</translation>
+        <translation>현재 차례를 사용하여 새 HTML 파일 차례를 만듧니다.</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2682"/>
+        <location filename="../../Form_Files/main.ui" line="2694"/>
         <source>Book&amp;mark Location</source>
         <translation>현재 위치 북마크(&amp;m)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2685"/>
+        <location filename="../../Form_Files/main.ui" line="2697"/>
         <source>Ctrl+Alt+B</source>
         <translation>Ctrl+Alt+B</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2690"/>
+        <location filename="../../Form_Files/main.ui" line="2702"/>
         <source>&amp;Go To Link Or Style</source>
         <translation>링크 혹은 스타일로 이동(&amp;G)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2693"/>
+        <location filename="../../Form_Files/main.ui" line="2705"/>
         <source>F3</source>
         <translation>F3</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2702"/>
+        <location filename="../../Form_Files/main.ui" line="2714"/>
         <source>&amp;Back</source>
         <translation>뒤로(&amp;B)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2705"/>
+        <location filename="../../Form_Files/main.ui" line="2717"/>
         <source>&lt;p style=&quot;padding-top: 0.5em;&quot; &gt;&lt;b&gt;Back&lt;/b&gt;&lt;/p&gt;
 
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;Go back to where you last went to a link or style, or bookmarked your location.&lt;/p&gt;
@@ -10297,450 +10583,467 @@ Stylesheets that are listed first take precedence over later stylesheets.</sourc
 &lt;p style=&quot;margin-left: 0.5em;&quot;&gt;마지막으로 이동한 링크, 스타일 또는 북마크한 위치로 이동합니다.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2711"/>
+        <location filename="../../Form_Files/main.ui" line="2723"/>
         <source>Ctrl+\</source>
         <translation>Ctrl+\</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2716"/>
+        <location filename="../../Form_Files/main.ui" line="2728"/>
         <source>Edit/Paste From Clipboard &amp;History...</source>
         <translation>클립보드에서 붙여넣기/편집(&amp;H)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2719"/>
+        <location filename="../../Form_Files/main.ui" line="2731"/>
         <source>Ctrl+Alt+V</source>
         <translation>Ctrl+Alt+V</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2724"/>
+        <location filename="../../Form_Files/main.ui" line="2736"/>
         <source>&amp;Delete Line</source>
         <translation>줄 삭제(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2727"/>
+        <location filename="../../Form_Files/main.ui" line="2739"/>
         <source>Ctrl+D</source>
         <translation>Ctrl+D</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2736"/>
+        <location filename="../../Form_Files/main.ui" line="2748"/>
         <source>Run Automate List 1</source>
         <translation>자동화 목록 1 실행</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2741"/>
+        <location filename="../../Form_Files/main.ui" line="2753"/>
         <source>Edit Automate List 1</source>
         <translation>자동화 목록 1 편집</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2750"/>
+        <location filename="../../Form_Files/main.ui" line="2762"/>
         <source>Run Automate List 2</source>
         <translation>자동화 목록 2 실행</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2755"/>
+        <location filename="../../Form_Files/main.ui" line="2767"/>
         <source>Edit Automate List 2</source>
         <translation>자동화 목록 2 편집</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2764"/>
+        <location filename="../../Form_Files/main.ui" line="2776"/>
         <source>Run Automate List 3</source>
         <translation>자동화 목록 3 실행</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2769"/>
+        <location filename="../../Form_Files/main.ui" line="2781"/>
         <source>Edit Automate List 3</source>
         <translation>자동화 목록 3 편집</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2774"/>
+        <location filename="../../Form_Files/main.ui" line="2786"/>
         <source>Manage Plugins</source>
         <translation>플러그인 관리</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2783"/>
+        <location filename="../../Form_Files/main.ui" line="2795"/>
         <source>Run Plugin 1</source>
         <translation>플러그인1 실행</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2792"/>
+        <location filename="../../Form_Files/main.ui" line="2804"/>
         <source>Run Plugin 2</source>
         <translation>플러그인2 실행</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2801"/>
+        <location filename="../../Form_Files/main.ui" line="2813"/>
         <source>Run Plugin 3</source>
         <translation>플러그인3 실행</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2810"/>
+        <location filename="../../Form_Files/main.ui" line="2822"/>
         <source>Run Plugin 4</source>
         <translation>플러그인4 실행</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2819"/>
+        <location filename="../../Form_Files/main.ui" line="2831"/>
         <source>Run Plugin 5</source>
         <translation>플러그인5 실행</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2828"/>
+        <location filename="../../Form_Files/main.ui" line="2840"/>
         <source>Run Plugin 6</source>
         <translation>플러그인6 실행</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2837"/>
+        <location filename="../../Form_Files/main.ui" line="2849"/>
         <source>Run Plugin 7</source>
         <translation>플러그인7 실행</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2846"/>
+        <location filename="../../Form_Files/main.ui" line="2858"/>
         <source>Run Plugin 8</source>
         <translation>플러그인8 실행</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2855"/>
+        <location filename="../../Form_Files/main.ui" line="2867"/>
         <source>Run Plugin 9</source>
         <translation>플러그인9 실행</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2864"/>
+        <location filename="../../Form_Files/main.ui" line="2876"/>
         <source>Run Plugin 10</source>
         <translation>플러그인10 실행</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2873"/>
+        <location filename="../../Form_Files/main.ui" line="2885"/>
         <source>Launch External Xhtml Editor</source>
         <translation>외부 HTML 편집기 실행</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2876"/>
+        <location filename="../../Form_Files/main.ui" line="2888"/>
         <source>F2</source>
         <translation>F2</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2881"/>
+        <location filename="../../Form_Files/main.ui" line="2893"/>
         <source>Mend and &amp;Prettify All HTML Files</source>
         <translation>모든 HTML 파일 코드 자동 정리(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2886"/>
+        <location filename="../../Form_Files/main.ui" line="2898"/>
         <source>&amp;Mend All HTML Files</source>
         <translation>잘못된 코드 고치기(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2891"/>
+        <location filename="../../Form_Files/main.ui" line="2903"/>
         <source>&amp;Update Manifest Properties</source>
         <translation>매니페스트 속성 업데이트(&amp;U)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2896"/>
+        <location filename="../../Form_Files/main.ui" line="2908"/>
         <source>Generate &amp;NCX/Guide for epub2 e-readers</source>
         <translation>NCX/EPUB2 리더를 위한 가이드 만들기(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2901"/>
+        <location filename="../../Form_Files/main.ui" line="2913"/>
         <source>Create a Custom Empty Epub</source>
         <translation>사용자 정의 EPUB 만들기</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2906"/>
+        <location filename="../../Form_Files/main.ui" line="2918"/>
         <source>Remove the NCX and Guide</source>
         <translation>NCX와 Guide 삭제</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2915"/>
+        <location filename="../../Form_Files/main.ui" line="2927"/>
         <source>Create Checkpoint for Epub</source>
         <translation>EPUB 체크포인트 만들기</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2924"/>
+        <location filename="../../Form_Files/main.ui" line="2936"/>
         <source>Restore Epub from previous Checkpoint</source>
         <translation>이전 체크포인트로 EPUB 복원</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2933"/>
+        <location filename="../../Form_Files/main.ui" line="2945"/>
         <source>Compare Epub against Previous Checkpoint</source>
         <translation>이전 체크포인트와 EPUB 비교</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/main.ui" line="2942"/>
+        <location filename="../../Form_Files/main.ui" line="2954"/>
         <source>Manage Checkpoint Repositories</source>
         <translation>체크포인트 저장소 관리</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="364"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="374"/>
         <source>Automate List Editor cancelled.</source>
         <translation>자동화 목록 편집기를 취소하였습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="367"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="377"/>
         <source>Automate List edited.</source>
         <translation>자동화 목록이 수정되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="373"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="383"/>
         <source>Error: Automation Already in Use</source>
         <translation>오류: 자동화가 이미 사용 중입니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="379"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="389"/>
         <source>Missing Automation List</source>
         <translation>자동화 목록 누락</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="412"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="423"/>
         <source>running</source>
         <translation>실행중</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="467"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="481"/>
         <source>skipped since not an epub3</source>
-        <translation type="unfinished"/>
+        <translation>EPUB3가 아니어서 다음 기능을 수행합니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="485"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="506"/>
         <source>Missing or unknown Saved Search name</source>
-        <translation type="unfinished"/>
+        <translation>저장된 검색 이름이 없거나 잘못되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="489"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="510"/>
         <source>Missing or unknown plugin or tool</source>
-        <translation type="unfinished"/>
+        <translation>플러그인 또는 도구가 없거나 이름이 잘못 지정되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="494"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="515"/>
         <source>failed</source>
         <translation>실패</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="502"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="523"/>
         <source>Validation tool</source>
         <translation>검사 도구</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="503"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="524"/>
         <source>found errors</source>
         <translation>발견된 오류</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="506"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="527"/>
         <source>Validation tool found errors - Abort or Ignore?</source>
-        <translation type="unfinished"/>
+        <translation>유효성 검사 도구에서 오류가 발견되었습니다. 중단하시겠습니까? 아니면 무시하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="515"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="536"/>
         <source>Aborted due to Validation Errors</source>
-        <translation type="unfinished"/>
+        <translation>유효성 검사 오류로 인해 중단되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="518"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="539"/>
         <source>Ignored Validation Errors</source>
-        <translation type="unfinished"/>
+        <translation>유효성 검사 오류를 무시하였습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="521"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="542"/>
         <source>Validation Tool Reported No Problems Found</source>
-        <translation type="unfinished"/>
+        <translation>유효성 검사에서 오류가 발견되지 않았습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="528"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="549"/>
         <source>Automation List Failed</source>
         <translation>자동화 목록 실패</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="530"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="551"/>
         <source>Automation List Completed</source>
         <translation>자동화 목록 완료</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="532"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="553"/>
         <source>Automate Log</source>
         <translation>자동화 로그</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="607"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="628"/>
         <source>Input</source>
         <translation>입력</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="613"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="634"/>
         <source>Output</source>
         <translation>출력</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="625"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="646"/>
         <source>Validation</source>
         <translation>적합성 검사</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="674"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="687"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="696"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="704"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="1423"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="1754"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="1989"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="2134"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="2623"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="2719"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="2769"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="2778"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="2794"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="2807"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="2913"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="2929"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="2934"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="2947"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="2960"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="2965"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="2977"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="2987"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="2992"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="3141"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="3148"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="3164"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="3223"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="3255"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="3454"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="4573"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="4586"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="4592"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="4628"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="4634"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="4640"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="4914"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="4934"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="5242"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="5443"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="695"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="708"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="717"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="725"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="802"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1486"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1817"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2052"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2197"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2691"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2787"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2840"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2850"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2869"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2883"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2989"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3005"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3010"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3023"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3036"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3041"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3053"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3063"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3068"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3217"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3224"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3240"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3299"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3331"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3530"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="4668"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="4709"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="4715"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="4721"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5010"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5030"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5078"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5347"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5551"/>
         <source>Sigil</source>
         <translation>Sigil</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="675"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="696"/>
         <source>Are you sure you want to restructure this epub?
 This action cannot be reversed.</source>
         <translation>이 EPUB을 재구성하시겠습니까?
 이 작업은 되돌릴 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="688"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="697"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="705"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="709"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="718"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="726"/>
         <source>Restructure cancelled: %1, XML not well formed.</source>
         <translation>재구성이 취소되었습니다 : %1, XML이 문법에 맞지 않습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="775"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="800"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="802"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5076"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5078"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5549"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5551"/>
+        <source>%1[*] - epub%2 - %3</source>
+        <translation>%1[*] - epub%2 - %3</translation>
+    </message>
+    <message>
+        <location filename="../../MainUI/MainWindow.cpp" line="800"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5076"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5549"/>
+        <source>Sigil [std]</source>
+        <translation>Sigil [std]</translation>
+    </message>
+    <message>
+        <location filename="../../MainUI/MainWindow.cpp" line="804"/>
         <source>Restructure completed.</source>
         <translation>재구성이 완료되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="883"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="917"/>
         <source>Checkpoint generation failed.</source>
         <translation>체크포인트를 만들지 못했습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="889"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="923"/>
         <source>Checkpoint saved.</source>
         <translation>체크포인트가 저장되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="926"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="965"/>
         <source>Checkout Failed. No checkpoints found</source>
         <translation>복구할 수 없습니다. 체크포인트를 찾지 못했습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="943"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="982"/>
         <source>Checkout Failed. No checkpoint selected</source>
         <translation>복구할 수 없습니다. 체크포인트를 선택하지 않았습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="968"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1011"/>
         <source>Epub Generate from Tag Failed.</source>
         <translation>태그에서 Epub 생성에 실패했습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="973"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1016"/>
         <source>Epub Generation succeeded</source>
         <translation>EPUB 생성에 성공했습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="987"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1030"/>
         <source>Repository Checkout</source>
         <translation>저장소 체크아웃</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="988"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1031"/>
         <source>Your current book will be replaced losing any unsaved changes ... Are you sure you want to proceed?</source>
         <translation>현재 작업중인 책이 대체되며, 저장하지 않은 모든 데이터가 사라집니다. 계속 진행하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1012"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="1036"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1055"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1084"/>
         <source>Diff Failed. No checkpoints found</source>
         <translation>비교할 수 없습니다. 체크포인트를 찾지 못했습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1052"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1100"/>
         <source>Diff Failed. No checkpoint selected for comparison</source>
         <translation>비교할 수 없습니다. 비교할 체크포인트를 선택하지 않았습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1083"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1142"/>
         <source>Results of Comparison</source>
         <translation>비교 결과</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1083"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1142"/>
         <source>No differences were found.</source>
         <translation>다른 점을 찾지 못했습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1120"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1179"/>
         <source>No External Xhtml Editor has been specified:  See Preferences</source>
         <translation>외부 Xhtml 편집기를 지정하지 않았습니다: 설정을 확인하세요.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1127"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1186"/>
         <source>Specified External Xhtml Editor path does not exist</source>
         <translation>설정한 외부 Xhtml 편집기의 경로가 존재하지 않습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1137"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1196"/>
         <source>PageEdit XHtml Editor works only on Html/OPF Resources</source>
-        <translation type="unfinished"/>
+        <translation>PageEdit XHtml Editor는 Html/OPF 리소스에서만 작동합니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1143"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1202"/>
         <source>External XHtml Editor works only on Html Resources</source>
         <translation>외부 XHtml 편집기는 HTML 리소스에서만 작동합니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1184"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1243"/>
         <source>Executing PageEdit Xhtml Editor</source>
         <translation>PageEdit Xhtml 편집기 실행</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1197"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1256"/>
         <source>Executing External Xhtml Editor</source>
         <translation>외부 Xhtml 편집기 실행</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1201"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1260"/>
         <source>Failed to Launch External Xhtml Editor</source>
         <translation>외부 Xhtml 편집기를 실행하지 못했습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1341"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1404"/>
         <source>Navigation cancelled as location no longer exists.</source>
         <translation>위치가 더 이상 존재하지 않아 탐색이 취소되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1358"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1421"/>
         <source>Location bookmarked.</source>
         <translation>위치가 북마크 되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1423"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1486"/>
         <source>Are you sure you want to open this external link?
 
 %1</source>
@@ -10749,447 +11052,438 @@ This action cannot be reversed.</source>
 %1</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1459"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1522"/>
         <source>was updated</source>
         <translation>업데이트 되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1466"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1529"/>
         <source>Warning</source>
         <translation>경고</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1466"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1529"/>
         <source>The file was NOT well formed and may be corrupted.</source>
         <translation>파일이 문법에 맞지 않습니다. 손상된 파일일 수 있습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1495"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1558"/>
         <source>Opening this EPUB generated warnings.</source>
         <translation>이 EPUB을 열면서 문제를 발견했습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1497"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1560"/>
         <source>Select Show Details for more information.</source>
         <translation>자세한 내용을 보려면 세부 사항 표시를 선택하십시오.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1621"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1684"/>
         <source>Sigil is closing...</source>
         <translation>Sigil을 닫는 중...</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1688"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1751"/>
         <source>New file created.</source>
         <translation>새 파일 만들어짐.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1713"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1776"/>
         <source>Open File</source>
         <translation>파일 열기</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1753"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1816"/>
         <source>This file no longer exists. Click OK to remove it from the menu.
 %1</source>
         <translation>이 파일은 더 이상 존재하지 않습니다. 확인을 클릭하면 메뉴에서 제거됩니다.
 %1</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1831"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1894"/>
         <source>Save File</source>
         <translation>파일 저장</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1885"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1948"/>
         <source>Save a Copy</source>
         <translation>사본으로 저장</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1924"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1987"/>
         <source>Epub layout discarded.</source>
         <translation>EPUB 레이아웃이 삭제되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1931"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="1994"/>
         <source>New epub created.</source>
         <translation>새로운 EPUB이 생성되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1966"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2029"/>
         <source>Go To Line</source>
         <translation>줄 이동</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1966"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2029"/>
         <source>Line #</source>
         <translation>줄 #</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="1989"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2052"/>
         <source>Image does not exist: </source>
         <translation>존재하지 않는 이미지: </translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2049"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2112"/>
         <source>or</source>
         <translation>또는</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2057"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2120"/>
         <source>No CSS styles named</source>
         <translation>CSS 스타일 이름이 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2057"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2120"/>
         <source>found, or stylesheet not linked.</source>
         <translation>찾거나 스타일 시트가 연결되지 않았습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2130"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2193"/>
         <source>&lt;html&gt;&lt;p&gt;The href &lt;b&gt;%1&lt;/b&gt; found in &lt;b&gt;%2&lt;/b&gt; does not exist (and there may be more). Splitting or merging under these conditions can result in broken links.&lt;/p&gt;&lt;p&gt;Do you still wish to continue?&lt;/p&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;p&gt;&lt;b&gt;%2&lt;/b&gt;에서 찾은 링크 경로 &lt;b&gt;%1&lt;/b&gt;은(는) 존재하지 않습니다. 이러한 조건에서 분할하거나 병합하면 링크가 끊어 질 수 있습니다.&lt;/p&gt;&lt;p&gt;계속 진행하시겠습니까?&lt;/p&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2154"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2217"/>
         <source>Add Cover</source>
         <translation>표지 추가</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2203"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2266"/>
         <source>An existing Cover file has been found.</source>
         <translation>기존 표지 파일이 발견되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2260"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2323"/>
         <source>Unexpected error. Only image files can be used for the cover.</source>
         <translation>예상치 못한 오류. 표지에는 이미지 파일 만 사용할 수 있습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2279"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2342"/>
         <source>Cover added.</source>
         <translation>표지가 추가되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2289"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="2307"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="2339"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2352"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2370"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2402"/>
         <source>Not Available for epub2.</source>
         <translation>EPUB2에서 사용할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2297"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2360"/>
         <source>OPF Manifest Properties Updated.</source>
         <translation>OPF 매니페스트 속성이 업데이트되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2329"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2392"/>
         <source>NCX and Guide removed.</source>
         <translation>NCX와 Guide가 삭제되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2356"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="2389"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2419"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2457"/>
         <source>NCX and Guide generation failed.</source>
         <translation>NCX 와 Guide 생성에 실패했습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2427"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2495"/>
         <source>NCX and Guide generated.</source>
         <translation>NCX 와 Guide가 생성되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2512"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2580"/>
         <source>An existing Index file has been found.</source>
         <translation>기존 색인 파일이 발견되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2604"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2672"/>
         <source>Styles deleted.</source>
         <translation>스타일 삭제됨.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2612"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2680"/>
         <source>Reports Being Generated.</source>
         <translation>보고서 생성중</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2623"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2691"/>
         <source>Reports cancelled due to XML not well formed.</source>
         <translation>XML이 문법에 맞지 않아 보고서가 취소되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2719"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2787"/>
         <source>Delete Unused Media Files cancelled due to XML not well formed.</source>
         <translation>XML이 문법에 맞지 않아 사용하지 않는 미디어 파일 삭제 작업이 취소되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2767"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2835"/>
         <source>Unused media files deleted.</source>
         <translation>사용하지 않는 미디어 파일 삭제</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2769"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2838"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2840"/>
         <source>There are no unused image, video or audio files to delete.</source>
         <translation>삭제할 미사용 이미지, 비디오 또는 오디오 파일이 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2778"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2850"/>
         <source>Delete Unused Styles cancelled due to XML not well formed.</source>
         <translation>XML이 문법에 맞지 않아 사용하지 않는 스타일 삭제가 취소되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2794"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2867"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2869"/>
         <source>There are no unused stylesheet selectors to delete.</source>
         <translation>삭제할 사용하지 않는 스타일 시트 선택자가 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2807"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2883"/>
         <source>You cannot insert a file at this position.</source>
         <translation>이 위치에는 파일을 삽입 할 수 없습니다</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2814"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2890"/>
         <source>Insert File</source>
         <translation>파일 삽입</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2867"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2943"/>
         <source>The file &quot;%1&quot; does not exist.</source>
         <translation>파일 &quot;%1&quot; 이(가) 존재하지 않습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2913"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="2934"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="2989"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3010"/>
         <source>You cannot insert an id at this position.</source>
         <translation>이 위치에는 ID를 넣을 수 없습니다. </translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2929"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3005"/>
         <source>ID is invalid - must start with a letter, followed by letter number _ : - or .</source>
         <translation>잘못된 ID 이름 - 반드시 영문으로 시작하고 영문, 숫자, 언더바(_) 콜론(:), 하이픈(-) 혹은 점(.)만 사용 가능</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2947"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="2965"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3023"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3041"/>
         <source>You cannot insert a link at this position.</source>
         <translation>이 위치에는 링크를 삽입할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2960"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3036"/>
         <source>Link is invalid - cannot contain &apos;&lt;&apos; or &apos;&gt;&apos;</source>
         <translation>잘못된 링크 - &apos;&lt;&apos;나 &apos;&gt;&apos;는 포함할 수 없음</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2977"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3053"/>
         <source>You cannot mark an index at this position or without selecting text.</source>
         <translation>색인 항목을 선택하지 않았거나 색인을 추가할 수 없는 위치입니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2987"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3063"/>
         <source>Entry is invalid - cannot contain &apos;&lt;&apos; or &apos;&gt;&apos;</source>
         <translation>입력이 유효하지 않습니다- &apos;&lt;&apos;또는 &apos;&gt;&apos;를 포함 할 수 없습니다</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="2992"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3068"/>
         <source>You cannot mark an index at this position.</source>
         <translation>색인을 추가할 수 없는 위치입니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="3059"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="3071"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="3090"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3135"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3147"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3166"/>
         <source>Select the destination to paste into first.</source>
         <translation>붙여 넣기 할 대상을 먼저 선택하십시오.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="3079"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3155"/>
         <source>Pasted clip entry %1.</source>
         <translation>붙여 넣은 클립 항목 %1</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="3141"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3217"/>
         <source>One resource selected and there is no previous resource to merge into.</source>
         <translation>하나의 리소스가 선택되었으며 병합 할 이전 리소스가 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="3149"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3225"/>
         <source>Are you sure you want to merge the selected files?
 This action cannot be reversed.</source>
         <translation>선택된 파일들을 합치시겠습니까?
 합친 뒤에는 되돌릴 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="3164"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3240"/>
         <source>Merge cancelled: XHTML files involved in merge are not well formed.</source>
         <translation>병합 취소됨 : 병합하려는 XHTML 파일의 형식이 올바르지 않습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="3223"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3299"/>
         <source>Cannot merge file %1</source>
         <translation>파일 %1을 병합하지 못했습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="3237"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3313"/>
         <source>Merge completed. You may need to regenerate or edit your Table Of Contents.</source>
-        <translation>병합을 완료했습니다. 목차를 다시 생성해야 합니다. </translation>
+        <translation>병합을 완료했습니다. 차례를 다시 생성해야 합니다. </translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="3255"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3331"/>
         <source>Link Stylesheets cancelled: %1, XML not well formed.</source>
         <translation>스타일시트 연결 실패: %1, XML이 문법에 맞지 않습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="3385"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3461"/>
         <source>Word updated.</source>
         <translation>단어를 업데이트 했습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="3454"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3530"/>
         <source>Link Javascripts cancelled: %1, XML not well formed.</source>
-        <translation type="unfinished"/>
+        <translation>자바스크립트 연결이 취소됨: %1, XML 형식이 잘못되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="3564"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3640"/>
         <source>File(s) deleted.</source>
         <translation>파일이 삭제되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="3575"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3651"/>
         <source>Edit Table of Contents cancelled.</source>
-        <translation>목차 편집을 취소했습니다.</translation>
+        <translation>차례 편집을 취소했습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="3580"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3656"/>
         <source>Table Of Contents edited.</source>
-        <translation>목차를 편집했습니다.</translation>
+        <translation>차례를 편집했습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="3598"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3674"/>
         <source>Generate TOC cancelled.</source>
-        <translation>목차 생성을 취소했습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="3623"/>
-        <source>Table Of Contents generated.</source>
-        <translation>목차가 만들어 졌습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="3625"/>
-        <source>No Table Of Contents changes were necessary.</source>
-        <translation>목차 변경이 필요하지 않습니다.</translation>
+        <translation>차례 생성을 취소했습니다.</translation>
     </message>
     <message>
         <location filename="../../MainUI/MainWindow.cpp" line="3699"/>
-        <source>An existing HTML Table of Contents file has been found.</source>
-        <translation>기존 HTML 목차 파일이 발견되었습니다.</translation>
+        <source>Table Of Contents generated.</source>
+        <translation>차례가 만들어 졌습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="3783"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3701"/>
+        <source>No Table Of Contents changes were necessary.</source>
+        <translation>차례 변경이 필요하지 않습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../MainUI/MainWindow.cpp" line="3775"/>
+        <source>An existing HTML Table of Contents file has been found.</source>
+        <translation>기존 HTML 차례 파일이 발견되었습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../MainUI/MainWindow.cpp" line="3859"/>
         <source>Text selection marked.</source>
         <translation>선택한 텍스트를 표시(mark)했습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="3785"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="3803"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3861"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3879"/>
         <source>Text selection unmarked.</source>
         <translation>선택한 텍스트의 표시(mark)를 삭제했습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="3852"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3928"/>
         <source>Metadata Editor cancelled.</source>
         <translation>메타데이터 편집을 취소했습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="3855"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="3931"/>
         <source>Metadata edited.</source>
         <translation>메타데이터를 편집했습니다. </translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="3963"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="4039"/>
         <source>RunPlugin</source>
         <translation>플러그인 실행</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="3989"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="4065"/>
         <source>This EPUB does not contain any CSS stylesheets to validate.</source>
         <translation>이 EPUB에는 유효성을 검사 할 CSS 스타일 시트가 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="4007"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="4096"/>
         <source>This EPUB does not contain any CSS stylesheets to reformat.</source>
-        <translation type="unfinished"/>
+        <translation>이 EPUB에는 다시 설정할 CSS 스타일시트가 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="4485"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="4580"/>
         <source>Line: %1, Col: %2</source>
         <translation>행: %1, 열: %2</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="4573"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="4668"/>
         <source>File cannot be split at this position.</source>
         <translation>이 위치에서는 파일을 나눌 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="4586"/>
-        <source>Cannot split since it may not be an HTML file.</source>
-        <translation>HTML 파일이 아니기 때문에 분할 할 수 없습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="4592"/>
-        <source>The Nav file cannot be split.</source>
-        <translation>Nav 파일을 분할 할 수 없습니다.
-</translation>
-    </message>
-    <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="4610"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="4691"/>
         <source>Split completed.</source>
         <translation>나누기가 끝났습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="4628"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="4709"/>
         <source>Cannot split since at least one file is not an HTML file.</source>
         <translation>하나 이상의 파일이 HTML 파일이 아니기 때문에 분할할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="4634"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="4715"/>
         <source>Cannot split: %1 XML is not well formed</source>
         <translation>분할 취소: %1 XML이 문법에 맞지 않습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="4640"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="4721"/>
         <source>Cannot split since at least one file may not be an HTML file.</source>
         <translation>하나 이상의 파일이 HTML 파일이 아니기 때문에 분할 할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="4673"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="4754"/>
         <source>Split completed. You may need to update the Table of Contents.</source>
-        <translation>분할이 완료되었습니다. 목차 갱신이 필요합니다.</translation>
+        <translation>분할이 완료되었습니다. 차례 갱신이 필요합니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="4675"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="4756"/>
         <source>No split file markers found. Use Insert-&gt;Split Marker.</source>
         <translation>장 나누기 표시가 없습니다. 추가-&gt;장 나누기 표시를 이용하세요.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="4915"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5011"/>
         <source>The document has been modified.
 Do you want to save your changes?</source>
         <translation>이 문서가 수정되었습나더.⏎
 변경 사항을 저장하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="4936"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5032"/>
         <source>Should Sigil overwrite this file?</source>
         <translation>Sigil이 이 파일을 덮어쓸까요?</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="5113"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5218"/>
         <source>No importer for file type: %1</source>
         <translation>추가할 수 없는 파일 타입 : %1</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="5120"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5225"/>
         <source>The following file was not loaded due to invalid content or not well formed XML:
 
 %1 (line %2: %3)
@@ -11202,44 +11496,44 @@ Try setting the Clean Source preference to Mend XHTML Source Code on Open and re
 파일을 열거 나 다시로드 할 때 소스 정리 환경 설정을 Mend XHTML 소스 코드로 설정하십시오.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="5125"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5230"/>
         <source>Loading file...</source>
         <translation>파일을 불러오는 중...</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="5139"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5244"/>
         <source>File loaded.</source>
         <translation>파일을 불러옴.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="5167"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5272"/>
         <source>The creator of this file has encrypted it with DRM. Sigil cannot open such files.</source>
         <translation>이 파일를 만든 사람이 DRM으로 암호화했습니다. Sigil은 이 파일을 열 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="5175"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5280"/>
         <source>Cannot load EPUB: %1</source>
         <translation>EPUB를 불러들일 수 없습니다: %1</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="5180"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5285"/>
         <source>Cannot load file %1: %2</source>
         <translation>파일 %1 을 불러들 일 수 없습니다: %2</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="5209"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5314"/>
         <source>Saving EPUB...</source>
         <translation>EPUB 저장 중...</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="5218"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5323"/>
         <source>Sigil cannot save files of type &quot;%1&quot;.
 Please choose a different format.</source>
         <translation>Sigil은 &quot;%1&quot; 형식의 파일로 저장할 수 없습니다.
 다른 포맷을 선택해주세요.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="5243"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5348"/>
         <source>This EPUB has HTML files that are not well formed and your current Clean Source preferences are set to automatically mend on Save. Saving a file that is not well formed will cause it to be automatically fixed, which very rarely may result in some data loss.
 
 Do you want to automatically mend the files before saving?</source>
@@ -11248,69 +11542,64 @@ Do you want to automatically mend the files before saving?</source>
 저장하기 전에 파일을 자동으로 수정 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="5272"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5377"/>
         <source>EPUB saved, but not all HTML files are well formed.</source>
         <translation>EPUB이 저장되었습니다. 하지만 일부 HTML 파일이 문법에 맞지 않습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="5274"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5379"/>
         <source>EPUB saved.</source>
         <translation>EPUB이 저장되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="5280"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5385"/>
         <source>Cannot save file %1: %2</source>
         <translation>파일 %1 를 저장할 수 없습니다: %2</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="5413"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5518"/>
         <source>EPUB files (*.epub)</source>
         <translation>EPUB 파일 (*.epub)</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="5414"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="5415"/>
-        <location filename="../../MainUI/MainWindow.cpp" line="5416"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5519"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5520"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5521"/>
         <source>HTML files (*.htm *.html *.xhtml)</source>
         <translation>HTML 파일 (*.htm *.html *.xhtml)</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="5417"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5522"/>
         <source>Text files (*.txt)</source>
         <translation>텍스트 파일 (*.txt)</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="5418"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5523"/>
         <source>All files (*.*)</source>
         <translation>모든 파일 (*.*)</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="5426"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5531"/>
         <source>EPUB file (*.epub)</source>
         <translation>EPUB 파일 (*.epub)</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="5443"/>
-        <source>%1[*] - epub%2 - %3</source>
-        <translation>%1[*] - epub%2 - %3</translation>
-    </message>
-    <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="5521"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5629"/>
         <source>Preserve existing heading attributes is now:</source>
         <translation>기존 제목 속성 유지는 다음과 같습니다: </translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="5522"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5630"/>
         <source>ON</source>
         <translation>켜기</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="5522"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5630"/>
         <source>OFF</source>
         <translation>끄기</translation>
     </message>
     <message>
-        <location filename="../../MainUI/MainWindow.cpp" line="5547"/>
+        <location filename="../../MainUI/MainWindow.cpp" line="5655"/>
         <source>&amp;%1 %2</source>
         <translation>&amp;%1 %2</translation>
     </message>
@@ -11369,22 +11658,22 @@ Do you want to automatically mend the files before saving?</source>
     </message>
     <message>
         <location filename="../../Dialogs/ManageRepos.cpp" line="141"/>
-        <location filename="../../Dialogs/ManageRepos.cpp" line="172"/>
+        <location filename="../../Dialogs/ManageRepos.cpp" line="180"/>
         <source>Nothing is Selected.</source>
         <translation>선택된 것이 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ManageRepos.cpp" line="162"/>
+        <location filename="../../Dialogs/ManageRepos.cpp" line="170"/>
         <source>Repository Log</source>
         <translation>저장소 기록</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ManageRepos.cpp" line="197"/>
+        <location filename="../../Dialogs/ManageRepos.cpp" line="205"/>
         <source>Remove All Repositories</source>
         <translation>모든 저장소 삭제</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ManageRepos.cpp" line="198"/>
+        <location filename="../../Dialogs/ManageRepos.cpp" line="206"/>
         <source>Are you sure sure you want to remove all checkpoint repositories?</source>
         <translation>체크포인트 저장소를 모두 삭제하시겠습니까?</translation>
     </message>
@@ -12229,7 +12518,7 @@ Do you want to automatically mend the files before saving?</source>
     <message>
         <location filename="../../Misc/MarcRelators.cpp" line="194"/>
         <source>Use for the author of a dedication, which may be a formal statement or in epistolary or verse form.</source>
-        <translation>헌신의 저자를 위해 사용하십시오. 공식적인 진술 또는 대표 또는 구절 형식 일 수 있습니다.</translation>
+        <translation>헌사를 남긴 저자를 위해 사용하십시오. 공식적인 진술 또는 대표 또는 구절 형식 일 수 있습니다.</translation>
     </message>
     <message>
         <location filename="../../Misc/MarcRelators.cpp" line="195"/>
@@ -12659,7 +12948,7 @@ Do you want to automatically mend the files before saving?</source>
     <message>
         <location filename="../../Misc/MarcRelators.cpp" line="237"/>
         <source>Use for a person who has written a statement of dedication or gift.</source>
-        <translation>헌신이나 선물(gift)을 쓴 사람에게 사용하십시오.</translation>
+        <translation>헌사나 선물(gift)을 쓴 사람에게 사용하십시오.</translation>
     </message>
     <message>
         <location filename="../../Misc/MarcRelators.cpp" line="238"/>
@@ -15119,29 +15408,29 @@ Do you want to automatically mend the files before saving?</source>
 <context>
     <name>OPFModel</name>
     <message>
-        <location filename="../../MainUI/OPFModel.cpp" line="712"/>
+        <location filename="../../MainUI/OPFModel.cpp" line="713"/>
         <source>A filename cannot contains the character &quot;%1&quot;.</source>
         <translation>파일 이름은 문자 &quot;%1&quot; 을 포함할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/OPFModel.cpp" line="723"/>
+        <location filename="../../MainUI/OPFModel.cpp" line="724"/>
         <source>The filename cannot be empty.</source>
         <translation>파일 이름은 비워둘 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/OPFModel.cpp" line="735"/>
+        <location filename="../../MainUI/OPFModel.cpp" line="736"/>
         <source>The filename &quot;%1&quot; is already in use.
 </source>
         <translation>파일 이름 &quot;%1&quot; 은 이미 사용되고 있습니다.
 </translation>
     </message>
     <message>
-        <location filename="../../MainUI/OPFModel.cpp" line="747"/>
+        <location filename="../../MainUI/OPFModel.cpp" line="748"/>
         <source>The book path cannot be empty.</source>
         <translation>책 경로는 비워 둘 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/OPFModel.cpp" line="754"/>
+        <location filename="../../MainUI/OPFModel.cpp" line="755"/>
         <source>That book path &quot;%1&quot; is already in use.
 </source>
         <translation>책 경로 &quot;%1&quot;는(은) 이미 사용중입니다.</translation>
@@ -15150,12 +15439,12 @@ Do you want to automatically mend the files before saving?</source>
 <context>
     <name>OPFResource</name>
     <message>
-        <location filename="../../ResourceObjects/OPFResource.cpp" line="1384"/>
+        <location filename="../../ResourceObjects/OPFResource.cpp" line="1438"/>
         <source>[Title here]</source>
         <translation>[제목을 넣으세요]</translation>
     </message>
     <message>
-        <location filename="../../ResourceObjects/OPFResource.cpp" line="1390"/>
+        <location filename="../../ResourceObjects/OPFResource.cpp" line="1444"/>
         <source>[Main title here]</source>
         <translation>[메인 제목을 넣으세요]</translation>
     </message>
@@ -15191,439 +15480,505 @@ Do you want to automatically mend the files before saving?</source>
 <context>
     <name>PCREErrors</name>
     <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="59"/>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="59"/>
         <source>no error</source>
         <translation>오류가 없습니다</translation>
     </message>
     <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="60"/>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="60"/>
         <source>\ at end of pattern</source>
         <translation>\ 패턴의 끝</translation>
     </message>
     <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="61"/>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="61"/>
         <source>\c at end of pattern</source>
         <translation>\c 패턴 끝</translation>
     </message>
     <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="62"/>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="62"/>
         <source>unrecognized character follows \</source>
         <translation>\ 뒤에 인식할 수 없는 문자가 있습니다.</translation>
     </message>
     <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="63"/>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="63"/>
         <source>numbers out of order in {} quantifier</source>
         <translation>{} 수량자(quantifier)의 숫자 순서가 잘못되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="64"/>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="65"/>
         <source>number too big in {} quantifier</source>
         <translation>{} 수량자의 숫자가 너무 큽니다.</translation>
     </message>
     <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="65"/>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="66"/>
         <source>missing terminating ] for character class</source>
         <translation>문자 클래스에 종료 기호 ]가 누락되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="66"/>
-        <source>invalid escape sequence in character class</source>
-        <translation>문자 클래스에 잘못된 이스케이프 시퀀스가 있습니다.</translation>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="67"/>
+        <source>escape sequence is invalid in character class</source>
+        <translation>문자 클래스에서 이스케이프 시퀀스가 ​​잘못되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="67"/>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="68"/>
         <source>range out of order in character class</source>
         <translation>문자 클래스의 범위가 잘못됨</translation>
     </message>
     <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="68"/>
-        <source>nothing to repeat</source>
-        <translation>반복할 것이 없습니다</translation>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="69"/>
+        <source>quantifier does not follow a repeatable item</source>
+        <translation>수량자는 반복 가능한 항목을 따르지 않습니다.</translation>
     </message>
     <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="69"/>
-        <source>operand of unlimited repeat could match the empty string</source>
-        <translation>무제한 반복의 피연산자는 빈 문자열과 일치할 수 있습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="70"/>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="72"/>
         <source>internal error: unexpected repeat</source>
         <translation>내부 오류: 예기치 않은 반복</translation>
     </message>
     <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="71"/>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="73"/>
         <source>unrecognized character after (? or (?-</source>
         <translation>(? 또는 (?- 뒤에 인식할 수 없는 문자가 있습니다.</translation>
     </message>
     <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="72"/>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="74"/>
         <source>POSIX named classes are supported only within a class</source>
         <translation>POSIX 명명된 클래스는 클래스 내에서만 지원됩니다.</translation>
     </message>
     <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="73"/>
-        <source>missing )</source>
-        <translation>)가 누락되었습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="74"/>
-        <source>reference to non-existent subpattern</source>
-        <translation>존재하지 않는 하위 패턴에 대한 참조</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="75"/>
-        <source>erroffset passed as NULL</source>
-        <translation>NULL로 전달된 erroffset</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="76"/>
-        <source>unknown option bit(s) set</source>
-        <translation>알 수 없는 옵션 bit(s)이 설정되었습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="77"/>
-        <source>missing ) after comment</source>
-        <translation>주석 뒤에 )가 누락되었습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="78"/>
-        <source>parentheses nested too deeply</source>
-        <translation>괄호가 너무 깊게 중첩됨</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="79"/>
-        <source>regular expression is too large</source>
-        <translation>정규식이 너무 큼</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="80"/>
-        <source>failed to get memory</source>
-        <translation>메모리를 가져오지 못했습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="81"/>
-        <source>unmatched parentheses</source>
-        <translation>일치하지 않는 괄호</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="82"/>
-        <source>internal error: code overflow</source>
-        <translation>내부 오류: 코드 오버플로</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="83"/>
-        <source>unrecognized character after (?&lt;</source>
-        <translation>(?&lt; 뒤에 인식할 수 없는 문자가 있습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="84"/>
-        <source>lookbehind assertion is not fixed length</source>
-        <translation>lookbehind assertion이 고정 길이가 아닙니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="85"/>
-        <source>malformed number or name after (?(</source>
-        <translation>(?( 뒤에 잘못된 번호 또는 이름이 있습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="86"/>
-        <source>conditional group contains more than two branches</source>
-        <translation>조건부 그룹에는 두 개 이상의 분기가 포함되어 있습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="87"/>
-        <source>assertion expected after (?(</source>
-        <translation>(?( 뒤에 assertion 이 필요합니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="88"/>
-        <source>(?R or (?[+-]digits must be followed by )</source>
-        <translation>(?R 또는 (?[+-]digits 뒤에 반드시 반드시 )가 와야합니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="89"/>
-        <source>unknown POSIX class name</source>
-        <translation>알 수 없는 POSIX 클래스 이름</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="90"/>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="75"/>
         <source>POSIX collating elements are not supported</source>
         <translation>POSIX 조합 요소는 지원되지 않습니다.</translation>
     </message>
     <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="91"/>
-        <source>this version of PCRE is compiled without UTF support</source>
-        <translation>이 버전의 PCRE는 UTF 지원 없이 컴파일됩니다.</translation>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="76"/>
+        <source>missing closing parenthesis</source>
+        <translation>닫는 괄호 누락</translation>
     </message>
     <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="92"/>
-        <source>spare error</source>
-        <translation>여분 오류</translation>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="79"/>
+        <source>reference to non-existent subpattern</source>
+        <translation>존재하지 않는 하위 패턴에 대한 참조</translation>
     </message>
     <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="93"/>
-        <source>character value in \x{} or \o{} is too large</source>
-        <translation>\x{} 또는 \o{}의 문자 값이 너무 큽니다.</translation>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="80"/>
+        <source>pattern passed as NULL</source>
+        <translation>NULL로 전달된 패턴</translation>
     </message>
     <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="94"/>
-        <source>invalid condition (?(0)</source>
-        <translation>(?(0)의 조건이 잘못되었습니다.</translation>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="81"/>
+        <source>unrecognised compile-time option bit(s)</source>
+        <translation>인식할 수 없는 compile-time 옵션 비트</translation>
     </message>
     <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="95"/>
-        <source>\C not allowed in lookbehind assertion</source>
-        <translation>lookbehind assertion에는 \C를 사용할 수 없습니다.</translation>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="82"/>
+        <source>missing ) after (?# comment</source>
+        <translation>(?# 주석 뒤에 닫는 괄호 ) 누락</translation>
     </message>
     <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="96"/>
-        <source>PCRE does not support \L, \l, \N{name}, \U, or \u</source>
-        <translation>PCRE는  \L, \l, \N{name}, \U, \u를 지원하지 않습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="97"/>
-        <source>number after (?C is &gt; 255</source>
-        <translation>(?C 뒤에 나오는 숫자는 255 보다 커야합니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="98"/>
-        <source>closing ) for (?C expected</source>
-        <translation>(?C는 )로 닫아야 합니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="99"/>
-        <source>recursive call could loop indefinitely</source>
-        <translation>재귀 호출이 무한 반복될 수 있습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="100"/>
-        <source>unrecognized character after (?P</source>
-        <translation>(?P 뒤에 인식할 수 없는 문자가 있습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="101"/>
-        <source>syntax error in subpattern name (missing terminator)</source>
-        <translation>하위 패턴 이름의 구문 오류(terminator 누락)</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="102"/>
-        <source>two named subpatterns have the same name</source>
-        <translation>두 개의 명명된 하위 패턴이 동일한 이름을 갖습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="103"/>
-        <source>invalid UTF-8 string</source>
-        <translation>잘못된 UTF-8 문자열</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="104"/>
-        <source>support for \P, \p, and \X has not been compiled</source>
-        <translation>\P, \p, \X는 아직 사용할 수 없습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="105"/>
-        <source>malformed \P or \p sequence</source>
-        <translation>\P 또는 \p 시퀀스가 잘못 사용되었습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="106"/>
-        <source>unknown property name after \P or \p</source>
-        <translation>\P 또는 \p 뒤에 알 수 없는 속성 이름이 사용되었습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="107"/>
-        <source>subpattern name is too long (maximum 32 characters)</source>
-        <translation>하위 패턴 이름이 너무 깁니다(최대 32자)</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="108"/>
-        <source>too many named subpatterns (maximum 10000)</source>
-        <translation>명명된 하위 패턴이 너무 많습니다(최대 10000개)</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="109"/>
-        <source>repeated subpattern is too long</source>
-        <translation>반복되는 하위패턴이 너무 깁니다</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="110"/>
-        <source>octal value is greater than \377 in 8-bit non-UTF-8 mode</source>
-        <translation>8비트 non UTF-8 모드에서 8진수 값이 \377보다 큽니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="111"/>
-        <source>internal error: overran compiling workspace</source>
-        <translation>내부 오류: 컴파일 작업 영역 오버런</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="112"/>
-        <source>internal error: previously-checked referenced subpattern not found</source>
-        <translation>내부 오류: 이전에 확인된 참조 하위 패턴을 찾을 수 없습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="113"/>
-        <source>DEFINE group contains more than one branch</source>
-        <translation>DEFINE 그룹에 두 개 이상의 분기가 있습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="114"/>
-        <source>repeating a DEFINE group is not allowed</source>
-        <translation>DEFINE 그룹을 반복하는 것은 허용되지 않습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="115"/>
-        <source>inconsistent NEWLINE options</source>
-        <translation>일관성 없는 NEWLINE 옵션</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="116"/>
-        <source>\g is not followed by a braced, angle-bracketed, or quoted name/number or by a plain number</source>
-        <translation>\g 뒤에 중괄호, 꺾쇠 괄호 또는 따옴표로 묶인 이름/번호 또는 일반 숫자가 오지 않습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="117"/>
-        <source>a numbered reference must not be zero</source>
-        <translation>번호가 매겨진 참조는 0이 아니어야 합니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="118"/>
-        <source>an argument is not allowed for (*ACCEPT), (*FAIL), or (*COMMIT)</source>
-        <translation>(*ACCEPT), (*FAIL) 또는 (*COMMIT)에는 인수가 허용되지 않습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="119"/>
-        <source>(*VERB) not recognized or malformed</source>
-        <translation>(*VERB)는 인식되지 않거나 형식이 잘못되었습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="120"/>
-        <source>number is too big</source>
-        <translation>숫자가 너무 큽니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="121"/>
-        <source>subpattern name expected</source>
-        <translation>하위패턴 이름이 필요합니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="122"/>
-        <source>digit expected after (?+</source>
-        <translation>(?+ 뒤에 숫자가 와야 합니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="123"/>
-        <source>] is an invalid data character in JavaScript compatibility mode</source>
-        <translation>]은(는) JavaScript 호환 모드에서 잘못된 데이터 문자입니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="124"/>
-        <source>different names for subpatterns of the same number are not allowed</source>
-        <translation>동일한 번호의 하위 패턴에 대해 다른 이름은 허용되지 않습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="125"/>
-        <source>(*MARK) must have an argument</source>
-        <translation>(*MARK)에는 인수가 있어야 합니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="126"/>
-        <source>this version of PCRE is not compiled with Unicode property support</source>
-        <translation>이 PCRE 버전은 유니코드 속성 지원으로 컴파일되지 않습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="127"/>
-        <source>\c must be followed by an ASCII character</source>
-        <translation>\c 다음에 ASCII 문자가 와야 합니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="128"/>
-        <source>\k is not followed by a braced, angle-bracketed, or quoted name</source>
-        <translation>\k 뒤에 중괄호, 꺾쇠 괄호 또는 따옴표로 묶인 이름이 오지 않습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="129"/>
-        <source>internal error: unknown opcode in find_fixedlength()</source>
-        <translation>내부 오류: find_fixedlength()의 알 수 없는 opcode</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="130"/>
-        <source>\N is not supported in a class</source>
-        <translation>\N 은 클래스에서 지원하지 않습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="131"/>
-        <source>too many forward references</source>
-        <translation>정방향 참조가 너무 많습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="132"/>
-        <source>disallowed Unicode code point (&gt;= 0xd800 &amp;&amp; &lt;= 0xdfff)</source>
-        <translation>허용하지 않는 유니코드 코드 포인트(&gt;= 0xd800 &amp;&amp; &lt;= 0xdfff)</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="133"/>
-        <source>invalid UTF-16 string</source>
-        <translation>잘못된 UTF-16 문자열</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="134"/>
-        <source>name is too long in (*MARK), (*PRUNE), (*SKIP), or (*THEN)</source>
-        <translation>(*MARK), (*PRUNE), (*SKIP) 또는 (*THEN)의 이름이 너무 깁니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="135"/>
-        <source>character value in \u.... sequence is too large</source>
-        <translation>\u.... 시퀀스의 문자 값이 너무 큽니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="136"/>
-        <source>invalid UTF-32 string</source>
-        <translation>잘못된 UTF-32 문자열</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="137"/>
-        <source>setting UTF is disabled by the application</source>
-        <translation>응용 프로그램에서 UTF 설정을 비활성화했습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="138"/>
-        <source>non-hex character in \x{} (closing brace missing?)</source>
-        <translation>\x{}에 16진수가 아닌 문자가 사용되었습니다.(닫는 중괄호가 누락되었을 수 있습니다.)</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="139"/>
-        <source>non-octal character in \o{} (closing brace missing?)</source>
-        <translation>\o{}에 8진수가 아닌 문자가 사용되었습니다.(닫는 중괄호가 누락되었을 수 있습니다.)</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="140"/>
-        <source>missing opening brace after \o</source>
-        <translation>\o 뒤에 여는 중괄호가 없습니다.</translation>
-    </message>
-    <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="141"/>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="83"/>
         <source>parentheses are too deeply nested</source>
         <translation>괄호가 너무 깊게 중첩됨</translation>
     </message>
     <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="142"/>
-        <source>invalid range in character class</source>
-        <translation>유효하지 않은 범위의 문자 클래스</translation>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="86"/>
+        <source>regular expression is too large</source>
+        <translation>정규식이 너무 큼</translation>
     </message>
     <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="143"/>
-        <source>group name must start with a non-digit</source>
-        <translation>그룹 이름은 숫자로 시작할 수 없습니다.</translation>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="87"/>
+        <source>failed to allocate heap memory</source>
+        <translation>힙(heap) 메모리를 할당하지 못했습니다.</translation>
     </message>
     <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="144"/>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="88"/>
+        <source>unmatched closing parenthesis</source>
+        <translation>닫는 괄호가 일치하지 않습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="89"/>
+        <source>internal error: code overflow</source>
+        <translation>내부 오류: 코드 오버플로</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="90"/>
+        <source>missing closing parenthesis for condition</source>
+        <translation>조건에 대한 닫는 괄호 누락되었습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="93"/>
+        <source>lookbehind assertion is not fixed length</source>
+        <translation>lookbehind assertion이 고정 길이가 아닙니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="94"/>
+        <source>a relative value of zero is not allowed</source>
+        <translation>상대 값 0은 허용되지 않습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="95"/>
+        <source>conditional subpattern contains more than two branches</source>
+        <translation>조건부 패턴에 2개 이상의 분기가 포함되어 있습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="96"/>
+        <source>assertion expected after (?( or (?(?C)</source>
+        <translation>(?( 또는 (?(?C) 뒤에 assertion이 예상됩니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="97"/>
+        <source>digit expected after (?+ or (?-<byte value="x0"/></source>
+        <translation>(?+ or (?-&lt;byte value=&quot;x0&quot;/&gt; 뒤에 숫자가 예상됩니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="100"/>
+        <source>unknown POSIX class name</source>
+        <translation>알 수 없는 POSIX 클래스 이름</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="101"/>
+        <source>internal error in pcre2_study(): should not occur</source>
+        <translation>pcre2_study()의 내부 오류: should not occur</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="102"/>
+        <source>this version of PCRE2 does not have Unicode support</source>
+        <translation>이 PCRE2 버전은 유니코드를 지원하지 않습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="103"/>
         <source>parentheses are too deeply nested (stack check)</source>
         <translation>괄호가 너무 깊게 중첩되었습니다.(스택 검사)</translation>
     </message>
     <message>
-        <location filename="../../PCRE/PCREErrors.cpp" line="145"/>
-        <source>digits missing in \x{} or \o{}</source>
-        <translation>\x{} or \o{}에 숫자가 누락되었습니다.</translation>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="104"/>
+        <source>character code point value in \x{} or \o{} is too large</source>
+        <translation>\x{} 또는 \o{}의 문자 코드 포인트 값이 너무 큽니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="107"/>
+        <source>lookbehind is too complicated</source>
+        <translation>lookbehind가 너무 복잡합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="108"/>
+        <source>\C is not allowed in a lookbehind assertion in UTF-16 mode</source>
+        <translation>\C는 UTF-16 모드의 lookbehind 어설션에서 허용되지 않습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="109"/>
+        <source>PCRE2 does not support \F, \L, \l, \N{name}, \U, or \u</source>
+        <translation>PCRE2는 \F, \L, \l, \N{name}, \U 또는 \u를 지원하지 않습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="110"/>
+        <source>number after (?C is greater than 255</source>
+        <translation>(?C 뒤에 오는 숫자는 255보다 커야합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="111"/>
+        <source>closing parenthesis for (?C expected</source>
+        <translation>(?C를 위한 닫는 괄호가 필요합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="114"/>
+        <source>invalid escape sequence in (*VERB) name</source>
+        <translation>(*VERB) 이름의 잘못된 이스케이프 시퀀스</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="115"/>
+        <source>unrecognized character after (?P</source>
+        <translation>(?P 뒤에 인식할 수 없는 문자가 있습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="116"/>
+        <source>syntax error in subpattern name (missing terminator?)</source>
+        <translation>하위 패턴 이름의 구문 오류(terminator 누락?)</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="117"/>
+        <source>two named subpatterns have the same name (PCRE2_DUPNAMES not set)</source>
+        <translation>두 개의 명명된 하위 패턴의 이름이 같습니다(PCRE2_DUPNAMES가 설정되지 않음).</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="118"/>
+        <source>subpattern name must start with a non-digit</source>
+        <translation>하위 패턴 이름은 숫자로 시작할 수 없습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="121"/>
+        <source>this version of PCRE2 does not have support for \P, \p, or \X</source>
+        <translation>이 버전의 PCRE2는 \P, \p 또는 \X를 지원하지 않습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="122"/>
+        <source>malformed \P or \p sequence</source>
+        <translation>\P 또는 \p 시퀀스가 잘못 사용되었습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="123"/>
+        <source>unknown property name after \P or \p</source>
+        <translation>\P 또는 \p 뒤에 알 수 없는 속성 이름이 사용되었습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="124"/>
+        <source>subpattern name is too long (maximum 32 code units)</source>
+        <translation>하위 패턴 이름이 너무 깁니다.(최대 32 code units)</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="125"/>
+        <source>too many named subpatterns (maximum 10000)</source>
+        <translation>명명된 하위 패턴이 너무 많습니다(최대 10000개)</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="128"/>
+        <source>invalid range in character class</source>
+        <translation>유효하지 않은 범위의 문자 클래스</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="129"/>
+        <source>octal value is greater than \377 in 8-bit non-UTF-8 mode</source>
+        <translation>8비트 non UTF-8 모드에서 8진수 값이 \377보다 큽니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="130"/>
+        <source>internal error: overran compiling workspace</source>
+        <translation>내부 오류: 컴파일 작업 영역 오버런</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="131"/>
+        <source>internal error: previously-checked referenced subpattern not found</source>
+        <translation>내부 오류: 이전에 확인된 참조 하위 패턴을 찾을 수 없습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="132"/>
+        <source>DEFINE subpattern contains more than one branch</source>
+        <translation>DEFINE 하위 패턴에 두 개 이상의 분기가 있습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="135"/>
+        <source>missing opening brace after \o</source>
+        <translation>\o 뒤에 여는 중괄호가 없습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="136"/>
+        <source>internal error: unknown newline setting</source>
+        <translation>내부 오류: 알 수 없는 줄 바꿈 설정</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="137"/>
+        <source>\g is not followed by a braced, angle-bracketed, or quoted name/number or by a plain number</source>
+        <translation>\g 뒤에 중괄호, 꺾쇠 괄호 또는 따옴표로 묶인 이름/번호 또는 일반 숫자가 오지 않습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="138"/>
+        <source>(?R (recursive pattern call) must be followed by a closing parenthesis</source>
+        <translation>(?R (재귀 패턴 호출) 뒤에 닫는 괄호가 와야 합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="139"/>
+        <source>obsolete error (should not occur)</source>
+        <translation>사용되지 않는 오류(발생하지 않아야 함)</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="142"/>
+        <source>(*VERB) not recognized or malformed</source>
+        <translation>(*VERB)는 인식되지 않거나 형식이 잘못되었습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="143"/>
+        <source>subpattern number is too big</source>
+        <translation>하위 패턴 번호가 너무 큽니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="144"/>
+        <source>subpattern name expected</source>
+        <translation>하위패턴 이름이 필요합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="145"/>
+        <source>internal error: parsed pattern overflow</source>
+        <translation>내부 오류: 구문 분석된 패턴 오버플로</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="146"/>
+        <source>non-octal character in \o{} (closing brace missing?)</source>
+        <translation>\o{}에 8진수가 아닌 문자가 사용되었습니다.(닫는 중괄호가 누락되었을 수 있습니다.)</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="149"/>
+        <source>different names for subpatterns of the same number are not allowed</source>
+        <translation>동일한 번호의 하위 패턴에 대해 다른 이름은 허용되지 않습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="150"/>
+        <source>(*MARK) must have an argument</source>
+        <translation>(*MARK)에는 인수가 있어야 합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="151"/>
+        <source>non-hex character in \x{} (closing brace missing?)</source>
+        <translation>\x{}에 16진수가 아닌 문자가 사용되었습니다.(닫는 중괄호가 누락되었을 수 있습니다.)</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="152"/>
+        <source>\c must be followed by a printable ASCII character</source>
+        <translation>\c 다음에 인쇄 가능한 ASCII 문자가 와야 합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="153"/>
+        <source>\k is not followed by a braced, angle-bracketed, or quoted name</source>
+        <translation>\k 뒤에 중괄호, 꺾쇠 괄호 또는 따옴표로 묶인 이름이 오지 않습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="156"/>
+        <source>internal error: unknown meta code in check_lookbehinds()</source>
+        <translation>내부 오류: check_lookbehinds()의 알 수 없는 메타 코드</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="157"/>
+        <source>\N is not supported in a class</source>
+        <translation>\N 은 클래스에서 지원하지 않습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="158"/>
+        <source>callout string is too long</source>
+        <translation>콜아웃 문자열이 너무 깁니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="159"/>
+        <source>disallowed Unicode code point (&gt;= 0xd800 &amp;&amp; &lt;= 0xdfff)</source>
+        <translation>허용하지 않는 유니코드 코드 포인트(&gt;= 0xd800 &amp;&amp; &lt;= 0xdfff)</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="160"/>
+        <source>using UTF is disabled by the application</source>
+        <translation>응용 프로그램에서 UTF 사용을 비활성화했습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="163"/>
+        <source>using UCP is disabled by the application</source>
+        <translation>UCP 사용이 응용 프로그램에 의해 비활성화되었습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="164"/>
+        <source>name is too long in (*MARK), (*PRUNE), (*SKIP), or (*THEN)</source>
+        <translation>(*MARK), (*PRUNE), (*SKIP) 또는 (*THEN)의 이름이 너무 깁니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="165"/>
+        <source>character code point value in \u.... sequence is too large</source>
+        <translation>\u.... 시퀀스의 문자 코드 포인트 값이 너무 큽니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="166"/>
+        <source>digits missing in \x{} or \o{} or \N{U+}</source>
+        <translation>\x{} 또는 \o{} 또는 \N{U+}에서 누락된 숫자</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="167"/>
+        <source>syntax error or number too big in (?(VERSION condition</source>
+        <translation>구문 오류 또는 숫자가 너무 큽니다(?(VERSION 조건</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="170"/>
+        <source>internal error: unknown opcode in auto_possessify()</source>
+        <translation>내부 오류: auto_possessify()의 알 수 없는 opcode</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="171"/>
+        <source>missing terminating delimiter for callout with string argument</source>
+        <translation>문자열 인수가 있는 콜아웃에 대한 종료 구분 기호가 없습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="172"/>
+        <source>unrecognized string delimiter follows (?C</source>
+        <translation>다음에는 인식할 수 없는 문자열 구분 기호(? C</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="173"/>
+        <source>using \C is disabled by the application</source>
+        <translation>응용 프로그램에서 \C 사용을 비활성화했습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="174"/>
+        <source>(?| and/or (?J: or (?x: parentheses are too deeply nested</source>
+        <translation>(?| 및/또는 (?J: 또는 (?x: 괄호가 너무 깊게 중첩됨)</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="177"/>
+        <source>using \C is disabled in this PCRE2 library</source>
+        <translation>이 PCRE2 라이브러리에서는 \C를 사용할 수 없습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="178"/>
+        <source>regular expression is too complicated</source>
+        <translation>정규식이 너무 복잡합니다</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="179"/>
+        <source>lookbehind assertion is too long</source>
+        <translation>lookbehind 어설션이 너무 깁니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="180"/>
+        <source>pattern string is longer than the limit set by the application</source>
+        <translation>패턴 문자열이 애플리케이션에서 설정한 제한보다 깁니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="181"/>
+        <source>internal error: unknown code in parsed pattern</source>
+        <translation>내부 오류: 구문 분석된 패턴의 알 수 없는 코드
+</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="184"/>
+        <source>internal error: bad code value in parsed_skip()</source>
+        <translation>내부 오류: parsed_skip()의 잘못된 코드 값</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="185"/>
+        <source>PCRE2_EXTRA_ALLOW_SURROGATE_ESCAPES is not allowed in UTF-16 mode</source>
+        <translation>PCRE2_EXTRA_ALLOW_SURROGATE_ESCAPES는 UTF-16 모드에서 허용되지 않습니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="186"/>
+        <source>invalid option bits with PCRE2_LITERAL</source>
+        <translation>PCRE2_LITERAL이 있는 잘못된 옵션 비트</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="187"/>
+        <source>\N{U+dddd} is supported only in Unicode (UTF) mode</source>
+        <translation>\N{U+dddd}는 유니코드(UTF) 모드에서만 지원됩니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="188"/>
+        <source>invalid hyphen in option setting</source>
+        <translation>옵션 설정에 잘못된 하이픈이 있습니다</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="191"/>
+        <source>(*alpha_assertion) not recognized</source>
+        <translation>(*alpha_assertion) 인식되지 않음</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="192"/>
+        <source>script runs require Unicode support, which this version of PCRE2 does not have</source>
+        <translation>스크립트 실행에는 이 PCRE2 버전에는 없는 유니코드 지원이 필요합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="193"/>
+        <source>too many capturing groups (maximum 65535)</source>
+        <translation>너무 많은 캡처 그룹(최대 65535)</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="194"/>
+        <source>atomic assertion expected after (?( or (?(?C)</source>
+        <translation>(?( 또는 (?(?C)) 이후에 원자적 주장이 예상됨</translation>
+    </message>
+    <message>
+        <location filename="../../PCRE2/PCREErrors.cpp" line="195"/>
+        <source>\K is not allowed in lookarounds (but see PCRE2_EXTRA_ALLOW_LOOKAROUND_BSK)</source>
+        <translation>\K는 둘러보기에서 허용되지 않습니다(하지만 PCRE2_EXTRA_ALLOW_LOOKAROUND_BSK 참조).</translation>
     </message>
 </context>
 <context>
@@ -15709,95 +16064,95 @@ Do you want to automatically mend the files before saving?</source>
         <translation>상태: 준비</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="272"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="279"/>
         <source>Error: plugin can not start</source>
         <translation>오류: 플러그인을 시작할 수 없음</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="424"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="423"/>
         <source>Status: running</source>
         <translation>상태: 진행중</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="441"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="440"/>
         <source>Launcher process crashed</source>
         <translation>실행기 프로세스 충돌</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="452"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="451"/>
         <source>Status: finished</source>
         <translation>상태: 종료</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="459"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="458"/>
         <source>Status: failed</source>
         <translation>상태: 실패</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="465"/>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="475"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="464"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="474"/>
         <source>Status: No Changes Made</source>
         <translation>상태 : 변경 사항 없음</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="474"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="473"/>
         <source>Error: Plugin Tried to Remove the Last XHTML file .. aborting changes</source>
         <translation>오류: 플러그인이 마지막 XHTML 파일을 제거하려고 시도했습니다. 변경 중단</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="539"/>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="626"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="538"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="625"/>
         <source>Status:</source>
         <translation>상태:</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="566"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="565"/>
         <source>Plugin failed to start</source>
         <translation>플러그인 실행 실패</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="574"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="573"/>
         <source>Status: error</source>
         <translation>상태: 오류</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="603"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="602"/>
         <source>Plugin cancelled</source>
         <translation>플러그인 취소됨</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="604"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="603"/>
         <source>Status: cancelled</source>
         <translation>상태: 취소됨</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="698"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="697"/>
         <source>Error Parsing Result XML:  </source>
         <translation>파싱 결과 XML 오류:</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="756"/>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="771"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="755"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="770"/>
         <source>Status: checking</source>
         <translation>상태: 확인중</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="760"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="759"/>
         <source>Incorrect XHTML:</source>
         <translation>잘못된 XHTML:</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="760"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="759"/>
         <source>Line/Col</source>
         <translation>행/열</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="787"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="786"/>
         <source>Check Report</source>
         <translation>보고서 확인</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="788"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="787"/>
         <source>Incorrect XHTML/XML Detected
 Are you Sure You Want to Continue?</source>
         <translation>잘못된 XHTML / XML 감지
@@ -15805,43 +16160,43 @@ Are you Sure You Want to Continue?</source>
 계속 진행하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="806"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="805"/>
         <source>Status: cleaning up - deleting files</source>
         <translation>상태: 정리중 - 파일 삭제중</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="839"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="838"/>
         <source>Status: deleting</source>
         <translation>상태: 삭제중</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="878"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="877"/>
         <source>Status: Loading</source>
         <translation>삭제: 불러오는 중</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="898"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="897"/>
         <source>Input Plugin</source>
         <translation>플러그인 입력</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="899"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="898"/>
         <source>Your current book will be completely replaced losing any unsaved changes ...  Are you sure you want to proceed</source>
         <translation>저장하지 않은 변경 사항을 모두 잃어 버리고 현재 책이 완전히 교체됩니다. 계속 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="928"/>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="942"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="927"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="941"/>
         <source>Status: adding</source>
         <translation>상태: 추가 중</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="980"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="979"/>
         <source>Status: cleaning up - modifying files</source>
         <translation>상태: 정리중 - 파일 수정 중</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PluginRunner.cpp" line="1017"/>
+        <location filename="../../Dialogs/PluginRunner.cpp" line="1016"/>
         <source>Status: modifying</source>
         <translation>상태: 수정 중</translation>
     </message>
@@ -16118,28 +16473,28 @@ Entities can be separated by lines, commas, or spaces.</source>
     <message>
         <location filename="../../MainUI/PreviewWindow.cpp" line="71"/>
         <location filename="../../MainUI/PreviewWindow.cpp" line="87"/>
-        <location filename="../../MainUI/PreviewWindow.cpp" line="395"/>
-        <location filename="../../MainUI/PreviewWindow.cpp" line="403"/>
+        <location filename="../../MainUI/PreviewWindow.cpp" line="407"/>
+        <location filename="../../MainUI/PreviewWindow.cpp" line="415"/>
         <source>Preview</source>
         <translation>미리보기</translation>
     </message>
     <message>
-        <location filename="../../MainUI/PreviewWindow.cpp" line="221"/>
+        <location filename="../../MainUI/PreviewWindow.cpp" line="233"/>
         <source>Inspect Page</source>
         <translation>페이지 검사</translation>
     </message>
     <message>
-        <location filename="../../MainUI/PreviewWindow.cpp" line="224"/>
+        <location filename="../../MainUI/PreviewWindow.cpp" line="236"/>
         <source>Select-All</source>
         <translation>선택-모두</translation>
     </message>
     <message>
-        <location filename="../../MainUI/PreviewWindow.cpp" line="227"/>
+        <location filename="../../MainUI/PreviewWindow.cpp" line="239"/>
         <source>Copy Selection To ClipBoard</source>
         <translation>클립 보드에 선택 항목 복사</translation>
     </message>
     <message>
-        <location filename="../../MainUI/PreviewWindow.cpp" line="230"/>
+        <location filename="../../MainUI/PreviewWindow.cpp" line="242"/>
         <source>Update Preview Window</source>
         <translation>미리보기 창 업데이트</translation>
     </message>
@@ -16162,19 +16517,19 @@ Entities can be separated by lines, commas, or spaces.</source>
         <translation>취소</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="89"/>
-        <location filename="../../Dialogs/EmptyLayout.cpp" line="288"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="100"/>
+        <location filename="../../Dialogs/EmptyLayout.cpp" line="305"/>
         <source>Custom Epub Layout Designer</source>
         <translation>사용자 정의 EPUB 레이아웃 편집기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/GeneralSettingsWidget.cpp" line="163"/>
+        <location filename="../../Dialogs/PreferenceWidgets/GeneralSettingsWidget.cpp" line="175"/>
         <location filename="../../Misc/OpenExternally.cpp" line="315"/>
         <source>Applications</source>
         <translation>응용 프로그램</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/PreferenceWidgets/GeneralSettingsWidget.cpp" line="181"/>
+        <location filename="../../Dialogs/PreferenceWidgets/GeneralSettingsWidget.cpp" line="193"/>
         <source>Select External Xhtml Editor</source>
         <translation>외부 Xhtml 편집기 선택</translation>
     </message>
@@ -16184,117 +16539,122 @@ Entities can be separated by lines, commas, or spaces.</source>
         <translation>보고서 생성 중...</translation>
     </message>
     <message>
-        <location filename="../../Importers/ImportEPUB.cpp" line="111"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="116"/>
         <source>Cannot read EPUB: %1</source>
         <translation>EPUB를 읽을 수 없습니다: %1</translation>
     </message>
     <message>
-        <location filename="../../Importers/ImportEPUB.cpp" line="260"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="248"/>
         <source>The OPF file does not contain a valid spine.</source>
         <translation>OPF 파일에 유효한 spine이 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../Importers/ImportEPUB.cpp" line="261"/>
-        <location filename="../../Importers/ImportEPUB.cpp" line="900"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="249"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="947"/>
         <source>Sigil has created a new one for you.</source>
         <translation>새로운 Sigil이 준비되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../Importers/ImportEPUB.cpp" line="309"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="250"/>
+        <source>Please verify and correct the OPF Spine order.</source>
+        <translation>OPF Spine 순서를 확인하고 수정하십시오.</translation>
+    </message>
+    <message>
+        <location filename="../../Importers/ImportEPUB.cpp" line="299"/>
         <source>Error parsing encryption xml.
 Line: %1 Column %2 - %3</source>
         <translation>암호화 XML을 구문 분석하는 중 오류가 발생했습니다.
 Line: %1 Column %2 - %3</translation>
     </message>
     <message>
-        <location filename="../../Importers/ImportEPUB.cpp" line="425"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="419"/>
         <source>Cannot unzip EPUB: %1</source>
         <translation>EPUB 파일의 압축을 풀 수 없습니다: %1</translation>
     </message>
     <message>
-        <location filename="../../Importers/ImportEPUB.cpp" line="481"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="489"/>
         <source>Possible evil or corrupt epub file name: %1</source>
         <translation>악의적이거나 손상된 EPUB 파일: %1</translation>
     </message>
     <message>
-        <location filename="../../Importers/ImportEPUB.cpp" line="508"/>
-        <location filename="../../Importers/ImportEPUB.cpp" line="517"/>
-        <location filename="../../Importers/ImportEPUB.cpp" line="534"/>
-        <location filename="../../Importers/ImportEPUB.cpp" line="542"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="520"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="529"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="549"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="557"/>
         <source>Cannot extract file: %1</source>
         <translation>추출할 수 없는 파일: %1</translation>
     </message>
     <message>
-        <location filename="../../Importers/ImportEPUB.cpp" line="554"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="570"/>
         <source>Cannot open EPUB: %1</source>
         <translation>EPUB를 열 수 없습니다: %1</translation>
     </message>
     <message>
-        <location filename="../../Importers/ImportEPUB.cpp" line="608"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="624"/>
         <source>Unable to parse container.xml file.
 Line: %1 Column %2 - %3</source>
         <translation>container.xml 파일을 구문 분석 할 수 없습니다.
 Line: %1 Column %2 - %3</translation>
     </message>
     <message>
-        <location filename="../../Importers/ImportEPUB.cpp" line="620"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="636"/>
         <source>No appropriate OPF file found</source>
         <translation>적절한 OPF 파일을 찾을 수 없습니다</translation>
     </message>
     <message>
-        <location filename="../../Importers/ImportEPUB.cpp" line="671"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="689"/>
         <source>Unable to read OPF file.
 Line: %1 Column %2 - %3</source>
         <translation>OPF 파일을 읽을 수 없습니다.
 Line: %1 Column %2 - %3</translation>
     </message>
     <message>
-        <location filename="../../Importers/ImportEPUB.cpp" line="768"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="796"/>
         <source>The OPF uses an unrecognized media type &quot;%1&quot; for file &quot;%2&quot;</source>
         <translation>파일 &quot;%2&quot;에 인식할 수 없는 미디어 파일 유형 &quot;%1&quot;이 사용되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../Importers/ImportEPUB.cpp" line="769"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="797"/>
         <source>A temporary media type of &quot;%1&quot; has been assigned. You should edit your OPF file to fix this problem.</source>
         <translation>&quot;%1&quot; 의 임시 미디어 유형이 할당되었습니다. 이 문제를 해결하려면 OPF 파일을 편집해야합니다.</translation>
     </message>
     <message>
-        <location filename="../../Importers/ImportEPUB.cpp" line="782"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="810"/>
         <source>The OPF has an illegal Manifest entry for a file inside the META-INF folder for file &quot;%1&quot;</source>
         <translation>OPF &quot;%1&quot; 파일의 META-INF 폴더 내의 파일에 대한 잘못된 매니페스트 항목이 있습니다. </translation>
     </message>
     <message>
-        <location filename="../../Importers/ImportEPUB.cpp" line="783"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="811"/>
         <source>You should edit your OPF file to remove this entry.</source>
         <translation>이 항목을 제거하려면 OPF 파일을 편집해야합니다.</translation>
     </message>
     <message>
-        <location filename="../../Importers/ImportEPUB.cpp" line="802"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="830"/>
         <source>The OPF manifest contains duplicate ids for: %1</source>
         <translation>OPF manifest에 중복된 ID가 있습니다: %1</translation>
     </message>
     <message>
-        <location filename="../../Importers/ImportEPUB.cpp" line="803"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="831"/>
         <source>A temporary id has been assigned to load this EPUB. You should edit your OPF file to remove the duplication.</source>
         <translation>이 EPUB을 불러오기 위해 임시 ID가 할당되었습니다. 중복을 제거하려면 OPF 파일을 편집해야합니다</translation>
     </message>
     <message>
-        <location filename="../../Importers/ImportEPUB.cpp" line="875"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="922"/>
         <source>The OPF file did not identify the NCX file correctly.</source>
         <translation>OPF 파일이 NCX 파일을 올바르게 식별하지 못했습니다.</translation>
     </message>
     <message>
-        <location filename="../../Importers/ImportEPUB.cpp" line="876"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="923"/>
         <source>Sigil has used the following file as the NCX:</source>
         <translation>Sigil이 다음 파일을 NCX로 사용했습니다: </translation>
     </message>
     <message>
-        <location filename="../../Importers/ImportEPUB.cpp" line="899"/>
+        <location filename="../../Importers/ImportEPUB.cpp" line="946"/>
         <source>The OPF file does not contain an NCX file.</source>
         <translation>OPF 파일에 NCX 파일이 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/BookBrowser.cpp" line="693"/>
+        <location filename="../../MainUI/BookBrowser.cpp" line="713"/>
         <source>Adding Existing Files..</source>
         <translation>기존 파일 추가하는 중...</translation>
     </message>
@@ -16324,19 +16684,19 @@ Line: %1 Column %2 - %3</translation>
         <translation>&lt;p&gt;Sigil 최신 버전 &lt;b&gt;%1&lt;/b&gt;을 사용할 수 있습니다.&lt;br/&gt;&lt;p&gt;다운로드 페이지로 이동하시겠습니까?&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../Misc/Utility.cpp" line="504"/>
+        <location filename="../../Misc/Utility.cpp" line="519"/>
         <source>Cannot read file %1:
 %2.</source>
         <translation>다음 파일을 읽을 수 없습니다 %1:
 %2.</translation>
     </message>
     <message>
-        <location filename="../../Misc/Utility.cpp" line="686"/>
+        <location filename="../../Misc/Utility.cpp" line="709"/>
         <source>Sigil has encountered a problem.</source>
         <translation>시길에 문제가 발생했습니다.</translation>
     </message>
     <message>
-        <location filename="../../Misc/Utility.cpp" line="687"/>
+        <location filename="../../Misc/Utility.cpp" line="710"/>
         <source>Sigil may need to close.</source>
         <translation>Sigil을 종료해야 합니다.</translation>
     </message>
@@ -16346,50 +16706,44 @@ Line: %1 Column %2 - %3</translation>
         <translation>색인</translation>
     </message>
     <message>
-        <location filename="../../SourceUpdates/UniversalUpdates.cpp" line="210"/>
-        <location filename="../../SourceUpdates/UniversalUpdates.cpp" line="279"/>
+        <location filename="../../SourceUpdates/UniversalUpdates.cpp" line="215"/>
+        <location filename="../../SourceUpdates/UniversalUpdates.cpp" line="284"/>
         <source>Invalid HTML file: %1</source>
         <translation>잘못된 HTML 파일: %1</translation>
     </message>
     <message>
-        <location filename="../../SourceUpdates/UniversalUpdates.cpp" line="324"/>
+        <location filename="../../SourceUpdates/UniversalUpdates.cpp" line="329"/>
         <source>Invalid OPF file: %1</source>
         <translation>잘못된 OPF 파일: %1</translation>
     </message>
     <message>
-        <location filename="../../SourceUpdates/UniversalUpdates.cpp" line="350"/>
+        <location filename="../../SourceUpdates/UniversalUpdates.cpp" line="355"/>
         <source>Invalid NCX file: %1</source>
         <translation>잘못된 NCX 파일: %1</translation>
     </message>
     <message>
-        <location filename="../../main.cpp" line="645"/>
-        <location filename="../../main.cpp" line="693"/>
-        <location filename="../../main.cpp~" line="638"/>
-        <location filename="../../main.cpp~" line="686"/>
+        <location filename="../../main.cpp" line="699"/>
+        <location filename="../../main.cpp" line="747"/>
         <source>Quit</source>
         <translation>나가기</translation>
     </message>
     <message>
-        <location filename="../../main.cpp" line="655"/>
-        <location filename="../../main.cpp~" line="648"/>
+        <location filename="../../main.cpp" line="709"/>
         <source>About</source>
         <translation>Sigil 정보</translation>
     </message>
     <message>
-        <location filename="../../main.cpp" line="664"/>
-        <location filename="../../main.cpp~" line="657"/>
+        <location filename="../../main.cpp" line="718"/>
         <source>Preferences</source>
         <translation>기본 설정</translation>
     </message>
     <message>
-        <location filename="../../main.cpp" line="675"/>
-        <location filename="../../main.cpp~" line="668"/>
+        <location filename="../../main.cpp" line="729"/>
         <source>New</source>
         <translation>새로</translation>
     </message>
     <message>
-        <location filename="../../main.cpp" line="684"/>
-        <location filename="../../main.cpp~" line="677"/>
+        <location filename="../../main.cpp" line="738"/>
         <source>Open</source>
         <translation>열기</translation>
     </message>
@@ -16487,6 +16841,83 @@ valid for all selected files.
     </message>
 </context>
 <context>
+    <name>ReplacementChooser</name>
+    <message>
+        <location filename="../../Form_Files/ReplacementChooser.ui" line="14"/>
+        <source>Replacements (Delete Unwanted Replacements)</source>
+        <translation>교체 (교체를 원하지 않은 항목 삭제)</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/ReplacementChooser.ui" line="47"/>
+        <source>Select the amount of context in characters shown before and after the match.</source>
+        <translation>일치 전후에 표시되는 문자의 컨텍스트 양을 선택합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/ReplacementChooser.ui" line="50"/>
+        <source>Context:</source>
+        <translation>문맥:</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/ReplacementChooser.ui" line="70"/>
+        <source>Count:</source>
+        <translation>개수:</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/ReplacementChooser.ui" line="77"/>
+        <source>Total Number of Matches/Replacements</source>
+        <translation>총 일치/교체 수</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/ReplacementChooser.ui" line="80"/>
+        <source>----   </source>
+        <translation>----   </translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/ReplacementChooser.ui" line="110"/>
+        <source>Delete unwanted replacements from the table.
+       Warning: Once replacements are applied, no &quot;undo&quot; is possible.</source>
+        <translation>테이블에서 교체하고 싶지 않은 항목을 삭제합니다.
+경고: 교체가 적용되면 &quot;실행 취소&quot;가 불가능합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/ReplacementChooser.ui" line="120"/>
+        <source>Apply the remaining replacements listed in the table.
+         Warning: Once applied, no &quot;undo&quot; is possible.</source>
+        <translation>표에 나열된 교체 항목을 적용합니다.
+경고: 일단 적용되면 &quot;실행 취소&quot;가 불가능합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/ReplacementChooser.ui" line="124"/>
+        <source>Apply Changes</source>
+        <translation>변경 승인</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/ReplacementChooser.cpp" line="96"/>
+        <source>Book Path</source>
+        <translation>책 경로</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/ReplacementChooser.cpp" line="97"/>
+        <source>Offset</source>
+        <translation>오프셋</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/ReplacementChooser.cpp" line="98"/>
+        <source>Before</source>
+        <translation>이전</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/ReplacementChooser.cpp" line="99"/>
+        <source>After</source>
+        <translation>다음</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/ReplacementChooser.cpp" line="377"/>
+        <source>Delete Selected Rows</source>
+        <translation>선택 열 삭제</translation>
+    </message>
+</context>
+<context>
     <name>Reports</name>
     <message>
         <location filename="../../Form_Files/Reports.ui" line="14"/>
@@ -16541,7 +16972,7 @@ then if not found look for the second entry in the list, etc.</source>
     </message>
     <message>
         <location filename="../../Form_Files/SearchEditor.ui" line="96"/>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="67"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="95"/>
         <source>Find</source>
         <translation>찾기</translation>
     </message>
@@ -16555,7 +16986,7 @@ and stop at the first successful replace.</source>
     </message>
     <message>
         <location filename="../../Form_Files/SearchEditor.ui" line="108"/>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="68"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="96"/>
         <source>Replace</source>
         <translation>바꾸기</translation>
     </message>
@@ -16596,334 +17027,350 @@ including entries in selected groups.</source>
         <translation>모두 세기</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/SearchEditor.ui" line="199"/>
+        <location filename="../../Form_Files/SearchEditor.ui" line="181"/>
+        <source>Create a Counts report for the selected entries in the order selected,
+including entries in selected groups.</source>
+        <translation>선택한 순서대로 선택한 항목에 대한 개수 보고서를 생성합니다. 선택한 그룹의 항목을 포함합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/SearchEditor.ui" line="185"/>
+        <source>Counts Report</source>
+        <translation>개수 보고서</translation>
+    </message>
+    <message>
+        <location filename="../../Form_Files/SearchEditor.ui" line="210"/>
         <source>Move an entry up one level in the same group.</source>
         <translation>같은 그룹 내에서 한 단계 위로 항목을 이동합니다.</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/SearchEditor.ui" line="202"/>
-        <location filename="../../Form_Files/SearchEditor.ui" line="232"/>
-        <location filename="../../Form_Files/SearchEditor.ui" line="261"/>
-        <location filename="../../Form_Files/SearchEditor.ui" line="291"/>
+        <location filename="../../Form_Files/SearchEditor.ui" line="213"/>
+        <location filename="../../Form_Files/SearchEditor.ui" line="243"/>
+        <location filename="../../Form_Files/SearchEditor.ui" line="272"/>
+        <location filename="../../Form_Files/SearchEditor.ui" line="302"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/SearchEditor.ui" line="229"/>
+        <location filename="../../Form_Files/SearchEditor.ui" line="240"/>
         <source>Move an entry to the level of its parent.</source>
         <translation>항목을 상위 그룹으로 이동</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/SearchEditor.ui" line="258"/>
+        <location filename="../../Form_Files/SearchEditor.ui" line="269"/>
         <source>You must select an item immediately under a group to move it into the group.</source>
         <translation>선택한 항목을 그룹에 포함시키려면 선택 항목이 그룹 목록 바로 아래에 있어야 합니다.</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/SearchEditor.ui" line="288"/>
+        <location filename="../../Form_Files/SearchEditor.ui" line="299"/>
         <source>Move an entry down one level in the same group.</source>
         <translation>같은 그룹 내에서 한 레벨 아래로 항목을 이동합니다.</translation>
     </message>
     <message>
-        <location filename="../../Form_Files/SearchEditor.ui" line="354"/>
+        <location filename="../../Form_Files/SearchEditor.ui" line="365"/>
         <source>Click Apply to load Find &amp; Replace with the selected search.  Click OK to load your search, save your data, and close.</source>
         <translation>적용을 클릭하면 선택한 검색으로 찾기 및 바꾸기를 로드합니다. 확인을 클릭하여 검색을로드하고 데이터를 저장 한 후 닫습니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="63"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="91"/>
         <source>Right click on an entry to see a context menu of actions.</source>
         <translation>동작의 상황에 맞는 메뉴를 보기 위해서 항목 위에서 오른쪽 클릭</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="64"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="92"/>
         <source>You can also right click on the Find text box in the Find &amp; Replace window to select an entry.</source>
         <translation>찾기 및 바꾸기 창에서 찾기 텍스트 상자를 마우스 오른쪽 단추로 클릭하여 항목을 선택할 수도 있습니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="66"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="94"/>
         <source>Name</source>
         <translation>이름</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="66"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="94"/>
         <source>Name of your entry or group.</source>
         <translation>항목 또는 그룹의 이름</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="67"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="95"/>
         <source>The text to put into the Find box.</source>
         <translation>찾기 상자에 넣을 텍스트.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="68"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="96"/>
         <source>The text to put into the Replace box.</source>
         <translation>바꾸기 상자에 넣을 텍스트.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="69"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="97"/>
         <source>Controls</source>
         <translation>컨트롤</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="69"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="97"/>
         <source>Two character codes to control the search Mode, Direction, Target and Options.  Codes can be in any order comma or space separated.</source>
         <translation>검색 모드, 방향, 대상 및 옵션을 제어하는 ​​두 개의 문자 코드. 코드는 임의의 순서로 쉼표 또는 공백으로 구분할 수 있습니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="70"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="98"/>
         <source>Mode: Normal</source>
         <translation>Mode: 기본</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="71"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="99"/>
         <source>Mode: Regular Expression</source>
         <translation>Mode: 정규식</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="72"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="100"/>
         <source>Mode: Case Sensitive</source>
         <translation>Mode: 대소문자 구분</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="74"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="102"/>
         <source>Direction: Up</source>
         <translation>방향: 위로</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="75"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="103"/>
         <source>Direction: Down</source>
         <translation>방향: 아래로</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="77"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="105"/>
         <source>Target: Current File</source>
         <translation>대상: 현재 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="78"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="106"/>
         <source>Target: All HTML Files</source>
         <translation>대상: 모든 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="79"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="107"/>
         <source>Target: Selected HTML Files</source>
         <translation>대상: 선택한 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="80"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="108"/>
         <source>Target: Tabbed HTML Files</source>
         <translation>대상 : 탭에 열린 HTML 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="81"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="109"/>
         <source>Target: All CSS Files</source>
         <translation>대상: 모든 CSS 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="82"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="110"/>
         <source>Target: Selected CSS Files</source>
         <translation>대상: 선택한 CSS 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="83"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="111"/>
         <source>Target: Tabbed CSS Files</source>
         <translation>대상 : 탭에 열린 CSS 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="84"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="112"/>
         <source>Target: OPF File</source>
         <translation>대상: OPF 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="85"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="113"/>
         <source>Target: NCX File</source>
         <translation>대상: NCX 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="87"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="115"/>
         <source>Option: DotAll</source>
         <translation>옵션: DotAll</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="88"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="116"/>
         <source>Option: Minimal Match</source>
         <translation>옵션: 최소 일치</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="89"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="117"/>
         <source>Option: Auto Tokenise</source>
         <translation>옵션: 자동 토큰화</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="90"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="118"/>
         <source>Option: Wrap</source>
         <translation>옵션: 되돌이 검색</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="100"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="119"/>
+        <source>Option: Text</source>
+        <translation>옵션: 텍스트</translation>
+    </message>
+    <message>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="129"/>
         <source>Save</source>
         <translation>저장</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="100"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="129"/>
         <source>Save your changes.</source>
         <translation>변경사항 저장</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="100"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="129"/>
         <source>If any other instances of Sigil are running they will be automatically updated with your changes.</source>
         <translation>다른 Sigil 인스턴스가 실행중인 경우 변경 사항이 자동으로 업데이트됩니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="117"/>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="128"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="146"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="157"/>
         <source>Cannot save entries.</source>
         <translation>항목을 저장할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="208"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="235"/>
         <source>Saved Searches loaded from file.</source>
         <translation>파일에서 저장된 검색을 불러옵니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="244"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="272"/>
         <source>You cannot select more than one entry when using this action.</source>
         <translation>이 조치를 사용할 때 둘 이상의 항목을 선택할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="252"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="282"/>
         <source>You cannot select a group for this action.</source>
         <translation>이 작업에 대한 그룹을 선택할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="321"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="359"/>
         <source>You cannot select an entry and a group containing the entry.</source>
         <translation>항목을 포함하는 그룹과 항목을 동시에 선택할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="404"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="475"/>
         <source>You cannot Copy or Cut groups - use drag-and-drop.</source>
         <translation>그룹을 복사하기나 잘라내기할 수 없습니다. - 끌어서 놓기를 사용하세요.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="472"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="552"/>
         <source>Sigil</source>
         <translation>Sigil</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="472"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="552"/>
         <source>Are you sure you want to reload all entries?  This will overwrite any unsaved changes.</source>
         <translation>모든 항목을 다시 읽어들이는 것이 확실합니까? 저장되지 않은 모든 변경 내용을 잃게됩니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="487"/>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="586"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="567"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="666"/>
         <source>Sigil INI files (*.ini)</source>
         <translation>Sigil INI 파일 (*.ini)</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="488"/>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="587"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="568"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="667"/>
         <source>CSV files (*.csv)</source>
         <translation>CSV 파일 (*.csv)</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="489"/>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="588"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="569"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="668"/>
         <source>Text files (*.txt)</source>
         <translation>텍스트 파일 (*.txt)</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="502"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="582"/>
         <source>Import Search Entries</source>
         <translation>검색 항목 불러오기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="602"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="682"/>
         <source>Export Selected Searches</source>
         <translation>선택한 검색 내보내기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="790"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="872"/>
         <source>Add Entry</source>
         <translation>항목 추가</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="791"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="873"/>
         <source>Add Group</source>
         <translation>그룹 추가</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="792"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="874"/>
         <source>Edit</source>
         <translation>편집</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="793"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="875"/>
         <source>Cut</source>
         <translation>잘라내기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="794"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="876"/>
         <source>Copy</source>
         <translation>복사</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="795"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="877"/>
         <source>Paste</source>
         <translation>붙여넣기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="796"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="878"/>
         <source>Delete</source>
         <translation>삭제</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="797"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="879"/>
         <source>Import</source>
         <translation>불러오기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="798"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="880"/>
         <source>Reload</source>
         <translation>새로 고침</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="799"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="881"/>
         <source>Export</source>
         <translation>내보내기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="800"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="882"/>
         <source>Export All</source>
         <translation>모두 내보내기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="801"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="883"/>
         <source>Collapse All</source>
         <translation>모두 접기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="802"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="884"/>
         <source>Expand All</source>
         <translation>모두 펼치기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="803"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="885"/>
         <source>Fill Controls</source>
         <translation>Fill 컨트롤</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="884"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="966"/>
         <source>Search entries saved.</source>
         <translation>검색 항목이 저장되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="913"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="995"/>
         <source>Sigil: Saved Searches</source>
         <translation>Sigil: 저장된 검색</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SearchEditor.cpp" line="914"/>
+        <location filename="../../Dialogs/SearchEditor.cpp" line="996"/>
         <source>The Search entries may have been modified.
 Do you want to save your changes?</source>
         <translation>검색 항목이 수정되었습니다.
@@ -16933,117 +17380,117 @@ Do you want to save your changes?</source>
 <context>
     <name>SearchEditorModel</name>
     <message>
-        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="85"/>
+        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="84"/>
         <source>Name</source>
         <translation>이름</translation>
     </message>
     <message>
-        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="86"/>
+        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="85"/>
         <source>Find</source>
         <translation>찾기</translation>
     </message>
     <message>
-        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="87"/>
+        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="86"/>
         <source>Replace</source>
         <translation>바꾸기</translation>
     </message>
     <message>
-        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="88"/>
+        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="87"/>
         <source>Controls</source>
         <translation>컨트롤</translation>
     </message>
     <message>
-        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="482"/>
+        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="481"/>
         <source>Mode: Normal</source>
         <translation>Mode: 기본</translation>
     </message>
     <message>
-        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="485"/>
+        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="484"/>
         <source>Mode: Regular Expression</source>
         <translation>Mode: 정규식</translation>
     </message>
     <message>
-        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="488"/>
+        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="487"/>
         <source>Mode: Case Sensitive</source>
         <translation>Mode: 대소문자 구분</translation>
     </message>
     <message>
-        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="491"/>
+        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="490"/>
         <source>Direction: Up</source>
         <translation>방향: 위로</translation>
     </message>
     <message>
-        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="494"/>
+        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="493"/>
         <source>Direction: Down</source>
         <translation>방향: 아래로</translation>
     </message>
     <message>
-        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="497"/>
+        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="496"/>
         <source>Target: Current File</source>
         <translation>대상: 현재 파일</translation>
     </message>
     <message>
-        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="500"/>
+        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="499"/>
         <source>Target: All HTML Files</source>
         <translation>대상: 모든 파일</translation>
     </message>
     <message>
-        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="503"/>
+        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="502"/>
         <source>Target: Selected HTML Files</source>
         <translation>대상: 선택한 파일</translation>
     </message>
     <message>
-        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="506"/>
+        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="505"/>
         <source>Target: Tabbed HTML Files</source>
         <translation>대상 : 탭에 열린 HTML 파일</translation>
     </message>
     <message>
-        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="509"/>
+        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="508"/>
         <source>Target: All CSS Files</source>
         <translation>대상: 모든 CSS 파일</translation>
     </message>
     <message>
-        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="512"/>
+        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="511"/>
         <source>Target: Selected CSS Files</source>
         <translation>대상: 선택한 CSS 파일</translation>
     </message>
     <message>
-        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="515"/>
+        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="514"/>
         <source>Target: Tabbed CSS Files</source>
         <translation>대상 : 탭에 열린 CSS 파일</translation>
     </message>
     <message>
-        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="518"/>
+        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="517"/>
         <source>Target: OPF File</source>
         <translation>대상: OPF 파일</translation>
     </message>
     <message>
-        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="521"/>
+        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="520"/>
         <source>Target: NCX File</source>
         <translation>대상: NCX 파일</translation>
     </message>
     <message>
-        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="524"/>
+        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="523"/>
         <source>Option: DotAll</source>
         <translation>옵션: DotAll</translation>
     </message>
     <message>
-        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="527"/>
+        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="526"/>
         <source>Option: Minimal Match</source>
         <translation>옵션: 최소 일치</translation>
     </message>
     <message>
-        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="530"/>
+        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="529"/>
         <source>Option: Auto Tokenise</source>
         <translation>옵션: 자동 토큰화</translation>
     </message>
     <message>
-        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="533"/>
+        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="532"/>
         <source>Option: Wrap</source>
         <translation>옵션: 되돌이 검색</translation>
     </message>
     <message>
-        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="825"/>
+        <location filename="../../MiscEditors/SearchEditorModel.cpp" line="827"/>
         <source>Unable to create file %1</source>
         <translation>%1 파일을 생성할 수 없습니다</translation>
     </message>
@@ -18348,52 +18795,52 @@ your book and automatically insert into your document.</source>
         <translation>썸네일 크기:</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SelectFiles.cpp" line="112"/>
+        <location filename="../../Dialogs/SelectFiles.cpp" line="114"/>
         <source>All</source>
         <translation>모두</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SelectFiles.cpp" line="113"/>
+        <location filename="../../Dialogs/SelectFiles.cpp" line="115"/>
         <source>Images</source>
         <translation>이미지</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SelectFiles.cpp" line="114"/>
+        <location filename="../../Dialogs/SelectFiles.cpp" line="116"/>
         <source>Video</source>
         <translation>비디오</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SelectFiles.cpp" line="115"/>
+        <location filename="../../Dialogs/SelectFiles.cpp" line="117"/>
         <source>Audio</source>
         <translation>오디오</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SelectFiles.cpp" line="163"/>
+        <location filename="../../Dialogs/SelectFiles.cpp" line="165"/>
         <source>Files In the Book</source>
         <translation>책에 있는 파일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SelectFiles.cpp" line="166"/>
+        <location filename="../../Dialogs/SelectFiles.cpp" line="168"/>
         <source>Thumbnails</source>
         <translation>썸네일</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SelectFiles.cpp" line="326"/>
+        <location filename="../../Dialogs/SelectFiles.cpp" line="328"/>
         <source>shades</source>
         <translation>그림자</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SelectFiles.cpp" line="326"/>
+        <location filename="../../Dialogs/SelectFiles.cpp" line="328"/>
         <source>colors</source>
         <translation>색상</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SelectFiles.cpp" line="327"/>
+        <location filename="../../Dialogs/SelectFiles.cpp" line="329"/>
         <source>Grayscale</source>
         <translation>회색조(Grayscale)</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SelectFiles.cpp" line="327"/>
+        <location filename="../../Dialogs/SelectFiles.cpp" line="329"/>
         <source>Color</source>
         <translation>색상</translation>
     </message>
@@ -18467,7 +18914,7 @@ double click on existing destinations in your book from the list above.</source>
 The dropdown box shows existing ID names in the current file.
 
 ID names must be unique and start with a letter.</source>
-        <translation>하이퍼 링크, 메모 및 목차 항목의 대상으로 사용할 ID 이름을 입력하십시오. 드롭 다운 상자는 현재 파일의 기존 ID 이름을 표시합니다 . ID 이름은 고유해야하며 영문으로 시작해야합니다.</translation>
+        <translation>하이퍼 링크, 메모 및 차례 항목의 대상으로 사용할 ID 이름을 입력하십시오. 드롭 다운 상자는 현재 파일의 기존 ID 이름을 표시합니다 . ID 이름은 고유해야하며 영문으로 시작해야합니다.</translation>
     </message>
     <message>
         <location filename="../../Form_Files/SelectId.ui" line="29"/>
@@ -18703,7 +19150,7 @@ is restarted or a new book is opened.</source>
     </message>
     <message>
         <location filename="../../Form_Files/SpellcheckEditor.ui" line="62"/>
-        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="558"/>
+        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="563"/>
         <source>Ignore</source>
         <translation>무시</translation>
     </message>
@@ -18739,13 +19186,13 @@ The selected word does not have to be misspelled.</source>
     </message>
     <message>
         <location filename="../../Form_Files/SpellcheckEditor.ui" line="188"/>
-        <source>Sort words as AaBbCc instead of ABCabc.</source>
-        <translation>AaBbCc를 ABCabc로 정렬</translation>
+        <source>Sort words as in a locale specific manner, typically AaBbCc instead of ABCabc.</source>
+        <translation>로케일별 방식으로 단어를 정렬합니다(일반적으로 ABCabc 대신 AaBbCc).</translation>
     </message>
     <message>
         <location filename="../../Form_Files/SpellcheckEditor.ui" line="191"/>
-        <source>Case-Insensitive Sort</source>
-        <translation>대소 문자를 구분하지 않고 정렬</translation>
+        <source>Locale-Aware Sort</source>
+        <translation>로케일 인식 정렬</translation>
     </message>
     <message>
         <location filename="../../Form_Files/SpellcheckEditor.ui" line="215"/>
@@ -18760,109 +19207,109 @@ Use if you edit any HTML files while Spellcheck is open.</source>
         <translation>새로 고침</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="56"/>
+        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="58"/>
         <source>f</source>
         <comment>Filter</comment>
         <translation>f</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="57"/>
+        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="59"/>
         <source>s</source>
         <comment>ShowAllWords</comment>
         <translation>s</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="58"/>
-        <source>c</source>
-        <comment>Case-InsensitiveSort</comment>
-        <translation>c</translation>
+        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="60"/>
+        <source>a</source>
+        <comment>Locale-AwareSort</comment>
+        <translation>a</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="59"/>
+        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="61"/>
         <source>r</source>
         <comment>Refresh</comment>
         <translation>r</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="157"/>
-        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="180"/>
-        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="219"/>
+        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="159"/>
+        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="182"/>
+        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="221"/>
         <source>No words selected.</source>
         <translation>단어가 선택되지 않았습니다</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="173"/>
+        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="175"/>
         <source>Ignored word(s).</source>
         <translation>무시 단어</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="208"/>
+        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="210"/>
         <source>Added word(s) to dictionary.</source>
         <translation>단어가 사전에 추가되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="210"/>
+        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="212"/>
         <source>Added word(s) to dictionary. The dictionary is not enabled in Preferences.</source>
         <translation>사전에 단어를 추가했습니다. 사전이 기본 설정에서 활성화되지 않았습니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="225"/>
+        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="227"/>
         <source>The new word cannot contain &quot;&lt;&quot;, &quot;&gt;&quot;, or &quot;&amp;&quot;.</source>
         <translation>새 단어에는 &quot;&lt;&quot;, &quot;&gt;&quot;, or &quot;&amp;&quot;. 기호를 사용할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="236"/>
-        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="311"/>
+        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="238"/>
+        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="314"/>
         <source>No</source>
         <translation>아니요</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="255"/>
+        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="257"/>
         <source>Word</source>
         <translation>단어</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="256"/>
+        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="258"/>
         <source>Count</source>
         <translation>세기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="257"/>
+        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="259"/>
         <source>Language</source>
         <translation>언어</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="258"/>
+        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="260"/>
         <source>Misspelled?</source>
         <translation>맞춤법에 맞춰 수정하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="309"/>
+        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="312"/>
         <source>Yes</source>
         <translation>예</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="332"/>
+        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="335"/>
         <source>Misspelled Words</source>
         <translation>맞춤법 틀린 단어</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="332"/>
+        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="335"/>
         <source>Total Unique Words</source>
         <translation>총 고유 단어</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="559"/>
+        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="564"/>
         <source>Add to Dictionary</source>
         <translation>사전에 추가하기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="560"/>
+        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="565"/>
         <source>Find in Text</source>
         <translation>텍스트 찾기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="561"/>
+        <location filename="../../Dialogs/SpellcheckEditor.cpp" line="566"/>
         <source>Select All</source>
         <translation>모두 선택하기</translation>
     </message>
@@ -18951,7 +19398,7 @@ Use if you edit any HTML files while Spellcheck is open.</source>
 <context>
     <name>TabManager</name>
     <message>
-        <location filename="../../Tabs/TabManager.cpp" line="255"/>
+        <location filename="../../Tabs/TabManager.cpp" line="266"/>
         <source>Cannot edit file</source>
         <translation>파일을 편집할 수 없습니다.</translation>
     </message>
@@ -18959,22 +19406,22 @@ Use if you edit any HTML files while Spellcheck is open.</source>
 <context>
     <name>TableOfContents</name>
     <message>
-        <location filename="../../MainUI/TableOfContents.cpp" line="43"/>
+        <location filename="../../MainUI/TableOfContents.cpp" line="51"/>
         <source>Table Of Contents</source>
-        <translation>목차</translation>
+        <translation>차례</translation>
     </message>
     <message>
-        <location filename="../../MainUI/TableOfContents.cpp" line="128"/>
+        <location filename="../../MainUI/TableOfContents.cpp" line="136"/>
         <source>The file &quot;%1&quot; does not exist.</source>
         <translation>파일 &quot;%1&quot; 가 존재하지 않습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/TableOfContents.cpp" line="159"/>
+        <location filename="../../MainUI/TableOfContents.cpp" line="167"/>
         <source>Collapse All</source>
         <translation>모두 접기</translation>
     </message>
     <message>
-        <location filename="../../MainUI/TableOfContents.cpp" line="160"/>
+        <location filename="../../MainUI/TableOfContents.cpp" line="168"/>
         <source>Expand All</source>
         <translation>모두 펼치기</translation>
     </message>
@@ -18982,7 +19429,7 @@ Use if you edit any HTML files while Spellcheck is open.</source>
 <context>
     <name>TextTab</name>
     <message>
-        <location filename="../../Tabs/TextTab.cpp" line="314"/>
+        <location filename="../../Tabs/TextTab.cpp" line="315"/>
         <source>Print %1</source>
         <translation>인쇄 %1</translation>
     </message>
@@ -18990,12 +19437,12 @@ Use if you edit any HTML files while Spellcheck is open.</source>
 <context>
     <name>Utility</name>
     <message>
-        <location filename="../../Misc/Utility.cpp" line="794"/>
+        <location filename="../../Misc/Utility.cpp" line="817"/>
         <source>Sigil</source>
         <translation>Sigil</translation>
     </message>
     <message>
-        <location filename="../../Misc/Utility.cpp" line="795"/>
+        <location filename="../../Misc/Utility.cpp" line="818"/>
         <source>The requested file name contains non-ASCII characters. You should only use ASCII characters in filenames. Using non-ASCII characters can prevent the EPUB from working with some readers.
 
 Continue using the requested filename?</source>
@@ -19006,39 +19453,58 @@ Continue using the requested filename?</source>
 <context>
     <name>ValidationResultsView</name>
     <message>
-        <location filename="../../MainUI/ValidationResultsView.cpp" line="48"/>
+        <location filename="../../MainUI/ValidationResultsView.cpp" line="52"/>
         <source>Validation Results</source>
         <translation>유효성 검사 결과</translation>
     </message>
     <message>
-        <location filename="../../MainUI/ValidationResultsView.cpp" line="249"/>
-        <location filename="../../MainUI/ValidationResultsView.cpp" line="253"/>
-        <source>N/A</source>
-        <translation>발생 횟수 세는 중..</translation>
+        <location filename="../../MainUI/ValidationResultsView.cpp" line="61"/>
+        <source>Export All</source>
+        <translation>모두 내보내기</translation>
     </message>
     <message>
-        <location filename="../../MainUI/ValidationResultsView.cpp" line="281"/>
-        <location filename="../../MainUI/ValidationResultsView.cpp" line="297"/>
+        <location filename="../../MainUI/ValidationResultsView.cpp" line="104"/>
+        <source>CSV files (*.csv)</source>
+        <translation>CSV 파일 (*.csv)</translation>
+    </message>
+    <message>
+        <location filename="../../MainUI/ValidationResultsView.cpp" line="105"/>
+        <source>Text files (*.txt)</source>
+        <translation>텍스트 파일 (*.txt)</translation>
+    </message>
+    <message>
+        <location filename="../../MainUI/ValidationResultsView.cpp" line="119"/>
+        <source>Export Validation Results</source>
+        <translation>검증 결과 내보내기</translation>
+    </message>
+    <message>
+        <location filename="../../MainUI/ValidationResultsView.cpp" line="152"/>
+        <source>Export of Validation Results failed: </source>
+        <translation>검증 결과 내보내기 실패:</translation>
+    </message>
+    <message>
+        <location filename="../../MainUI/ValidationResultsView.cpp" line="379"/>
+        <location filename="../../MainUI/ValidationResultsView.cpp" line="395"/>
         <source>Message</source>
         <translation>메시지</translation>
     </message>
     <message>
-        <location filename="../../MainUI/ValidationResultsView.cpp" line="282"/>
+        <location filename="../../MainUI/ValidationResultsView.cpp" line="380"/>
         <source>No problems found!</source>
         <translation>아무 문제를 찾지 못했습니다.</translation>
     </message>
     <message>
-        <location filename="../../MainUI/ValidationResultsView.cpp" line="297"/>
+        <location filename="../../MainUI/ValidationResultsView.cpp" line="395"/>
         <source>File</source>
         <translation>파일</translation>
     </message>
     <message>
-        <location filename="../../MainUI/ValidationResultsView.cpp" line="297"/>
+        <location filename="../../MainUI/ValidationResultsView.cpp" line="395"/>
         <source>Line</source>
         <translation>줄</translation>
     </message>
     <message>
-        <location filename="../../MainUI/ValidationResultsView.cpp" line="297"/>
+        <location filename="../../MainUI/ValidationResultsView.cpp" line="395"/>
         <source>Offset</source>
         <translation>오프셋</translation>
     </message>
@@ -19046,12 +19512,12 @@ Continue using the requested filename?</source>
 <context>
     <name>ViewAV</name>
     <message>
-        <location filename="../../Dialogs/ViewAV.cpp" line="50"/>
+        <location filename="../../Dialogs/ViewAV.cpp" line="53"/>
         <source>Close this window</source>
         <translation>이 창 닫기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ViewAV.cpp" line="51"/>
+        <location filename="../../Dialogs/ViewAV.cpp" line="54"/>
         <source>Done</source>
         <translation>완료</translation>
     </message>
@@ -19059,12 +19525,12 @@ Continue using the requested filename?</source>
 <context>
     <name>ViewFont</name>
     <message>
-        <location filename="../../Dialogs/ViewFont.cpp" line="45"/>
+        <location filename="../../Dialogs/ViewFont.cpp" line="46"/>
         <source>Close this window</source>
         <translation>이 창 닫기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ViewFont.cpp" line="46"/>
+        <location filename="../../Dialogs/ViewFont.cpp" line="47"/>
         <source>Done</source>
         <translation>완료</translation>
     </message>
@@ -19072,12 +19538,12 @@ Continue using the requested filename?</source>
 <context>
     <name>ViewImage</name>
     <message>
-        <location filename="../../Dialogs/ViewImage.cpp" line="50"/>
+        <location filename="../../Dialogs/ViewImage.cpp" line="51"/>
         <source>Close this window</source>
         <translation>이 창 닫기</translation>
     </message>
     <message>
-        <location filename="../../Dialogs/ViewImage.cpp" line="51"/>
+        <location filename="../../Dialogs/ViewImage.cpp" line="52"/>
         <source>Done</source>
         <translation>완료</translation>
     </message>

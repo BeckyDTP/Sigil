@@ -20,17 +20,18 @@
 **
 *************************************************************************/
 
-#include <QtCore/QtCore>
-#include <QtCore/QFileInfo>
-#include <QtCore/QFutureSynchronizer>
+#include <QtCore>
+#include <QFileInfo>
+#include <QFutureSynchronizer>
 #include <QtConcurrent/QtConcurrent>
-#include <QtWidgets/QApplication>
-#include <QtWidgets/QProgressDialog>
+#include <QApplication>
+#include <QProgressDialog>
 
 #include "BookManipulation/Book.h"
 #include "BookManipulation/CleanSource.h"
 #include "BookManipulation/FolderKeeper.h"
 #include "Parsers/GumboInterface.h"
+#include "Parsers/CSSToolbox.h"
 #include "Misc/TempFolder.h"
 #include "Misc/Utility.h"
 #include "Misc/HTMLSpellCheck.h"
@@ -427,7 +428,9 @@ HTMLResource *Book::CreateEmptyNavFile(bool update_opf,
     return html_resource;
 }
 
-
+#if 0
+// Note: Broken -  CreateNewHTMLFile already appends to the end of the spine and if needed
+// You can move using the OPFResource to change Reading Order much faster
 HTMLResource *Book::CreateEmptyHTMLFile(HTMLResource *resource, const QString &folderpath)
 {
     HTMLResource *new_resource = CreateNewHTMLFile(folderpath);
@@ -450,6 +453,7 @@ HTMLResource *Book::CreateEmptyHTMLFile(HTMLResource *resource, const QString &f
     SetModified(true);
     return new_resource;
 }
+#endif
 
 
 void Book::MoveResourceAfter(HTMLResource *from_resource, HTMLResource *to_resource)
@@ -458,17 +462,10 @@ void Book::MoveResourceAfter(HTMLResource *from_resource, HTMLResource *to_resou
         return;
     }
 
-    QList<HTMLResource *> html_resources = m_Mainfolder->GetResourceTypeList<HTMLResource>(true);
-    int to_after_reading_order = GetOPF()->GetReadingOrder(to_resource) + 1;
-    int from_reading_order = GetOPF()->GetReadingOrder(from_resource) ;
-
-    if (to_after_reading_order > 0) {
-        html_resources.move(from_reading_order, to_after_reading_order);
-        GetOPF()->UpdateSpineOrder(html_resources);
-    }
-
+    GetOPF()->MoveReadingOrder(from_resource, to_resource);
     SetModified(true);
 }
+
 
 HTMLResource *Book::CreateHTMLCoverFile(QString text)
 {
@@ -722,6 +719,43 @@ bool Book::IsDataOnDiskWellFormed(HTMLResource *html_resource)
                                                                        html_resource->GetEpubVersion());
     return error.line == -1;
 }
+
+
+bool Book::RenameClassInHTML(const QString css_bookpath, const QString oldname, const QString newname)
+{
+    const QList<HTMLResource *> html_resources = m_Mainfolder->GetResourceTypeList<HTMLResource>(false);
+    QFuture< bool > rfuture;
+    rfuture = QtConcurrent::mapped(html_resources, std::bind(Book::RenameClassInHTMLFileMapped,
+                                                             std::placeholders::_1,
+                                                             css_bookpath,
+                                                             oldname,
+                                                             newname));
+    bool result = true;
+    for (int i = 0; i < rfuture.results().count(); i++) {
+        result = result && rfuture.resultAt(i);
+    }
+    return result;
+}
+
+
+bool Book::RenameClassInHTMLFileMapped(HTMLResource* html_resource,
+                                       const QString css_bookpath,
+                                       const QString oldname,
+                                       const QString newname)
+{
+    QStringList linked_stylesheets = html_resource->GetLinkedStylesheets();
+    QString xhtmltext = html_resource->GetText();
+    if (linked_stylesheets.contains(css_bookpath)) {
+        QWriteLocker locker(&html_resource->GetLock());
+        CSSToolbox tb;
+        QString newtext = tb.rename_class_in_text(oldname, newname, xhtmltext);
+        if (xhtmltext != newtext) {
+            html_resource->SetText(newtext);
+        }
+    }
+    return true;
+}
+
 
 void Book::ReformatAllHTML(bool to_valid)
 {
@@ -1202,7 +1236,6 @@ QPair<QString, QString> Book::UpdateAndExtractBodyInOneFile(Resource * resource,
     QString startdir = htmlresource->GetFolder();
     QString version = htmlresource->GetEpubVersion();
     QString bookpath = htmlresource->GetRelativePath();
-    qDebug() << "update and extract body of " << bookpath;
     GumboInterface gi = GumboInterface(htmlresource->GetText(), version);
     gi.parse();
     const QList<GumboNode*> anchor_nodes = gi.get_all_nodes_with_tag(GUMBO_TAG_A);

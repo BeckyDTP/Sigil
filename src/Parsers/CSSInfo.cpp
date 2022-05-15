@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2016-2021 Kevin B. Hendricks, Stratford, ON Canada
+**  Copyright (C) 2016-2022 Kevin B. Hendricks, Stratford, ON Canada
 **  Copyright (C) 2012      John Schember <john@nachtimwald.com>
 **  Copyright (C) 2012      Dave Heiland
 **  Copyright (C) 2012      Grant Drake
@@ -22,11 +22,9 @@
 **
 *************************************************************************/
 
-#include "EmbedPython/EmbeddedPython.h"
-
 #include <QString>
-#include <QDebug>
 #include <QRegularExpression>
+#include <QDebug>
 #include "Misc/Utility.h"
 #include "Parsers/CSSInfo.h"
 
@@ -174,45 +172,22 @@ QString CSSInfo::getReformattedCSSText(bool multipleLineFormat)
 {
     QString csstext(m_source);
 
-    // Note, the EmbeddedPython interface does not handle bool properly
-    // So convert to int with 0 or 1 value for the time being
-    int useoneline = 1;
-    if (multipleLineFormat) useoneline = 0;
+    CSSParser cp;
+    cp.set_level("CSS3.0"); // most permissive
+    cp.parse_css(csstext);
 
-    int rv = 0;
-    QString error_traceback;
-    QList<QVariant> args;
-    args.append(QVariant(csstext));
-    args.append(QVariant(useoneline));
-    EmbeddedPython * epython  = EmbeddedPython::instance();
-
-    QVariant res = epython->runInPython( QString("cssreformatter"),
-                                         QString("reformat_css"),
-                                         args,
-                                         &rv,
-                                         error_traceback);
-    if (rv != 0) {
-        Utility::DisplayStdWarningDialog(QString("Error in cssreformatter: ") + QString::number(rv), 
-                         error_traceback);
-        // an error happened, return unchanged original
-        return QString(csstext);
-    }
-    // QVariant results are a String List (new_css_text, errors, warnings)
-    QStringList results = res.toStringList();
-    QString new_csstext = results[0];
-    QString errors = results[1];
-    QString warnings = results[2];
-
+    QVector<QString> errors = cp.get_parse_errors();
     if (!errors.isEmpty()) {
-        Utility::DisplayStdWarningDialog(QString("Error in cssreformatter: "), errors);
-        // an error happened, return unchanged original
-        return QString(csstext);
+        QString error_msg = "";
+        for(int i = 0; i < errors.size(); i++) {
+            error_msg = error_msg + "CSS Parser Error: " + errors[i] +  "\n";
+        }
+        Utility::DisplayStdWarningDialog(QString("CSS Error: "), error_msg); 
+        // a css parser error happened, return unchanged original
+        return csstext;
     }
-
-    if (!warnings.isEmpty()) {
-        Utility::DisplayStdWarningDialog(QString("Warnings from cssreformatter: "), warnings);
-    }
-
+    
+    QString new_csstext = cp.serialize_css(false, multipleLineFormat);
     return new_csstext;
 }
 
@@ -369,3 +344,46 @@ void CSSInfo::generateSelectorsList()
         i++;
     }
 }
+
+#if 0
+// keep this in case we need to work around differnces in how css parsers handle comments
+// once a selector has started
+QString CSSInfo::replaceBlockComments(const QString &text)
+{
+    // We take a copy of the text and remove all block comments from it.
+    // However we must be careful to replace with spaces/keep line feeds
+    // so that do not corrupt the position information used by the parser.
+    QString new_text(text);
+    QRegularExpression comment_search("/\\*.*\\*/", QRegularExpression::InvertedGreedinessOption|QRegularExpression::DotMatchesEverythingOption);
+    int start = 0;
+    int comment_index;
+
+    while (true) {
+        int comment_len = 0;
+        comment_index = -1;
+        QRegularExpressionMatch match = comment_search.match(new_text, start);
+        if (match.hasMatch()) {
+            comment_index = match.capturedStart();
+            comment_len = match.capturedLength();
+        }
+
+        if (comment_index < 0) {
+            break;
+        }
+
+        QString match_text = new_text.mid(comment_index, comment_len);
+        match_text.replace(QRegularExpression("[^\r\n]"), QChar(' '));
+        new_text.remove(comment_index, match_text.length());
+        new_text.insert(comment_index, match_text);
+        // Prepare for the next comment.
+        start = comment_index + comment_len;
+
+        if (start >= new_text.length() - 2) {
+            break;
+        }
+    }
+
+    return new_text;
+}
+#endif
+

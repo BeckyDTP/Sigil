@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2015-2021 Kevin B. Hendricks, Stratford, Ontario, Canada
+**  Copyright (C) 2015-2022 Kevin B. Hendricks, Stratford, Ontario, Canada
 **  Copyright (C) 2011-2012 John Schember <john@nachtimwald.com>
 **  Copyright (C) 2012      Dave Heiland
 **  Copyright (C) 2009-2011 Strahinja Markovic  <strahinja.markovic@gmail.com>
@@ -26,7 +26,7 @@
 #ifndef FINDREPLACE_H
 #define FINDREPLACE_H
 
-#include <QtCore/QTimer>
+#include <QTimer>
 
 #include "ui_FindReplace.h"
 #include "BookManipulation/FolderKeeper.h"
@@ -35,6 +35,8 @@
 #include "MiscEditors/SearchEditorModel.h"
 #include "ViewEditors/Searchable.h"
 
+class QMenu;
+class QAction;
 class Resource;
 class MainWindow;
 
@@ -90,8 +92,13 @@ public:
     bool isWhereOPF() { return GetLookWhere() == LookWhere_OPFFile; };
     bool isWhereNCX() { return GetLookWhere() == LookWhere_NCXFile; };
     bool isWhereCF()  { return GetLookWhere() == LookWhere_CurrentFile; };
-
-
+    bool isSearchXML();
+    
+    QString GetSearchRegex();
+    QString GetReplace();
+    QList<Resource*> GetAllResourcesToSearch();
+    void EmitOpenFileRequest(const QString& bookpath, int line, int pos);
+                                                                        
 public slots:
     void close();
     void show();
@@ -103,6 +110,13 @@ public slots:
     void ReplaceSearch();
     void CountAllSearch();
     void ReplaceAllSearch();
+    void DoRestart();
+
+    // Shows a message in the main window.
+    void ShowMessage(const QString &message);
+    void clearMessage();
+
+    void DryRunComplete() { m_DryRunRunning = false; clearMessage(); };
 
     bool FindMisspelledWord();
 
@@ -110,6 +124,7 @@ public slots:
     void SetRegexOptionMinimalMatch(bool new_state);
     void SetRegexOptionAutoTokenise(bool new_state);
     void SetOptionWrap(bool new_state);
+    void SetRegexOptionTextOnly(bool new_state);
 
     bool FindAnyText(QString text, bool escape = true);
     void FindAnyTextInTags(QString text);
@@ -120,12 +135,16 @@ public slots:
 
     void ValidateRegex();
 
+    void CountsReportCount(SearchEditorModel::searchEntry* entry, int& count);
+
 signals:
 
     void OpenSearchEditorRequest(SearchEditorModel::searchEntry *search_entry = NULL);
 
     void ShowMessageRequest(const QString &message);
 
+    void FROpenFileRequest(const QString &bookpath, int line, int offset);
+    
     /**
      * Emitted when we want to do some operations with the clipboard
      * to paste things, but restoring state afterwards so that the
@@ -139,12 +158,6 @@ protected:
 
 private slots:
 
-    // Escape pure text so it can be used in a regex searh
-    QString escapePureText(const QString str);
-    
-    // Shows a message in the main window.
-    void ShowMessage(const QString &message);
-
     bool IsMarkedText();
 
     void FindClicked();
@@ -153,13 +166,14 @@ private slots:
     void ReplaceAllClicked();
     void RestartClicked();
 
-
     // Uses the find direction to determine if we should find next
     // or previous.
     bool Find();
     bool FindNext();
     bool FindPrevious();
-
+    bool DoFindNext();
+    bool DoFindPrevious();
+    
     // Counts the number of occurrences of the user's
     // term in the document.
     int Count();
@@ -174,7 +188,16 @@ private slots:
     bool ReplaceNext();
     bool ReplacePrevious();
     bool ReplaceCurrent();
+    bool DoReplaceNext();
+    bool DoReplacePrevious();
 
+    // Does a Dry Run Find A// / Replace All  and shows results in table
+    void PerformDryRunReplace();
+
+    // Allows a user to choose which matches in Replace All should
+    // be applied
+    void ChooseReplacements();
+    
     // Replaces the user's search term with the user's
     // replacement text in the entire document. Shows a
     // dialog telling how many occurrences were replaced.
@@ -185,7 +208,6 @@ private slots:
     void ReplaceAllInFile();
     void CountInFile();
 
-    void clearMessage();
     void expireMessage();
 
     void SaveSearchAction();
@@ -194,22 +216,23 @@ private slots:
 
     void ClearHistory();
 
-    void AdvancedOptionsClicked();
+    // void AdvancedOptionsClicked();
 
 private:
 
     void SetPreviousSearch();
     bool IsNewSearch();
 
-    void SetFirstResource(bool update_position = true);
+    void SetStartingResource(bool update_position = true);
 
     QString GetControls();
-    
     Searchable::Direction GetSearchableDirection();
     bool FindText(Searchable::Direction direction);
     bool ReplaceText(Searchable::Direction direction, bool replace_current = false);
 
-    void SetCodeViewIfNeeded(bool force = false);
+    void SetCodeViewIfNeeded();
+
+    // void RestoreFRFocusIfNeeded(bool had_focus, bool force=false);
 
     // Displays a message to the user informing him
     // that his last search term could not be found.
@@ -219,10 +242,9 @@ private:
 
     // Constructs a searching regex from the selected
     // options and fields and then returns it.
-    QString GetSearchRegex();
     QString PrependRegexOptionToSearch(const QString &option, const QString &search);
 
-    QList <Resource *> GetFilesToSearch();
+    QList <Resource *> GetFilesToSearch(bool force_all = false);
 
     bool IsCurrentFileInSelection();
 
@@ -292,7 +314,7 @@ private:
     // Writes all the stored dialog settings
     void WriteSettings();
 
-    void ShowHideAdvancedOptions();
+    // void ShowHideAdvancedOptions();
 
     void ExtendUI();
 
@@ -303,7 +325,7 @@ private:
     QString TokeniseForRegex(const QString &text, bool includeNumerics);
 
     void WriteSettingsVisible(bool visible);
-    void WriteSettingsAdvancedVisible(bool advanced);
+    // void WriteSettingsAdvancedVisible(bool advanced);
 
     /**
      * Connects all the required signals to their respective slots.
@@ -329,7 +351,7 @@ private:
     bool m_RegexOptionMinimalMatch;
     bool m_RegexOptionAutoTokenise;
     bool m_OptionWrap;
-
+    bool m_RegexOptionTextOnly;
     bool m_SpellCheck;
 
     bool m_LookWhereCurrentFile;
@@ -339,6 +361,25 @@ private:
     bool m_IsSearchGroupRunning;
 
     QStringList m_PreviousSearch;
+
+    Resource * m_StartingResource;
+
+    int m_StartingPos;
+
+    bool m_InRemainder;
+
+    bool m_RestartPerformed;
+
+    bool m_SearchRunning;
+
+    bool m_DryRunRunning;
+
+    bool m_ShiftUsed;
+
+    QAction* m_DotAllCheckAction;
+    QAction* m_MinimalMatchCheckAction;
+    QAction* m_AutoTokeniseCheckAction;
+    QMenu*   m_menu;
 };
 
 

@@ -5,14 +5,14 @@
 #define AppName "Sigil"
 
 [Setup]
-AppName={#AppName}
-AppVerName={#AppName} ${SIGIL_FULL_VERSION}
+AppName={#AppName}${LEGACY_BUILD}
+AppVerName={#AppName}${LEGACY_BUILD} ${SIGIL_FULL_VERSION}
 AppVersion=${SIGIL_FULL_VERSION}
 VersionInfoVersion=${SIGIL_FULL_VERSION}
-DefaultDirName={autopf}\{#AppName}
+DefaultDirName={autopf}\{#AppName}${LEGACY_BUILD}
 DisableDirPage=no
 AllowNoIcons=yes
-DefaultGroupName={#AppName}
+DefaultGroupName={#AppName}${LEGACY_BUILD}
 UninstallDisplayIcon={app}\{#AppName}.exe
 AppPublisher=Sigil-Ebook
 AppPublisherURL=https://github.com/Sigil-Ebook/Sigil
@@ -23,11 +23,11 @@ Compression=lzma2/ultra
 SolidCompression=yes
 OutputDir=..\installer
 LicenseFile=${LICENSE_LOCATION}
-; Win 7sp1 is the lowest supported version
-MinVersion=0,6.1.7601
+; Lowest supported windowsversion
+MinVersion=${WIN_MIN_VERSION}
 PrivilegesRequired=admin
 PrivilegesRequiredOverridesAllowed=commandline dialog
-OutputBaseFilename={#AppName}-${SIGIL_FULL_VERSION}-Windows${ISS_SETUP_FILENAME_PLATFORM}-Setup
+OutputBaseFilename={#AppName}-${SIGIL_FULL_VERSION}-Windows${LEGACY_BUILD}${ISS_SETUP_FILENAME_PLATFORM}-Setup
 ChangesAssociations=yes
 ;SetupLogging=yes
 
@@ -81,10 +81,10 @@ Root: HKA; Subkey: "Software\Classes\Applications\{#AppName}.exe\shell\open\comm
 
 [Icons]
 Name: "{group}\{#AppName}"; Filename: "{app}\{#AppName}.exe"
-Name: "{group}\Uninstall {#AppName}"; Filename: "{uninstallexe}"
+Name: "{group}\Uninstall {#AppName}${LEGACY_BUILD}"; Filename: "{uninstallexe}"
 ; Optional desktop icon.
 ; commondesktop if admin, userdesktop if not
-Components: dicon; Name: "{autodesktop}\{#AppName}"; Filename: "{app}\{#AppName}.exe"
+Components: dicon; Name: "{autodesktop}\{#AppName}${LEGACY_BUILD}"; Filename: "{app}\{#AppName}.exe"
 
 [InstallDelete]
 ; Restructuring done in 0.9.8 makes this folder residual.

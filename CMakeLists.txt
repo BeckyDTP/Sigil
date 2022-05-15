@@ -18,6 +18,16 @@ if ( NOT DEFINED TRY_NEWER_FINDPYTHON3 )
     set ( TRY_NEWER_FINDPYTHON3 0 )
 endif()
 
+# Set Inno minimum Windows version 
+if ( NOT DEFINED BUILD_FOR_WIN7 )
+    # Windows 8.0
+    set( BUILD_FOR_WIN7 0 )
+    set ( WIN_MIN_VERSION 6.2.9200 )
+else()
+    # Windows 7sp1
+    set ( WIN_MIN_VERSION 6.1.7601 )
+endif()
+
 # Default to using Qt5 for builds
 # Enable Qt6 with -DUSEQT6=1 in cmake config command
 if ( NOT DEFINED USE_QT6 )
@@ -47,8 +57,8 @@ set( PACKAGE_DIRECTORY ${PROJECT_BINARY_DIR}/package )
 set( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake_extras" )
 
 set( SIGIL_MAJOR_VERSION 1 )
-set( SIGIL_MINOR_VERSION 8 )
-set( SIGIL_REVISION_VERSION 0 )
+set( SIGIL_MINOR_VERSION 9 )
+set( SIGIL_REVISION_VERSION 10 )
 set( SIGIL_FULL_VERSION ${SIGIL_MAJOR_VERSION}.${SIGIL_MINOR_VERSION}.${SIGIL_REVISION_VERSION} )
 
 if( UNIX AND NOT APPLE )
@@ -109,7 +119,7 @@ message(STATUS "CMake version in use: ${CMAKE_VERSION}")
 if (${USE_NEWER_FINDPYTHON3})
     message(STATUS "Using newer findpython3 cmake module")
     if ( APPLE )
-        find_package(Python3 3.8 COMPONENTS Interpreter Development)
+        find_package(Python3 3.9 COMPONENTS Interpreter Development)
     endif()
     if ( WIN32 )
         find_package(Python3 3.5 COMPONENTS Interpreter Development)
@@ -120,8 +130,8 @@ if (${USE_NEWER_FINDPYTHON3})
 else()
     message(STATUS "Using older findpython cmake module")
     if ( APPLE )
-        find_package(PythonInterp 3.8)
-        find_package (PythonLibs 3.8)
+        find_package(PythonInterp 3.9)
+        find_package (PythonLibs 3.9)
     endif()
     if ( WIN32 )
         find_package(PythonInterp 3.5)

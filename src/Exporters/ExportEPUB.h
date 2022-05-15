@@ -64,7 +64,6 @@ private:
     // Obfuscates the fonts marked for obfuscation
     void ObfuscateFonts(const QString &fullfolderpath);
 
-
     ///////////////////////////////
     // PROTECTED MEMBER VARIABLES
     ///////////////////////////////

@@ -25,6 +25,7 @@
 
 #include "PCRE2/SPCRE.h"
 #include "PCRE2/PCREReplaceTextBuilder.h"
+#include "Misc/Utility.h"
 #include "sigil_constants.h"
 
 #define PCRE_NO_JIT 1
@@ -67,7 +68,7 @@ SPCRE::SPCRE(const QString &patten)
         }
 #endif
 
-        // Store the number of capture subpatterns.
+        // Store the number of capture patterns (pairs).
         // pcre2_pattern_info_16(m_re, PCRE2_INFO_CAPTURECOUNT, &m_captureSubpatternCount);
         m_captureSubpatternCount = pcre2_get_ovector_count_16(m_matchdata);
     }
@@ -76,7 +77,11 @@ SPCRE::SPCRE(const QString &patten)
         m_valid = false;
         PCRE2_UCHAR16 buffer[256];
         pcre2_get_error_message_16(errorno, buffer, sizeof(buffer));
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         m_error = QString::fromUtf16(buffer);
+#else
+        m_error = QString::fromUtf16(reinterpret_cast<char16_t*>(buffer));
+#endif
         m_errpos = erroroffset;
         // qDebug() << "SPCRE invalid pattern: " << m_pattern;
         // qDebug() << "SPCRE error: " << m_error;
@@ -266,7 +271,7 @@ bool SPCRE::replaceText(const QString &text, const QList<std::pair<int, int>> &c
     return builder.BuildReplacementText(*this, text, capture_groups_offsets, replacement_pattern, out);
 }
 
-SPCRE::MatchInfo SPCRE::generateMatchInfo(PCRE2_SIZE* ovector, int ovector_count)
+SPCRE::MatchInfo SPCRE::generateMatchInfo(PCRE2_SIZE* ovector, int capture_pattern_count)
 {
     MatchInfo match_info;
     // Store the offsets in the QString text that we are matching
@@ -276,13 +281,14 @@ SPCRE::MatchInfo SPCRE::generateMatchInfo(PCRE2_SIZE* ovector, int ovector_count
     match_info.offset = std::pair<int, int>(match_start, match_end);
     // We keep a list of the substrings within the matched string that
     // are captured by capture patterns.
+    // The capture_pattern_count is the number of begin, end pairs in the ovector
     //
     // The first match is always the string itself.
     match_info.capture_groups_offsets.append(std::pair<int, int>(0, match_end - match_start));
 
     // Translate the subpattern offsets into locations within the
     // matched substring.
-    for (int i = 1; i <= ovector_count; i++) {
+    for (int i = 1; i < capture_pattern_count; i++) {
         int subpattern_start = ovector[2 * i] - match_start;
         int subpattern_end = ovector[2 * i + 1] - match_start;
         match_info.capture_groups_offsets.append(std::pair<int, int>(subpattern_start, subpattern_end));

@@ -1,6 +1,6 @@
 /************************************************************************
  **
- **  Copyright (C) 2021  Kevin B. Hendricks, Stratford, Ontario, Canada
+ **  Copyright (C) 2021-2022 Kevin B. Hendricks, Stratford, Ontario, Canada
  **
  **  This file is part of Sigil.
  **
@@ -57,21 +57,38 @@ CSSParser::CSSParser()
 { 
     tokens = "{};:()@='\"/,\\!$%&*+.<>?[]^`|~";
 
-    // Used for serializing parsed css
-    csstemplate.push_back("  ");      //  0 - standard indentation
-    csstemplate.push_back(" {\n");    //  1 - bracket after @-rule
-    csstemplate.push_back("");        //  2 - unused
-    csstemplate.push_back(" {\n");    //  3 - bracket after selector was "\n{\n"
-    csstemplate.push_back("");        //  4 - unused
-    csstemplate.push_back(" ");       //  5 - string after property before value
-    csstemplate.push_back(";\n");     //  6 - string after value
-    csstemplate.push_back("}");       //  7 - closing bracket - selector
-    csstemplate.push_back("\n\n");    //  8 - space between blocks {...}
-    csstemplate.push_back("}\n\n");   //  9 - closing bracket @-rule
-    csstemplate.push_back("");        // 10 - unused
-    csstemplate.push_back("");        // 11 - before comment
-    csstemplate.push_back("\n");      // 12 - after comment
-    csstemplate.push_back("\n");      // 13 - after last line @-rule
+    // Used for serializing parsed css (multiline format)
+    csstemplateM.push_back("  ");      //  0 - standard indentation
+    csstemplateM.push_back(" {\n");    //  1 - bracket after @-rule
+    csstemplateM.push_back("");        //  2 - unused
+    csstemplateM.push_back(" {\n");    //  3 - bracket after selector was "\n{\n"
+    csstemplateM.push_back("");        //  4 - unused
+    csstemplateM.push_back(" ");       //  5 - string after property before value
+    csstemplateM.push_back(";\n");     //  6 - string after value
+    csstemplateM.push_back("}");       //  7 - closing bracket - selector
+    csstemplateM.push_back("\n\n");    //  8 - space between blocks {...}
+    csstemplateM.push_back("}\n\n");   //  9 - closing bracket @-rule
+    csstemplateM.push_back("");        // 10 - unused
+    csstemplateM.push_back("");        // 11 - before comment
+    csstemplateM.push_back("\n");      // 12 - after comment
+    csstemplateM.push_back("\n");      // 13 - after last line @-rule
+
+    // Used for serializing parsed css (single line format)
+    csstemplate1.push_back("");        //  0 - standard indentation
+    csstemplate1.push_back("{");       //  1 - bracket after @-rule
+    csstemplate1.push_back("");        //  2 - unused
+    csstemplate1.push_back("{");       //  3 - bracket after selector was "\n{\n"
+    csstemplate1.push_back("");        //  4 - unused
+    csstemplate1.push_back("");        //  5 - string after property before value
+    csstemplate1.push_back(";");       //  6 - string after value
+    csstemplate1.push_back("}");       //  7 - closing bracket - selector
+    csstemplate1.push_back("\n");      //  8 - space between blocks {...}
+    csstemplate1.push_back("}\n");     //  9 - closing bracket @-rule
+    csstemplate1.push_back("");        // 10 - unused
+    csstemplate1.push_back("");        // 11 - before comment
+    csstemplate1.push_back("\n");      // 12 - after comment
+    csstemplate1.push_back("");        // 13 - after last line @-rule
+
 
     // at_rule to parser state map
     at_rules["page"] = PIS;
@@ -284,13 +301,21 @@ int CSSParser::_seeknocomment(const int key, int move)
 }
 
 
-QString CSSParser::serialize_css(bool tostdout)
+QString CSSParser::serialize_css(bool tostdout, bool multiline)
 {
     QString output_string;
     QTextStream output(&output_string);
 
     int lvl = 0;
     QString indent = "";
+
+    QVector<QString> csstemplate;
+
+    if (multiline) {
+        csstemplate = csstemplateM;
+    } else {
+        csstemplate = csstemplate1;
+    }
 
     for (int i = 0; i < csstokens.size(); ++i)
     {
@@ -334,7 +359,13 @@ QString CSSParser::serialize_css(bool tostdout)
                 lvl--; if (lvl < 0) lvl = 0;
                 indent = CSSUtils::indent(lvl, csstemplate[0]);
                 output << indent << csstemplate[7];
-                if(_seeknocomment(i, 1) != AT_END) output << csstemplate[8];
+                if (multiline) {
+                    if(_seeknocomment(i, 1) != AT_END) output << csstemplate[8];
+                } else {
+                    if (lvl == 0) {
+                        output << csstemplate[8];
+                    }
+                }
                 break;
 
             case AT_END:
@@ -344,7 +375,11 @@ QString CSSParser::serialize_css(bool tostdout)
                 break;
 
             case COMMENT:
-                output << csstemplate[11] <<  "/*" << csstokens[i].data << "*/" << csstemplate[12];
+                if (multiline || (lvl == 0)) {
+                    output << csstemplate[11] <<  "/*" << csstokens[i].data << "*/" << csstemplate[12];
+                } else {
+                    output << csstemplate[11] <<  "/*" << csstokens[i].data << "*/";
+                }
                 break;
 
             case CSS_END:
@@ -369,7 +404,7 @@ void CSSParser::parseInAtBlock(QString& css_input, int& i, parse_status& astatus
     {
         if(css_input[i] == '/' && CSSUtils::s_at(css_input,i+1) == '*')
         {
-            astatus = PIC; i += 2;
+            astatus = PIC; ++i;
             afrom = PAT;
         }
         else if(css_input[i] == '{')
@@ -1033,7 +1068,8 @@ void CSSParser::record_position(parse_status old_status, parse_status new_status
     if ((old_status == PAT) && (new_status == PIS)) record = true;
     if ((old_status == PIV) && (new_status == PIS)) record = true;
     if ((old_status == PIP) && (new_status == PIS)) record = true;
-
+    if ((old_status == PIC) && (new_status == PIS)) record = true; 
+    
     if (record || force) {
         spos = CSSUtils::find_first_not_of(css_input, " \n\t\r\0xb", i);
         sline = line;
@@ -1041,4 +1077,68 @@ void CSSParser::record_position(parse_status old_status, parse_status new_status
             if (css_input[j] == '\n') sline++;
         }
     }
+}
+
+
+// We want to split a selector on periods to find class selectors
+// The issue is that attribute values may legally contain periods
+// and selector functions (ie.  contains()) may legally contain periods.
+// To make it worse, attribute values can contain [,],(,) as well
+// in unmatched sets in any order as they may be in quoted strings.
+// This is true for selector functions as well.
+// So we need to keep track of brackets and parens.
+// And we need to ignore any spurious [, ], (, ), ', or " in any quoted strings.
+// Luckily AFAIK  no nesting of [] or () allowed (yet) in the selector.
+std::pair<int, QString> CSSParser::findNextClassInSelector(const QString &sel, int p)
+{
+    std::pair<int, QString> res;
+    res.first = -1;
+    res.second = QString();
+    bool insquote = false;
+    bool indquote = false;
+    bool inbracket = false;
+    for (int i = p; i < sel.length(); i++)
+    {
+        QChar c = sel.at(i);
+        // keep track of current state
+        if (c == '[' && !insquote && !indquote)  inbracket = true;
+        if (c == ']' && !insquote && !indquote)  inbracket = false;
+
+        if (c == '\'' && insquote && !indquote)  insquote = false;
+        if (c == '\'' && !insquote && !indquote) insquote = true;
+
+        if (c == '"' && !insquote && !indquote)  indquote = true;
+        if (c == '"' && !insquote && indquote)   indquote = false;
+
+        if (c == '.' && !inbracket  & !indquote & !insquote) {
+            // found a class name start
+            res.first = i;
+            QString cname;
+            bool in_escape = false;
+            // now walk forward to find next delimiter (skipping the ".")
+            for (int j=i+1; j < sel.length(); j++) {
+                 QChar d = sel.at(j);
+                 if ((d == '\\') && !in_escape) {
+                     in_escape = true;
+                     cname.append(d);
+                     continue;
+                 }
+                 if (in_escape && !CSSUtils::ctype_xdigit(d)) {
+                     in_escape = false;
+                     cname.append(d);
+                     continue;
+                 }
+                 if ( CSSUtils::ctype_alpha(d) || CSSUtils::ctype_digit(d) ||
+                      d.unicode() >= 160 || d == '-' || d == '_' ) {
+                      cname.append(d);
+                 } else {
+                      break;
+                 }
+
+            }
+            res.second = cname;
+            return res;
+        }
+    }
+    return res;
 }

@@ -1,7 +1,7 @@
 /************************************************************************
 **
-**  Copyright (C) 2018-2021  Kevin B. Hendricks, Stratford Ontario Canada
-**  Copyright (C) 2019-2021  Doug Massay
+**  Copyright (C) 2018-2022  Kevin B. Hendricks, Stratford Ontario Canada
+**  Copyright (C) 2019-2022  Doug Massay
 **  Copyright (C) 2009-2011  Strahinja Markovic  <strahinja.markovic@gmail.com>
 **
 **  This file is part of Sigil.
@@ -24,16 +24,16 @@
 #include "EmbedPython/EmbeddedPython.h"
 #include <iostream>
 
-#include <QtCore/QCoreApplication>
-#include <QtCore/QDir>
-#include <QtCore/QLibraryInfo>
+#include <QCoreApplication>
+#include <QDir>
+#include <QLibraryInfo>
 #include <QStyleFactory>
 #include <QTextCodec>
-#include <QtCore/QThreadPool>
-#include <QtCore/QTranslator>
-#include <QtCore/QStandardPaths>
-#include <QtWidgets/QApplication>
-#include <QtWidgets/QMessageBox>
+#include <QThreadPool>
+#include <QTranslator>
+#include <QStandardPaths>
+#include <QApplication>
+#include <QMessageBox>
 #include <QResource>
 #include <QFile>
 #include <QFileInfo>
@@ -261,7 +261,7 @@ void VerifyPlugins()
     pdb->load_plugins_from_disk();
 }
 
-
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 void setupHighDPI()
 {
     bool has_env_setting = false;
@@ -290,15 +290,29 @@ void setupHighDPI()
         }
     }
 }
+#endif
+
+
+// utility routine for performing centralized ini versioning based on Qt version
+void update_ini_file_if_needed(const QString oldfile, const QString newfile)
+{
+    QFileInfo nf(newfile);
+    if (!nf.exists()) {
+        QFileInfo of(oldfile);
+        if (of.exists() && of.isFile()) QFile::copy(oldfile, newfile);
+    }
+}
 
 
 // Application entry point
 int main(int argc, char *argv[])
 {
-#if !defined(Q_OS_WIN32) && !defined(Q_OS_MAC)
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+  #if !defined(Q_OS_WIN32) && !defined(Q_OS_MAC)
     QT_REQUIRE_VERSION(argc, argv, "5.10.0");
-#else
+  #else
     QT_REQUIRE_VERSION(argc, argv, "5.12.3");
+  #endif
 #endif
 
 #if !defined(Q_OS_WIN32) && !defined(Q_OS_MAC)
@@ -323,6 +337,27 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain("sigil-ebook.com");
     QCoreApplication::setApplicationName("sigil");
     QCoreApplication::setApplicationVersion(SIGIL_VERSION);
+
+    // handle all non-backwards compatible ini file changes
+    update_ini_file_if_needed(Utility::DefinePrefsDir() + "/" + SEARCHES_SETTINGS_FILE,
+                              Utility::DefinePrefsDir() + "/" + SEARCHES_V2_SETTINGS_FILE);
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    // Qt6 forced move to utf-8 settings values but Qt5 settings are broken for utf-8 codec
+    // See QTBUG-40796 and QTBUG-54510 which never got fixed
+    update_ini_file_if_needed(Utility::DefinePrefsDir() + "/" + SIGIL_SETTINGS_FILE,
+                              Utility::DefinePrefsDir() + "/" + SIGIL_V6_SETTINGS_FILE);
+
+    update_ini_file_if_needed(Utility::DefinePrefsDir() + "/" + CLIPS_SETTINGS_FILE,
+                              Utility::DefinePrefsDir() + "/" + CLIPS_V6_SETTINGS_FILE);
+
+    update_ini_file_if_needed(Utility::DefinePrefsDir() + "/" + INDEX_SETTINGS_FILE,
+                              Utility::DefinePrefsDir() + "/" + INDEX_V6_SETTINGS_FILE);
+
+    update_ini_file_if_needed(Utility::DefinePrefsDir() + "/" + SEARCHES_V2_SETTINGS_FILE,
+                              Utility::DefinePrefsDir() + "/" + SEARCHES_V6_SETTINGS_FILE);
+#endif
+
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
     // register the our own url scheme (this is required since Qt 5.12)
@@ -460,7 +495,9 @@ int main(int argc, char *argv[])
         if (Utility::WindowsShouldUseDarkMode()) {
             // Apply custom dark style
             app.setStyle(new SigilDarkStyle);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             app.setPalette(QApplication::style()->standardPalette());
+#endif
         }
 #endif
 #endif

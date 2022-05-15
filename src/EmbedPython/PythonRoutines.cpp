@@ -24,6 +24,7 @@
 #include <QList>
 #include <QVariant>
 
+#include "Misc/Utility.h"
 #include "EmbedPython/PythonRoutines.h"
 
 

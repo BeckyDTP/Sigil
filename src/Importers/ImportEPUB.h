@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2018-2019 Kevin B. Hendricks, Stratford Ontario Canada
+**  Copyright (C) 2018-2021 Kevin B. Hendricks, Stratford Ontario Canada
 **  Copyright (C) 2012      John Schember <john@nachtimwald.com>
 **  Copyright (C) 2009-2011 Strahinja Markovic  <strahinja.markovic@gmail.com>
 **
@@ -26,9 +26,10 @@
 #define IMPORTEPUB_H
 
 #include <QCoreApplication>
-#include <QtCore/QHash>
-#include <QtCore/QSet>
-#include <QtCore/QStringList>
+#include <QHash>
+#include <QSet>
+#include <QStringList>
+#include <tuple>
 
 #include "Importers/Importer.h"
 #include "Misc/TempFolder.h"
@@ -162,6 +163,8 @@ private:
     void ProcessFontFiles(const QList<Resource *> &resources,
                           const QHash<QString, QString> &encrypted_files);
 
+    static std::pair<HTMLResource*, bool> InitialLoadAndCheckOneHTMLFile(HTMLResource *hresource, bool checkit);
+
     /**
      * The main temp folder where files are stored.
      */
@@ -233,6 +236,8 @@ private:
      * This hash stores all the candidates, as an ID-to-href mapping.
      */
     QHash<QString, QString> m_NcxCandidates;
+
+    QHash<QString, std::tuple<size_t, QString, QString> > m_FileInfoFromZip;
 
     bool m_HasSpineItems;
     bool m_NCXNotInManifest;

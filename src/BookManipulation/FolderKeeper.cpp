@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2015-2021 Kevin B. Hendricks, Stratford, Ontario, Canada
+**  Copyright (C) 2015-2022 Kevin B. Hendricks, Stratford, Ontario, Canada
 **  Copyright (C) 2009-2011 Strahinja Markovic  <strahinja.markovic@gmail.com>
 **
 **  This file is part of Sigil.
@@ -20,15 +20,17 @@
 **
 *************************************************************************/
 
-#include <QtCore/QDir>
-#include <QtCore/QFile>
-#include <QtCore/QFileInfo>
-#include <QtCore/QString>
-#include <QtCore/QThread>
-#include <QtCore/QTime>
-#include <QtWidgets/QApplication>
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
+#include <QString>
+#include <QThread>
+#include <QTime>
+#include <QApplication>
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
+#include <QIcon>
+#include <QFileIconProvider>
 #include <QDebug>
 
 #include "BookManipulation/FolderKeeper.h"
@@ -155,11 +157,11 @@ Resource *FolderKeeper::AddContentFileToFolder(const QString &fullfilepath,
 
     QString group = DetermineFileGroup(norm_file_path, mt);
     QString resdesc = MediaTypes::instance()->GetResourceDescFromMediaType(mt, "Resource");
+
     QDir folder(m_FullPathToMainFolder);
 
     Resource *resource = NULL;
     QString new_file_path;
-
 
     // lock for GetUniqueFilenameVersion() until the 
     // resource with that file name has been created
@@ -214,7 +216,7 @@ Resource *FolderKeeper::AddContentFileToFolder(const QString &fullfilepath,
         } else if (resdesc == "FontResource") {
             resource = new FontResource(m_FullPathToMainFolder, new_file_path);
         } else if (resdesc == "HTMLResource") {
-            resource = new HTMLResource(m_FullPathToMainFolder, new_file_path, m_Resources);
+            resource = new HTMLResource(m_FullPathToMainFolder, new_file_path, this);
         } else if (resdesc == "CSSResource") {
             resource = new CSSResource(m_FullPathToMainFolder, new_file_path);
         } else if (resdesc == "XMLResource") {
@@ -236,13 +238,21 @@ Resource *FolderKeeper::AddContentFileToFolder(const QString &fullfilepath,
         resource->SetEpubVersion(m_OPF->GetEpubVersion());
         resource->SetMediaType(mt);
         resource->SetShortPathName(filename);
+        // cache file icons by media type
+        if (!m_FileIconCache.contains(mt)) {
+            m_FileIconCache[mt] = QFileIconProvider().icon(fi);
+        }
     }
 
-    QFile::copy(fullfilepath, new_file_path);
-    // QFile::copy copies permissions as well which we can not have
-    QFile::setPermissions(new_file_path, QFileDevice::ReadOwner | QFileDevice::WriteOwner |
-                          QFileDevice::ReadUser | QFileDevice::WriteUser |
-                          QFileDevice::ReadOther);
+    // skip copy if unpacking zip already put it in the right place
+    if (fullfilepath != new_file_path) {
+
+        QFile::copy(fullfilepath, new_file_path);
+        QFile::setPermissions(new_file_path, QFileDevice::ReadOwner | QFileDevice::WriteOwner |
+                                             QFileDevice::ReadUser | QFileDevice::WriteUser |
+                                             QFileDevice::ReadOther);
+    }
+
 
     if (QThread::currentThread() != QApplication::instance()->thread()) {
         resource->moveToThread(QApplication::instance()->thread());
@@ -260,6 +270,17 @@ Resource *FolderKeeper::AddContentFileToFolder(const QString &fullfilepath,
     }
 
     return resource;
+}
+
+
+QIcon FolderKeeper::GetFileIconFromMediaType(const QString& mt)
+{
+    if (m_FileIconCache.contains(mt)) return m_FileIconCache[mt];
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0) 
+    return QFileIconProvider().icon(QFileIconProvider::File);
+#else
+    return QFileIconProvider().icon(QAbstractFileIconProvider::File);
+#endif
 }
 
 
@@ -388,6 +409,15 @@ Resource *FolderKeeper::GetResourceByBookPath(const QString &bookpath) const
 }
 
 
+// a Book path is the path from the m_MainFolder to that file O(1) as a hash
+Resource *FolderKeeper::GetResourceByBookPathNoThrow(const QString &bookpath) const
+{
+    Resource * resource = m_Path2Resource.value(bookpath, NULL);
+    return resource;
+}
+
+
+
 OPFResource *FolderKeeper::GetOPF() const
 {
     return m_OPF;
@@ -418,6 +448,11 @@ OPFResource*FolderKeeper::AddOPFToFolder(const QString &version, const QString &
     m_OPF->SetShortPathName(OPFBookPath.split('/').last());
     m_Resources[ m_OPF->GetIdentifier() ] = m_OPF;
     m_Path2Resource[ m_OPF->GetRelativePath() ] = m_OPF;
+    // cache file icons by media type
+    QFileInfo fi(m_OPF->GetFullPath());
+    if (!m_FileIconCache.contains("application/oebps-package+xml")) {
+        m_FileIconCache["application/oebps-package+xml"] = QFileIconProvider().icon(fi);
+    }
 
     connect(m_OPF, SIGNAL(Deleted(const Resource *)), this, SLOT(RemoveResource(const Resource *)));
     // For ResourceAdded, the connection has to be DirectConnection,
@@ -469,6 +504,11 @@ NCXResource*FolderKeeper::AddNCXToFolder(const QString &version,
     m_NCX->SetMainID(m_OPF->GetMainIdentifierValue());
     m_Resources[ m_NCX->GetIdentifier() ] = m_NCX;
     m_Path2Resource[ m_NCX->GetRelativePath() ] = m_NCX;
+    // cache file icons by media type
+    QFileInfo fi(m_NCX->GetFullPath());
+    if (!m_FileIconCache.contains("application/x-dtbncx+xml")) {
+        m_FileIconCache["application/x-dtbncx+xml"] = QFileIconProvider().icon(fi);
+    }
     connect(m_NCX, SIGNAL(Deleted(const Resource *)), this, SLOT(RemoveResource(const Resource *)));
     connect(m_NCX, SIGNAL(Renamed(const Resource *, QString)),
             this,     SLOT(ResourceRenamed(const Resource *, QString)), Qt::DirectConnection);
@@ -524,7 +564,6 @@ QStringList FolderKeeper::GetAllBookPaths() const
 
 void FolderKeeper::BulkRemoveResources(const QList<Resource *>resources)
 {
-    qDebug() << "In FolderKeeper Bulk RemoveResource";
     m_OPF->BulkRemoveResources(resources);
     foreach(Resource * resource, resources) {
         m_Resources.remove(resource->GetIdentifier());
@@ -542,7 +581,6 @@ void FolderKeeper::BulkRemoveResources(const QList<Resource *>resources)
 
 void FolderKeeper::RemoveResource(const Resource *resource)
 {
-    qDebug() << "In FolderKeeper RemoveResource";
     m_Resources.remove(resource->GetIdentifier());
     m_Path2Resource.remove(resource->GetRelativePath());
 
@@ -683,6 +721,25 @@ void FolderKeeper::CreateGroupToFoldersMap()
 }
 
 
+bool FolderKeeper::EpubInSigilStandardForm()
+{
+    if (!GetOPF()) return false;
+    bool in_std = (GetOPF()->GetRelativePath() == "OEBPS/content.opf");
+    if (GetNCX()) in_std = in_std && (GetNCX()->GetRelativePath() == "OEBPS/toc.ncx");
+    if (!in_std) return false;
+    QStringList groups = QStringList() << "Text" << "Styles" << "Fonts" << "Images" << "Audio" << "Video" << "Misc";
+    QStringList paths  = QStringList() << "OEBPS/Text" << "OEBPS/Styles" << "OEBPS/Fonts" <<
+                                             "OEBPS/Images" << "OEBPS/Audio" << "OEBPS/Video" << "OEBPS/Misc";
+    int i = 0;
+    foreach(QString agroup, groups) {
+        QStringList folders = GetFoldersForGroup(agroup);
+        in_std = in_std && ((folders.size() == 1) && (folders.at(0) == paths.at(i)));
+        i++;
+    }
+    return in_std;
+}
+
+
 QStringList FolderKeeper::GetFoldersForGroup(const QString &group)
 {
     CreateGroupToFoldersMap();
@@ -777,22 +834,25 @@ void FolderKeeper::SetGroupFolders(const QStringList &bookpaths, const QStringLi
 
     // walk bookpaths and mtypes to determine folders
     // actually being used according to the opf
+    // so skip any resources that live in META-INF
     int i = 0;
     foreach(QString bookpath, bookpaths) {
         QString mtype = mtypes.at(i);
         QString group = MediaTypes::instance()->GetGroupFromMediaType(mtype, "other");
-        QStringList folderlst = group_folder.value(group,QStringList());
-        QList<int> countlst = group_count.value(group, QList<int>());
-        QString sdir = Utility::startingDir(bookpath);
-        if (!folderlst.contains(sdir)) {
-            folderlst << sdir;
-            countlst << 1;
-        } else {
-            int pos = folderlst.indexOf(sdir);
-            countlst.replace(pos, countlst.at(pos) + 1);
+        if (!bookpath.startsWith("META-INF")) {
+            QStringList folderlst = group_folder.value(group,QStringList());
+            QList<int> countlst = group_count.value(group, QList<int>());
+            QString sdir = Utility::startingDir(bookpath);
+            if (!folderlst.contains(sdir)) {
+                folderlst << sdir;
+                countlst << 1;
+            } else {
+                int pos = folderlst.indexOf(sdir);
+                countlst.replace(pos, countlst.at(pos) + 1);
+            }
+            group_folder[group] = folderlst;
+            group_count[group] = countlst;
         }
-        group_folder[group] = folderlst;
-        group_count[group] = countlst;
         i++;
     }
 
@@ -850,21 +910,40 @@ void FolderKeeper::RefreshGroupFolders()
     QList<Resource*> resources = GetResourceList();
     QStringList bookpaths;
     QStringList mtypes;
+    // do not include files/resources that live in META-INF
     foreach(Resource * resource, resources) {
-        bookpaths << resource->GetRelativePath();
-        mtypes << resource->GetMediaType();
+        QString bookpath = resource->GetRelativePath();
+        if (!bookpath.startsWith("META-INF")) {
+            bookpaths << bookpath;
+            mtypes << resource->GetMediaType();
+        }
     }
     SetGroupFolders(bookpaths, mtypes, true);
 }
 
 
+// properly load each text based resource object from its
+// underlying file.  Note: html resources already had this
+// done when their well formed check was done on import
 void FolderKeeper::PerformInitialLoads()
 {
     QList<Resource *> resources = GetResourceList();
     foreach(Resource * resource, resources) {
+        if (resource->Type() == Resource::HTMLResourceType) continue;
         TextResource * text_resource = qobject_cast<TextResource*>(resource);
         if (text_resource) {
             text_resource->InitialLoad();
         }
     }
+}
+
+
+QList<Resource*> FolderKeeper::GetLinkedResources(const QStringList &linked_bookpaths)
+{
+    QList<Resource*> linked_resources;
+    foreach(QString bkpath, linked_bookpaths) {
+        Resource * resource = GetResourceByBookPathNoThrow(bkpath);
+        if (resource) linked_resources.append(resource);
+    }
+    return linked_resources;
 }

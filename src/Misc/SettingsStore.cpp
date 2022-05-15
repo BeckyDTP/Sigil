@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2016-2020  Kevin B. Hendricks, Stratford, ON
+**  Copyright (C) 2016-2022  Kevin B. Hendricks, Stratford, ON
 **  Copyright (C) 2016-2020  Doug Massay
 **  Copyright (C) 2011-2013  John Schember <john@nachtimwald.com>
 **  Copyright (C) 2012-2013  Dave Heiland
@@ -33,6 +33,12 @@
 #include "Misc/Utility.h"
 
 #include "sigil_constants.h"
+
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+static const QString SETTINGS_FILE = SIGIL_SETTINGS_FILE;
+#else
+static const QString SETTINGS_FILE = SIGIL_V6_SETTINGS_FILE;
+#endif
 
 static QString SETTINGS_GROUP = "user_preferences";
 static QString KEY_DEFAULT_METADATA_LANGUAGE = SETTINGS_GROUP + "/" + "default_metadata_lang";
@@ -133,7 +139,7 @@ static QString KEY_MAIN_MENU_ICON_SIZE = SETTINGS_GROUP + "/" + "main_menu_icon_
 static QString KEY_CLIPBOARD_HISTORY_LIMIT = SETTINGS_GROUP + "/" + "clipboard_history_limit";
 
 SettingsStore::SettingsStore()
-    : QSettings(Utility::DefinePrefsDir() + "/sigil.ini", QSettings::IniFormat)
+    : QSettings(Utility::DefinePrefsDir() + "/" + SETTINGS_FILE, QSettings::IniFormat)
 {  
     // See QTBUG-40796 and QTBUG-54510 as using UTF-8 as a codec for ini files is very broken
     // setIniCodec("UTF-8");
@@ -275,7 +281,7 @@ int SettingsStore::javascriptOn()
 int SettingsStore::showFullPathOn()
 {
     clearSettingsGroup();
-    return value(KEY_SHOWFULLPATH_ON, 0).toInt();
+    return value(KEY_SHOWFULLPATH_ON, 1).toInt();
 }
 
 int SettingsStore::highDPI()

@@ -150,11 +150,14 @@ public:
      *
      * @return List of valid selected HTML resources
      */
+    QList <Resource *> GetBookBrowserSelectedResources();
     QList <Resource *> GetValidSelectedHTMLResources();
     QList <Resource *> GetValidSelectedCSSResources();
 
     QList <Resource *> GetTabbedHTMLResources();
     QList <Resource *> GetTabbedCSSResources();
+
+    bool RenameClassInHtml(const QString& oldname, const QString& newname);
 
     /**
      * Returns a list of all HTML resources in book browser order
@@ -220,6 +223,9 @@ public:
 
     QString GetMathJaxFolder() { return m_mathjaxfolder; };
 
+    bool UsingAutomate() { return m_UsingAutomate; }
+
+    QString AutomatePluginParameter() { return m_AutomatePluginParameter; }
 
 public slots:
 
@@ -1064,6 +1070,7 @@ private:
 
     bool m_UsingAutomate;
     QStringList m_AutomateLog;
+    QString m_AutomatePluginParameter;
     
     /**
      * Holds all the widgets Qt Designer created for us.

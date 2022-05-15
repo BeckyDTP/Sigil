@@ -973,7 +973,7 @@ void HeadingSelector::Rename()
 void HeadingSelector::CreateContextMenuActions()
 {
     m_Rename = new QAction(tr("Rename"),     this);
-    m_Rename->setShortcut(QKeySequence(Qt::ControlModifier + Qt::Key_R));
+    m_Rename->setShortcut(QKeySequence(Qt::ControlModifier | Qt::Key_R));
     // Has to be added to the dialog itself for the keyboard shortcut to work.
     addAction(m_Rename);
 }
@@ -1024,10 +1024,17 @@ void HeadingSelector::ConnectSignalsToSlots()
     connect(this,               SIGNAL(accepted()),
             this,               SLOT(UpdateHeadingElements())
            );
+    #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     connect(ui.cbTOCSetHeadingLevel,
             SIGNAL(activated(const QString &)),
             this,               SLOT(SelectHeadingLevelInclusion(const QString &))
            );
+    #else
+    connect(ui.cbTOCSetHeadingLevel,
+            SIGNAL(textActivated(const QString &)),
+            this,               SLOT(SelectHeadingLevelInclusion(const QString &))
+           );
+    #endif
     connect(ui.left,             SIGNAL(clicked()), this, SLOT(DecreaseHeadingLevel()));
     connect(ui.right,            SIGNAL(clicked()), this, SLOT(IncreaseHeadingLevel()));
     connect(ui.rename,           SIGNAL(clicked()), this, SLOT(Rename()));

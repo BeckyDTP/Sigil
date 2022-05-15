@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2015-2021 Kevin B. Hendricks, Stratford, Ontario, Canada
+**  Copyright (C) 2015-2022 Kevin B. Hendricks, Stratford, Ontario, Canada
 **  Copyright (C) 2012      John Schember <john@nachtimwald.com>
 **  Copyright (C) 2012      Dave Heiland
 **  Copyright (C) 2012      Grant Drake
@@ -30,6 +30,8 @@
 #include <QItemSelectionModel>
 #include <QItemSelection>
 #include <QDebug>
+
+#include "Dialogs/CountsReport.h"
 #include "Dialogs/SearchEditorItemDelegate.h"
 #include "Dialogs/SearchEditor.h"
 #include "Misc/Utility.h"
@@ -113,7 +115,8 @@ void SearchEditor::SetupSearchEditorTree()
         "<dd>DA - " + tr("Option: DotAll") + "</dd>" +
         "<dd>MM - " + tr("Option: Minimal Match") + "</dd>" +
         "<dd>AT - " + tr("Option: Auto Tokenise") + "</dd>" +
-        "<dd>WR - " + tr("Option: Wrap") + "</dd>" + "</dl>";
+        "<dd>WR - " + tr("Option: Wrap") + "</dd>" + "</dl>" +
+        "<dd>TO - " + tr("Option: Text") + "</dd>" + "</dl>";
 
     ui.SearchEditorTree->model()->setHeaderData(0,Qt::Horizontal,nametooltip,Qt::ToolTipRole);
     ui.SearchEditorTree->model()->setHeaderData(1,Qt::Horizontal,findtooltip,Qt::ToolTipRole);
@@ -159,6 +162,8 @@ bool SearchEditor::SaveTextData(QList<SearchEditorModel::searchEntry *> entries,
 
 void SearchEditor::LoadFindReplace()
 {
+    SelectionChanged();
+    emit RestartSearch();
     // ownership of the entry to load Find & Replace with remains here
     emit LoadSelectedSearchRequest(GetSelectedEntry(false));
 }
@@ -878,12 +883,12 @@ void SearchEditor::CreateContextMenuActions()
     m_CollapseAll = new QAction(tr("Collapse All"),       this);
     m_ExpandAll =   new QAction(tr("Expand All"),         this);
     m_FillIn    =   new QAction(tr("Fill Controls"),      this);
-    m_AddEntry->setShortcut(QKeySequence(Qt::ControlModifier + Qt::Key_E));
-    m_AddGroup->setShortcut(QKeySequence(Qt::ControlModifier + Qt::Key_G));
+    m_AddEntry->setShortcut(QKeySequence(Qt::ControlModifier | Qt::Key_E));
+    m_AddGroup->setShortcut(QKeySequence(Qt::ControlModifier | Qt::Key_G));
     m_Edit->setShortcut(QKeySequence(Qt::Key_F2));
-    m_Cut->setShortcut(QKeySequence(Qt::ControlModifier + Qt::Key_X));
-    m_Copy->setShortcut(QKeySequence(Qt::ControlModifier + Qt::Key_C));
-    m_Paste->setShortcut(QKeySequence(Qt::ControlModifier + Qt::Key_V));
+    m_Cut->setShortcut(QKeySequence(Qt::ControlModifier | Qt::Key_X));
+    m_Copy->setShortcut(QKeySequence(Qt::ControlModifier | Qt::Key_C));
+    m_Paste->setShortcut(QKeySequence(Qt::ControlModifier | Qt::Key_V));
     m_Delete->setShortcut(QKeySequence::Delete);
     // Has to be added to the dialog itself for the keyboard shortcut to work.
     addAction(m_AddEntry);
@@ -1187,6 +1192,18 @@ void SearchEditor::MoveHorizontal(bool move_left)
     ui.SearchEditorTree->selectionModel()->select(destination_index, QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows);
 }
 
+void SearchEditor::MakeCountsReport()
+{
+    // non-modal dialog
+    CountsReport* crpt = new CountsReport(this);
+    connect(crpt, SIGNAL(CountRequest(SearchEditorModel::searchEntry*, int&)),
+            this, SIGNAL(CountsReportCountRequest(SearchEditorModel::searchEntry*, int&)));
+    crpt->CreateReport(GetSelectedEntries());
+    crpt->show();
+    crpt->raise();
+    crpt->activateWindow();
+}
+
 void SearchEditor::ConnectSignalsSlots()
 {
     connect(ui.FilterText,      SIGNAL(textChanged(QString)), this, SLOT(FilterEditTextChangedSlot(QString)));
@@ -1196,6 +1213,7 @@ void SearchEditor::ConnectSignalsSlots()
     connect(ui.Replace,         SIGNAL(clicked()),            this, SLOT(Replace()));
     connect(ui.CountAll,        SIGNAL(clicked()),            this, SLOT(CountAll()));
     connect(ui.ReplaceAll,      SIGNAL(clicked()),            this, SLOT(ReplaceAll()));
+    connect(ui.CountsReportPB,  SIGNAL(clicked()),            this, SLOT(MakeCountsReport()));
     connect(ui.MoveUp,     SIGNAL(clicked()),            this, SLOT(MoveUp()));
     connect(ui.MoveDown,   SIGNAL(clicked()),            this, SLOT(MoveDown()));
     connect(ui.MoveLeft,   SIGNAL(clicked()),            this, SLOT(MoveLeft()));

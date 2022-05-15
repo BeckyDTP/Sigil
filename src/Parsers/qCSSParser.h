@@ -1,6 +1,6 @@
 /************************************************************************
  **
- **  Copyright (C) 2021  Kevin B. Hendricks, Stratford, Ontario, Canada
+ **  Copyright (C) 2021-2022 Kevin B. Hendricks, Stratford, Ontario, Canada
  **
  **  This file is part of Sigil.
  **
@@ -91,7 +91,7 @@ public:
     void reset_parser();        
 
     // serialize the current list of csstokens back to css
-    QString serialize_css(bool tostdout = true);
+    QString serialize_css(bool tostdout = true, bool multiline = true);
         
     // access charset, namespace and imports without having to walk csstokens
     QString get_charset();
@@ -119,6 +119,9 @@ public:
 
     // utility routine to properly split group selectors into individual selectors
     static QStringList splitGroupSelector(const QString &sel);
+
+    static std::pair<int, QString> findNextClassInSelector(const QString &sel, int p = 0);
+
 
 private:
 
@@ -164,10 +167,13 @@ private:
 
     static bool property_is_next(QString istring, int pos);
 
+
+
     // private member variables
     QVector<QString> token_type_names;
     QMap<QString, parse_status>  at_rules;
-    QVector<QString> csstemplate;
+    QVector<QString> csstemplateM;
+    QVector<QString> csstemplate1;
     QString css_level;
     QString tokens;
     int token_ptr;

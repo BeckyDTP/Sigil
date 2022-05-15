@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2016-2021 Kevin B. Hendricks, Stratford, ON, Canada
+**  Copyright (C) 2016-2022 Kevin B. Hendricks, Stratford, ON, Canada
 **  Copyright (C) 2012 John Schember <john@nachtimwald.com>
 **  Copyright (C) 2012 Dave Heiland
 **  Copyright (C) 2012 Grant Drake
@@ -94,6 +94,7 @@ public:
      */
     QString removeMatchingSelectors(QList<CSSSelector *> cssSelectors);
 
+    // QString replaceBlockComments(const QString &text);
 
 private:
     void parseStyles(const QString &text, int offsetPos);

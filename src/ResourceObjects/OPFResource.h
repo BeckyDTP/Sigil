@@ -28,7 +28,7 @@
 #include <memory>
 #include "Misc/GuideItems.h"
 #include "ResourceObjects/XMLResource.h"
-#include "ResourceObjects/OPFParser.h"
+#include "Parsers/OPFParser.h"
 
 class HTMLResource;
 class ImageResource;
@@ -71,6 +71,7 @@ public:
 
     void ClearSemanticCodesInGuide();
 
+    void MoveReadingOrder(const HTMLResource* from_htmlresource, const HTMLResource* to_after_htmlresource);
     int GetReadingOrder(const HTMLResource *html_resource) const;
     QHash <Resource *, int> GetReadingOrderAll( const QList <Resource *> resources);
 

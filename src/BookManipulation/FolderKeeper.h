@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2015-2021 Kevin B. Hendricks, Stratford, Ontario Canada
+**  Copyright (C) 2015-2022 Kevin B. Hendricks, Stratford, Ontario Canada
 **  Copyright (C) 2009-2011 Strahinja Markovic  <strahinja.markovic@gmail.com>
 **
 **  This file is part of Sigil.
@@ -30,6 +30,7 @@
 #include <QtCore/QList>
 #include <QtCore/QMutex>
 #include <QFileSystemWatcher>
+#include <QIcon>
 
 // These have to be included directly because
 // of the template functions.
@@ -96,6 +97,11 @@ public:
                                      const QString &bookpath = QString(),
                                      const QString &folderpath = QString("\\"));
 
+
+    QIcon GetFileIconFromMediaType(const QString &mt);
+
+    QList<Resource*> GetLinkedResources(const QStringList& bookpaths);
+
     /**
      * Returns the highest reading order number present in the book.
      *
@@ -158,6 +164,8 @@ public:
     // this is O(1) as is held in a QHash m_Path2Resource
     // @throws ResourceDoesNotExist if bookpath is not found.
     Resource *GetResourceByBookPath(const QString &bookpath) const;
+    // Non-throw version also available returns NULL if no resource matches
+    Resource *GetResourceByBookPathNoThrow(const QString &bookpath) const;
 
     // this is O(n) but no filesystem is queried
     QString GetBookPathByPathEnd(const QString& path_end) const;
@@ -188,6 +196,7 @@ public:
 
     QStringList GetFoldersForGroup(const QString &group);
     void SetFoldersForGroup(const QString &group, const QStringList &folders);
+    bool EpubInSigilStandardForm();
 
     QString GetDefaultFolderForGroup(const QString &group);
     QString GetStdFolderForGroup(const QString &group);
@@ -254,6 +263,7 @@ public slots:
     void RemoveResource(const Resource *resource);
 
     void BulkRemoveResources(const QList<Resource *> resources);
+
 
 private slots:
 
@@ -338,6 +348,7 @@ private:
 
     QHash<QString, QStringList> m_GrpToFold;
     QHash<QString, QStringList> m_StdGrpToFold;
+    QHash<QString, QIcon> m_FileIconCache;
 };
 
 
