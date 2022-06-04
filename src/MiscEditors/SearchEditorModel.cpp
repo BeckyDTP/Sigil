@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2015-2021 Kevin B. Hendricks, Stratford, Ontario, Canada
+**  Copyright (C) 2015-2022 Kevin B. Hendricks, Stratford, Ontario, Canada
 **  Copyright (C) 2012 John Schember <john@nachtimwald.com>
 **  Copyright (C) 2012 Dave Heiland
 **  Copyright (C) 2012 Grant Drake
@@ -45,7 +45,7 @@
 #endif
 
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-static const QString SETTINGS_FILE = SEARCHES_V2_SETTINGS_FILE;;
+static const QString SETTINGS_FILE = SEARCHES_V2_SETTINGS_FILE;
 #else
 static const QString SETTINGS_FILE = SEARCHES_V6_SETTINGS_FILE;
 #endif

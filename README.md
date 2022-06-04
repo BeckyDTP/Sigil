@@ -47,6 +47,8 @@ detailed instructions for building/installing Sigil can be found in:
 
 > [docs/Building_on_older_Linux.md](./docs/Building_on_older_Linux.md) ([or .html](./docs/Building_on_older_Linux.html))
 
+An up-to-date version of Sigil is available via flatpak on Flathub. So if your distro can use Flatpak, you can always use [Sigil that way](https://flathub.org/apps/details/com.sigil_ebook.Sigil) if your distro's Sigil package seems to be lagging too far behind.
+
 For Building on Mac OS X
 ========================
 
@@ -81,10 +83,14 @@ and for building Sigil under Qt6 see:
 
 
 
-For Building on Windows
-========================
+For Installing/Building on Windows
+==================================
 
-To build Sigil on Windows, see:
+Sigil currently provides Windows installers for x86 and x64 and will only work on Windows 8 or newer. There's a Legacy installer that's suitable for Windows 7.
+
+The latest Sigil versions are also typically available via the [winget (Windows 10+)](https://winstall.app/apps/Sigil-Ebook.Sigil), [Chocolatey (Windows 7+)](https://community.chocolatey.org/packages/Sigil), and [Npackd](https://npackd.appspot.com/p?q=sigil) Windows package managers. There are no "scary" Microsoft warnings about unknown publishers if you install Sigil via one of these package managers. 
+
+To build Sigil on Windows yourself, see:
 
 > [docs/Building_Sigil_on_Windows.md](./docs/Building_Sigil_on_Windows.md) ([or .html](./docs/Building_Sigil_on_Windows.html))
 
