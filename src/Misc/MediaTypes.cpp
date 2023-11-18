@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2019-2022 Kevin B. Hendricks, Stratford, Ontario, Canada
+**  Copyright (C) 2019-2023 Kevin B. Hendricks, Stratford, Ontario, Canada
 **
 **  This file is part of Sigil.
 **
@@ -32,7 +32,7 @@ const QStringList SMIL_EXTENSIONS      = QStringList() << "smil";
 const QStringList JPG_EXTENSIONS       = QStringList() << "jpg"   << "jpeg";
 const QStringList TIFF_EXTENSIONS      = QStringList() << "tif"   << "tiff";
 const QStringList MISC_TEXT_EXTENSIONS = QStringList() << "txt"   << "js";
-const QStringList MISC_XML_EXTENSIONS  = QStringList() << "smil"  << "xpgt" << "pls";
+const QStringList MISC_XML_EXTENSIONS  = QStringList() << "smil"  << "xpgt" << "pls" "xml";
 const QStringList FONT_EXTENSIONS      = QStringList() << "ttf"   << "ttc"  << "otf" << "woff" << "woff2";
 const QStringList TEXT_EXTENSIONS      = QStringList() << "xhtml" << "html" << "htm";
 const QStringList STYLE_EXTENSIONS     = QStringList() << "css";
@@ -53,7 +53,9 @@ const QStringList MISC_XML_MIMETYPES   = QStringList() << "application/oebps-pag
                                                        << "application/smil+xml" 
                                                        << "application/adobe-page-template+xml" 
                                                        << "application/vnd.adobe-page-template+xml" 
-                                                       << "application/pls+xml";
+                                                       << "application/pls+xml"
+                                                       << "application/xml"
+                                                       << "text/xml";
 
 
 MediaTypes *MediaTypes::m_instance = 0;
@@ -84,6 +86,7 @@ QString MediaTypes::GetGroupFromMediaType(const QString &media_type, const QStri
         if (media_type.startsWith("audio/")) group = "Audio";
         if (media_type.startsWith("video/")) group = "Video";
         if (media_type.contains("adobe") && media_type.contains("template")) group = "Misc";
+        if (media_type.startsWith("application/pdf")) group = "Misc";
     }
     if (group.isEmpty()) return fallback;
     return group;
@@ -102,6 +105,7 @@ QString MediaTypes::GetResourceDescFromMediaType(const QString &media_type, cons
         if (media_type.startsWith("audio/")) desc = "AudioResource";
         if (media_type.startsWith("video/")) desc = "VideoResource";
         if (media_type.contains("adobe") && media_type.contains("template")) desc = "XMLResource";
+        if (media_type.startsWith("application/pdf")) desc = "PdfResource";
     }
     if (desc.isEmpty()) return fallback;
     return desc;
@@ -144,6 +148,7 @@ void MediaTypes::SetExtToMTypeMap()
     m_ExtToMType[ "opus"  ] = "audio/opus";
     m_ExtToMType[ "otf"   ] = "font/otf";
     m_ExtToMType[ "pls"   ] = "application/pls+xml";
+    m_ExtToMType[ "pdf"   ] = "application/pdf";
     m_ExtToMType[ "png"   ] = "image/png";
     m_ExtToMType[ "smil"  ] = "application/smil+xml";
     m_ExtToMType[ "svg"   ] = "image/svg+xml";
@@ -159,7 +164,7 @@ void MediaTypes::SetExtToMTypeMap()
     m_ExtToMType[ "woff"  ] = "font/woff";
     m_ExtToMType[ "woff2" ] = "font/woff2";
     m_ExtToMType[ "xhtml" ] = "application/xhtml+xml";
-    m_ExtToMType[ "xml"   ] = "application/oebps-page-map+xml";
+    m_ExtToMType[ "xml"   ] = "application/xml";
     m_ExtToMType[ "xpgt"  ] = "application/vnd.adobe-page-template+xml";
 }
 
@@ -228,13 +233,18 @@ void MediaTypes::SetMTypeToGroupMap()
     m_MTypeToGroup[ "application/smil+xml"                    ] = "Misc";
     m_MTypeToGroup[ "application/pls+xml"                     ] = "Misc";
 
+    m_MTypeToGroup[ "application/xml"                         ] = "Misc";
+    m_MTypeToGroup[ "text/xml"                                ] = "Misc";
+    
     m_MTypeToGroup[ "application/adobe-page-template+xml"     ] = "Misc";
     m_MTypeToGroup[ "application/vnd.adobe-page-template+xml" ] = "Misc";
 
     m_MTypeToGroup[ "application/javascript"                  ] = "Misc";
     m_MTypeToGroup[ "application/ecmascript"                  ] = "Misc";
+    m_MTypeToGroup[ "application/x-javascript"                ] = "Misc";
     m_MTypeToGroup[ "text/javascript"                         ] = "Misc";
 
+    m_MTypeToGroup[ "application/pdf"                         ] = "Misc";
 
     m_MTypeToGroup[ "text/plain"                              ] = "Misc";
 
@@ -308,9 +318,15 @@ void MediaTypes::SetMTypeToRDescMap()
     m_MTypeToRDesc[ "application/vnd.adobe-page-template+xml" ] = "XMLResource";  // not a core media type
 
     m_MTypeToRDesc[ "application/javascript"                  ] = "MiscTextResource";
+    m_MTypeToRDesc[ "application/x-javascript"                ] = "MiscTextResource";
     m_MTypeToRDesc[ "application/ecmascript"                  ] = "MiscTextResource";
     m_MTypeToRDesc[ "text/javascript"                         ] = "MiscTextResource";
     m_MTypeToRDesc[ "text/plain"                              ] = "MiscTextResource";  // not a core media type
+    
+    m_MTypeToRDesc[ "application/xml"                         ] = "MiscTextResource";  // not a core media type
+    m_MTypeToRDesc[ "text/xml"                                ] = "MiscTextResource";  // not a core media type
+
+    m_MTypeToRDesc[ "application/pdf"                         ] = "PdfResource";  // not a core media type
 
     m_MTypeToRDesc[ "vnd.apple.ibooks+xml"                    ] = "Resource";
 

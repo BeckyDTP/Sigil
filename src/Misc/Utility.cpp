@@ -1,7 +1,7 @@
 /************************************************************************
 **
-**  Copyright (C) 2015-2022 Kevin B. Hendricks, Stratford Ontario Canada
-**  Copyright (C) 2016-2020 Doug Massay
+**  Copyright (C) 2015-2023 Kevin B. Hendricks, Stratford Ontario Canada
+**  Copyright (C) 2016-2023 Doug Massay
 **  Copyright (C) 2009-2011 Strahinja Markovic  <strahinja.markovic@gmail.com>
 **
 **  This file is part of Sigil.
@@ -68,7 +68,7 @@
 #include "Misc/SleepFunctions.h"
 #include "MainUI/MainApplication.h"
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     #define QT_ENUM_SKIPEMPTYPARTS Qt::SkipEmptyParts
     #define QT_ENUM_KEEPEMPTYPARTS Qt::KeepEmptyParts
 #else
@@ -79,7 +79,7 @@
 static const QString URL_SAFE = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.-/~";
 
 static const QString DARK_STYLE =
-    "<style>:root { background-color: %1; color: %2; } ::-webkit-scrollbar { display: none; }</style>"
+    "<style id=\"Sigil_Injected\">:root { background-color: %1; color: %2; } ::-webkit-scrollbar { display: none; }</style>"
     "<link rel=\"stylesheet\" type=\"text/css\" href=\"%3\" />";
 
 #ifndef MAX_PATH
@@ -495,7 +495,10 @@ QString Utility::GetTemporaryFileNameWithExtension(const QString &extension)
     SettingsStore ss;
     QString temp_path = ss.tempFolderHome();
     if (temp_path == "<SIGIL_DEFAULT_TEMP_HOME>") {
-        temp_path = QDir::tempPath();
+        temp_path = DefinePrefsDir() + "/workspace";
+    }
+    if (!QDir(temp_path).exists()) {
+        temp_path = DefinePrefsDir() + "/workspace";
     }
     return temp_path +  "/sigil_" + Utility::CreateUUID() + extension;
 }
@@ -700,7 +703,8 @@ QString Utility::URLDecodePath(const QString &path)
 
 void Utility::DisplayExceptionErrorDialog(const QString &error_info)
 {
-    QMessageBox message_box(QApplication::activeWindow());
+    QWidget * parent = QApplication::activeWindow();
+    QMessageBox message_box(parent);
     message_box.setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
     message_box.setModal(true);
     message_box.setIcon(QMessageBox::Critical);
@@ -719,12 +723,16 @@ void Utility::DisplayExceptionErrorDialog(const QString &error_info)
 
     message_box.setDetailedText(detailed_text.join("\n"));
     message_box.exec();
+#ifdef Q_OS_MAC    
+    if (parent) parent->activateWindow();
+#endif
 }
 
 
 void Utility::DisplayStdErrorDialog(const QString &error_message, const QString &detailed_text)
 {
-    QMessageBox message_box(QApplication::activeWindow());
+    QWidget * parent = QApplication::activeWindow();
+    QMessageBox message_box(parent);
     message_box.setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
     message_box.setModal(true);
     message_box.setIcon(QMessageBox::Critical);
@@ -737,12 +745,16 @@ void Utility::DisplayStdErrorDialog(const QString &error_message, const QString 
 
     message_box.setStandardButtons(QMessageBox::Close);
     message_box.exec();
+#ifdef Q_OS_MAC    
+    if (parent) parent->activateWindow();
+#endif
 }
 
 
 void Utility::DisplayStdWarningDialog(const QString &warning_message, const QString &detailed_text)
 {
-    SigilMessageBox message_box(QApplication::activeWindow());
+    QWidget * parent = QApplication::activeWindow();
+    SigilMessageBox message_box(parent);
     message_box.setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
     message_box.setModal(true);
     message_box.setIcon(QMessageBox::Warning);
@@ -755,6 +767,9 @@ void Utility::DisplayStdWarningDialog(const QString &warning_message, const QStr
     }
     message_box.setStandardButtons(QMessageBox::Ok);
     message_box.exec();
+#ifdef Q_OS_MAC    
+    if (parent) parent->activateWindow();
+#endif    
 }
 
 // Returns a value for the environment variable name passed;
@@ -813,7 +828,7 @@ bool Utility::has_non_ascii_chars(const QString &str)
 bool Utility::use_filename_warning(const QString &filename)
 {
     if (has_non_ascii_chars(filename)) {
-        return QMessageBox::Apply == QMessageBox::warning(QApplication::activeWindow(),
+        return QMessageBox::Apply == Utility::warning(QApplication::activeWindow(),
                 tr("Sigil"),
                 tr("The requested file name contains non-ASCII characters. "
                    "You should only use ASCII characters in filenames. "
@@ -1037,7 +1052,7 @@ QStringList Utility::ZipInspect(const QString &zippath)
 QString Utility::longestCommonPath(const QStringList& filepaths, const QString& sep)
 {
     if (filepaths.isEmpty()) return QString();
-    if (filepaths.length() == 1) return QFileInfo(filepaths.at(0)).absolutePath() + sep;
+    if (filepaths.length() == 1) return QFileInfo(filepaths.at(0)).filePath() + sep;
     QStringList fpaths(filepaths);
     fpaths.sort();
     const QStringList segs1 = fpaths.first().split(sep);
@@ -1433,4 +1448,52 @@ QString Utility::FileCRC32(const QString& filePath)
 
 	file.close();
 	return QString("%1").arg(crc32, 8, 16, QLatin1Char('0'));
+}
+
+
+QMessageBox::StandardButton Utility::warning(QWidget* parent, const QString &title, const QString &text,
+                                             QMessageBox::StandardButtons buttons,
+                                             QMessageBox::StandardButton defaultButton)
+{
+  QMessageBox::StandardButton result = QMessageBox::warning(parent, title, text, buttons, defaultButton);
+#ifdef Q_OS_MAC
+  if (parent) parent->activateWindow();
+#endif
+  return result;
+}
+
+
+QMessageBox::StandardButton Utility::question(QWidget* parent, const QString &title, const QString &text,
+                                              QMessageBox::StandardButtons buttons,
+                                              QMessageBox::StandardButton defaultButton)
+{
+  QMessageBox::StandardButton result = QMessageBox::question(parent, title, text, buttons, defaultButton);
+#ifdef Q_OS_MAC
+  if (parent) parent->activateWindow();
+#endif
+  return result;
+}
+
+
+QMessageBox::StandardButton Utility::information(QWidget* parent, const QString &title, const QString &text,
+                                                 QMessageBox::StandardButtons buttons,
+                                                 QMessageBox::StandardButton defaultButton)
+{
+  QMessageBox::StandardButton result = QMessageBox::information(parent, title, text, buttons, defaultButton);
+#ifdef Q_OS_MAC
+  if (parent) parent->activateWindow();
+#endif
+  return result;
+}
+
+
+QMessageBox::StandardButton Utility::critical(QWidget* parent, const QString &title, const QString &text,
+                                              QMessageBox::StandardButtons buttons,
+                                              QMessageBox::StandardButton defaultButton)
+{
+  QMessageBox::StandardButton result = QMessageBox::critical(parent, title, text, buttons, defaultButton);
+#ifdef Q_OS_MAC
+  if (parent) parent->activateWindow();
+#endif
+  return result;
 }

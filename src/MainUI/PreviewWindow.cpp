@@ -1,7 +1,7 @@
 /************************************************************************
 **
-**  Copyright (C) 2015-2021  Kevin B. Hendricks, Stratford Ontario Canada
-**  Copyright (C) 2019-2021  Doug Massay
+**  Copyright (C) 2015-2023  Kevin B. Hendricks, Stratford Ontario Canada
+**  Copyright (C) 2019-2023  Doug Massay
 **  Copyright (C) 2012       Dave Heiland, John Schember
 **
 **  This file is part of Sigil.
@@ -44,6 +44,7 @@
 #include "Misc/SleepFunctions.h"
 #include "Misc/SettingsStore.h"
 #include "Misc/Utility.h"
+#include "Misc/webviewprinter.h"
 #include "ViewEditors/ViewPreview.h"
 #include "ViewEditors/Overlay.h"
 #include "sigil_constants.h"
@@ -52,16 +53,14 @@ static const QStringList HEADERTAGS = QStringList() << "h1" << "h2" << "h3" << "
 
 static const QString SETTINGS_GROUP = "previewwindow";
 
-static const QString MATHJAX_CLEANUP = 
-   "<script type=\"text/x-mathjax-config\">"
-   "  MathJax.Hub.Register.StartupHook('End', function () {"
-   "    var mscripts = document.querySelectorAll(\"script[type='math/mml']\");"
-   "    function pruneScripts(item, index) {"
-   "      item.parentNode.removeChild(item);"
-   "    }"
-   "    mscripts.forEach(pruneScripts);"
-   "  });"
-   "</script>";;
+static const QString MATHJAX3_CONFIG =
+"  <script> "
+"    MathJax = { "
+"      loader: { "
+"        load: [ '[mml]/mml3', 'core', 'input/mml', 'output/svg' ] "
+"      } "
+"    }; "
+" </script> ";
 
 
 #define DBG if(0)
@@ -79,7 +78,10 @@ PreviewWindow::PreviewWindow(QWidget *parent)
     m_Filepath(QString()),
     m_titleText(QString()),
     m_updatingPage(false),
-    m_usingMathML(false)
+    m_usingMathML(false),
+    m_cycleCSSLevel(0),
+    m_skipPrintPreview(false),
+    m_WebViewPrinter(new WebViewPrinter(this))
 {
     m_progress->reset();
     m_progress->setMinimum(0);
@@ -118,6 +120,13 @@ PreviewWindow::~PreviewWindow()
     if (m_progress) {
         m_progress->reset();
     }
+}
+
+void PreviewWindow::setUserCSSURLs(const QStringList& usercssurls)
+{
+    m_usercssurls = usercssurls;
+    m_cycleCSSAction->setEnabled(!m_usercssurls.isEmpty());
+    if (!m_usercssurls.isEmpty()) m_cycleCSSLevel = 1;
 }
 
 void PreviewWindow::SetupOverlayTimer()
@@ -208,6 +217,11 @@ bool PreviewWindow::HasFocus()
     return m_Preview->hasFocus();
 }
 
+void PreviewWindow::SetFocusOnPreview()
+{
+    if (m_Preview) m_Preview->setFocus();
+}
+
 float PreviewWindow::GetZoomFactor()
 {
     return m_Preview->GetZoomFactor();
@@ -220,7 +234,7 @@ void PreviewWindow::SetupView()
     // QWebEngineView events are routed to their parent
     m_Preview->installEventFilter(this);
 
-#if !defined(Q_OS_WIN32) && !defined(Q_OS_MAC)
+#if 1 //!defined(Q_OS_WIN32) && !defined(Q_OS_MAC)
     // this may be needed by all platforms in the future
     QWidget * fp = m_Preview->focusProxy();
     if (fp) fp->installEventFilter(this);
@@ -230,22 +244,39 @@ void PreviewWindow::SetupView()
     m_Layout->addWidget(m_Preview);
 
     m_inspectAction = new QAction(QIcon(":/main/inspect.svg"),"", this);
+    m_inspectAction ->setEnabled(true);
     m_inspectAction->setToolTip(tr("Inspect Page"));
 
     m_selectAction  = new QAction(QIcon(":/main/edit-select-all.svg"),"", this);
+    m_selectAction ->setEnabled(true);
     m_selectAction->setToolTip(tr("Select-All"));
 
     m_copyAction    = new QAction(QIcon(":/main/edit-copy.svg"),"", this);
+    m_copyAction ->setEnabled(true);
     m_copyAction->setToolTip(tr("Copy Selection To ClipBoard"));
 
     m_reloadAction  = new QAction(QIcon(":/main/reload-page.svg"),"", this);
+    m_reloadAction ->setEnabled(true);
     m_reloadAction->setToolTip(tr("Update Preview Window"));
 
+    m_cycleCSSAction = new QAction(QIcon(":/main/cycle-css.svg"),"", this);
+    m_cycleCSSAction ->setEnabled(false);
+    m_cycleCSSAction->setToolTip(tr("Cycle Custom CSS Files"));
+
+    QIcon pricon;
+    pricon.addFile(":/main/document-print.svg", QSize(), QIcon::Normal);
+    pricon.addFile(":/main/busy-working.svg", QSize(), QIcon::Disabled);
+    m_webviewPrint = new QAction(pricon, "", this);
+    m_webviewPrint ->setEnabled(true);
+    m_webviewPrint->setToolTip(tr("Print Preview View"));
+    
     QToolBar * tb = new QToolBar();
     tb->addAction(m_inspectAction);
     tb->addAction(m_selectAction);
     tb->addAction(m_copyAction);
     tb->addAction(m_reloadAction);
+    tb->addAction(m_cycleCSSAction);
+    tb->addAction(m_webviewPrint);
     tb->addWidget(m_progress);
 
     m_buttons->addWidget(tb);
@@ -259,13 +290,32 @@ void PreviewWindow::SetupView()
     QApplication::restoreOverrideCursor();
 }
 
+
+void PreviewWindow::PrintStarted()
+{
+    m_webviewPrint ->setEnabled(false);
+}
+
+void PreviewWindow::PrintEnded()
+{
+    m_webviewPrint ->setEnabled(true);
+}
+
+
+void PreviewWindow::CycleCustomCSS()
+{
+    if (m_usercssurls.isEmpty()) return;
+    m_cycleCSSLevel++;
+    if (m_cycleCSSLevel > m_usercssurls.size()) m_cycleCSSLevel = 0;
+    ReloadPreview();
+}
+
 // Note every call to Update Page needs to be followed by a call
 // to Zoom() as it is not properly zooming after loading
 // But Zoom() is not done synchronously so after zooming
 // you must delay before trying to update Preview to a specific location
 bool PreviewWindow::UpdatePage(QString filename_url, QString text, QList<ElementIndex> location)
 {
-
     DBG qDebug() << "Entered PV UpdatePage with filename: " << filename_url;
 
     if (!m_Preview->isVisible()) {
@@ -300,14 +350,14 @@ bool PreviewWindow::UpdatePage(QString filename_url, QString text, QList<Element
     }
     m_Preview->page()->setBackgroundColor(Utility::WebViewBackgroundColor(true));
 
-    // If the user has set a default stylesheet inject it
-    // it can override anything above it
-    if (!m_usercssurl.isEmpty()) {
+    // If the user has set a default stylesheet inject it last
+    // so it can override anything above it
+    if (!m_usercssurls.isEmpty() && (m_cycleCSSLevel > 0)) {
         int endheadpos = text.indexOf("</head>");
         if (endheadpos > 1) {
             QString inject_userstyles = 
               "<link rel=\"stylesheet\" type=\"text/css\" "
-              "href=\"" + m_usercssurl + "\" />\n";
+                "href=\"" + m_usercssurls.at(m_cycleCSSLevel - 1) + "\" />\n";
             DBG qDebug() << "Preview injecting stylesheet: " << inject_userstyles;
             text.insert(endheadpos, inject_userstyles);
         }
@@ -318,13 +368,19 @@ bool PreviewWindow::UpdatePage(QString filename_url, QString text, QList<Element
     if (m_usingMathML) {
         int endheadpos = text.indexOf("</head>");
         if (endheadpos > 1) {
-            QString inject_mathjax = MATHJAX_CLEANUP + 
-              "<script type=\"text/javascript\" async=\"async\" "
-              "src=\"" + m_mathjaxurl + "\"></script>\n";
+            QString inject_mathjax;
+            if (m_mathjaxurl.endsWith("startup.js")) {
+                inject_mathjax = MATHJAX3_CONFIG + "<script type=\"text/javascript\" async=\"async\" id=\"MathJax-script\" src=\"" + m_mathjaxurl + "\"></script>\n";
+            } else {
+                inject_mathjax = "<script type=\"text/javascript\" async=\"async\" id=\"MathJax-script\" src=\"" + m_mathjaxurl + "\"></script>\n";
+            }
             text.insert(endheadpos, inject_mathjax);
         }
     }
 
+
+#if QT_VERSION <= QT_VERSION_CHECK(5, 12, 5)
+    // This workaround to a QtWebEngine bug is no longer needed after Qt 5.12.5
     if (fixup_fullscreen_svg_images(text)) {
         QRegularExpression svg_height("<\\s*svg\\s[^>]*height\\s*=\\s*[\"'](100%)[\"'][^>]*>",
                                      QRegularExpression::CaseInsensitiveOption |
@@ -348,7 +404,8 @@ bool PreviewWindow::UpdatePage(QString filename_url, QString text, QList<Element
             text = text.replace(bp, n, "100vw"); 
         }
     }
-
+#endif
+    
     m_Filepath = filename_url;
     m_Preview->CustomSetDocument(filename_url, text);
 
@@ -358,6 +415,9 @@ bool PreviewWindow::UpdatePage(QString filename_url, QString text, QList<Element
 
 void PreviewWindow::UpdatePageDone()
 {
+    // ignore spurious page DocumentLoaded signals from ViewPreview
+    if (!m_updatingPage) return;
+
     if (!m_Preview->WasLoadOkay()) qDebug() << "PV loadFinished with okay set to false!";
  
     DBG qDebug() << "PreviewWindow UpdatePage load is Finished";
@@ -447,10 +507,6 @@ QList<ElementIndex> PreviewWindow::GetCaretLocation()
     DBG qDebug() << "PreviewWindow in GetCaretLocation";
     QList<ElementIndex> hierarchy = m_Preview->GetCaretLocation();
     for (int i = 0; i < hierarchy.length(); i++) {
-        if (m_usingMathML && (hierarchy[i].name == "body")) {
-            // compensate for MathJax added two divs injected as first children of body
-            hierarchy[i].index = hierarchy[i].index - 2;
-        }
         DBG qDebug() << "name: " << hierarchy[i].name << " index: " << hierarchy[i].index;
     }
     return hierarchy;
@@ -462,10 +518,6 @@ void PreviewWindow::SetCaretLocation(const QList<ElementIndex> &loc)
     DBG qDebug() << "PreviewWindow in SetCaretLocation";
     QList<ElementIndex> hierarchy;
     foreach(ElementIndex ei, loc) {
-        if (m_usingMathML && (ei.name == "body")) {
-            // compensate for MathJax added two divs injected as first children of body
-            ei.index = ei.index + 2;
-        }
         hierarchy << ei;
         DBG qDebug() << "name: " << ei.name << " index: " << ei.index;
     }
@@ -597,6 +649,28 @@ void PreviewWindow::InspectPreviewPage()
     m_Inspector->close();
 }
 
+
+void PreviewWindow::PrintRendered()
+{
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+    // Refresh skipflags from Prefs
+    SettingsStore settings;
+    m_skipPrintPreview = settings.skipPrintPreview();
+    m_WebViewPrinter->setContent(m_Filepath, m_Preview->GetHTML(), m_skipPrintPreview);
+#else
+    QMessageBox msgbox;
+    QString text = tr("Feature not available before Qt5.12.x");
+    msgbox.setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
+    msgbox.setModal(true);
+    msgbox.setWindowTitle("Sigil");
+    msgbox.setText("<h3>" + text + "</h3><br/>");
+    msgbox.setIcon(QMessageBox::Icon::Warning);
+    msgbox.setStandardButtons(QMessageBox::Close);
+    msgbox.exec();
+#endif
+
+}
+
 void PreviewWindow::SelectAllPreview()
 {
     m_Preview->triggerPageAction(QWebEnginePage::SelectAll);
@@ -641,11 +715,15 @@ void PreviewWindow::ConnectSignalsToSlots()
     connect(m_Preview,   SIGNAL(LinkClicked(const QUrl &)), this, SLOT(LinkClicked(const QUrl &)));
     connect(m_Preview,   SIGNAL(DocumentLoaded()),          this, SLOT(UpdatePageDone()));
     connect(m_Preview,   SIGNAL(ViewProgress(int)),         this, SLOT(setProgress(int)));
-    connect(m_inspectAction, SIGNAL(triggered()),           this, SLOT(InspectPreviewPage()));
-    connect(m_selectAction,  SIGNAL(triggered()),           this, SLOT(SelectAllPreview()));
-    connect(m_copyAction,    SIGNAL(triggered()),           this, SLOT(CopyPreview()));
-    connect(m_reloadAction,  SIGNAL(triggered()),           this, SLOT(ReloadPreview()));
-    connect(m_Inspector,     SIGNAL(finished(int)),         this, SLOT(InspectorClosed(int)));
+    connect(m_inspectAction,  SIGNAL(triggered()),          this, SLOT(InspectPreviewPage()));
+    connect(m_selectAction,   SIGNAL(triggered()),          this, SLOT(SelectAllPreview()));
+    connect(m_copyAction,     SIGNAL(triggered()),          this, SLOT(CopyPreview()));
+    connect(m_reloadAction,   SIGNAL(triggered()),          this, SLOT(ReloadPreview()));
+    connect(m_cycleCSSAction, SIGNAL(triggered()),          this, SLOT(CycleCustomCSS()));
+    connect(m_webviewPrint,   SIGNAL(triggered()),          this, SLOT(PrintRendered()));
+    connect(m_WebViewPrinter, SIGNAL(printStarted()),       this, SLOT(PrintStarted()));
+    connect(m_WebViewPrinter, SIGNAL(printEnded()),         this, SLOT(PrintEnded()));
+    connect(m_Inspector,      SIGNAL(finished(int)),        this, SLOT(InspectorClosed(int)));
     connect(this,     SIGNAL(topLevelChanged(bool)),        this, SLOT(previewFloated(bool)));
 }
 

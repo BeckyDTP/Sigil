@@ -1,6 +1,7 @@
 /************************************************************************
 **
-**  Copyright (C) 2019-2021 Kevin B. Hendricks, Stratford Ontario Canada
+**  Copyright (C) 2019-2023 Kevin B. Hendricks, Stratford Ontario Canada
+**  Copyright (C) 2023- Doug Massay
 **
 **  This file is part of Sigil.
 **
@@ -21,16 +22,19 @@
 #include <QTimer>
 #include <QUrl>
 #include <QDebug>
+#include <QWebEngineProfile>
 #include "Misc/Utility.h"
 #include "ViewEditors/WebEngPage.h"
 
 #define DBG if(0)
  
-WebEngPage::WebEngPage(QObject *parent)
-    : QWebEnginePage(parent)
+WebEngPage::WebEngPage(QWebEngineProfile* profile, QObject *parent, bool setbackgound)
+    : QWebEnginePage(profile, parent)
 {
-    setBackgroundColor(Utility::WebViewBackgroundColor(true));
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    if (setbackgound) {
+        setBackgroundColor(Utility::WebViewBackgroundColor(true));
+    }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)  || QT_VERSION >= QT_VERSION_CHECK(6, 4, 0)
     setUrl(QUrl("about:blank"));
 #endif
 }
@@ -66,6 +70,12 @@ bool WebEngPage::acceptNavigationRequest(const QUrl & url, QWebEnginePage::Navig
         DBG qDebug() << "acceptNavigationRequest from scheme handler load" << url.toString();
         return true;
     }
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+    if (type == QWebEnginePage::NavigationTypeRedirect) {
+        DBG qDebug() << "acceptNavigationRequest from scheme handler redirect" << url.toString();
+        return true;
+    }
+#endif
     qDebug() << " Unhandled acceptNavigationRequest with type: " << type;
     return true;
 }

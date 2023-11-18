@@ -1,7 +1,7 @@
 /************************************************************************
 **
-**  Copyright (C) 2015-2021 Kevin B. Hendricks, Stratford Ontario Canada
-**  Copyright (C) 2015-2021 Doug Massay
+**  Copyright (C) 2015-2023 Kevin B. Hendricks, Stratford Ontario Canada
+**  Copyright (C) 2015-2023 Doug Massay
 **  Copyright (C) 2012      Dave Heiland, John Schember
 **
 **  This file is part of Sigil.
@@ -32,6 +32,7 @@
 #include <QWebEngineView>
 #include <QtWidgets/QDockWidget>
 #include <QTimer>
+#include <QStringList>
 #include <ViewEditors/Viewer.h>
 #include <Dialogs/Inspector.h>
 
@@ -42,6 +43,7 @@ class QVBoxLayout;
 class QHBoxLayout;
 class QProgressBar;
 class OverlayHelperWidget;
+class WebViewPrinter;
 
 class PreviewWindow : public QDockWidget
 {
@@ -57,7 +59,7 @@ public:
     float GetZoomFactor();
     bool eventFilter(QObject *object, QEvent *event);
     void setMathJaxURL(QString mathjaxurl) { m_mathjaxurl = mathjaxurl; };
-    void setUserCSSURL(QString usercssurl) { m_usercssurl = usercssurl; }
+    void setUserCSSURLs(const QStringList&  usercssurls);
 
 public slots:
     bool UpdatePage(QString filename, QString text, QList<ElementIndex> location);
@@ -81,7 +83,12 @@ public slots:
      */
     void setTitleText(const QString &text);
     void previewFloated(bool wasFloated);
-
+    void CycleCustomCSS();
+    void PrintRendered();
+    void PrintStarted();
+    void PrintEnded();
+    void SetFocusOnPreview();
+    
 signals:
     void Shown();
     void ZoomFactorChanged(float factor);
@@ -136,18 +143,24 @@ private:
     QString m_titleText;
 
     QString m_mathjaxurl;
-    QString m_usercssurl;
+    QStringList m_usercssurls;
 
     QAction * m_inspectAction;
     QAction * m_selectAction;
     QAction * m_copyAction;
     QAction * m_reloadAction;
+    QAction * m_cycleCSSAction;
+    QAction * m_webviewPrint;
 
     QList<ElementIndex> m_location;
     
     QTimer m_OverlayTimer;
     bool m_updatingPage;
     bool m_usingMathML;
+    int m_cycleCSSLevel;
+
+    bool m_skipPrintPreview;
+    WebViewPrinter *m_WebViewPrinter;
 };
 
 #endif // PREVIEWWINDOW_H

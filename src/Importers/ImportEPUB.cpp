@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2016-2022 Kevin B. Hendricks, Stratford, Ontario, Canada
+**  Copyright (C) 2016-2023 Kevin B. Hendricks, Stratford, Ontario, Canada
 **  Copyright (C) 2012      John Schember <john@nachtimwald.com>
 **  Copyright (C) 2009-2011 Strahinja Markovic  <strahinja.markovic@gmail.com>
 **
@@ -184,7 +184,7 @@ QSharedPointer<Book> ImportEPUB::GetBook(bool extract_metadata)
     }
     if (!non_well_formed.isEmpty()) {
         QApplication::restoreOverrideCursor();
-        if (QMessageBox::Yes == QMessageBox::warning(QApplication::activeWindow(),
+        if (QMessageBox::Yes == Utility::warning(QApplication::activeWindow(),
                 tr("Sigil"),
                 tr("This EPUB has HTML files that are not well formed or are "
                    "missing a DOCTYPE, html, head or body elements. "
@@ -791,11 +791,12 @@ void ImportEPUB::ReadManifestItemElement(QXmlStreamReader *opf_reader)
 
     // validate the media type if we can, and warn otherwise
     QString group = MediaTypes::instance()->GetGroupFromMediaType(type,"");
-    QString ext_mtype = MediaTypes::instance()->GetMediaTypeFromExtension(extension, "");
+    QString ext_mtype = MediaTypes::instance()->GetMediaTypeFromExtension(extension,"");
     if (type.isEmpty() || group.isEmpty()) {
         const QString load_warning = QObject::tr("The OPF uses an unrecognized media type \"%1\" for file \"%2\"").arg(type).arg(QFileInfo(apath).fileName()) +
             " - " + QObject::tr("A temporary media type of \"%1\" has been assigned. You should edit your OPF file to fix this problem.").arg(ext_mtype);
         AddLoadWarning(load_warning);
+        if (!ext_mtype.isEmpty()) type = ext_mtype;
     }
 
     if (!apath.isEmpty()) {
@@ -963,6 +964,7 @@ void ImportEPUB::LocateOrCreateNCX(const QString &ncx_id_on_spine)
     // now add the NCX to our folder
     QString bookpath = m_NCXFilePath.right(m_NCXFilePath.length() - m_ExtractedFolderPath.length() - 1);
     NCXResource* nresource = m_Book->GetFolderKeeper()->AddNCXToFolder(m_PackageVersion, bookpath);
+    Q_UNUSED(nresource);
     if (!load_warning.isEmpty()) {
         AddLoadWarning(load_warning);
     }

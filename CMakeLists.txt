@@ -20,18 +20,18 @@ endif()
 
 # Set Inno minimum Windows version 
 if ( NOT DEFINED BUILD_FOR_WIN7 )
-    # Windows 8.0
+    # Windows 10 (1809)
     set( BUILD_FOR_WIN7 0 )
-    set ( WIN_MIN_VERSION 6.2.9200 )
+    set ( WIN_MIN_VERSION 10.0.17763 )
 else()
     # Windows 7sp1
     set ( WIN_MIN_VERSION 6.1.7601 )
 endif()
 
-# Default to using Qt5 for builds
-# Enable Qt6 with -DUSEQT6=1 in cmake config command
-if ( NOT DEFINED USE_QT6 )
-    set( USE_QT6 0 )
+# Default to using Qt6 for builds
+# Enable Qt5 with -DUSE_QT5=1 in cmake config command
+if ( NOT DEFINED USE_QT5 )
+    set( USE_QT5 0 )
 endif()
 
 if (${CMAKE_VERSION} VERSION_GREATER_EQUAL ${RECENT_CMAKE_VER} AND ${TRY_NEWER_FINDPYTHON3})
@@ -56,9 +56,9 @@ set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib )
 set( PACKAGE_DIRECTORY ${PROJECT_BINARY_DIR}/package )
 set( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake_extras" )
 
-set( SIGIL_MAJOR_VERSION 1 )
-set( SIGIL_MINOR_VERSION 9 )
-set( SIGIL_REVISION_VERSION 10 )
+set( SIGIL_MAJOR_VERSION 2 )
+set( SIGIL_MINOR_VERSION 0 )
+set( SIGIL_REVISION_VERSION 2 )
 set( SIGIL_FULL_VERSION ${SIGIL_MAJOR_VERSION}.${SIGIL_MINOR_VERSION}.${SIGIL_REVISION_VERSION} )
 
 if( UNIX AND NOT APPLE )
@@ -82,6 +82,9 @@ if( UNIX AND NOT APPLE )
    # which point to directories outside the build tree to the install RPATH.
    # This will ensure the Qt5 lib directory is always included after install.
    SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
+   # Because GCC's link time optimization is willfully choosing to suck.
+   add_compile_options(-fno-lto)
 endif()
 
 # Check if platform is 64 bit
@@ -119,7 +122,7 @@ message(STATUS "CMake version in use: ${CMAKE_VERSION}")
 if (${USE_NEWER_FINDPYTHON3})
     message(STATUS "Using newer findpython3 cmake module")
     if ( APPLE )
-        find_package(Python3 3.9 COMPONENTS Interpreter Development)
+        find_package(Python3 3.8 COMPONENTS Interpreter Development)
     endif()
     if ( WIN32 )
         find_package(Python3 3.5 COMPONENTS Interpreter Development)
@@ -130,8 +133,8 @@ if (${USE_NEWER_FINDPYTHON3})
 else()
     message(STATUS "Using older findpython cmake module")
     if ( APPLE )
-        find_package(PythonInterp 3.9)
-        find_package (PythonLibs 3.9)
+        find_package(PythonInterp 3.8)
+        find_package (PythonLibs 3.8)
     endif()
     if ( WIN32 )
         find_package(PythonInterp 3.5)

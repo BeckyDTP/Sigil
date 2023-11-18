@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2015-2021 Kevin B. Hendricks, Stratford, Ontario
+**  Copyright (C) 2015-2023 Kevin B. Hendricks, Stratford, Ontario
 **  Copyright (C) 2012      John Schember <john@nachtimwald.com>
 **  Copyright (C) 2012-2013 Dave Heiland
 **
@@ -269,7 +269,7 @@ void AllFilesWidget::Save()
     try {
         Utility::WriteUnicodeTextFile(data, destination);
     } catch (CannotOpenFile&) {
-        QMessageBox::warning(this, tr("Sigil"), tr("Cannot save report file."));
+        Utility::warning(this, tr("Sigil"), tr("Cannot save report file."));
     }
 
     m_LastDirSaved = QFileInfo(destination).absolutePath();
@@ -305,6 +305,11 @@ QString AllFilesWidget::GetType(Resource *resource)
 
         case Resource::VideoResourceType: {
             type = tr("Video");
+            break;
+        }
+
+        case Resource::PdfResourceType: {
+            type = tr("PDF");
             break;
         }
 

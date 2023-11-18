@@ -38,14 +38,18 @@ Feature requests opened on the issue tracker will be closed.
 Linux Build and Install
 =======================
 
-For newer Linux systems like Ubuntu 20.04 (and its derivitives: like Mint 20), or Arch Linux, or Debian Unstable, you should be able to compile Sigil using repo-provided dependencies. Instructions for doing so can be found in:
+Starting with Sigil 2.0.2, the default cmake configuration is to build with Qt6. For a while, the latest versions of Sigil can still be built with Qt5 by passing the -DUSE_QT5=1 directive to cmake for the intial configuration.
 
-> [docs/Building_on_Linux.md](./docs/Building_on_Linux.md) ([or .html](./docs/Building_on_Linux.html))
+For newer Linux systems like Ubuntu 23.04 (and its derivitives), or Arch Linux, or Debian Trixie or Unstable, you should be able to compile Sigil using repo-provided dependencies. Instructions for doing so can be found in:
 
-For older Linux systems whose software repositories do not provide Qt5.10.0 (or higher), the
-detailed instructions for building/installing Sigil can be found in:
+> [docs/Building_on_Linux.md](./docs/Building_on_Linux.md)
 
-> [docs/Building_on_older_Linux.md](./docs/Building_on_older_Linux.md) ([or .html](./docs/Building_on_older_Linux.html))
+The Qt6 build documentation strives to provide both Debian- and Arch-based package names.
+
+For older Linux systems whose software repositories do not provide Qt6.2.3 (or higher), the
+detailed instructions for building/installing Sigil with Qt5 can be found in:
+
+> [docs/Building_on_Linux_older.md](./docs/Building_on_Linux.md)
 
 An up-to-date version of Sigil is available via flatpak on Flathub. So if your distro can use Flatpak, you can always use [Sigil that way](https://flathub.org/apps/details/com.sigil_ebook.Sigil) if your distro's Sigil package seems to be lagging too far behind.
 
@@ -53,46 +57,43 @@ For Building on Mac OS X
 ========================
 
 Building using purely XCode is no longer supported on Mac OS X.  The easiest 
-way to build Sigil on Mac OS X is to use cmake 3.X and the command line.   
+way to build Sigil on Mac OS X is to use cmake 3.X and the XCode CommandLineTools.   
 
-Also because Sigil now embeds Python 3.9.9, see  
+Also because Sigil now embeds Python 3.11.3, see  
 
-> [docs/Building_A_Relocatable_Python_3.9_Framework_on_MacOSX.txt](./docs/Building_A_Relocatable_Python_3.9_Framework_on_MacOSX.txt)
+> [docs/Building_A_Relocatable_Python_3.11_Framework_on_MacOSX.txt](./docs/Building_A_Relocatable_Python_3.11_Framework_on_MacOSX.txt)
 
-for detailed instructions on how to build a fully relocatable Python 3.9.9 framework before
+for detailed instructions on how to build a fully relocatable Python 3.11.3 framework before
 building Sigil.  
 
-For official releases Sigil uses Qt-5.12.9 plus local patches see  
+For official releases Sigil uses Qt6.5.3  plus official cve and local patches see:  
+
+> [docs/Building_Qt6.5_From_Source_on_MacOSX.txt](./docs/Building_Qt6.5_From_Source_on_MacOSX.txt)
+
+Sigil master now supports building with Qt-5.10.X through to Qt-6.5.3.  For older Qt5 see:
 
 > [docs/Building_Qt5_From_Source_on_MacOSX.txt](./docs/Building_Qt5_From_Source_on_MacOSX.txt)
 
-Sigil master now supports building with Qt-5.10.X through to Qt-6.2.2.  For Qt6 see
-
-> [docs/Building_Qt6_From_Source_on_MacOSX.txt](./docs/Building_Qt6_From_Source_on_MacOSX.txt)
-
-Due to not owning a MacOS M1 (arm64) machine for development, we do not (yet) make MacOS arm64 based release builds.
-But, building Sigil from source on MacOS M1 (arm64) machines using Python 3.9.9 and Qt6.2.2 does work.
-  
 And finally to build Sigil itself see:
 
-> [docs/Building_Sigil_On_MacOSX.txt](./docs/Building_Sigil_On_MacOSX.txt)
+> [docs/Building_Sigil_On_MacOSX_With_Qt6.txt](./docs/Building_Sigil_On_MacOSX_With_Qt6.txt)
 
-and for building Sigil under Qt6 see:
+and for building Sigil under the older Qt5 see:
 
-> [docs/Building_Sigil_On_MacOSX_With_QT6.txt](./docs/Building_Sigil_On_MacOSX_With_QT6.txt)
+> [docs/Building_Sigil_On_MacOSX_With_Qt5.txt](./docs/Building_Sigil_On_MacOSX_With_Qt5.txt)
 
 
 
 For Installing/Building on Windows
 ==================================
 
-Sigil currently provides Windows installers for x86 and x64 and will only work on Windows 8 or newer. There's a Legacy installer that's suitable for Windows 7.
+Sigil currently provides a Windows installer for x64 and will work on Windows 10 (1809) or newer.
 
-The latest Sigil versions are also typically available via the [winget (Windows 10+)](https://winstall.app/apps/Sigil-Ebook.Sigil), [Chocolatey (Windows 7+)](https://community.chocolatey.org/packages/Sigil), and [Npackd](https://npackd.appspot.com/p?q=sigil) Windows package managers. There are no "scary" Microsoft warnings about unknown publishers if you install Sigil via one of these package managers. 
+The latest Sigil versions are also typically available via the [winget (Windows 10+)](https://winstall.app/apps/Sigil-Ebook.Sigil), [Chocolatey (Windows 10+)](https://community.chocolatey.org/packages/Sigil), and [Npackd](https://npackd.appspot.com/p?q=sigil) Windows package managers. There are no "scary" Microsoft warnings about unknown publishers if you install Sigil via one of these package managers. 
 
 To build Sigil on Windows yourself, see:
 
-> [docs/Building_Sigil_on_Windows.md](./docs/Building_Sigil_on_Windows.md) ([or .html](./docs/Building_Sigil_on_Windows.html))
+> [docs/Building_Sigil_on_Windows_with_Qt6.md](./docs/Building_Sigil_on_Windows_with_Qt6.md).
 
 
 
@@ -110,19 +111,19 @@ Please see their respective folders for complete license information.
 
 Currently these projects include:
 
-* Hunspell - http://hunspell.sourceforge.net
+* Hunspell 1.7.2 - https://github.com/hunspell/hunspell
 * MiniZip version 1.1 (plus some security changes)
 * Perl-compatible Regular Expression Library 2 (pcre2 version 10.39)
-* ZLib Data Compression Library (zlib 1.2.8)
-* jQuery-2.2.4 (src/Resource_Files/javascript/jquery-2.2.4.min.js)
+* ZLib Data Compression Library (zlib 1.2.13)
+* jQuery-3.6.4 (src/Resource_Files/javascript/jquery-3.6.4.min.js)
 * jQuery.ScrollTo-2.1.2 (src/Resource_Files/javascript/jquery.scrollTo-2.1.2.min.js)
-* MathJax.js Version 2.75: (src/Resource_Files/polyfills)
+* MathJax.js Version 3.2.X [required minimum is 3.2.2]: (src/Resource_Files/polyfills)
 
 In addtion, Sigil uses the following other packages that have been specifically
 modified for use inside Sigil:
 
 * Beautiful Soup 4 (src/Resource_Files/plugin_launchers/sigil_bs4)
-* Google's Gumbo Parser (internal/gumbo)
+* Sigil-gumbo based on Google's Gumbo Parser (internal/gumbo)
 
 
 

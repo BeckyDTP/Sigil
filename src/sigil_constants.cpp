@@ -1,7 +1,7 @@
 /************************************************************************
 **
-**  Copyright (C) 2015-2022 Kevin B. Hendricks, Stratford Ontario Canada
-**  Copyright (C) 2015-2022 Doug Massay
+**  Copyright (C) 2015-2023 Kevin B. Hendricks, Stratford Ontario Canada
+**  Copyright (C) 2015-2023 Doug Massay
 **  Copyright (C) 2009-2011 Strahinja Markovic  <strahinja.markovic@gmail.com>
 **
 **  This file is part of Sigil.
@@ -33,7 +33,7 @@ const QString SIGIL_PREFS_DIR = QProcessEnvironment::systemEnvironment().value("
 
 const QString PATH_LIST_DELIM = ";";
 const QString PYTHON_MAIN_PATH = "";  // Bundled Python interpreter is in same dir as Sigil exe now
-const QStringList PYTHON_SYS_PATHS = QStringList() << "/Lib" << "/DLLs" << "/Lib/site-packages";
+const QStringList PYTHON_SYS_PATHS = QStringList() << "" << "/Lib" << "/DLLs" << "/Lib/site-packages";
 #else
 const QString SIGIL_PREFS_DIR = QString(getenv("SIGIL_PREFS_DIR"));
 #endif
@@ -42,12 +42,13 @@ const QString SIGIL_PREFS_DIR = QString(getenv("SIGIL_PREFS_DIR"));
 const bool DONT_CHECK_FOR_UPDATES = DONT_CHECK_UPDATES;
 
 #if __APPLE__
+const QString BUNDLED_PY_VERSION = QString(_BUNDLED_PYVER);
 const QString PATH_LIST_DELIM = ":";
-const QString PYTHON_MAIN_PREFIX = "/Frameworks/Python.framework/Versions/3.9";
+const QString PYTHON_MAIN_PREFIX = "/Frameworks/Python.framework/Versions/" + BUNDLED_PY_VERSION;
 const QString PYTHON_MAIN_BIN_PATH = PYTHON_MAIN_PREFIX + "/bin/python3";
-const QString PYTHON_LIB_PATH = "/lib/python3.9";
+const QString PYTHON_LIB_PATH = "/lib/python" + BUNDLED_PY_VERSION;
 const QString PYTHON_SITE_PACKAGES = PYTHON_MAIN_PREFIX + PYTHON_LIB_PATH + "/site-packages";
-const QStringList PYTHON_SYS_PATHS = QStringList () << "/lib-dynload" << "/site-packages";
+const QStringList PYTHON_SYS_PATHS = QStringList() << "" << "/lib-dynload" << "/site-packages";
 #endif
 
 #if !defined(_WIN32) && !defined(__APPLE__)
@@ -63,7 +64,7 @@ const QString force_sigil_darkmode_palette = QString(getenv("FORCE_SIGIL_DARKMOD
 const QString sigil_share_root = QString(SIGIL_SHARE_ROOT);
 const bool dicts_are_bundled = DICTS_ARE_BUNDLED;
 const QString extra_dict_dirs = QString(EXTRA_DICT_DIRS);
-const QString mathjax_dir = QString(MATHJAX_DIR);
+const QString mathjax3_dir = QString(MATHJAX3_DIR);
 const QString PYTHON_MAIN_PATH = "/python3/lib/python3.5";
 #if __x86_64__ || __ppc64__
 const QStringList PYTHON_SYS_PATHS = QStringList () << "/plat-x86_64-linux-gnu" << "/plat-linux" << "/lib-dynload" << "/site-packages";

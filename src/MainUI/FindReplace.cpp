@@ -1,6 +1,6 @@
 /***************************************************************************
 **
-**  Copyright (C) 2015-2022 Kevin B. Hendricks, Stratford, Ontario, Canada
+**  Copyright (C) 2015-2023 Kevin B. Hendricks, Stratford, Ontario, Canada
 **  Copyright (C) 2011-2012 John Schember <john@nachtimwald.com>
 **  Copyright (C) 2012      Dave Heiland
 **  Copyright (C) 2009-2011 Strahinja Markovic  <strahinja.markovic@gmail.com>
@@ -43,6 +43,7 @@
 #include "Tabs/FlowTab.h"
 #include "MainUI/FindReplace.h"
 #include "Misc/SettingsStore.h"
+#include "Misc/Utility.h"
 #include "Misc/FindReplaceQLineEdit.h"
 #include "PCRE2/PCREErrors.h"
 #include "ResourceObjects/Resource.h"
@@ -854,7 +855,7 @@ bool FindReplace::FindText(Searchable::Direction direction)
     if (found) {
         clearMessage();
     } else {
-        CannotFindSearchTerm();
+        ShowMessage(tr("End of search"));
     }
 
     UpdatePreviousFindStrings();
@@ -1730,6 +1731,8 @@ void FindReplace::LoadSearch(SearchEditorModel::searchEntry *search_entry)
 void FindReplace::SetStartingResource(bool update_position)
 {
     bool manual_restart = m_RestartPerformed;
+    Q_UNUSED(manual_restart);
+    
     m_RestartPerformed = false;
 
     if (isWhereCF() || m_LookWhereCurrentFile || IsMarkedText()) return;
@@ -1760,7 +1763,8 @@ void FindReplace::SetStartingResource(bool update_position)
     // new searches at the top (or bottom) of the current file if it is in the set.
     // Also, when the user hits Restart, the next search should start at the top (bottom)
     
-    if (m_IsSearchGroupRunning || manual_restart ) {
+    // if (m_IsSearchGroupRunning || manual_restart ) {
+    if (m_IsSearchGroupRunning) {
         if ( m_StartingResource == current_resource ) {
             int pos = 0;
             if (GetSearchDirection() == FindReplace::SearchDirection_Up) {
@@ -1978,7 +1982,7 @@ void FindReplace::SetSearchDirection(int search_direction)
 void FindReplace::ClearHistory()
 {
     QMessageBox::StandardButton button_pressed;
-    button_pressed = QMessageBox::warning(this,
+    button_pressed = Utility::warning(this,
             tr("Sigil"),
             tr("Are you sure you want to clear your Find and Replace current values and history?"),
             QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel

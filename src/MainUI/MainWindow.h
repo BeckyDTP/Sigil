@@ -1,6 +1,7 @@
 /************************************************************************
 **
-**  Copyright (C) 2015-2021 Kevin B. Hendricks, Stratford, Ontario, Canada
+**  Copyright (C) 2015-2022 Kevin B. Hendricks, Stratford, Ontario, Canada
+**  Copyright (C) 2015-2022 Doug Massay
 **  Copyright (C) 2012-2015 John Schember <john@nachtimwald.com>
 **  Copyright (C) 2012      Dave Heiland
 **  Copyright (C) 2009-2011 Strahinja Markovic  <strahinja.markovic@gmail.com>
@@ -26,8 +27,8 @@
 #ifndef SIGIL_H
 #define SIGIL_H
 
-#include <QtCore/QSharedPointer>
-#include <QtWidgets/QMainWindow>
+#include <QSharedPointer>
+#include <QMainWindow>
 
 #include "ui_main.h"
 #include "BookManipulation/Book.h"
@@ -71,6 +72,7 @@ class ClipsWindow;
 class SelectCharacter;
 class ViewImage;
 class FlowTab;
+class QWidget;
 
 
 /**
@@ -270,6 +272,8 @@ public slots:
     void RepoCheckout(QString bookid="", QString destpath="", QString filename="", bool loadnow=true);
     void RepoDiff(QString bookid="");
     void RepoManage();
+    void RepoEditTagDescription();
+    void RepoShowLog();
 
     void RunAutomate1();
     void RunAutomate2();
@@ -284,6 +288,12 @@ public slots:
     bool StandardizeEpub();
 
     void CreateEpubLayout();
+
+    void FocusOnCodeView();
+    void FocusOnBookBrowser();
+    void FocusOnPreview();
+    void FocusOnTOC();
+    void FocusOnClips();
 
 signals:
     void SettingsChanged();
@@ -442,6 +452,11 @@ private slots:
 
     void ClipEditorDialog(ClipEditorModel::clipEntry *clip_entry = NULL);
 
+    /**
+     * Allow Keyboard Focus Navigation to main QDockWidgets
+     */
+    void FocusOn(QWidget* dw=nullptr);
+  
     /**
      * Implements User Guide action functionality.
      */

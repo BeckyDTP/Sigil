@@ -1,7 +1,7 @@
 /************************************************************************
 **
-**  Copyright (C) 2019-2022 Doug Massay
-**  Copyright (C) 2015-2022 Kevin B. Hendricks, Stratford Ontario Canada
+**  Copyright (C) 2019-2023 Doug Massay
+**  Copyright (C) 2015-2023 Kevin B. Hendricks, Stratford Ontario Canada
 **  Copyright (C) 2012      John Schember <john@nachtimwald.com>
 **  Copyright (C) 2012-2013 Dave Heiland
 **  Copyright (C) 2012      Grant Drake
@@ -43,6 +43,7 @@
 #include <QString>
 #include <QStringRef>
 #include <QPointer>
+#include <QPrinter>
 #include <QApplication>
 #include <QInputDialog>
 #include <QTimer>
@@ -67,7 +68,7 @@
 #include "ViewEditors/LineNumberArea.h"
 #include "sigil_constants.h"
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     #define QT_ENUM_SKIPEMPTYPARTS Qt::SkipEmptyParts
     #define QT_ENUM_KEEPEMPTYPARTS Qt::KeepEmptyParts
 #else
@@ -121,6 +122,7 @@ CodeViewEditor::CodeViewEditor(HighlighterType high_type, bool check_spelling, Q
     m_ReplacingInMarkedText(false),
     m_regen_taglist(true)
 {
+    if (!qEnvironmentVariableIsSet("SIGIL_ALLOW_CODEVIEW_DROP")) setAcceptDrops(false);
     if (high_type == CodeViewEditor::Highlight_XHTML) {
         // m_Highlighter = new XHTMLHighlighter(check_spelling, this);
         m_Highlighter = new XHTMLHighlighter2(check_spelling, this);
@@ -349,7 +351,7 @@ void CodeViewEditor::CutCodeTags()
     cursor.insertText(new_text);
     cursor.endEditBlock();
     cursor.setPosition(start);
-    cursor.setPosition(start + new_text.count(), QTextCursor::KeepAnchor);
+    cursor.setPosition(start + new_text.length(), QTextCursor::KeepAnchor);
     setTextCursor(cursor);
 }
 
@@ -463,7 +465,7 @@ QString CodeViewEditor::StripCodeTags(QString text)
     bool in_tag = false;
 
     // Remove anything between and including < and >
-    for (int i = 0; i < text.count(); i++) {
+    for (int i = 0; i < text.length(); i++) {
         QChar c = text.at(i);
 
         if (!in_tag && c != QChar('<')) {
@@ -896,6 +898,8 @@ bool CodeViewEditor::FindNext(const QString &search_regex,
     int start_offset = 0;
     int start = 0;
     int end = txt.length();
+    bool moved_to_split = false;
+    int original_pos = -1;
 
     if (marked_text) {
         if (!MoveToMarkedText(search_direction, wrap)) {
@@ -910,6 +914,7 @@ bool CodeViewEditor::FindNext(const QString &search_regex,
     // the impact of wrap around, split will always be -1 if
     // marked text is being used and in all Current File Mode searches
     if (split_at != -1) {
+        original_pos = textCursor().position(); 
         if (search_direction == Searchable::Direction_Up) {
             start = split_at;
         } else {
@@ -919,6 +924,7 @@ bool CodeViewEditor::FindNext(const QString &search_regex,
         if (!MoveToSplitText(search_direction, start, end)) {
             return false;
         }
+        moved_to_split = true;
     }
 
     int selection_offset = GetSelectionOffset(search_direction, ignore_selection_offset, marked_text);
@@ -931,7 +937,7 @@ bool CodeViewEditor::FindNext(const QString &search_regex,
         }
     } else {
         if (misspelled_words) {
-            match_info = GetMisspelledWord(txt, selection_offset, txt.count(), search_regex, search_direction);
+            match_info = GetMisspelledWord(txt, selection_offset, txt.length(), search_regex, search_direction);
         } else {
             match_info = spcre->getFirstMatchInfo(Utility::Substring(selection_offset, end, txt));
         }
@@ -971,7 +977,13 @@ bool CodeViewEditor::FindNext(const QString &search_regex,
             return true;
         }
     }
-
+    // nothing found
+    if (moved_to_split) {
+        // restore original pos since nothing found
+        QTextCursor cursor = textCursor();
+        cursor.setPosition(original_pos);
+        setTextCursor(cursor);
+    }
     return false;
 }
 
@@ -1201,7 +1213,7 @@ void CodeViewEditor::SetUpFindForSelectedText(const QString &search_regex)
 // method is not a slot, and we need it as a slot
 // for print preview support; so this is just
 // a slot wrapper around that function
-void CodeViewEditor::print(QPagedPaintDevice *printer)
+void CodeViewEditor::print(QPrinter *printer)
 {
     QPlainTextEdit::print(printer);
 }
@@ -1421,7 +1433,7 @@ bool CodeViewEditor::AddSpellCheckContextMenu(QMenu *menu)
 
             // We want to limit the number of suggestions so we don't
             // get a huge context menu.
-            for (int i = 0; i < std::min(static_cast<uint>(suggestions.length()), MAX_SPELLING_SUGGESTIONS); ++i) {
+            for (unsigned int i = 0; i < std::min(static_cast<uint>(suggestions.length()), MAX_SPELLING_SUGGESTIONS); ++i) {
                 suggestAction = new QAction(suggestions.at(i), menu);
                 connect(suggestAction, SIGNAL(triggered()), m_spellingMapper, SLOT(map()));
                 m_spellingMapper->setMapping(suggestAction, suggestions.at(i));
@@ -2671,7 +2683,7 @@ QList<ElementIndex> CodeViewEditor::GetCaretLocation()
     QString element_name;
     foreach(ElementIndex ei, hierarchy) {
         if (BLOCK_LEVEL_TAGS.contains(ei.name)) {
-        element_name = ei.name;
+            element_name = ei.name;
         }
     }
     m_element_name = element_name;
@@ -2695,7 +2707,11 @@ QStack<CodeViewEditor::StackElement> CodeViewEditor::GetCaretLocationStack(int o
     while (!reader.atEnd()) {
         reader.readNext();
 
-        if (reader.isStartElement()) {
+        if (reader.isComment()) {
+            if (reader.characterOffset() == offset) {
+                break;
+            }
+        } else if (reader.isStartElement()) {
             // If we detected the start of a new element, then
             // the element currently on the top of the stack
             // has one more child element
@@ -2704,7 +2720,7 @@ QStack<CodeViewEditor::StackElement> CodeViewEditor::GetCaretLocationStack(int o
             }
 
             StackElement new_element;
-            new_element.name         = reader.name().toString();
+            new_element.name = reader.name().toString();
             new_element.num_children = 0;
             stack.push(new_element);
 
@@ -3321,6 +3337,8 @@ QString CodeViewEditor::ProcessAttribute(const QString &attribute_name,
         while (pos > 0 && text[pos] != QChar('<')) {
             pos--;
         }
+        // special case: cursor just before closing < so move back by 1 to be in text.
+        if (pos > 0) pos--; 
     }
     if (pos < 0) return QString();
 

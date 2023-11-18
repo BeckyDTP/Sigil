@@ -137,6 +137,8 @@ class MetadataProcessor(object):
                     del mattr["xmlns:dc"]
                 # fix improperly cased language entries
                 if mname == "dc:language":
+                    if not mcontent:
+                        mcontent = ""
                     if not "-" in mcontent:
                         mcontent = mcontent.lower()
                     else:
@@ -252,7 +254,7 @@ def set_new_metadata(data, other, idlst, metatag, opfdata):
             name = name.strip()
             value = value.strip()
             attrlist = ["id", "xml:lang", "dir", "opf:scheme", "opf:role", "opf:file-as", "xmlns"]
-            if name in attrlist or name.startswith["xmlns:"]:
+            if name in attrlist or name.startswith("xmlns:"):
                 if name == "id":
                     id = valid_id(value, idlst)
                     mattr["id"] = id
@@ -274,7 +276,11 @@ def set_new_metadata(data, other, idlst, metatag, opfdata):
     res.append(other)
     res.append('</metadata>\n')
     newmetadata = "".join(res)
-    newopfdata = _metadata_pattern.sub(newmetadata,opfdata)
+    mo = _metadata_pattern.search(opfdata)
+    if mo:
+        newopfdata = opfdata[0:mo.start()] + newmetadata + opfdata[mo.end():]
+    else:
+        newopfdata = opfdata
     return newopfdata
     
 

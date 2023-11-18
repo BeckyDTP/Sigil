@@ -1,7 +1,7 @@
 /************************************************************************
 **
-**  Copyright (C) 2015-2020 Kevin B. Hendricks, Stratford Ontario Canada
-**  Copyright (C) 2020      Doug Massay
+**  Copyright (C) 2015-2023 Kevin B. Hendricks, Stratford Ontario Canada
+**  Copyright (C) 2020-2023 Doug Massay
 **  Copyright (C) 2011-2013 John Schember <john@nachtimwald.com>
 **  Copyright (C) 2012-2013 Dave Heiland
 **
@@ -153,6 +153,16 @@ public:
 
     bool disableGPU();
 
+    /**
+     * DPI settings for Webviewprinter Preview
+     */
+    int printPreviewDPI();
+
+    /**
+     * DPI settings for Webviewprinter Print
+     */
+    int printDPI();
+
     int previewDark();
 
     int cleanOn();
@@ -256,6 +266,8 @@ public:
     void clearAppearanceSettings();
 
     bool enableAltGr();
+
+    bool skipPrintPreview();
 
 public slots:
 
@@ -364,6 +376,16 @@ public slots:
 
     void setDisableGPU(bool value);
 
+    /**
+     * Set the Print Preview DPI for Webviewprinter
+     */
+    void setPrintPreviewDPI(int dpi);
+
+    /**
+     * Set the Print  DPI for Webviewprinter
+     */
+    void setPrintDPI(int dpi);
+
     void setPreviewDark(int enabled);
 
     void setCleanOn(int on);
@@ -408,6 +430,8 @@ public slots:
     void setClipboardHistoryLimit(int limit);
 
     void setEnableAltGr(bool enabled);
+    
+    void setSkipPrintPreview(bool skip);
 
 private:
     /**

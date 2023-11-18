@@ -35,7 +35,7 @@
 #include "ResourceObjects/NCXResource.h"
 #include "sigil_exception.h"
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     #define QT_ENUM_SKIPEMPTYPARTS Qt::SkipEmptyParts
     #define QT_ENUM_KEEPEMPTYPARTS Qt::KeepEmptyParts
 #else
@@ -74,6 +74,11 @@ void TableOfContents::showEvent(QShowEvent *event)
 {
     QDockWidget::showEvent(event);
     raise();
+}
+
+void TableOfContents::SetFocusOnTOC()
+{
+  if (m_TreeView) m_TreeView->setFocus();
 }
 
 void TableOfContents::SetBook(QSharedPointer<Book> book)

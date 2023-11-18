@@ -383,18 +383,20 @@
    </widget>
    <widget class="QMenu" name="menuPlugins">
     <property name="title">
-     <string>Plugins</string>
+     <string>&amp;Plugins</string>
     </property>
     <addaction name="actionManage_Plugins"/>
    </widget>
    <widget class="QMenu" name="menuCheckpoints">
     <property name="title">
-     <string>Checkpoints</string>
+     <string>Chec&amp;kpoints</string>
     </property>
     <addaction name="actionCommit"/>
     <addaction name="actionCheckout"/>
     <addaction name="actionDiff"/>
     <addaction name="actionManageRepo"/>
+    <addaction name="actionEditCheckpointDesc"/>
+    <addaction name="actionLog"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -2683,7 +2685,7 @@
   </action>
   <action name="actionCreateHTMLTOC">
    <property name="text">
-    <string>&amp;Create HTML Table Of Contents</string>
+    <string>&amp;Create HTML from Table Of Contents</string>
    </property>
    <property name="toolTip">
     <string>Create a new HTML file using the current TOC.</string>
@@ -2952,6 +2954,41 @@
    </property>
    <property name="text">
     <string>Manage Checkpoint Repositories</string>
+   </property>
+  </action>
+  <action name="actionEditCheckpointDesc">
+   <property name="text">
+    <string>Edit Checkpoint Descriptions</string>
+   </property>
+  </action>
+  <action name="actionLog">
+   <property name="text">
+    <string>Show Log of Checkpoints</string>
+   </property>
+  </action>
+  <action name="actionFocusCodeView">
+   <property name="text">
+    <string>Focus on CodeView</string>
+   </property>
+  </action>
+  <action name="actionFocusBookBrowser">
+   <property name="text">
+    <string>Focus on BookBrowser</string>
+   </property>
+  </action>
+  <action name="actionFocusPreview">
+   <property name="text">
+    <string>Focus on Preview</string>
+   </property>
+  </action>
+  <action name="actionFocusTOC">
+   <property name="text">
+    <string>Focus on Table of Contents</string>
+   </property>
+  </action>
+  <action name="actionFocusClips">
+   <property name="text">
+    <string>Focus on Clips Window</string>
    </property>
   </action>
  </widget>

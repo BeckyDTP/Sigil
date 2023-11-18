@@ -1,16 +1,105 @@
-pre-1.9.20
+pre-2.x.x
+    New Features
+      - assign menu accelerators P - &Plugins, and K - Chec&kpoints (thank you BeckyEbook)
+      - add ability to change keyboard focus using keyboard shortcuts or menus
+          to BookBrowser, Preview, CodeView, ClipsWindow, and TableOfContents Windows
+	Bug Fixes
+	  - patch Qt6.5.3 to avoid transient child window resize bug on Windows
+
+Sigil-2.0.2
+    Bug Fixes
+      - fix incorrect clip tool button insertion point due to null activeWindow value
+      - fix Windows multiple screen issues when not properly identified (Qt6.5.2 patch fix)
+      - fix Mac Accessibility related crashes when using non-native QFileDialog (Qt 6.5.2 patch fix)
+      - workaround MacOS QMessageBox loss of focus Qt 6.5.X bug without hurting other platforms
+      - fix pretty print mend not formatting mathml
+      - fix Accessibility related crashes in QFontComboBox (Qt 6.5.2 patch fix)
+      - prevent crashing if user mistakenly tries to delete entire ncx in CodeView
+      - harden delete unused styles to trailing whitespace in class names
+      - fix unrecognized media-types application/xml and text/xml
+      - fix cursor just before end tag bug in align justiry, centre, right
+      - fix crash when all metadata removed by user in MetaEditor
+      - fix macOS min in Info.plist to be the actual 11.0
+      - update build docs to Qt 6.5.3
+
+
+Sigil-2.0.1
+    Bug Fixes
+      - fix crash when right click on Misc folder in BookBrowser
+      - Allow user to revert CodeView drag_and_drop change via environment variable: SIGIL_ALLOW_CODEVIEW_DROP=1
+        Note: Using DragnDrop in CodeView is still NOT officially supported.
+      - add inadvertantly missed updated serbian translation (ts) file
+
+
+Sigil-2.0.0
+    Bug Fixes
+      - fix incorrect assert in sigil-gumbo
+      - recognize application/pdf mediatype on epub import
+      - remove compiler build warnings to clean up the build output
+      - recognize source tag attribute srcset for xhtml source updates
+      - fix Preview disconnect bug after split at cursor
+      - fixed sigil-gumbo interface for plugins
+      - added workaround for ADE epub3 bug with scaled cover images
+      - fix encoding for named entities in opf metadata
+      - fix drag/drop crash by disabling drop inside CodeViewEditor
+      - fix CodeView to Preview syncing on text after an inline xhtml comment
+
+    New Features
+      - updated to Qt 6.5.2 which is now used for official releases
+      - updated to Python 3.11.3 and uses the latest EmbededPython interface
+      - updated to the latest jquery version 3.6.4
+      - supports use of embedded pdfs ala ADE
+      - added dark window titlebars for Windows platforms
+      - add support for a user's cover-template2.xhtml and cover-template3.xhtml
+      - add user preference to control printing dpi and add busy indicator icon 
+
+
+Sigil-1.9.30
+    Bug Fixes
+      - fix Checkpointing to work with dulwich version 0.20.46+
+      - fix css value parsing when !important is used
+      - EmbeddedPython fixes to work with Python 3.11 and later (thank you sharkcz)
+      - leave cursor position unchanged if nothing found when search groups of files
+      - make all Numeric items in Reports align right
+      - add support for thousands separator to Reports
+      - allow blank dc:language values to prevent crashing (as Sigil-1.9.10 did)
+      - allow unknown language codes to pass through MetaEditor
+      - MetaEditor under epub2, allow custom opf scheme values
+      - prevent duplicate spaces when reformatting CSS in import, charset and namespace
+      - better prevent random OPF attribute order changes to simplify Checkpoint diffs
+      - fixed file menu Print Preview for xhtml and image tabs
+      - prevent plugins from crashing Sigil by deleting last xhtml file in epub
+      - fix issue where images/css could not be properly added in an epub3 with no css files
+
+    New Features
+      - allow user to edit Checkpoint descriptions for clarity via Checkpoint menu
+      - add ability to show the Checkpoint Change Log via Checkpoint menu 
+      - update to Hunspell 1.7.2 (released in December 2022) for spellchecking
+      - update to latest zlib-1.2.13 for latest security fixes
+      - move completely away from ever using OS system tmp folder for storing Sigil wip files
+          instead create a new "workspace" folder inside Sigil Preferences folder
+      - added ability to Print Preview and Print contents of Sigil's Preview window
+
+    
+Sigil-1.9.20
     Bug Fixes
       - double width of new Find Replace icons to make them easier to access
       - improve new Find Replace icon tooltips to be include short name on top
       - fix bug that caused file rename changes to fail when updating smil
       - Metadata Editor will now strip out unneeded xmlns:dc attributes on dc tags
-      - Metadata Editor is now more robust language code that have incorrect case in the metadata
+      - Metadata Editor is now more robust to language codes that have incorrect case in the metadata
+      - clarify Create HTML ToC menu entry works from existing ToC
+      - prevent indavertent "\" chars be treated like escapes when updating metadata
+      - fix MetaEditor nit of not auto adding "aut" role to Author metadata for epub2
+      - make Spellcheck Editor count align column numerically (right)
 
      New Features
       - add ability for a user-template*.xhtml and user-template*.css
-          be read from Sigiul Prefs to create new empty xhtml and css files
+          be read from Sigil Prefs to create new empty xhtml and css files
+      - updated to very latest MathJax version 3.2.2 for mathml support in Preview
+      - add ability to cycle through 2 different custom stylesheets (and none at all) for use with Preview 
 
-      
+
 Sigil-1.9.10
     Bug Fixes
       - Fix insertion of id and links when cursor immediately before a closing tag

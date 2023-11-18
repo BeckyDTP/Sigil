@@ -1,7 +1,7 @@
 /************************************************************************
 **
-**  Copyright (C) 2016-2022  Kevin B. Hendricks, Stratford, ON
-**  Copyright (C) 2016-2020  Doug Massay
+**  Copyright (C) 2016-2023  Kevin B. Hendricks, Stratford, ON
+**  Copyright (C) 2016-2023  Doug Massay
 **  Copyright (C) 2011-2013  John Schember <john@nachtimwald.com>
 **  Copyright (C) 2012-2013  Dave Heiland
 **
@@ -66,6 +66,8 @@ static QString KEY_JAVASCRIPT_ON = SETTINGS_GROUP + "/" + "javascript_on";
 static QString KEY_SHOWFULLPATH_ON = SETTINGS_GROUP + "/" + "showfullpath_on";
 static QString KEY_HIGHDPI_SETTING = SETTINGS_GROUP + "/" + "high_dpi";
 static QString KEY_DISABLEGPU_SETTING = SETTINGS_GROUP + "/" + "disable_gpu";
+static QString KEY_PRINT_PREVIEW_DPI_SETTING = SETTINGS_GROUP + "/" + "print_preview_dpi";
+static QString KEY_PRINT_DPI_SETTING = SETTINGS_GROUP + "/" + "print_dpi";
 static QString KEY_PREVIEW_DARK_IN_DM = SETTINGS_GROUP + "/" + "preview_dark_in_dm";
 static QString KEY_DEFAULT_VERSION = SETTINGS_GROUP + "/" + "default_version";
 static QString KEY_PRESERVE_ENTITY_NAMES = SETTINGS_GROUP + "/" + "preserve_entity_names";
@@ -110,6 +112,7 @@ static QString KEY_CODE_VIEW_XHTML_HTML_COLOR = SETTINGS_GROUP + "/" + "code_vie
 static QString KEY_CODE_VIEW_XHTML_HTML_COMMENT_COLOR = SETTINGS_GROUP + "/" + "code_view_xhtml_html_comment_color";
 
 static QString KEY_CODE_VIEW_HIGHLIGHT_OPEN_CLOSE_TAGS = SETTINGS_GROUP + "/" + "code_view_highlight_open_close_tags";
+static QString KEY_SKIP_PRINT_PREVIEW = SETTINGS_GROUP + "/" + "skipprintpreview";
 
 // Dark Appearance
 static QString KEY_CV_DARK_CSS_COMMENT_COLOR = SETTINGS_GROUP + "/" + "cv_dark_css_comment_color";
@@ -294,6 +297,18 @@ bool SettingsStore::disableGPU()
 {
     clearSettingsGroup();
     return static_cast<bool>(value(KEY_DISABLEGPU_SETTING, false).toBool());
+}
+
+int SettingsStore::printPreviewDPI()
+{
+    clearSettingsGroup();
+    return value(KEY_PRINT_PREVIEW_DPI_SETTING, 96).toInt();
+}
+
+int SettingsStore::printDPI()
+{
+    clearSettingsGroup();
+    return value(KEY_PRINT_DPI_SETTING, 300).toInt();
 }
 
 int SettingsStore::previewDark()
@@ -498,6 +513,12 @@ bool SettingsStore::enableAltGr()
     return static_cast<bool>(value(KEY_ENABLE_ALTGR, false).toBool());
 }
 
+bool SettingsStore::skipPrintPreview()
+{
+  clearSettingsGroup();
+  return value(KEY_SKIP_PRINT_PREVIEW, false).toBool();
+}
+
 void SettingsStore::setDefaultMetadataLang(const QString &lang)
 {
     clearSettingsGroup();
@@ -640,6 +661,18 @@ void SettingsStore::setDisableGPU(bool value)
 {
     clearSettingsGroup();
     setValue(KEY_DISABLEGPU_SETTING, value);
+}
+
+void SettingsStore::setPrintPreviewDPI(int dpi)
+{
+    clearSettingsGroup();
+    setValue(KEY_PRINT_PREVIEW_DPI_SETTING, dpi);
+}
+
+void SettingsStore::setPrintDPI(int dpi)
+{
+    clearSettingsGroup();
+    setValue(KEY_PRINT_DPI_SETTING, dpi);
 }
 
 void SettingsStore::setPreviewDark(int enabled)
@@ -817,6 +850,12 @@ void SettingsStore::setEnableAltGr(bool enabled)
 {
     clearSettingsGroup();
     setValue(KEY_ENABLE_ALTGR, enabled);
+}
+
+void SettingsStore::setSkipPrintPreview(bool skip)
+{
+  clearSettingsGroup();
+  return setValue(KEY_SKIP_PRINT_PREVIEW, skip);
 }
 
 void SettingsStore::clearAppearanceSettings()

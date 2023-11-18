@@ -61,6 +61,8 @@ set( RESOURCE_OBJECT_FILES
     ResourceObjects/AudioResource.h
     ResourceObjects/VideoResource.cpp
     ResourceObjects/VideoResource.h
+    ResourceObjects/PdfResource.cpp
+    ResourceObjects/PdfResource.h
     ResourceObjects/MiscTextResource.cpp
     ResourceObjects/MiscTextResource.h
     ResourceObjects/SVGResource.cpp
@@ -220,6 +222,8 @@ set( WIDGET_FILES
     Widgets/ImageView.h
     Widgets/AVView.cpp
     Widgets/AVView.h
+    Widgets/PdfView.cpp
+    Widgets/PdfView.h
     Widgets/FontView.cpp
     Widgets/FontView.h
     Widgets/Navigator.h
@@ -392,6 +396,10 @@ set( MISC_FILES
     Misc/XMLEntities.h
     Misc/MediaTypes.cpp
     Misc/MediaTypes.h
+    Misc/WebProfileMgr.cpp
+    Misc/WebProfileMgr.h
+    Misc/webviewprinter.cpp
+    Misc/webviewprinter.h
     )
 
 set( MISC_EDITORS_FILES
@@ -484,6 +492,8 @@ set( TAB_FILES
     Tabs/CSSTab.h
     Tabs/AVTab.cpp
     Tabs/AVTab.h
+    Tabs/PdfTab.cpp
+    Tabs/PdfTab.h
     Tabs/FontTab.cpp
     Tabs/FontTab.h
     Tabs/ImageTab.cpp
@@ -592,13 +602,6 @@ set( QRC_FILES
     Resource_Files/icon/icon.qrc
     Resource_Files/dark/dark.qrc
     )
-if( UNIX AND NOT APPLE )
-    if ( USE_ALT_ICONS )
-        LIST( APPEND QRC_FILES Resource_Files/icon/app_icons_alt/app_icons.qrc )
-    else()
-        LIST( APPEND QRC_FILES Resource_Files/icon/app_icons_orig/app_icons.qrc )
-    endif()
-endif()
 
 set( MAIN_BINARY_QRC_FILES
     Resource_Files/main/main.qrc
@@ -645,20 +648,9 @@ else()
     project( sigil )
 endif()
 
-# Building Sigil with Qt6 requires cmake 3.16+
-# and a C++17 standards compatible compiler
-if (${USE_QT6})
-    cmake_minimum_required( VERSION 3.16 )
-
-    set(CMAKE_CXX_STANDARD 17)
-    set(CMAKE_CXX_STANDARD_REQUIRED ON)
-    set(CMAKE_CXX_EXTENSIONS OFF)
-
-    include(qt6sigil.cmake)
-
+if (${USE_QT5})
 # Building Sigil with Qt5 requires cmake 3.0+
 # and a C++11 standards compatible compiler
-else()
     cmake_minimum_required( VERSION 3.0.0 )
 
     if (NOT MSVC)
@@ -680,4 +672,16 @@ else()
     endif()
 
     include(qt5sigil.cmake)
+
+# Building Sigil with Qt6 requires cmake 3.16+
+# and a C++17 standards compatible compiler
+else()
+    cmake_minimum_required( VERSION 3.16 )
+
+    set(CMAKE_CXX_STANDARD 17)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+    set(CMAKE_CXX_EXTENSIONS OFF)
+
+    include(qt6sigil.cmake)
+
 endif()

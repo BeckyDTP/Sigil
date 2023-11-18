@@ -1,6 +1,7 @@
 /************************************************************************
 **
-**  Copyright (C) 2019-2021 Kevin B. Hendricks, Stratford, Ontario Canada
+**  Copyright (C) 2019-2023 Kevin B. Hendricks, Stratford Ontario Canada
+**  Copyright (C) 2023- Doug Massay
 **
 **  This file is part of Sigil.
 **
@@ -29,13 +30,14 @@
 #include <QtWebEngineCore>
 #include <QWebEnginePage>
 
+class QWebEngineProfile;
 
 class WebEngPage : public QWebEnginePage
 {
     Q_OBJECT
 
 public:
-    WebEngPage(QObject *parent = 0);
+    WebEngPage(QWebEngineProfile* profile=nullptr, QObject *parent = 0, bool setbackgound = true);
 
     bool acceptNavigationRequest(const QUrl & url, QWebEnginePage::NavigationType ntype, bool isMainFrame);
     void javaScriptConsoleMessage(QWebEnginePage::JavaScriptConsoleMessageLevel level, 
