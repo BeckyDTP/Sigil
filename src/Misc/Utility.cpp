@@ -59,6 +59,9 @@
 #include <QMenu>
 #include <QSet>
 #include <QVector>
+#include <QImage>
+#include <QPainter>
+#include <QtSvg/QSvgRenderer>
 #include <QDebug>
 
 #include "sigil_constants.h"
@@ -67,6 +70,7 @@
 #include "Misc/SettingsStore.h"
 #include "Misc/SleepFunctions.h"
 #include "MainUI/MainApplication.h"
+#include "Parsers/QuickParser.h"
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     #define QT_ENUM_SKIPEMPTYPARTS Qt::SkipEmptyParts
@@ -1496,4 +1500,59 @@ QMessageBox::StandardButton Utility::critical(QWidget* parent, const QString &ti
   if (parent) parent->activateWindow();
 #endif
   return result;
+}
+
+
+// QtSvg is broken with respect to desc and title tags used
+// inside text tags and does not support flowRoot and its children
+// so strip them all out before trying to render using QSvgRenderer
+QString Utility::FixupSvgForRendering(const QString& data)
+{
+    QStringList svgdata;
+    QuickParser qp(data);
+    bool skip = false;
+    bool in_svg = false;
+    while(true) {
+        QuickParser::MarkupInfo mi = qp.parse_next();
+        if (mi.pos < 0) break;
+	if (mi.tname == "svg" && mi.ttype == "begin") {
+	    in_svg = true;
+        }
+	if (mi.tname == "svg" && mi.ttype == "end") {
+	    in_svg = false;
+	    skip = false;
+	}
+	if (in_svg) {
+            if (mi.tname == "desc" || mi.tname == "title" || mi.tname == "flowRoot") {
+	        if (mi.ttype == "single") continue; // no need to update skip since open self-closing
+	        // allow for arbitrary nesting of these tags which is not explicitly ruled out by the spec
+	        QStringList tagpath = mi.tpath.split(".");
+	        skip = tagpath.contains("desc")  || tagpath.contains("title") || tagpath.contains( "flowRoot");
+		if (mi.ttype == "end") continue; // do not output end tags after updating skip
+	    }
+	}
+        if (!skip) {
+            svgdata << qp.serialize_markup(mi);
+        }
+    }
+    return svgdata.join("");
+}
+
+QImage Utility::RenderSvgToImage(const QString& filepath)
+{
+    QString svgdata = Utility::ReadUnicodeTextFile(filepath);
+    // QtSvg has many issues with desc, title, and flowRoot tags
+    svgdata = Utility::FixupSvgForRendering(svgdata);
+    QSvgRenderer renderer;
+    renderer.load(svgdata.toUtf8());
+    QSize sz = renderer.defaultSize();
+    QImage svgimage(sz, QImage::Format_ARGB32);
+    // **must** fill it with pixels BEFORE trying to render anything
+    // transparent fill will not work with light and dark modes: svgimage.fill(qRgba(0,0,0,0));
+    svgimage.fill(QColor("white"));
+    // was svgimage.fill(qRgba(0,0,0,0));
+    QPainter painter(&svgimage);
+    renderer.render(&painter);
+    return svgimage;
+
 }

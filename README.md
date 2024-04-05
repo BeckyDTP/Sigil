@@ -66,11 +66,11 @@ Also because Sigil now embeds Python 3.11.3, see
 for detailed instructions on how to build a fully relocatable Python 3.11.3 framework before
 building Sigil.  
 
-For official releases Sigil uses Qt6.5.3  plus official cve and local patches see:  
+For official releases Sigil uses Qt6.6.2 plus official local patches see:  
 
-> [docs/Building_Qt6.5_From_Source_on_MacOSX.txt](./docs/Building_Qt6.5_From_Source_on_MacOSX.txt)
+> [docs/Building_Qt6_From_Source_on_MacOSX.txt](./docs/Building_Qt6_From_Source_on_MacOSX.txt)
 
-Sigil master now supports building with Qt-5.10.X through to Qt-6.5.3.  For older Qt5 see:
+Sigil master now supports building with Qt-5.10.X through to Qt-6.6.2.  For older Qt5 see:
 
 > [docs/Building_Qt5_From_Source_on_MacOSX.txt](./docs/Building_Qt5_From_Source_on_MacOSX.txt)
 
@@ -113,8 +113,8 @@ Currently these projects include:
 
 * Hunspell 1.7.2 - https://github.com/hunspell/hunspell
 * MiniZip version 1.1 (plus some security changes)
-* Perl-compatible Regular Expression Library 2 (pcre2 version 10.39)
-* ZLib Data Compression Library (zlib 1.2.13)
+* Perl-compatible Regular Expression Library 2 (pcre2 version 10.43)
+* ZLib Data Compression Library (zlib 1.3.1)
 * jQuery-3.6.4 (src/Resource_Files/javascript/jquery-3.6.4.min.js)
 * jQuery.ScrollTo-2.1.2 (src/Resource_Files/javascript/jquery.scrollTo-2.1.2.min.js)
 * MathJax.js Version 3.2.X [required minimum is 3.2.2]: (src/Resource_Files/polyfills)

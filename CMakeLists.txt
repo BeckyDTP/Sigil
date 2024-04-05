@@ -7,7 +7,8 @@
 #
 #########################################################
 
-cmake_minimum_required( VERSION 3.0 ) 
+# Hard minimum version of cmake for all sub projects and Sigil
+cmake_minimum_required( VERSION 3.5 ) 
 
 project( Sigil )
 
@@ -57,8 +58,8 @@ set( PACKAGE_DIRECTORY ${PROJECT_BINARY_DIR}/package )
 set( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake_extras" )
 
 set( SIGIL_MAJOR_VERSION 2 )
-set( SIGIL_MINOR_VERSION 0 )
-set( SIGIL_REVISION_VERSION 2 )
+set( SIGIL_MINOR_VERSION 1 )
+set( SIGIL_REVISION_VERSION 0 )
 set( SIGIL_FULL_VERSION ${SIGIL_MAJOR_VERSION}.${SIGIL_MINOR_VERSION}.${SIGIL_REVISION_VERSION} )
 
 if( UNIX AND NOT APPLE )

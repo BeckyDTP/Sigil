@@ -411,6 +411,10 @@ int main(int argc, char *argv[])
     // QtWebEngine may need this
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
+    // handle other startup based on current settings and environment variables
+    SettingsStore settings;
+
+
 #if defined(Q_OS_WIN32)
     // Insert altgr and/or darkmode window decorations as needed
     QString current_env_str = Utility::GetEnvironmentVar("QT_QPA_PLATFORM");
@@ -425,9 +429,26 @@ int main(int argc, char *argv[])
         }
     }
 
+    // Woff/woff2 fonts can be more fully supported by setting SIGIL_USE_FREETYPE_FONTENGINE to anything.
+    // See https://www.mobileread.com/forums/showthread.php?t=356351 for discussion.
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QString font_backend_override = Utility::GetEnvironmentVar("SIGIL_USE_FREETYPE_FONTENGINE");
+    // Don't change any global fontengine parameters a user may have set in QT_QPA_PLATFORM
+    bool fontengine_arg_exists = false;
+    foreach(QString arg, current_platform_args) {
+        if (arg.startsWith("fontengine=", Qt::CaseInsensitive)) {
+            fontengine_arg_exists = true;
+        }
+    }
+    if (!fontengine_arg_exists) {
+        if (!font_backend_override.isEmpty()) {
+            current_platform_args.append("fontengine=freetype");
+        }
+    }
+#endif // QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+
     // if altgr is not already in the list of windows platform options, add it
-    SettingsStore ss;
-    if (ss.enableAltGr()) {
+    if (settings.enableAltGr()) {
         if (!current_platform_args.contains("altgr", Qt::CaseInsensitive)) {
             current_platform_args.append("altgr");
         }
@@ -457,12 +478,26 @@ int main(int argc, char *argv[])
         qputenv("QT_QPA_PLATFORM", new_args.toUtf8());
     }
 #endif
+    
 
+    // allow user to override the default Preview Timeout (integer in milliseconds)
+    QString new_timeout = Utility::GetEnvironmentVar("SIGIL_PREVIEW_TIMEOUT");
+    if (!new_timeout.isEmpty()) {
+        bool okay;
+        int timeout = new_timeout.toInt(&okay, 10);
+        if (!okay) {
+            timeout = 1000;
+        } else {
+            if (timeout < 1000) timeout = 1000;
+            if (timeout > 10000)timeout = 1000;
+        }
+        settings.setUIPreviewTimeout(timeout);
+    }
+    
     // enable disabling of gpu acceleration for QtWebEngine.
     // append to current environment variable contents as numerous chromium 
     // switches exist that may be useful
-    SettingsStore nss;
-    if (nss.disableGPU()) {
+    if (settings.disableGPU()) {
         QString current_flags = Utility::GetEnvironmentVar("QTWEBENGINE_CHROMIUM_FLAGS");
         if (current_flags.isEmpty()) {
             current_flags = "--disable-gpu";
@@ -478,7 +513,6 @@ int main(int argc, char *argv[])
     disableWindowTabbing();
     removeMacosSpecificMenuItems();
 #endif
-
 
     // Install an event filter for the application
     // so we can catch OS X's file open events
@@ -501,7 +535,6 @@ int main(int argc, char *argv[])
         app.addLibraryPath("imageformats");
 
         QTextCodec::setCodecForLocale(QTextCodec::codecForName("utf8"));
-        SettingsStore settings;
 
         // Setup the qtbase_ translator and load the translation for the selected language
         QTranslator qtbaseTranslator;
@@ -646,8 +679,9 @@ int main(int argc, char *argv[])
 #endif
         // Create the required QWebEngineProfiles, Initialize the settings
         // just once, installing both URLInterceptor and URLSchemeHandler as needed
-        // to bypass 2mb url limit
+        // to bypass 2mb url limit (singleton)
         WebProfileMgr* profile_mgr = WebProfileMgr::instance();
+        Q_UNUSED(profile_mgr);
         
         // Needs to be created on the heap so that
         // the reply has time to return.
