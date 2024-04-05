@@ -29,10 +29,10 @@ env:
   HOMEBREW_NO_AUTO_UPDATE: 1
   HOMEBREW_NO_INSTALL_CLEANUP: 1
   MACOSX_DEPLOYMENT_TARGET: 11
-  DOWNLOADQT: https://github.com/kevinhendricks/BuildSigilOnMac/releases/download/for_sigil_1.0.0/Qt653.tar.xz
+  DOWNLOADQT: https://github.com/kevinhendricks/BuildSigilOnMac/releases/download/for_sigil_1.0.0/Qt662.tar.xz
   DOWNLOADPY: https://github.com/kevinhendricks/BuildSigilOnMac/releases/download/for_sigil_1.0.0/Python.framework.tar.xz
   PY_VER: 3.11
-  QT: Qt653
+  QT: Qt662
 
 jobs:
   build:
@@ -40,16 +40,16 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Cache Custom Qt
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{runner.workspace}}/${{env.QT}}
         key: ${{ runner.os }}-qtdeps-${{hashFiles('**/reset-mac-caches.txt')}}
 
     - name: Cache Custom Python
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{runner.workspace}}/Frameworks
         key: ${{ runner.os }}-qtdeps-${{hashFiles('**/reset-mac-caches.txt')}}
@@ -120,7 +120,7 @@ jobs:
     #    gdrive version
     #    python3 $GITHUB_WORKSPACE/ci_scripts/newgddeploy.py
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       if: "contains(github.event.head_commit.message, '[deploy]')"
       with:
         name: sigil-installer

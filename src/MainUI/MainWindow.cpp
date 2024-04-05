@@ -1,7 +1,7 @@
 /************************************************************************
 **
-**  Copyright (C) 2015-2023 Kevin B. Hendricks, Stratford Ontario Canada
-**  Copyright (C) 2015-2023 Doug Massay
+**  Copyright (C) 2015-2024 Kevin B. Hendricks, Stratford Ontario Canada
+**  Copyright (C) 2015-2024 Doug Massay
 **  Copyright (C) 2012-2015 John Schember <john@nachtimwald.com>
 **  Copyright (C) 2012-2013 Dave Heiland
 **  Copyright (C) 2009-2011 Strahinja Markovic  <strahinja.markovic@gmail.com>
@@ -2224,7 +2224,27 @@ void MainWindow::GoToLinkedStyleDefinition(const QString &element_name, const QS
                 }
             }
         }
-
+        // if nothing found try one last time looking in selectors with combinators for a close match
+        if (!found_match) {
+            QString sel1 = element_name + "." + style_class_name + " ";
+            QString sel2 = "." + style_class_name + " ";
+            foreach(QString bookpath, stylesheets) {
+                Resource * resource = m_Book->GetFolderKeeper()->GetResourceByBookPath(bookpath);
+                CSSResource *css_resource = qobject_cast<CSSResource*>( resource );
+                if (css_resource) {
+                    CSSInfo css_info(css_resource->GetText());
+                    QList<CSSInfo::CSSSelector*> combinators = css_info.getAllSelectorsWithCombinators();
+                    foreach(CSSInfo::CSSSelector* selector, combinators) {
+                        QString asel = selector->text;
+                        if (asel.startsWith(sel1) || asel.startsWith(sel2)) {
+                            m_TabManager->OpenResource(css_resource, -1, selector->pos);
+                            found_match = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
         if (!found_match) {
             QString display_name;
 
@@ -2980,12 +3000,17 @@ bool MainWindow::DeleteUnusedStyles(bool in_automate)
         return false;
     }
 
+    // get list of any media overlay active class selectors from the opf
+    QStringList activeclassselectors = m_Book->GetOPF()->GetMediaOverlayActiveClassSelectors();
+    
     // This one handles all selector types
     QList<BookReports::StyleData *> css_selector_usage = BookReports::GetAllCSSSelectorsUsed(m_Book, true);
     QList<BookReports::StyleData *> css_selectors_to_delete;
     foreach(BookReports::StyleData *selector, css_selector_usage) {
         if (selector->html_filename.isEmpty()) {
-            css_selectors_to_delete.append(selector);
+            if (!activeclassselectors.contains(selector->css_selector_text)) {
+                css_selectors_to_delete.append(selector);
+            }
         }
     }
 
@@ -4584,8 +4609,10 @@ void MainWindow::SetStateActionsStaticView()
 
 void MainWindow::SetupPreviewTimer()
 {
+    SettingsStore ss;
+    int tv = ss.uiPreviewTimeout();
     m_PreviewTimer.setSingleShot(true);
-    m_PreviewTimer.setInterval(1000);
+    m_PreviewTimer.setInterval(tv);
     connect(&m_PreviewTimer, SIGNAL(timeout()), this, SLOT(UpdatePreview()));
     m_PreviewTimer.stop();
 }
@@ -5450,16 +5477,17 @@ bool MainWindow::SaveFile(const QString &fullfilepath, bool update_current_filen
         if (ss.cleanOn() & CLEANON_SAVE) {
             if (not_well_formed) {
                 QApplication::restoreOverrideCursor();
-                bool auto_fix = QMessageBox::Yes == Utility::warning(this,
-                                tr("Sigil"),
-                                tr("This EPUB has HTML files that are not well formed and "
-                                   "your current Clean Source preferences are set to automatically mend on Save. "
-                                   "Saving a file that is not well formed will cause it to be automatically "
-                                   "fixed, which very rarely may result in some data loss.\n\n"
-                                   "Do you want to automatically mend the files before saving?"),
-                                QMessageBox::Yes|QMessageBox::No);
+                QMessageBox::StandardButton button_pressed = Utility::warning(this, tr("Sigil"),
+                            tr("This EPUB has HTML files that are not well formed and "
+                               "your current Clean Source preferences are set to mend on Save.\n\n"
+                               "Do you want to automatically mend the files before saving? Or cancel the Save?"),
+                               QMessageBox::Yes|QMessageBox::No|QMessageBox::Cancel);
+                if (button_pressed == QMessageBox::Cancel) {
+                    ShowMessageOnStatusBar(tr("Saving EPUB... cancelled"), 0);
+                    return false;
+                }
                 QApplication::setOverrideCursor(Qt::WaitCursor);
-                if (auto_fix) {
+                if (button_pressed == QMessageBox::Yes) {
                     CleanSource::ReformatAll(broken_resources, CleanSource::Mend);
                     not_well_formed = false;
                 }
@@ -6773,9 +6801,11 @@ void MainWindow::SearchEditorRecordEntryAsCompleted(SearchEditorModel::searchEnt
 
 void MainWindow::FocusOnCodeView()
 {
+    if (!m_TabManager) return;
     FocusOn(m_TabManager);
     ContentTab * tab = GetCurrentContentTab();
     if (tab) {
+        tab->raise();
         tab->setFocus();
     }
     ShowMessageOnStatusBar(tr("Focus changed to CodeView window."));
@@ -6783,28 +6813,36 @@ void MainWindow::FocusOnCodeView()
 
 void MainWindow::FocusOnBookBrowser()
 {
+    if (!m_BookBrowser) return;
     FocusOn(m_BookBrowser);
+    m_BookBrowser->raise();
     m_BookBrowser->FocusOnBookBrowser();
     ShowMessageOnStatusBar(tr("Focus changed to BookBrowser window."));
 }
 
 void MainWindow::FocusOnPreview()
 {
+    if (!m_PreviewWindow) return;
     FocusOn(m_PreviewWindow);
+    m_PreviewWindow->raise();
     m_PreviewWindow->SetFocusOnPreview();
     ShowMessageOnStatusBar(tr("Focus changed to Preview window."));
 }
 
 void MainWindow::FocusOnTOC()
 {
+    if (!m_TableOfContents) return;
     FocusOn(m_TableOfContents);
+    m_TableOfContents->raise();
     m_TableOfContents->SetFocusOnTOC();
     ShowMessageOnStatusBar(tr("Focus changed to Table Of Contents window."));
 }
 
 void MainWindow::FocusOnClips()
 {
+    if (!m_Clips) return;
     FocusOn(m_Clips);
+    m_Clips->raise();
     m_Clips->SetFocusOnClips();
     ShowMessageOnStatusBar(tr("Focus changed to Clips window."));
 }
