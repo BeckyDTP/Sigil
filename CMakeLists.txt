@@ -169,6 +169,11 @@ endif()
 # versions and neither want's our epub specific changes.
 add_subdirectory( internal/gumbo )
 
+# Add external process wrapper for appimages
+if( APPIMAGE_BUILD )
+    add_subdirectory( internal/exec_wrapper)
+endif()
+
 add_subdirectory( 3rdparty/ )
 add_subdirectory( src/ )
 
