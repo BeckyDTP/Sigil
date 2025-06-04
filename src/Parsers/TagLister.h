@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2020-2024 Kevin B. Hendricks Stratford, ON, Canada 
+**  Copyright (C) 2020-2025 Kevin B. Hendricks Stratford, ON, Canada 
 **
 **  This file is part of Sigil.
 **
@@ -35,7 +35,8 @@ public:
     struct TagInfo {
         int     pos;      // position of tag in source
         int     len;      // length of tag in source
-        QString tpath;    // path of tag names to this tag ("." joined) 
+        int     child;    // child number of this tag in its parent
+        QString tpath;    // path of tag names to this tag ("." joined)
         QString tname;    // tag name, ?xml, ?, !--, !DOCTYPE, ![CDATA[
         QString ttype;    // xmlheader, pi, comment, doctype, cdata, begin, single, end
         int     open_pos; // set if end tag to position of its corresponding begin tag
@@ -71,8 +72,11 @@ public:
     int findFirstTagOnOrAfter(int pos);
     int findOpenTagForClose(int i);
     int findCloseTagForOpen(int i);
+    int findLastOpenOrSingleTagThatContainsYou(int pos);
+    int findLastOpenTagOnOrBefore(int pos);
     int findBodyOpenTag();
     int findBodyCloseTag();
+    QString GeneratePathToTag(int pos);
 
     const QString& getSource();
 
@@ -83,6 +87,7 @@ public:
 private:
     TagInfo getNext();
     void  buildTagList();
+    QString makePathToTag();
 
     QStringView parseML();
 
@@ -95,9 +100,11 @@ private:
     QString        m_source;
     int            m_pos;
     int            m_next;
+    int            m_child;
     QStringList    m_TagPath;
     QList<int>     m_TagPos;
     QList<int>     m_TagLen;
+    QList<int>     m_TagChild;
     QList<TagInfo> m_Tags;
     int            m_bodyStartPos;
     int            m_bodyEndPos;

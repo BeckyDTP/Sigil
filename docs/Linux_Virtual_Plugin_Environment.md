@@ -14,12 +14,16 @@ Activate the new virtual environment with the following command:
 
 >`source sigilpy/bin/activate`
 
-Update the pip module in the virtual environement to the latest version (from pypi.org):
+Update the pip module in the virtual environment to the latest version (from pypi.org):
 
 >`python -m pip install --upgrade pip`
 
 Install the modules listed in the plugin-reqs.txt file into the virtual environment with pip:
 
 > `python -m pip install -r plugin-reqs.txt`
+
+You don't need to keep the virtual environment activated after this point to use it for Sigil plugins so feel free to deactivate it by typing:
+
+> `deactivate`
 
 That's it. Now open Sigil's Preferences, go to the Plugin section, click the 'Set' button, browse to /home/[username]/sigilpy/bin/ and select the python binary. Make sure the latest testplugin is installed and use it to verify all tests are passing. Or if you don't have Sigil compiled yet, go back to the build instructions and configure Sigil's plugin preferences after you have Sigil up and running.

@@ -93,7 +93,7 @@ QString PluginDB::buildBundledInterpPath()
   } else {
       bundled_python3_path = "";
   }
-  
+ 
 #endif
   
   QFileInfo checkPython3(bundled_python3_path);

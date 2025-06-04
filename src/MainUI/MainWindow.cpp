@@ -1336,6 +1336,10 @@ void MainWindow::launchExternalXEditor()
         opf_resource = qobject_cast<OPFResource *>(tab->GetLoadedResource());
     }
 
+    // get currenttext position if xhtml file is currently being edited
+    int filepos = -1;
+    if (html_resource) filepos = tab->GetCursorPosition();
+
     SettingsStore ss;
     QString XEditorPath = ss.externalXEditorPath();
     if (XEditorPath.isEmpty()) {
@@ -1351,7 +1355,7 @@ void MainWindow::launchExternalXEditor()
     }
 
     //bool isPageEdit = ss.externalXEditorPath().contains("pageedit", Qt::CaseInsensitive);
-    bool isPageEdit = (xeditorinfo.baseName().toLower() == "pageedit");
+    bool isPageEdit = xeditorinfo.baseName().toLower().startsWith("pageedit");
     // qDebug() << "External editor is PageEdit: " << isPageEdit;
 
     if (isPageEdit) {
@@ -1401,7 +1405,7 @@ void MainWindow::launchExternalXEditor()
             }
         }
 
-        if (OpenExternally::openFileWithXEditor(resource->GetFullPath(), XEditorPath, spinenum)) {
+        if (OpenExternally::openFileWithXEditor(resource->GetFullPath(), XEditorPath, spinenum, filepos)) {
             m_Book->GetFolderKeeper()->WatchResourceFile(resource);
             ShowMessageOnStatusBar(tr("Executing PageEdit Xhtml Editor"));
             return;
@@ -4523,6 +4527,7 @@ void MainWindow::SetStateActionsCodeView()
     ui.actionCount->setEnabled(true);
     ui.actionDryRun->setEnabled(true);
     ui.actionFilterReplaceAll->setEnabled(true);
+    ui.actionRestartSearch->setEnabled(true);
     ui.actionMarkSelection->setEnabled(true);
     ui.menuSearchCurrentFile->setEnabled(true);
     ui.actionFindNextInFile->setEnabled(true);
@@ -4611,6 +4616,7 @@ void MainWindow::SetStateActionsRawView()
     ui.actionCount->setEnabled(true);
     ui.actionDryRun->setEnabled(true);
     ui.actionFilterReplaceAll->setEnabled(true);
+    ui.actionRestartSearch->setEnabled(true);
     ui.actionMarkSelection->setEnabled(true);
     ui.menuSearchCurrentFile->setEnabled(true);
     ui.actionFindNextInFile->setEnabled(true);
@@ -4682,6 +4688,7 @@ void MainWindow::SetStateActionsStaticView()
     ui.actionCount->setEnabled(false);
     ui.actionDryRun->setEnabled(false);
     ui.actionFilterReplaceAll->setEnabled(false);
+    ui.actionRestartSearch->setEnabled(false);
     ui.actionMarkSelection->setEnabled(false);
     ui.menuSearchCurrentFile->setEnabled(false);
     ui.actionFindNextInFile->setEnabled(false);
@@ -6114,6 +6121,7 @@ void MainWindow::ExtendUI()
     sm->registerAction(this, ui.actionCount, "MainWindow.Count");
     sm->registerAction(this, ui.actionDryRun, "MainWindow.DryRunReplaceAll");
     sm->registerAction(this, ui.actionFilterReplaceAll, "MainWindow.FilterReplaceAll");
+    sm->registerAction(this, ui.actionRestartSearch, "MainWindow.RestartSearch");
     sm->registerAction(this, ui.actionMarkSelection, "MainWindow.MarkSelection");
     sm->registerAction(this, ui.actionFindNextInFile, "MainWindow.FindNextInFile");
     sm->registerAction(this, ui.actionReplaceNextInFile, "MainWindow.ReplaceNextInFile");
@@ -6451,6 +6459,7 @@ void MainWindow::ConnectSignalsToSlots()
     connect(ui.actionCount,             SIGNAL(triggered()), m_FindReplace, SLOT(Count()));
     connect(ui.actionDryRun,            SIGNAL(triggered()), m_FindReplace, SLOT(PerformDryRunReplace()));
     connect(ui.actionFilterReplaceAll,  SIGNAL(triggered()), m_FindReplace, SLOT(ChooseReplacements()));
+    connect(ui.actionRestartSearch,     SIGNAL(triggered()), m_FindReplace, SLOT(DoRestart()));
     connect(ui.actionFindNextInFile,    SIGNAL(triggered()), m_FindReplace, SLOT(FindNextInFile()));
     connect(ui.actionReplaceNextInFile, SIGNAL(triggered()), m_FindReplace, SLOT(ReplaceNextInFile()));
     connect(ui.actionReplaceAllInFile,  SIGNAL(triggered()), m_FindReplace, SLOT(ReplaceAllInFile()));

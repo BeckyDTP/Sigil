@@ -396,6 +396,9 @@ int main(int argc, char *argv[])
     // handle other startup based on current settings and environment variables
     SettingsStore settings;
 
+#if !defined(Q_OS_WIN32) && !defined(Q_OS_MAC)
+    if (!APPIMAGE_BUILD) settings.setUseBundledInterp(false);
+#endif
 
 #if defined(Q_OS_WIN32)
     // Insert altgr and/or darkmode window decorations as needed
@@ -901,7 +904,11 @@ int main(int argc, char *argv[])
             MainWindow *widget = GetMainWindow(arguments);
             widget->show();
             widget->activateWindow();
-            return app.exec();
+            app.exec();
+            // WebProfileMgr::instance()->FlushDiskCaches();
+            // QCoreApplication::processEvents();
+            // WebProfileMgr::instance()->CleanUpForExit();
+            return 0;
         }
     } catch (std::exception &e) {
         Utility::DisplayExceptionErrorDialog(e.what());
