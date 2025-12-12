@@ -51,7 +51,7 @@
 #include "ViewEditors/ElementIndex.h"
 #include "Dialogs/SearchEditor.h"
 
-const int MAX_RECENT_FILES = 5;
+const int MAX_RECENT_FILES = 9;
 const int STATUSBAR_MSG_DISPLAY_TIME = 7000;
 
 class QComboBox;
@@ -280,15 +280,10 @@ public slots:
     void RepoEditTagDescription();
     void RepoShowLog();
 
-    void RunAutomate1();
-    void RunAutomate2();
-    void RunAutomate3();
+    void runAutomate(QAction *action);
     void RunAutomate(const QString &automatefile);
-
-    void EditAutomate1();
-    void EditAutomate2();
-    void EditAutomate3();
-    void EditAutomate(const QString &automatefile);
+    void UpdateAutomationMenu();
+    void ManageAutomateListsDialog();
     
     bool StandardizeEpub();
     bool UseStandardFileExtensions();
@@ -409,6 +404,10 @@ private slots:
 
     void InsertId();
 
+    void InsertClip();
+
+    void InsertRole();
+
     void InsertHyperlink();
 
     void MarkForIndex();
@@ -425,6 +424,8 @@ private slots:
      *  Quick Launch Plugins via icon button
      */
     void QuickLaunchPlugin(int i);
+
+    void QuickLaunchAutomate(int i);
 
     /**
      * Some controls (CodeView and combo boxes in F&R) inherit PasteTarget
@@ -554,7 +555,7 @@ private slots:
     void SetStateActionsStaticView();
 
     void UpdatePreviewRequest();
-    void UpdatePreviewCSSRequest();
+    void UpdatePreviewTabRequest();
     void ScrollPreview();
     void UpdatePreview();
     void InspectHTML();
@@ -705,6 +706,7 @@ private slots:
 
 private:
     void updateToolTipsOnPluginIcons();
+    void updateToolTipsOnAutomateIcons();
     void UpdateClipButton(QAction *ui_action);
     void InsertFiles(const QStringList &selected_images);
     void InsertFilesFromDisk();
@@ -1057,20 +1059,30 @@ private:
     /**
      * dynamically updated plugin menus and actions
      */
-    QMenu *m_menuPlugins;
-    QMenu *m_menuPluginsInput;
-    QMenu *m_menuPluginsOutput;
-    QMenu *m_menuPluginsEdit;
-    QMenu *m_menuPluginsValidation;
-    QAction *m_actionManagePlugins;
+    QMenu *m_menuPlugins = nullptr;
+    QMenu *m_menuPluginsInput = nullptr;
+    QMenu *m_menuPluginsOutput = nullptr;
+    QMenu *m_menuPluginsEdit = nullptr;
+    QMenu *m_menuPluginsValidation = nullptr;
+    QAction *m_actionManagePlugins = nullptr;;
 
     QStringList m_pluginList;
-    bool m_SaveCSS;
+
+    /**
+     * dynamically updated Automation menus and actions
+     */
+    QMenu *m_menuAutomate = nullptr;;
+    QMenu *m_menuAutomateRun = nullptr;
+    QAction *m_actionManageAutomate = nullptr;;
+
+    bool m_SaveTab;
     bool m_IsClosing;
 
     QList<QAction*> m_qlactions;
 
     QList<QAction*> m_clactions;
+
+    QList<QAction*> m_auactions;
 
 
     /**
@@ -1085,6 +1097,7 @@ private:
     bool m_UsingAutomate;
     QStringList m_AutomateLog;
     QString m_AutomatePluginParameter;
+    QStringList m_automateLists;
 
     bool m_inShowLastOpenWarnings = false;
     

@@ -24,6 +24,7 @@
 #include <QSignalMapper>
 #include <QFileDialog>
 #include <QMenu>
+#include <QUrl>
 #include <QMessageBox>
 #include <QTreeView>
 #include <QProgressDialog>
@@ -44,6 +45,7 @@
 #include "Dialogs/SelectFolder.h"
 #include "Dialogs/RERenamer.h"
 #include "Dialogs/RETable.h"
+#include "Dialogs/PreviewFileDialog.h"
 #include "Importers/ImportHTML.h"
 #include "MainUI/BookBrowser.h"
 #include "MainUI/MainWindow.h"
@@ -748,6 +750,23 @@ void BookBrowser::AddNewSVG()
     Refresh();
 }
 
+void BookBrowser::ViewImage()
+{
+    Resource *current_resource = GetCurrentResource();
+
+    if (!current_resource) {
+        return;
+    }
+
+    ImageResource *current_image_resource = qobject_cast<ImageResource *>(current_resource);
+    SVGResource *current_svg_resource = qobject_cast<SVGResource *>(current_resource);
+    if (current_image_resource || current_svg_resource) {
+        QString book_path = current_resource->GetRelativePath();
+        QString url_string = "book:///" + Utility::URLEncodePath(book_path);
+        emit ViewImageRequest(QUrl(url_string));
+    }
+}
+
 CSSResource* BookBrowser::CreateHTMLTOCCSSFile()
 {
     CSSResource *css_resource = m_Book->CreateHTMLTOCCSSFile();
@@ -777,11 +796,8 @@ QStringList BookBrowser::AddExisting(bool only_multimedia, bool only_images)
         m_LastFolderOpen = "";
     }
 
-    QFileDialog::Options options = QFileDialog::Options();
-#ifdef Q_OS_MAC
-    options = options | QFileDialog::DontUseNativeDialog;
-#endif
-    
+    QFileDialog::Options options = Utility::DlgOptions("Win32UseNonNative");
+#if 0
     // filepaths are full absolute file paths to the files to be added
     QStringList filepaths = QFileDialog::getOpenFileNames(this,
                                                           tr("Add Existing Files"),
@@ -789,9 +805,23 @@ QStringList BookBrowser::AddExisting(bool only_multimedia, bool only_images)
                                                           filter_string,
                                                           NULL,
                                                           options);
+#else
+    QStringList filepaths = PreviewFileDialog::getOpenFileNames(this,
+                                                                tr("Add Existing Files"),
+                                                                m_LastFolderOpen,
+                                                                filter_string,
+                                                                nullptr,
+                                                                options);
+#endif
 
     if (filepaths.isEmpty()) {
         return added_book_paths;
+    }
+
+    foreach(QString filepath, filepaths) {
+        if (!Utility::IsFileReadable(filepath)) {
+            return added_book_paths;
+        }
     }
 
     m_LastFolderOpen = QFileInfo(filepaths.first()).absolutePath();
@@ -999,10 +1029,7 @@ void BookBrowser::SaveAsFile(Resource *resource)
     QString save_path = m_LastFolderSaveAs + "/" + filename;
     QString filter_string = "";
     QString default_filter = "";
-    QFileDialog::Options options = QFileDialog::Options();
-#ifdef Q_OS_MAC
-    options = options | QFileDialog::DontUseNativeDialog;
-#endif
+    QFileDialog::Options options = Utility::DlgOptions();
     
     QString destination = QFileDialog::getSaveFileName(this,
                           tr("Save As File"),
@@ -1035,10 +1062,7 @@ void BookBrowser::SaveAsFile(Resource *resource)
 void BookBrowser::SaveAsFiles()
 {
     QList <Resource *> resources = ValidSelectedResources();
-    QFileDialog::Options options = QFileDialog::Options() | QFileDialog::ShowDirsOnly;
-#ifdef Q_OS_MAC
-    options = options | QFileDialog::DontUseNativeDialog;
-#endif
+    QFileDialog::Options options = Utility::DlgOptions() | QFileDialog::ShowDirsOnly;
 
     QString dirname = QFileDialog::getExistingDirectory(
                       this,
@@ -1313,7 +1337,7 @@ void BookBrowser::RenameSelected()
 	    has_bad_chars = has_bad_chars || badchars.contains(ch);
 	}
         if (has_bad_chars) {
-	    Utility::DisplayStdErrorDialog(tr("Filenames can not contain these characters: \"%1\".").arg(badchars));
+	    Utility::DisplayStdErrorDialog(tr("Filenames cannot contain these characters: \"%1\".").arg(badchars));
 	    return;
 	}
     }
@@ -1527,7 +1551,7 @@ void BookBrowser::RemoveResources(QList<Resource *> tab_resources, QList<Resourc
     Resource * nav_resource =  m_Book->GetConstOPF()->GetNavResource();
     if (nav_resource && resources.contains(nav_resource)) {
         Utility::DisplayStdErrorDialog(
-            tr("The Nav document can not be removed.")
+            tr("The Nav document cannot be removed.")
         );
         return;
     }
@@ -1535,14 +1559,14 @@ void BookBrowser::RemoveResources(QList<Resource *> tab_resources, QList<Resourc
     NCXResource * ncx_resource = m_Book->GetNCX();
     if (ncx_resource && resources.contains(ncx_resource)) {
         Utility::DisplayStdErrorDialog(
-            tr("The NCX can not be removed.")
+            tr("The NCX cannot be removed.")
         );
         return;
     }
     Resource::ResourceType resource_type = resources.first()->Type();
     if (resource_type == Resource::OPFResourceType) {
         Utility::DisplayStdErrorDialog(
-            tr("The OPF is required for epub and can not be removed.")
+            tr("The OPF is required for epub and cannot be removed.")
         );
         return;
     }
@@ -2095,6 +2119,7 @@ void BookBrowser::CreateContextMenuActions()
     m_AddNewCSS               = new QAction(tr("Add Blank Stylesheet"),     this);
     m_AddNewJS                = new QAction(tr("Add Blank Javascript"),     this);
     m_AddNewSVG               = new QAction(tr("Add Blank SVG Image"),      this);
+    m_ViewImage               = new QAction(tr("View Image"),               this);
     m_AddExisting             = new QAction(tr("Add Existing Files..."),    this);
     m_CopyHTML                = new QAction(tr("Add Copy"),                 this);
     m_CopyCSS                 = new QAction(tr("Add Copy"),                 this);
@@ -2325,6 +2350,7 @@ bool BookBrowser::SuccessfullySetupContextMenu(const QPoint &point)
             m_ContextMenu->addAction(m_AddNewJS);
         }
     } else if (m_LastContextMenuType == Resource::ImageResourceType || m_LastContextMenuType == Resource::SVGResourceType) {
+        m_ContextMenu->addAction(m_ViewImage);
         m_ContextMenu->addAction(m_AddNewSVG);
     }
 
@@ -2412,6 +2438,7 @@ void BookBrowser::ConnectSignalsToSlots()
     connect(m_AddNewCSS,               SIGNAL(triggered()), this, SLOT(AddNewCSS()));
     connect(m_AddNewJS,                SIGNAL(triggered()), this, SLOT(AddNewJS()));
     connect(m_AddNewSVG,               SIGNAL(triggered()), this, SLOT(AddNewSVG()));
+    connect(m_ViewImage,               SIGNAL(triggered()), this, SLOT(ViewImage()));
     connect(m_AddExisting,             SIGNAL(triggered()), this, SLOT(AddExisting()));
     connect(m_Rename,                  SIGNAL(triggered()), this, SLOT(Rename()));
     connect(m_RERename,                SIGNAL(triggered()), this, SLOT(REXRename()));

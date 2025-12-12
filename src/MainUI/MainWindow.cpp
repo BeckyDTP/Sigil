@@ -1,7 +1,7 @@
 /************************************************************************
 **
 **  Copyright (C) 2015-2025 Kevin B. Hendricks, Stratford Ontario Canada
-**  Copyright (C) 2015-2024 Doug Massay
+**  Copyright (C) 2015-2025 Doug Massay
 **  Copyright (C) 2012-2015 John Schember <john@nachtimwald.com>
 **  Copyright (C) 2012-2013 Dave Heiland
 **  Copyright (C) 2009-2011 Strahinja Markovic  <strahinja.markovic@gmail.com>
@@ -49,12 +49,15 @@
 #include <QWindowStateChangeEvent>
 #include <QStyleFactory>
 #include <QStyle>
+#include <QDirIterator>
 #include <QDebug>
 
 #include "BookManipulation/CleanSource.h"
 #include "BookManipulation/Index.h"
 #include "BookManipulation/FolderKeeper.h"
 #include "Dialogs/About.h"
+#include "Dialogs/AddClips.h"
+#include "Dialogs/AddRoles.h"
 #include "Dialogs/ClipEditor.h"
 #include "Dialogs/ClipboardHistorySelector.h"
 #include "Dialogs/DeleteStyles.h"
@@ -64,7 +67,7 @@
 #include "Dialogs/LinkStylesheets.h"
 #include "Dialogs/LinkJavascripts.h"
 #include "Dialogs/ManageRepos.h"
-#include "Dialogs/AutomateEditor.h"
+#include "Dialogs/ManageAutomation.h"
 #include "Dialogs/MetaEditor.h"
 #include "Dialogs/PluginRunner.h"
 #include "Dialogs/Preferences.h"
@@ -93,6 +96,7 @@
 #include "Misc/HTMLSpellCheckML.h"
 #include "Misc/KeyboardShortcutManager.h"
 #include "Misc/Landmarks.h"
+#include "Misc/AriaRoles.h"
 #include "Misc/MediaTypes.h"
 #include "Misc/OpenExternally.h"
 #include "Misc/Plugin.h"
@@ -119,6 +123,7 @@
 #include "Tabs/FlowTab.h"
 #include "Tabs/CSSTab.h"
 #include "Tabs/OPFTab.h"
+#include "Tabs/TextTab.h"
 #include "Tabs/TabManager.h"
 #include "MainUI/MainApplication.h"
 
@@ -174,6 +179,8 @@ static const QStringList AUTOMATE_TOOLS = QStringList() <<
     "GenerateTOC" <<
     "MendPrettifyHTML" <<
     "MendHTML" <<
+    "OnFailedRunSavedSearchReplaceAll" <<
+    "OnSuccessRunSavedSearchReplaceAll" <<
     "ReformatCSSMultipleLines" <<
     "ReformatCSSSingleLines" <<
     "RemoveNCXGuideFromEpub3" <<
@@ -225,7 +232,7 @@ MainWindow::MainWindow(const QString &openfilepath,
     m_IndexEditor(new IndexEditor(this)),
     m_SpellcheckEditor(new SpellcheckEditor(this)),
     m_SelectCharacter(new SelectCharacter(this)),
-    m_ViewImage(new ViewImage(this, false)),
+    m_ViewImage(new ViewImage(this)),
     m_Reports(new Reports(this)),
     m_preserveHeadingAttributes(true),
     m_LinkOrStyleBookmark(new LocationBookmark()),
@@ -242,10 +249,11 @@ MainWindow::MainWindow(const QString &openfilepath,
     m_menuPluginsEdit(NULL),
     m_menuPluginsValidation(NULL),
     m_pluginList(QStringList()),
-    m_SaveCSS(false),
+    m_SaveTab(false),
     m_IsClosing(false),
     m_headingActionGroup(new QActionGroup(this)),
-    m_UsingAutomate(false)
+    m_UsingAutomate(false),
+    m_automateLists(QStringList())
 {
     ui.setupUi(this);
     // Telling Qt to delete this window
@@ -264,6 +272,7 @@ MainWindow::MainWindow(const QString &openfilepath,
     ChangeSignalsWhenTabChanges(NULL, m_TabManager->GetCurrentContentTab());
     LoadInitialFile(openfilepath, version, is_internal);
     loadPluginsMenu();
+    UpdateAutomationMenu();
 }
 
 MainWindow::~MainWindow()
@@ -301,53 +310,13 @@ MainWindow::~MainWindow()
     if (m_TabManager) delete m_TabManager;
     if (m_PreviewWindow) delete m_PreviewWindow;
 #endif
-
 }
 
-void MainWindow::RunAutomate1()
+void MainWindow::runAutomate(QAction *action)
 {
-    QString automatefile = Utility::DefinePrefsDir() + "/automate01.txt";
+    QString lname = action->text();
+    QString automatefile = Utility::DefinePrefsDir() + "/automate" + lname + ".txt";
     RunAutomate(automatefile);
-}
-
-void MainWindow::EditAutomate1()
-{
-    QString automatefile = Utility::DefinePrefsDir() + "/automate01.txt";
-    EditAutomate(automatefile);
-}
-
-void MainWindow::RunAutomate2()
-{
-    QString automatefile = Utility::DefinePrefsDir() + "/automate02.txt";
-    RunAutomate(automatefile);
-}
-
-void MainWindow::EditAutomate2()
-{
-    QString automatefile = Utility::DefinePrefsDir() + "/automate02.txt";
-    EditAutomate(automatefile);
-}
-
-void MainWindow::RunAutomate3()
-{
-    QString automatefile = Utility::DefinePrefsDir() + "/automate03.txt";
-    RunAutomate(automatefile);
-}
-
-void MainWindow::EditAutomate3()
-{
-    QString automatefile = Utility::DefinePrefsDir() + "/automate03.txt";
-    EditAutomate(automatefile);
-}
-
-void MainWindow::EditAutomate(const QString &automatefile)
-{
-    AutomateEditor aedit(automatefile, this);
-    if (aedit.exec() != QDialog::Accepted) {
-        ShowMessageOnStatusBar(tr("Automate List Editor cancelled."));
-        return;
-    }
-    ShowMessageOnStatusBar(tr("Automate List edited."));
 }
 
 void MainWindow::RunAutomate(const QString &automatefile)
@@ -376,6 +345,12 @@ void MainWindow::RunAutomate(const QString &automatefile)
     m_AutomatePluginParameter = "";
 }
 
+void MainWindow::ManageAutomateListsDialog()
+{
+    ManageAutomation ma(m_automateLists);
+    ma.exec();
+    UpdateAutomationMenu();
+}
 
 bool MainWindow::Automate(const QStringList &commands)
 {
@@ -385,6 +360,7 @@ bool MainWindow::Automate(const QStringList &commands)
     QHash<QString, Plugin *> plugins = pdb->all_plugins();
     QStringList plugin_names = plugins.keys();
     bool has_error = false;
+    int countReplaced = -1;
     
     foreach(QString cmd , commands) {
         bool success = false;
@@ -472,13 +448,60 @@ bool MainWindow::Automate(const QStringList &commands)
                 // Temporarily reroute FindReplace Messages to the Status Bar so they are logged
                 connect(m_FindReplace, SIGNAL(ShowMessageRequest(const QString &)),
                         this, SLOT(ShowMessageOnStatusBar(const QString &)));
-                m_FindReplace->ReplaceAllSearch();
+                countReplaced = m_FindReplace->ReplaceAllSearch();
                 disconnect(m_FindReplace, SIGNAL(ShowMessageRequest(const QString &)),
                            this, SLOT(ShowMessageOnStatusBar(const QString &)));
                 success = true;
             } else {
                 ShowMessageOnStatusBar(tr("Missing or unknown Saved Search name") + ": " + cmd);
                 success = false;
+            }
+        // handle On Failed conditional saved search and its full name parameter
+        } else if (cmd.startsWith("OnFailedRunSavedSearchReplaceAll")) {
+            if (countReplaced == 0) {
+                QString fullname = cmd.mid(33, -1).trimmed();
+                m_SearchEditor->SetCurrentEntriesFromFullName(fullname);
+
+                if (m_SearchEditor->GetCurrentEntriesCount() > 0) {
+                    // m_FindReplace handles deleting each searchEntry that was created with new
+                    // Temporarily reroute FindReplace Messages to the Status Bar so they are logged
+                    connect(m_FindReplace, SIGNAL(ShowMessageRequest(const QString &)),
+                            this, SLOT(ShowMessageOnStatusBar(const QString &)));
+                    countReplaced = m_FindReplace->ReplaceAllSearch();
+                    disconnect(m_FindReplace, SIGNAL(ShowMessageRequest(const QString &)),
+                            this, SLOT(ShowMessageOnStatusBar(const QString &)));
+                    success = true;
+                } else {
+                    ShowMessageOnStatusBar(tr("Missing or unknown Saved Search name") + ": " + cmd);
+                    success = false;
+                }
+            } else {
+                ShowMessageOnStatusBar(tr("Conditional search did not run.") + ": " + cmd);
+                success = true;
+            }
+
+        // handle On Success conditional saved search and its full name parameter
+        } else if (cmd.startsWith("OnSuccessRunSavedSearchReplaceAll")) {
+            if (countReplaced > 0) {
+                QString fullname = cmd.mid(34, -1).trimmed();
+                m_SearchEditor->SetCurrentEntriesFromFullName(fullname);
+
+                if (m_SearchEditor->GetCurrentEntriesCount() > 0) {
+                    // m_FindReplace handles deleting each searchEntry that was created with new
+                    // Temporarily reroute FindReplace Messages to the Status Bar so they are logged
+                    connect(m_FindReplace, SIGNAL(ShowMessageRequest(const QString &)),
+                            this, SLOT(ShowMessageOnStatusBar(const QString &)));
+                    countReplaced = m_FindReplace->ReplaceAllSearch();
+                    disconnect(m_FindReplace, SIGNAL(ShowMessageRequest(const QString &)),
+                            this, SLOT(ShowMessageOnStatusBar(const QString &)));
+                    success = true;
+                } else {
+                    ShowMessageOnStatusBar(tr("Missing or unknown Saved Search name") + ": " + cmd);
+                    success = false;
+                }
+            } else {
+                ShowMessageOnStatusBar(tr("Conditional Search did not run.") + ": " + cmd);
+                success = true;
             }
         } else {
             ShowMessageOnStatusBar(tr("Missing or unknown plugin or tool") + ": " + cmd);
@@ -658,6 +681,82 @@ void MainWindow::unloadPluginsMenu()
     foreach(QAction * pa, m_qlactions) {
         disconnect(pa, &QAction::triggered, this, nullptr);
     }
+}
+
+
+void MainWindow::UpdateAutomationMenu()
+{
+    m_menuAutomate = ui.menuAutomate;
+    QAction* automate_menu_action = ui.menuAutomate->menuAction();
+
+    m_actionManageAutomate = ui.actionManage_AutomateLists;
+
+    // first dismantle any existing Automation menus
+    if (m_menuAutomate != NULL) {
+        if (m_menuAutomateRun != NULL) {
+            disconnect(m_menuAutomateRun, SIGNAL(triggered(QAction *)), this, SLOT(runAutomate(QAction *)));
+            m_menuAutomateRun->clear();
+            m_menuAutomate->removeAction(m_menuAutomateRun->menuAction());
+            m_menuAutomateRun = NULL;
+        }
+        disconnect(m_actionManageAutomate, SIGNAL(triggered()), this, SLOT(ManageAutomateListsDialog()));
+        foreach(QAction * aa, m_auactions) {
+            if (aa) {
+                disconnect(aa, &QAction::triggered, this, nullptr);
+            }
+        }
+    }
+
+    // rebuild the Automation Lists menus
+    connect(m_actionManageAutomate, SIGNAL(triggered()), this, SLOT(ManageAutomateListsDialog()));
+
+    // Setup up for quick launch of automation lists
+    int i = 0;
+    foreach(QAction* aa, m_auactions){
+        // Use the new signal/slot syntax and use a lambda to
+        // eliminate the need for the obsoleted QSignalMapper.
+        // [captured variables]() {...anonymous processing to do...;}
+        connect(aa, &QAction::triggered, this, [this,i]() {
+            MainWindow::QuickLaunchAutomate(i);
+        });
+        i++;
+    }
+    
+    // build a current list of automation lists
+    QString directoryPath = Utility::DefinePrefsDir();
+    QStringList nameFilters = QStringList() << "automate*.txt";
+    m_automateLists.clear();
+    QDirIterator it(directoryPath, nameFilters, QDir::Files | QDir::NoDotAndDotDot);
+    while (it.hasNext()) {
+        it.next();
+        QString key = it.fileName();
+        if (key.startsWith("automate") && key.endsWith(".txt")) {
+            int nc = key.length() - 12; // 12 is length of "automate" + ".txt"
+            QString lname = key.sliced(8, nc);
+            if (!lname.isEmpty()) {
+                m_automateLists << lname;
+            }
+        }
+    }
+    QStringList keys = m_automateLists;
+    keys.sort(Qt::CaseInsensitive);
+
+    foreach(QString key, keys) {
+        if (!key.isEmpty()) {
+            // add it to run menu
+            if (m_menuAutomateRun == NULL) {
+                m_menuAutomateRun  = m_menuAutomate->addMenu(tr("Run"));
+                connect(m_menuAutomateRun,  SIGNAL(triggered(QAction *)), this, SLOT(runAutomate(QAction *)));
+            }
+            m_menuAutomateRun->addAction(key);
+        }
+    }
+    
+    updateToolTipsOnAutomateIcons();
+    
+    SettingsStore settings;
+    automate_menu_action->setVisible(settings.automateShowMenu());
+
 }
 
 bool MainWindow::StandardizeEpub()
@@ -954,6 +1053,7 @@ bool MainWindow::RepoCommit()
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
     // make sure that the Sigil-Preferences directory has a "repo" folder
+    // and a tempwork folder inside of it
     QString localRepo = Utility::DefinePrefsDir() + "/repo";
     QDir repoDir(localRepo);
     if (!repoDir.exists()) {
@@ -1129,6 +1229,11 @@ void MainWindow::RepoDiff(QString bookid)
         ShowMessageOnStatusBar(tr("Diff Failed. No checkpoints found"));
         return;
     }
+    QString workRepo = localRepo + "/tempwork";
+    QDir repoWorkDir(workRepo);
+    if (!repoWorkDir.exists()) {
+        repoWorkDir.mkpath(workRepo);
+    }
     if (bookid.isEmpty()) {
         // use current epub's bookid and create one if needed
         bookid = m_Book->GetOPF()->GetUUIDIdentifierValue();
@@ -1171,7 +1276,7 @@ void MainWindow::RepoDiff(QString bookid)
     }
 
     // checkout this tag version and copy it to a tempfolder
-    TempFolder destdir;
+    TempFolder destdir(workRepo);
     QApplication::setOverrideCursor(Qt::WaitCursor);
     QFuture<QString> cfuture = QtConcurrent::run(&PythonRoutines::CopyTagToDestDirInPython, &pr,
                                                  localRepo, bookid, chkpoint1, destdir.GetPath() );
@@ -1944,10 +2049,8 @@ void MainWindow::Open()
             filter_string += filter + ";;";
         }
         QString default_filter = c_LoadFilters.value("epub");
-        QFileDialog::Options options = QFileDialog::Options();
-#ifdef Q_OS_MAC
-        options = options | QFileDialog::DontUseNativeDialog;
-#endif
+        QFileDialog::Options options = Utility::DlgOptions();
+
         QString filename = QFileDialog::getOpenFileName(this,
                            tr("Open File"),
                            m_LastFolderOpen,
@@ -2046,12 +2149,12 @@ bool MainWindow::SaveAs()
     QString sanitized_title = Utility::CleanFileName(main_title);
 
     QString proposed_name;
-    if (m_CurrentFileName == DEFAULT_FILENAME && !sanitized_title.isEmpty() && sanitized_title[0] != '[') {
+    if ((m_CurrentFileName.isEmpty() || m_CurrentFileName == DEFAULT_FILENAME) && !sanitized_title.isEmpty() && sanitized_title[0] != '[') {
         proposed_name = sanitized_title + ".epub";
     } else {
         proposed_name = QFileInfo(m_CurrentFilePath).fileName();
         if (proposed_name.isEmpty()) {
-            proposed_name = DEFAULT_FILENAME;
+            proposed_name = (m_CurrentFileName.isEmpty())?DEFAULT_FILENAME:m_CurrentFileName;
         }
     }
 
@@ -2069,11 +2172,7 @@ bool MainWindow::SaveAs()
         save_path       = m_LastFolderOpen + "/" + QFileInfo(proposed_name).completeBaseName() + ".epub";
         default_filter  = c_SaveFilters.value("epub");
     }
-    QFileDialog::Options options = QFileDialog::Options();
-#if !defined(Q_OS_WIN32)
-    options = options | QFileDialog::DontUseNativeDialog;
-#endif
-
+    QFileDialog::Options options = Utility::DlgOptions("LinuxUseNonNative");
 
     QString filename = QFileDialog::getSaveFileName(this,
                        tr("Save File"),
@@ -2129,10 +2228,8 @@ bool MainWindow::SaveACopy()
     filters.removeDuplicates();
     QString filter_string = "*.epub";
     QString default_filter  = "*.epub";
-    QFileDialog::Options options = QFileDialog::Options();
-#if !defined(Q_OS_WIN32)
-    options = options | QFileDialog::DontUseNativeDialog;
-#endif
+    QFileDialog::Options options = Utility::DlgOptions("LinuxUseNonNative");
+
     QString filename = QFileDialog::getSaveFileName(this,
                        tr("Save a Copy"),
                        m_SaveACopyFilename,
@@ -3253,6 +3350,74 @@ void MainWindow::InsertId()
     }
 }
 
+
+void MainWindow::InsertClip()
+{
+    SaveTabData();
+    ShowMessageOnStatusBar();
+
+    FlowTab *flow_tab = GetCurrentFlowTab();
+    if (!flow_tab) {
+        Utility::warning(this, tr("Sigil"), tr("You can only insert an aria clips in xhtml files."));
+        return;
+    }
+    HTMLResource* html_resource = qobject_cast<HTMLResource*>(flow_tab->GetLoadedResource());
+    QString book_lang;
+    if (html_resource) book_lang = html_resource->GetLanguageAttribute();
+    if (book_lang.isEmpty()) {
+        book_lang = m_Book->GetOPF()->GetPrimaryBookLanguage();
+    }
+    
+    QString selected_text = flow_tab->GetSelectedText();
+    
+    
+    AddClips addclip(selected_text, book_lang, this);
+
+    if (addclip.exec() == QDialog::Accepted) {
+        QString new_clip = addclip.GetSelectedClip();
+        if (!new_clip.isEmpty()) {
+            if (!flow_tab->PasteClipText(new_clip)) {
+                Utility::warning(this, tr("Sigil"), tr("Inserting an aria clip failed."));
+                return;
+            }
+        }
+    }
+}
+
+void MainWindow::InsertRole()
+{
+    SaveTabData();
+    ShowMessageOnStatusBar();
+
+    FlowTab *flow_tab = GetCurrentFlowTab();
+    if (!flow_tab || !flow_tab->InsertRoleEnabled()) {
+        Utility::warning(this, tr("Sigil"), tr("You cannot insert an aria role at this position."));
+        return;
+    }
+
+    QString tagname = flow_tab->GetCurrentTag();
+    
+    AddRoles addmeaning(tagname, this);
+
+    if (addmeaning.exec() == QDialog::Accepted) {
+        QStringList codes = addmeaning.GetSelectedEntries();
+        if (!codes.isEmpty()) {
+            QString new_code = codes.at(0);
+            QStringList allowed_tags = AriaRoles::instance()->AllowedTags(new_code);
+            if (!allowed_tags.isEmpty()) {
+                if (!allowed_tags.contains(tagname)) {
+                    Utility::warning(this, tr("Sigil"), tr("The selected role cannot be used on this tag."));
+                    return;
+                }
+                if (!flow_tab->InsertRole(new_code)) {
+                    Utility::warning(this, tr("Sigil"), tr("You cannot insert an aria role at this position."));
+                    return;
+                }
+            }
+        }
+    }
+}
+
 void MainWindow::InsertHyperlink()
 {
     SaveTabData();
@@ -3327,29 +3492,40 @@ void MainWindow::ApplicationFocusChanged(QWidget *old, QWidget *now)
 {
     DBG qDebug() << "focus changed: " << old << now;
     QWidget *window = QApplication::activeWindow();
-
+    DBG qDebug() << "active window is: " << window;
+    
     // sometimes QApplication::activeWindow() returns nullptr but
     // the destination for focus (now) exists.  What we really
     // need to know is the QMainWindow whose descendent is now
     if (!window) {
+        DBG qDebug() << "searching for active window";
         window = now;
         while(window && !(qobject_cast<QMainWindow *>(window))) {
             window = window->parentWidget();
         }
     }
+
+    DBG qDebug() << "final active window: " << window;
     
     if (!window || !now) {
+        DBG qDebug() << "returning since no active window or no new focus point";
         // Nothing to do - application is exiting
         return;
     }
 
     // We are only interested in focus events that take place in this MainWindow
     if (window != this) {
+        DBG qDebug() << "returning since active window is not this: " << window << this;
         return;
     }
 
-    m_LastPasteTarget = dynamic_cast<PasteTarget *>(now);
-
+    // only update the last paste target when a new one paste target is moved to
+    PasteTarget* npt = dynamic_cast<PasteTarget*>(now);
+    if (npt) {
+        m_LastPasteTarget = npt;
+        DBG qDebug() << "updating m_LastPasteTarget to: " << m_LastPasteTarget;
+    }
+    
     // Update the zoom target based on current window.
     if (m_PreviewWindow->HasFocus()) {
         m_ZoomPreview = true;
@@ -3379,6 +3555,24 @@ void MainWindow::QuickLaunchPlugin(int i)
             { 
                 PluginRunner prunner(m_TabManager, this);
                 prunner.exec(pname);
+            }
+            qApp->processEvents();
+        }
+    }
+}
+
+void MainWindow::QuickLaunchAutomate(int i)
+{
+    SettingsStore ss;
+    QStringList namemap = ss.automateMap();
+    if ((i >= 0) && (namemap.count() > i)) {
+        QString lname = namemap.at(i);
+        if (m_automateLists.contains(lname)) {
+            // QApplication keeps a single modalWindowList across multiple main
+            // windows and this list is not updated until modal dialog is deleted
+            {
+                QString automatefile = Utility::DefinePrefsDir() + "/automate" + lname + ".txt";
+                RunAutomate(automatefile);
             }
             qApp->processEvents();
         }
@@ -3441,6 +3635,15 @@ void MainWindow::PasteClipEntriesIntoCurrentTarget(const QList<ClipEditorModel::
 
 void MainWindow::PasteClipEntriesIntoPreviousTarget(const QList<ClipEditorModel::clipEntry *> &clips)
 {
+    if (m_LastPasteTarget) {
+        bool applied = m_LastPasteTarget->PasteClipEntries(clips);
+        if (applied) {
+            // Clear the statusbar afterwards but only if entries were pasted.
+            ShowMessageOnStatusBar();
+            return;
+        }
+    }
+    // default to the CV tab if it is editable
     ContentTab *tab = GetCurrentContentTab();
     if (tab == NULL)  return;
     FlowTab *flow_tab = qobject_cast<FlowTab *>(tab);
@@ -3449,9 +3652,9 @@ void MainWindow::PasteClipEntriesIntoPreviousTarget(const QList<ClipEditorModel:
         ShowMessageOnStatusBar();
         return;
     }
-    CSSTab * css_tab = qobject_cast<CSSTab *>(tab);
-    if (css_tab && css_tab->PasteClipEntries(clips)) {
-        css_tab->setFocus();
+    TextTab * txt_tab = qobject_cast<TextTab *>(tab);
+    if (txt_tab && txt_tab->PasteClipEntries(clips)) {
+        txt_tab->setFocus();
         ShowMessageOnStatusBar();
     }
 }
@@ -4250,6 +4453,7 @@ void MainWindow::PreferencesDialog()
     }
 
     updateToolTipsOnPluginIcons();
+    UpdateAutomationMenu();
 }
 
 
@@ -4284,6 +4488,7 @@ void MainWindow::ManagePluginsDialog()
     }
 
     loadPluginsMenu();
+    UpdateAutomationMenu();
 }
 
 void MainWindow::updateToolTipsOnPluginIcons()
@@ -4295,6 +4500,19 @@ void MainWindow::updateToolTipsOnPluginIcons()
         QString pname = tr("RunPlugin") + QString::number(i+1);
         if (namemap.count() > i) pname = namemap.at(i);
         pa->setToolTip(pname);
+        i++;
+    }
+}
+
+void MainWindow::updateToolTipsOnAutomateIcons()
+{
+    SettingsStore ss;
+    QStringList namemap = ss.automateMap();
+    int i=0;
+    foreach(QAction* aa, m_auactions) {
+        QString lname = tr("RunAutomate") + QString::number(i+1);
+        if (namemap.count() > i) lname = namemap.at(i);
+        aa->setToolTip(lname);
         i++;
     }
 }
@@ -4376,11 +4594,23 @@ void MainWindow::UpdateMWState(bool set_tab_state)
     ContentTab *tab = GetCurrentContentTab();
 
     if (tab == NULL) {
+        m_LastPasteTarget = nullptr;
+        DBG qDebug() << "UpdateMWState had current tab Null so reset m_LastPasteTarget";
         return;
     }
 
     Resource::ResourceType type = tab->GetLoadedResource()->Type();
 
+    if (type == Resource::ImageResourceType ||
+        type == Resource::VideoResourceType ||
+        type == Resource::AudioResourceType ||
+        type == Resource::PdfResourceType ||
+        type == Resource::FontResourceType) {
+        // change to non-text based tab which in no PasteTarget
+        m_LastPasteTarget = nullptr;
+        DBG qDebug() << "UpdateMWState, tab changed to non-text tab so reset m_LastPasteTarget: ";
+    }
+    
     if (type == Resource::HTMLResourceType) {
         if (set_tab_state) {
             FlowTab *ftab = qobject_cast<FlowTab *>(tab);
@@ -4471,6 +4701,7 @@ void MainWindow::UpdateUIOnTabCountChange()
 
 void MainWindow::SetStateActionsCodeView()
 {
+    bool editing_epub3 = m_Book->GetOPF()->GetEpubVersion().startsWith("3");
     ui.actionPrintPreview->setEnabled(true);
     ui.actionPrint->setEnabled(true);
     ui.actionSplitSection->setEnabled(true);
@@ -4478,6 +4709,8 @@ void MainWindow::SetStateActionsCodeView()
     ui.actionInsertFile->setEnabled(true);
     ui.actionInsertSpecialCharacter->setEnabled(true);
     ui.actionInsertId->setEnabled(true);
+    ui.actionInsertClip->setEnabled(editing_epub3);
+    ui.actionInsertRole->setEnabled(editing_epub3);
     ui.actionInsertHyperlink->setEnabled(true);
     ui.actionInsertClosingTag->setEnabled(true);
     ui.actionUndo->setEnabled(true);
@@ -4569,6 +4802,8 @@ void MainWindow::SetStateActionsRawView()
     ui.actionInsertFile->setEnabled(false);
     ui.actionInsertSpecialCharacter->setEnabled(true);
     ui.actionInsertId->setEnabled(false);
+    ui.actionInsertClip->setEnabled(false);
+    ui.actionInsertRole->setEnabled(false);
     ui.actionInsertHyperlink->setEnabled(false);
     ui.actionInsertClosingTag->setEnabled(false);
     ui.actionUndo->setEnabled(true);
@@ -4641,6 +4876,8 @@ void MainWindow::SetStateActionsStaticView()
     ui.actionInsertFile->setEnabled(false);
     ui.actionInsertSpecialCharacter->setEnabled(false);
     ui.actionInsertId->setEnabled(false);
+    ui.actionInsertClip->setEnabled(false);
+    ui.actionInsertRole->setEnabled(false);
     ui.actionInsertHyperlink->setEnabled(false);
     ui.actionInsertClosingTag->setEnabled(false);
     ui.actionUndo->setEnabled(false);
@@ -4724,9 +4961,9 @@ void MainWindow::UpdatePreviewRequest()
     m_PreviewTimer.start();
 }
 
-void MainWindow::UpdatePreviewCSSRequest()
+void MainWindow::UpdatePreviewTabRequest()
 {
-    m_SaveCSS = true;
+    m_SaveTab = true;
     UpdatePreviewRequest();
 }
 
@@ -4773,10 +5010,11 @@ void MainWindow::UpdatePreview()
     ContentTab *tab = GetCurrentContentTab();
     if (tab != NULL) {
 
-        // Save CSS if update requested from CSS tab
-        if (m_SaveCSS) {
-            m_SaveCSS = false;
+        // Save Tab if update requested from a TextTab tab like CSS or SVG tabs
+        if (m_SaveTab) {
+            m_SaveTab = false;
             tab->SaveTabContent();
+            m_PreviewWindow->ForceFullWebCacheClear();
         }
 
         html_resource = qobject_cast<HTMLResource *>(tab->GetLoadedResource());
@@ -5746,6 +5984,10 @@ void MainWindow::UpdateUiWithCurrentFile(const QString &fullfilepath, bool just_
     } else {
         setWindowTitle(tr("%1[*] - epub%2 - %3").arg(m_CurrentFileName).arg(epubversion).arg(tr("Sigil")));
     }
+
+    // disable epub3 tools menu on epub2
+    ui.menuEPUB3Tools->setEnabled(epubversion.startsWith("3"));
+
     if (m_CurrentFilePath.isEmpty()) {
         return;
     }
@@ -5923,6 +6165,11 @@ void MainWindow::ExtendUI()
     m_qlactions.append(ui.actionPlugin9);
     m_qlactions.append(ui.actionPlugin10);
 
+    // initialize list of quick launch automation actions
+    m_auactions.append(ui.actionAutomate1);
+    m_auactions.append(ui.actionAutomate2);
+    m_auactions.append(ui.actionAutomate3);
+    
     // initialize the first set of clip actions
     foreach(QAction * clipaction, ui.toolBarClips->actions()) {
         if (!clipaction->isSeparator()) {
@@ -6096,10 +6343,12 @@ void MainWindow::ExtendUI()
     sm->registerAction(this, ui.actionCopy, "MainWindow.Copy");
     sm->registerAction(this, ui.actionPaste, "MainWindow.Paste");
     sm->registerAction(this, ui.actionPasteClipboardHistory, "MainWindow.PasteClipboardHistory");
+    sm->registerAction(this, ui.actionInsertId, "MainWindow.InsertId");
+    sm->registerAction(this, ui.actionInsertClip, "MainWindow.InsertClip");
+    sm->registerAction(this, ui.actionInsertRole, "MainWindow.InsertRole");
     sm->registerAction(this, ui.actionDeleteLine, "MainWindow.DeleteLine");
     sm->registerAction(this, ui.actionInsertFile, "MainWindow.InsertFile");
     sm->registerAction(this, ui.actionInsertSpecialCharacter, "MainWindow.InsertSpecialCharacter");
-    sm->registerAction(this, ui.actionInsertId, "MainWindow.InsertId");
     sm->registerAction(this, ui.actionInsertHyperlink, "MainWindow.InsertHyperlink");
     sm->registerAction(this, ui.actionMarkForIndex, "MainWindow.MarkForIndex");
     sm->registerAction(this, ui.actionSplitSection, "MainWindow.SplitSection");
@@ -6214,14 +6463,10 @@ void MainWindow::ExtendUI()
     sm->registerAction(this, ui.actionManageRepo,         "MainWindow.ManageCheckpointRepository");
     sm->registerAction(this, ui.actionEditCheckpointDesc, "MainWindow.EditCheckpointDescription");
     sm->registerAction(this, ui.actionLog,                "MainWindow.ShowCheckpointLog");
-
     // Automation Lists
     sm->registerAction(this, ui.actionAutomate1,   "MainWindow.RunAutomate1");
     sm->registerAction(this, ui.actionAutomate2,   "MainWindow.RunAutomate2");
     sm->registerAction(this, ui.actionAutomate3,   "MainWindow.RunAutomate3");
-    sm->registerAction(this, ui.actionAutomate1Editor,   "MainWindow.EditAutomate1");
-    sm->registerAction(this, ui.actionAutomate2Editor,   "MainWindow.EditAutomate2");
-    sm->registerAction(this, ui.actionAutomate3Editor,   "MainWindow.EditAutomate3");
     // Help
     sm->registerAction(this, ui.actionUserGuide, "MainWindow.UserGuide");
     sm->registerAction(this, ui.actionFAQ, "MainWindow.FAQ");
@@ -6256,26 +6501,15 @@ void MainWindow::ExtendUI()
     sm->registerAction(this, ui.actionFocusClips,       "MainWindow.FocusOnClips");
     
     // Headings QToolButton
-    ui.tbHeadings->setPopupMode(QToolButton::InstantPopup);
+    ui.tbHeadings->setPopupMode(QToolButton::MenuButtonPopup);
 
     // Change Case QToolButton
-    ui.tbCase->setPopupMode(QToolButton::InstantPopup);
-
-    // Automate QToolButtons - set to run on click but delay for menu
-    ui.tbAutomate1->setPopupMode(QToolButton::DelayedPopup);
-    ui.tbAutomate2->setPopupMode(QToolButton::DelayedPopup);
-    ui.tbAutomate3->setPopupMode(QToolButton::DelayedPopup);
-    ui.tbAutomate1->setDefaultAction(ui.actionAutomate1);
-    ui.tbAutomate2->setDefaultAction(ui.actionAutomate2);
-    ui.tbAutomate3->setDefaultAction(ui.actionAutomate3);
+    ui.tbCase->setPopupMode(QToolButton::MenuButtonPopup);
 
     // use this code to disable any QToolButtons with pull down menus
     // from inadvertantly being on the tab to shift focus chain
     ui.tbHeadings->setFocusPolicy(Qt::NoFocus);
     ui.tbCase->setFocusPolicy(Qt::NoFocus);
-    ui.tbAutomate1->setFocusPolicy(Qt::NoFocus);
-    ui.tbAutomate2->setFocusPolicy(Qt::NoFocus);
-    ui.tbAutomate3->setFocusPolicy(Qt::NoFocus);
 
     UpdateClipsUI();
 }
@@ -6432,19 +6666,13 @@ void MainWindow::ConnectSignalsToSlots()
     connect(ui.actionEditCheckpointDesc,  SIGNAL(triggered()), this, SLOT(RepoEditTagDescription()));
     connect(ui.actionLog,                 SIGNAL(triggered()), this, SLOT(RepoShowLog()));
 
-    // Automation
-    connect(ui.actionAutomate1,        SIGNAL(triggered()), this, SLOT(RunAutomate1()));
-    connect(ui.actionAutomate2,        SIGNAL(triggered()), this, SLOT(RunAutomate2()));
-    connect(ui.actionAutomate3,        SIGNAL(triggered()), this, SLOT(RunAutomate3()));
-    connect(ui.actionAutomate1Editor,  SIGNAL(triggered()), this, SLOT(EditAutomate1()));
-    connect(ui.actionAutomate2Editor,  SIGNAL(triggered()), this, SLOT(EditAutomate2()));
-    connect(ui.actionAutomate3Editor,  SIGNAL(triggered()), this, SLOT(EditAutomate3()));
-
     // Edit
     connect(ui.actionXEditor,         SIGNAL(triggered()), this, SLOT(launchExternalXEditor()));
     connect(ui.actionInsertFile,      SIGNAL(triggered()), this, SLOT(InsertFileDialog()));
     connect(ui.actionInsertSpecialCharacter, SIGNAL(triggered()), this, SLOT(InsertSpecialCharacter()));
     connect(ui.actionInsertId,        SIGNAL(triggered()),  this,   SLOT(InsertId()));
+    connect(ui.actionInsertClip,      SIGNAL(triggered()),  this,   SLOT(InsertClip()));
+    connect(ui.actionInsertRole,      SIGNAL(triggered()),  this,   SLOT(InsertRole()));
     connect(ui.actionInsertHyperlink, SIGNAL(triggered()),  this,   SLOT(InsertHyperlink()));
     connect(ui.actionPreferences,     SIGNAL(triggered()), this, SLOT(PreferencesDialog()));
     // Search
@@ -6504,12 +6732,14 @@ void MainWindow::ConnectSignalsToSlots()
     connect(ui.actionDeleteUnusedMedia,    SIGNAL(triggered()), this, SLOT(DeleteUnusedMedia()));
     connect(ui.actionDeleteUnusedStyles,    SIGNAL(triggered()), this, SLOT(DeleteUnusedStyles()));
     // Change case
+    connect(ui.tbCase, &QToolButton::triggered, ui.tbCase, &QToolButton::setDefaultAction);
     connect(m_casingChangeGroup,    SIGNAL(triggered(QAction*)), this, SLOT(ChangeCasing(QAction*)));
     // View
     connect(ui.actionZoomIn,        SIGNAL(triggered()), this, SLOT(ZoomIn()));
     connect(ui.actionZoomOut,       SIGNAL(triggered()), this, SLOT(ZoomOut()));
     connect(ui.actionZoomReset,     SIGNAL(triggered()), this, SLOT(ZoomReset()));
     connect(ui.actionHeadingPreserveAttributes, SIGNAL(triggered(bool)), this, SLOT(SetPreserveHeadingAttributes(bool)));
+    connect(ui.tbHeadings, &QToolButton::triggered, ui.tbHeadings, &QToolButton::setDefaultAction);
     connect(m_headingActionGroup,   SIGNAL(triggered(QAction*)), this, SLOT(ApplyHeadingStyleToTab(QAction*)));
     // Window
     connect(ui.actionNextTab,       SIGNAL(triggered()), m_TabManager, SLOT(NextTab()));
@@ -6568,6 +6798,7 @@ void MainWindow::ConnectSignalsToSlots()
     connect(m_BookBrowser, SIGNAL(LinkJavascriptsToResourcesRequest(QList<Resource *>)), this, SLOT(LinkJavascriptsToResources(QList<Resource *>)));
     connect(m_BookBrowser, SIGNAL(RemoveResourcesRequest()), this, SLOT(RemoveResources()));
     connect(m_BookBrowser, SIGNAL(OpenFileRequest(QString, int, int)), this, SLOT(OpenFile(QString, int, int)));
+    connect(m_BookBrowser, SIGNAL(ViewImageRequest(const QUrl&)), this, SLOT(ViewImageDialog(const QUrl&)));
     connect(m_TableOfContents, SIGNAL(OpenResourceRequest(Resource *, int, int, const QString &, const QUrl &)),
             this,     SLOT(OpenResource(Resource *, int, int, const QString &, const QUrl &)));
     connect(m_ValidationResultsView, SIGNAL(OpenResourceRequest(Resource *, int, int, const QString &)),
@@ -6669,6 +6900,7 @@ void MainWindow::MakeTabConnections(ContentTab *tab)
         connect(tab,   SIGNAL(SelectionChanged()),           this,          SLOT(UpdateUIOnTabChanges()));
     }
 
+
     if (rType == Resource::HTMLResourceType ||
         rType == Resource::ImageResourceType ||
         rType == Resource::SVGResourceType) {
@@ -6677,7 +6909,13 @@ void MainWindow::MakeTabConnections(ContentTab *tab)
     }
 
     if (rType == Resource::CSSResourceType) {
-        connect(tab,   SIGNAL(CSSUpdated()), this, SLOT(UpdatePreviewCSSRequest()));
+        connect(tab,   SIGNAL(TabUpdated()), this, SLOT(UpdatePreviewTabRequest()));
+    }
+
+    if (rType == Resource::SVGResourceType) {
+        connect(tab,   SIGNAL(ViewImageRequest(const QUrl &)),
+                this,  SLOT(ViewImageDialog(const QUrl &)));
+        connect(tab,   SIGNAL(TabUpdated()), this, SLOT(UpdatePreviewTabRequest()));
     }
 
     if (rType == Resource::HTMLResourceType ||

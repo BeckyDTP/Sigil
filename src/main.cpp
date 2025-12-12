@@ -1,7 +1,7 @@
 /************************************************************************
 **
-**  Copyright (C) 2018-2024  Kevin B. Hendricks, Stratford Ontario Canada
-**  Copyright (C) 2019-2024  Doug Massay
+**  Copyright (C) 2018-2025  Kevin B. Hendricks, Stratford Ontario Canada
+**  Copyright (C) 2019-2025  Doug Massay
 **  Copyright (C) 2009-2011  Strahinja Markovic  <strahinja.markovic@gmail.com>
 **
 **  This file is part of Sigil.
@@ -42,6 +42,9 @@
 #include <QtWebEngineWidgets>
 #include <QtWebEngineCore>
 #include <QWebEngineUrlScheme>
+#include <QByteArray>
+#include <QByteArrayView>
+#include <QSharedMemory>
 
 #include "Misc/PluginDB.h"
 #include "Misc/UILanguage.h"
@@ -330,6 +333,30 @@ void update_ini_file_if_needed(const QString oldfile, const QString newfile)
     }
 }
 
+void set_env_vars_if_needed(const QString& env_path)
+{
+    QString envdata;
+    if (QFile::exists(env_path)) {
+        envdata = Utility::ReadUnicodeTextFile(env_path, false);
+    }
+    // assumes NAME=VALUE and one per line
+    if (!envdata.isEmpty()) {
+        QStringList evpairs = envdata.split('\n');
+        foreach(QString apair, evpairs) {
+            if (apair.contains('=')) {
+                QStringList nv = apair.split('=');
+                QString evname = nv.value(0).trimmed();
+                QString evval = nv.value(1).trimmed();
+                // This is defined as: bool qputenv(const char * varName, QByteArrayView raw);
+                if (!evname.isEmpty() && !evval.isEmpty()) {
+                    qputenv(evname.toLocal8Bit().data(), evval.toLocal8Bit());
+                    // qDebug() << "setting ev: " << evname << " to: " << evval;
+                }
+            }
+        }
+    }
+}
+
 
 // Application entry point
 int main(int argc, char *argv[])
@@ -344,6 +371,10 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain("sigil-ebook.com");
     QCoreApplication::setApplicationName("sigil");
     QCoreApplication::setApplicationVersion(SIGIL_VERSION);
+
+    // handle env-vars.txt if present in Sigil Prefs Folder
+    QString env_path = Utility::DefinePrefsDir() + "/env-vars.txt";
+    set_env_vars_if_needed(env_path);
 
     // make sure the default Sigil workspace folder has been created
     QString workspace_path = Utility::DefinePrefsDir() + "/workspace";
@@ -372,10 +403,20 @@ int main(int argc, char *argv[])
 
     // register the our own url scheme (this is required since Qt 5.12)
     QWebEngineUrlScheme sigilScheme("sigil");
-    sigilScheme.setFlags(QWebEngineUrlScheme::SecureScheme |
-                         QWebEngineUrlScheme::LocalScheme |
-                         QWebEngineUrlScheme::LocalAccessAllowed |
-                         QWebEngineUrlScheme::ContentSecurityPolicyIgnored);
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 6, 0)
+    sigilScheme.setFlags( QWebEngineUrlScheme::SecureScheme |
+                          QWebEngineUrlScheme::LocalScheme |
+                          QWebEngineUrlScheme::LocalAccessAllowed |
+                          QWebEngineUrlScheme::ContentSecurityPolicyIgnored );
+#else
+    sigilScheme.setFlags( QWebEngineUrlScheme::SecureScheme |
+                          QWebEngineUrlScheme::LocalScheme |
+                          QWebEngineUrlScheme::LocalAccessAllowed |
+                          QWebEngineUrlScheme::ContentSecurityPolicyIgnored |
+                          QWebEngineUrlScheme::FetchApiAllowed  );
+#endif
+
     // sigilScheme.setSyntax(QWebEngineUrlScheme::Syntax::Host);
     sigilScheme.setSyntax(QWebEngineUrlScheme::Syntax::Path);
     QWebEngineUrlScheme::registerScheme(sigilScheme);
@@ -499,6 +540,18 @@ int main(int argc, char *argv[])
     removeMacosSpecificMenuItems();
 #endif
 
+    // Test to see if there is another instance of Sigil already running
+    QString memorykey = qgetenv("USER");
+    if (memorykey.isEmpty()) memorykey = qgetenv("USERNAME");
+    memorykey = "SIGIL-EBOOK-SIGIL" + memorykey; 
+    QSharedMemory sharedMemory(memorykey);
+    if (!sharedMemory.create(128)) {
+        // another version of Sigil is already running
+        app.setFirstInstance(false);
+    } else {
+        app.setFirstInstance(true);
+    }
+    
     // Install an event filter for the application
     // so we can catch OS X's file open events
     // This needs to be done upfront to prevent events from
@@ -714,7 +767,8 @@ int main(int argc, char *argv[])
         // Needs to be created on the heap so that
         // the reply has time to return.
         // Skip if compile-time define or runtime env var is set.
-        if ((!DONT_CHECK_FOR_UPDATES) && (!qEnvironmentVariableIsSet("SKIP_SIGIL_UPDATE_CHECK"))) {
+        if ((!DONT_CHECK_FOR_UPDATES) && !qEnvironmentVariableIsSet("SKIP_SIGIL_UPDATE_CHECK")
+	    && !qEnvironmentVariableIsSet("SIGIL_SKIP_UPDATE_CHECK")) {
             UpdateChecker *checker = new UpdateChecker(&app);
             checker->CheckForUpdate();
         }

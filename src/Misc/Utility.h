@@ -33,6 +33,7 @@
 #include <QSet>
 #include <QStringList>
 #include <QImage>
+#include <QFileDialog>
 
 class QStringView;
 class QWidget;
@@ -136,7 +137,7 @@ public:
     // Reads the text file specified with the full file path;
     // text needs to be in UTF-8 or UTF-16; if the file cannot
     // be read, an error dialog is shown and an empty string returned
-    static QString ReadUnicodeTextFile(const QString &fullfilepath);
+    static QString ReadUnicodeTextFile(const QString &fullfilepath, bool canthrow=true);
 
     // Writes the provided text variable to the specified
     // file; if the file exists, it is truncated
@@ -282,6 +283,8 @@ public:
     static QString UseNFC(const QString& text);
 
     static QString CleanFileName(const QString &name);
+
+    static QFileDialog::Options DlgOptions(const QString special_case = QString());
 };
 #endif // UTILITY_H
 

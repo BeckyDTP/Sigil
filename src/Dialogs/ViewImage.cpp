@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2019-2024 Kevin B. Hendricks
+**  Copyright (C) 2019-2025 Kevin B. Hendricks
 **  Copyright (C) 2013      Dave Heiland
 **
 **  This file is part of Sigil.
@@ -46,6 +46,7 @@ ViewImage::ViewImage(QWidget *parent, bool delete_on_close)
     m_layout(new QVBoxLayout(this))
 {
     if (delete_on_close) setAttribute(Qt::WA_DeleteOnClose, true);
+    setMinimumSize(200, 200);
     m_layout->addWidget(m_iv);
     m_bp->setToolTip(tr("Close this window"));
     m_bp->setText(tr("Done"));
@@ -72,7 +73,7 @@ QSize ViewImage::sizeHint()
 void ViewImage::ShowImage(QString path)
 {
     m_iv->ShowImage(path);
-    QApplication::processEvents();
+    QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
 }
 
 void ViewImage::ReloadViewer()
@@ -87,8 +88,6 @@ void ViewImage::ReadSettings()
     QByteArray geometry = settings.value("geometry").toByteArray();
     if (!geometry.isNull()) {
         restoreGeometry(geometry);
-    } else {
-        resize(sizeHint());
     }
     settings.endGroup();
 }

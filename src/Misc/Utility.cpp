@@ -497,7 +497,7 @@ bool Utility::IsFileReadable(const QString &fullfilepath)
 // Reads the text file specified with the full file path;
 // text needs to be in UTF-8 or UTF-16; if the file cannot
 // be read, an error dialog is shown and an empty string returned
-QString Utility::ReadUnicodeTextFile(const QString &fullfilepath)
+QString Utility::ReadUnicodeTextFile(const QString &fullfilepath, bool canthrow)
 {
     // TODO: throw an exception instead of
     // returning an empty string
@@ -506,9 +506,12 @@ QString Utility::ReadUnicodeTextFile(const QString &fullfilepath)
     // Check if we can open the file
     if (!file.open(QFile::ReadOnly)) {
         std::string msg = fullfilepath.toStdString() + ": " + file.errorString().toStdString();
-        throw(CannotOpenFile(msg));
+        if (canthrow) {
+            throw(CannotOpenFile(msg));
+        }
+        qDebug() << QString::fromStdString(msg);
+        return QString();
     }
-
     QTextStream in(&file);
     // Input should be UTF-8
     // This will automatically switch reading from
@@ -1550,7 +1553,7 @@ QString Utility::UseNFC(const QString& text)
 {
     QString txt;
     MainApplication *mainApplication = qobject_cast<MainApplication *>(qApp);
-    if (mainApplication->AlwaysUseNFC()) {
+    if (mainApplication && mainApplication->AlwaysUseNFC()) {
         txt = text.normalized(QString::NormalizationForm_C);
     } else {
         txt = text;
@@ -1566,27 +1569,51 @@ QString Utility::CleanFileName(const QString &name)
     result.replace("\"", "_");
     result.replace("+", "_");
     result.replace(" ", "_");
+    result.replace(",", "_");
+    result.replace(";", "_");
     result = result.trimmed();
 
-    QRegularExpression only_dots("\\.+");
+    QRegularExpression only_dots("^\\.+$");
     if (result == "." || result == ".." || only_dots.match(result).hasMatch()) {
         return "_";
     }
 
-    result.replace("..", "_");
+    result.replace(QRegularExpression("\\.{2,}"), "_");
 
-    if (result.endsWith(".")) {
-        result.chop(1);
-        result.append("_");
-    }
+    result.replace('.', '_');
 
-    if (!result.isEmpty() && result.startsWith(".")) {
-        result.prepend("_");
-    }
+    result.replace(QRegularExpression("_+"), "_");
 
     if (result.isEmpty()) {
         return "_";
-    } else {
-        return result;
     }
+    return result;
+}
+
+// to be used in place of QFileDialog::Options() to initialize them
+QFileDialog::Options Utility::DlgOptions(const QString special_case)
+{
+    QFileDialog::Options options = QFileDialog::Options();
+    if (qEnvironmentVariableIsSet("SIGIL_NO_CUSTOM_DIRECTORY_ICONS")) {
+        options = options | QFileDialog::DontUseCustomDirectoryIcons;
+    }
+    if (qEnvironmentVariableIsSet("SIGIL_FORCE_NATIVE_FILE_DIALOG")) {
+        return options;
+    }
+#if defined(Q_OS_MAC)
+    if (special_case.contains("MacUseNative")) {
+        return options;
+    }
+    options = options | QFileDialog::DontUseNativeDialog;
+#elif defined(Q_OS_WIN32)
+    if (special_case.contains("Win32UseNonNative")) {
+        options = options | QFileDialog::DontUseNativeDialog;
+    }
+#else
+    // Linux and other Unix Platforms
+    if (special_case.contains("LinuxUseNonNative")) {
+        options = options | QFileDialog::DontUseNativeDialog;
+    }
+#endif
+    return options;
 }

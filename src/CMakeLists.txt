@@ -82,6 +82,10 @@ set( RESOURCE_OBJECT_FILES
 set( DIALOG_FILES
     Dialogs/About.cpp
     Dialogs/About.h
+    Dialogs/AddClips.cpp
+    Dialogs/AddClips.h
+    Dialogs/AddRoles.cpp
+    Dialogs/AddRoles.h
     Dialogs/AddSemantics.cpp
     Dialogs/AddSemantics.h
     Dialogs/AddMetadata.cpp
@@ -96,6 +100,8 @@ set( DIALOG_FILES
     Dialogs/EditTOC.h
     Dialogs/EmptyLayout.cpp
     Dialogs/EmptyLayout.h
+    Dialogs/ManageAutomation.cpp
+    Dialogs/ManageAutomation.h
     Dialogs/ManageRepos.cpp
     Dialogs/ManageRepos.h
     Dialogs/MDViewer.cpp
@@ -106,6 +112,8 @@ set( DIALOG_FILES
     Dialogs/RepoLog.h
     Dialogs/ChgViewer.cpp
     Dialogs/ChgViewer.h
+    Dialogs/PreviewFileDialog.cpp
+    Dialogs/PreviewFileDialog.h
     Dialogs/SourceViewer.cpp
     Dialogs/SourceViewer.h
     Dialogs/ListSelector.h
@@ -166,6 +174,8 @@ set( DIALOG_FILES
     Dialogs/PreferenceWidgets/PreserveEntitiesWidget.h
     Dialogs/PreferenceWidgets/PluginWidget.cpp
     Dialogs/PreferenceWidgets/PluginWidget.h
+    Dialogs/PreviewFileDialog.cpp
+    Dialogs/PreviewFileDialog.h
     Dialogs/RenameTemplate.cpp
     Dialogs/RenameTemplate.h
     Dialogs/Reports.cpp
@@ -331,6 +341,10 @@ set( EMBEDPYTHON_FILES
 set( MISC_FILES
     Misc/AppEventFilter.cpp
     Misc/AppEventFilter.h
+    Misc/AriaClips.cpp
+    Misc/AriaClips.h
+    Misc/AriaRoles.cpp
+    Misc/AriaRoles.h
     Misc/AsciiFy.cpp
     Misc/AsciiFy.h
     Misc/UpdateChecker.cpp
@@ -435,6 +449,8 @@ set( MISC_EDITORS_FILES
     MiscEditors/SearchEditorTreeView.h
     MiscEditors/SearchEditorModel.cpp
     MiscEditors/SearchEditorModel.h
+    MiscEditors/MetaEditorTreeView.cpp
+    MiscEditors/MetaEditorTreeView.h
     )
 
 set( SPCRE_FILES
@@ -535,6 +551,7 @@ set( UI_FILES
     Form_Files/DeleteFiles.ui
     Form_Files/DeleteStyles.ui
     Form_Files/ManageRepos.ui
+    Form_Files/ManageAutomation.ui
     Form_Files/MDViewer.ui
     Form_Files/OpenWithName.ui
     Form_Files/RERenamer.ui
@@ -552,6 +569,8 @@ set( UI_FILES
     Form_Files/AutomateEditor.ui
     Form_Files/EmptyLayout.ui
     Form_Files/AddMetadata.ui
+    Form_Files/AddClips.ui
+    Form_Files/AddRoles.ui
     Form_Files/AddSemantics.ui
     Form_Files/About.ui
     Form_Files/EditTOC.ui

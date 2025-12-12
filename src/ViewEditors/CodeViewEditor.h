@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2015-2021 Kevin B. Hendricks Stratford, ON Canada 
+**  Copyright (C) 2015-2025 Kevin B. Hendricks Stratford, ON Canada 
 **  Copyright (C) 2009-2011  Strahinja Markovic  <strahinja.markovic@gmail.com>
 **
 **  This file is part of Sigil.
@@ -133,9 +133,13 @@ public:
 
     bool IsInsertFileAllowed();
 
+    QString GetCurrentSingleOrOpenTagName();
+    
     bool InsertId(const QString &attribute_value);
+    bool InsertRole(const QString &attribute_value);
     bool InsertHyperlink(const QString &attribute_value);
     bool IsInsertIdAllowed();
+    bool IsInsertRoleAllowed();
     bool IsInsertHyperlinkAllowed();
     bool InsertTagAttribute(const QString &element_name, const QString &attribute_name, 
                             const QString &attribute_value, const QStringList &tag_list, 
@@ -382,6 +386,8 @@ public:
     bool ReformatCSSEnabled();
     void SetReformatCSSEnabled(bool value);
 
+    void SetContentMediaType(const QString& mt) { m_mediatype = mt; };
+
     /**
      * Control wheter the Reformat (clean) HTML submenu is avaliable on the context menu.
      */
@@ -389,6 +395,7 @@ public:
     void SetReformatHTMLEnabled(bool value);
 
     bool PasteClipNumber(int clip_number);
+    bool PasteClipText(const QString& cliptext);
 
     void HighlightWord(const QString &word, int pos);
 
@@ -861,6 +868,8 @@ private:
 
     TagLister m_TagList;
     bool m_regen_taglist;
+
+    QString m_mediatype;
 };
 
 #endif // CODEVIEWEDITOR_H

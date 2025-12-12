@@ -46,6 +46,9 @@ public:
 
     ~TextTab();
 
+    bool PasteClipNumber(int clip_number);
+    bool PasteClipEntries(QList<ClipEditorModel::clipEntry *>clips);
+    
     void ScrollToLine(int line);
 
     void ScrollToPosition(int cursor_position);
@@ -120,6 +123,9 @@ public slots:
     void PrintPreview();
 
     void ThemeChangeRefresh();
+
+    void SaveTabContent();
+
     
 signals:
 
@@ -128,8 +134,6 @@ signals:
     void OpenClipEditorRequest(ClipEditorModel::clipEntry *clip);
 
 protected slots:
-
-    void SaveTabContent();
 
     void SaveTabContent(QWidget *editor);
 

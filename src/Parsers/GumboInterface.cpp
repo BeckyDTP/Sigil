@@ -75,7 +75,7 @@ static std::unordered_set<std::string> structural_tags     = {
     "table","tbody","tfoot","thead","td","th","tr","ul","math","maction",
     "annotation","annotation-xml","menclose","mfrac","mmultiscripts",
     "mover","mpadded","mphantom","mroot","mrow","semantics",
-    "msqrt","mstyle","mtable","mtd","mtr","munder","munderover"
+    "msqrt","mstyle","mtable","mtd","mtr","munder","munderover","nav"
 };
 
 
@@ -1024,7 +1024,7 @@ std::string GumboInterface::update_style_urls(const std::string &source)
     QString result = QString::fromStdString(source);
     // Now parse the text once looking urls and replacing them where needed
     QRegularExpression reference(
-        "(?:(?:src|background|background-image|list-style|list-style-image|border-image|border-image-source|content)\\s*:|@import)\\s*"
+        "(?:(?:src|background|background-image|list-style|list-style-image|border-image|border-image-source|content|filter)\\s*:|@import)\\s*"
         "[^;\\}\\(\"']*"
         "(?:"
         "url\\([\"']?([^\\(\\)\"']*)[\"']?\\)"
@@ -1039,7 +1039,15 @@ std::string GumboInterface::update_style_urls(const std::string &source)
                 continue;
             }
             if (mo.captured(i).indexOf(":") != -1) continue;
+            // handle url with fragment properly here
             QString apath = Utility::URLDecodePath(mo.captured(i));
+            bool has_fragment = apath.contains('#');
+            QString frag;
+            if (has_fragment) {
+                std::pair pathfrag = Utility::parseRelativeHREF(apath);
+                apath = pathfrag.first;
+                frag = pathfrag.second;
+            }
             QString dest_oldbkpath;
             if (apath.isEmpty()) {
               dest_oldbkpath = m_currentbkpath;
@@ -1053,6 +1061,7 @@ std::string GumboInterface::update_style_urls(const std::string &source)
                 QString new_href = Utility::buildRelativePath(m_newbookpath, dest_newbkpath);
                 if (new_href.isEmpty()) new_href = QFileInfo(dest_newbkpath).fileName();
                 new_href = Utility::URLEncodePath(new_href);
+                if (has_fragment) new_href += frag;
                 result.replace(mo.capturedStart(i), mo.capturedLength(i), new_href);
             }
         }

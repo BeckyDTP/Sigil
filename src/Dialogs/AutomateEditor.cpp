@@ -37,6 +37,8 @@
 #include "Misc/SettingsStore.h"
 #include "Misc/Plugin.h"
 #include "Misc/PluginDB.h"
+#include "Misc/Utility.h"
+#include "sigil_exception.h"
 #include "Dialogs/AutomateEditor.h"
 
 
@@ -117,6 +119,12 @@ QString AutomateEditor::GetAutomateList()
             if (cmd.startsWith("RunSavedSearchReplaceAll")) {
                 value = cmd.mid(25,-1).trimmed();
                 cmd = "RunSavedSearchReplaceAll";
+            } else if (cmd.startsWith("OnFailedRunSavedSearchReplaceAll")) {
+                value = cmd.mid(33,-1).trimmed();
+                cmd = "OnFailedRunSavedSearchReplaceAll";
+            } else if (cmd.startsWith("OnSuccessRunSavedSearchReplaceAll")) {
+                value = cmd.mid(34,-1).trimmed();
+                cmd = "OnSuccessRunSavedSearchReplaceAll";
             } else if (cmd.startsWith("SetPluginParameter")) {
                 value = cmd.mid(19,-1).trimmed();
                 cmd = "SetPluginParameter";
@@ -131,21 +139,35 @@ QString AutomateEditor::GetAutomateList()
 QString AutomateEditor::SetNewAutomateList(QString& data) 
 {
     QString newdata = "";
+
+    if (data.isEmpty()) {
+        return newdata;
+    }
+
     QStringList dlist = data.split(_RS);
     QStringList nlist;
-    foreach(QString rc, dlist) {
-            // treat as element with content
-            QStringList parts = rc.split(_US);
-            QString value = parts.at(1);
-            QString aline = parts.at(0);
-            if (!value.isEmpty()) {
-                aline = aline + " " + value;
-            }
-            nlist << aline;
+    foreach (QString rc, dlist) {
+        if (rc.isEmpty()) {
+            continue;
+        }
+        // treat as element with content
+        QStringList parts = rc.split(_US);
+        if (parts.size() < 2) {
+            continue;
+        }
+        QString aline = parts.at(0);
+        QString value = parts.at(1);
+        if (!value.isEmpty()) {
+            aline = aline + " " + value;
+        }
+        nlist << aline;
     }
+
     newdata = nlist.join('\n');
-    if (!newdata.endsWith('\n')) newdata = newdata + "\n";
-    Utility::WriteUnicodeTextFile(newdata, m_automate_path);
+    if (!newdata.isEmpty() && !newdata.endsWith('\n')) {
+        newdata += "\n";
+    }
+
     return newdata;
 }
 
@@ -161,6 +183,12 @@ void AutomateEditor::selectTool()
     }
     foreach(QString code, codes) {
         if (code == "RunSavedSearchReplaceAll") {
+            QString content = tr("[SavedSearch full name here]");
+            insertRow(code, code, content, "");
+        } else if (code == "OnFailedRunSavedSearchReplaceAll") {
+            QString content = tr("[SavedSearch full name here]");
+            insertRow(code, code, content, "");
+        } else if (code == "OnSuccessRunSavedSearchReplaceAll") {
             QString content = tr("[SavedSearch full name here]");
             insertRow(code, code, content, "");
         } else if (code == "SetPluginParameter") {
@@ -193,11 +221,26 @@ void AutomateEditor::saveData()
 
     TreeModel *model = qobject_cast<TreeModel *>(view->model());
     QString data = model->getAllModelData();
+
     qDebug() << "received from model: " << data;
+    if (data.isEmpty()) {
+        QMessageBox::warning(this, tr("Warning"), tr("Cannot save an empty automation list."));
+        QDialog::accept();
+        return;
+    }
+
     QString newdata = SetNewAutomateList(data);
-    qDebug() << "wrote out: " << newdata;
-    QDialog::accept();
+
+    try {
+        Utility::WriteUnicodeTextFile(newdata, m_automate_path);
+        qDebug() << "wrote out: " << newdata;
+        QDialog::accept();
+    } catch (CannotOpenFile& e) {
+        Utility::critical(this, tr("Error"), tr("Failed to save automation list to %1").arg(QString(e.what())));
+        return;
+    }
 }
+
 
 void AutomateEditor::reject()
 {
@@ -305,6 +348,8 @@ void AutomateEditor::loadToolElements()
          "GenerateTOC" << "GenerateTOC" << tr("Generate TOC from Heading Tags.") <<
          "MendPrettifyHTML" << "MendPrettifyHTML" << tr("Mend and Prettify all XHtml files.") <<
          "MendHTML" << "MendHTML"  << tr("Mend All XHtml files.") <<
+         "OnFailedRunSavedSearchReplaceAll" << "OnFailedRunSavedSearchReplaceAll" << tr("If previous search failed, run the named Saved Search.") <<
+         "OnSuccessRunSavedSearchReplaceAll" << "OnSuccessRunSavedSearchReplaceAll" << tr("If previous search had success, run the named Saved Search.") <<
          "ReformatCSSMultipleLines" << "ReformatCSSMultipleLines" << tr("Reformat All CSS to Multiple Lines format.") <<
          "ReformatCSSSingleLines" << "ReformatCSSSingleLines" << tr("Reformat All CSS to Single Lines format.") <<
          "RemoveNCXGuideFromEpub3" << "RemoveNCXGuideFromEpub3" << tr("Remove NCX and OPF Guide from Epub3.") <<

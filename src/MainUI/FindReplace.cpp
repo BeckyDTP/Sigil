@@ -82,6 +82,7 @@ FindReplace::FindReplace(MainWindow *main_window)
       m_RegexOptionDotAll(false),
       m_RegexOptionMinimalMatch(false),
       m_RegexOptionAutoTokenise(false),
+      m_RegexOptionUnicodeProperty(false),
       m_OptionWrap(true),
       m_RegexOptionTextOnly(false),
       m_SpellCheck(false),
@@ -90,7 +91,6 @@ FindReplace::FindReplace(MainWindow *main_window)
       m_StartingResource(nullptr),
       m_StartingPos(-1),
       m_InRemainder(false),
-
       m_SearchRunning(false),
       m_DryRunRunning(false),
       m_ShiftUsed(false),
@@ -1963,14 +1963,14 @@ void FindReplace::CountsReportCount(SearchEditorModel::searchEntry* entry, int& 
 }
 
 
-void FindReplace::ReplaceAllSearch()
+int FindReplace::ReplaceAllSearch()
 {
     // these entries are owned by the Search Editor who will clean up as needed
     QList<SearchEditorModel::searchEntry*> search_entries = m_MainWindow->SearchEditorGetCurrentEntries();
 
     if (search_entries.isEmpty()) {
         ShowMessage(tr("No searches selected"));
-        return;
+        return -1;
     }
 
     SetKeyModifiers();
@@ -1990,6 +1990,7 @@ void FindReplace::ReplaceAllSearch()
         ShowMessage(message);
     }
     ResetKeyModifiers();
+    return count;
 }
 
 

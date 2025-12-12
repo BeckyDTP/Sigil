@@ -255,11 +255,25 @@ if( MSVC )
     set( CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /Oi /GL" )
     set( CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE} /LTCG" )
 
+    # Use our custom manifest file
+    set(MANIFEST_FILE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/Resource_Files/windows/${PROJECT_NAME}.exe.appmanifest")
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+        LINK_FLAGS "/MANIFEST:NO"
+    )
+    # Embed the manifest using mt.exe in a post-build step
+    add_custom_command(
+        TARGET ${PROJECT_NAME}
+        POST_BUILD
+        COMMAND mt.exe
+            -manifest "${MANIFEST_FILE_PATH}"
+            -outputresource:"$<TARGET_FILE:${PROJECT_NAME}>";#1
+        COMMENT "Embedding custom manifest into ${PROJECT_NAME}.exe"
+        )
+
 # "Print all warnings" flag for GCC
 elseif( CMAKE_COMPILER_IS_GNUCXX )
     add_definitions( -Wall )
 endif()
-
 
 #############################################################################
 
@@ -558,6 +572,8 @@ if( UNIX AND NOT APPLE )
         else()
             set( APPIMAGE_FULL_VERSION "${SIGIL_FULL_VERSION}" )
         endif()
+        # Write file that the appimage build process can use for naming the image
+        file(WRITE "${CMAKE_BINARY_DIR}/appimage_version.txt" "${APPIMAGE_FULL_VERSION}")
     endif()
 
     if ( NOT SHARE_INSTALL_PREFIX )
